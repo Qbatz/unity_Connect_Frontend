@@ -19,7 +19,7 @@ const SignIn = () => {
 
   const validateForm = () => {
 
-    // dispatch({ type: 'SIGNININFO', payload: { email_Id: email_Id, password: password }}); 
+    dispatch({ type: 'SIGNININFO', payload: { email_Id: email, password: password }}); 
     let formErrors = {};
 
     if (!email) {
