@@ -8,7 +8,8 @@ function CryptoComponent() {
 
   const secretKey = "abcd123";
 
-  const [password, setPassword] = useState("Mathu@1995");
+
+  const password = "Mathu@1995"
   const [encryptedPassword, setEncryptedPassword] = useState("");
   const [decryptedPassword, setDecryptedPassword] = useState("");
 
