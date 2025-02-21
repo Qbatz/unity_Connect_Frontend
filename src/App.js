@@ -1,11 +1,12 @@
 import './App.css';
-import Sidebar from "./Component/Sidebar"
+import Sidebar from "./Component/Sidebar";
+import SignIn from "./Account management/SignIn";
 
 function App() {
   return (
-      <div data-testid="container">
-    
-    <Sidebar />
+      <div>
+    {/* <Sidebar /> */}
+    <SignIn />
     </div>
   );
 }
