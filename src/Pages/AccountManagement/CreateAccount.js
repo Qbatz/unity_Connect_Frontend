@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Create1 from '../../Images/Createtleft.svg';
-import Create2 from '../../Images/Createtleft.svg';
+import Create2 from '../../Images/Createright.svg';
 import Unityicon from '../../Icons/Unityicon.svg'
 import { Eye, EyeSlash } from "iconsax-react";
 import { useDispatch, useSelector } from 'react-redux';
