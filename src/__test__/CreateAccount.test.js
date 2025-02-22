@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import CreateAccount from "../../Pages/AccountManagement/CreateAccount";
+import CreateAccount from "../Pages/AccountManagement/CreateAccount";
 import userEvent from '@testing-library/user-event'
 import configureStore from 'redux-mock-store';
 import { Provider, useSelector } from "react-redux";

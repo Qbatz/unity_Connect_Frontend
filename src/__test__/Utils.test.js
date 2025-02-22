@@ -1,4 +1,5 @@
-import { encryptPassword, decryptPassword } from "../../Crypto/Utils";
+// import { encryptPassword, decryptPassword } from "../Crypto/Utils";
+import {encryptPassword, decryptPassword} from '../Crypto/Utils'
 
 describe('it should handle encryption and decryption', () => {
     it('it verify the encryption when have some input', () => {
