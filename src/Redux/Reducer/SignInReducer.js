@@ -7,7 +7,6 @@ const initialState = {
     statusCode: 0,
 };
 
-
 const SignInReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ERROR_EMAIL':

@@ -37,10 +37,6 @@ const SignIn = () => {
     }
   }, [email, password, dispatch]);
 
-
-
-
-
   const validateForm = () => {
 
     dispatch({ type: 'SIGNININFO', payload: { email_Id: email, password: password } });
@@ -77,6 +73,7 @@ const SignIn = () => {
     e.preventDefault();
     if (validateForm()) {
     }
+    
   };
 
   return (
@@ -161,7 +158,8 @@ const SignIn = () => {
         <div>
           <button
             type="submit"
-            className="w-full bg-gray-500 py-3 rounded-3xl text-white text-lg font-Gilroy leading-6 tracking-normal font-medium hover:bg-gray-600 transition mt-8 mb-2"
+            className={`w-full py-3 rounded-3xl text-white text-lg font-Gilroy leading-6 tracking-normal font-medium hover:bg-gray-600 transition mt-8 mb-2 ${email.trim() && password.trim() ? "bg-black" : "bg-gray-500"
+              }`}
             onClick={handleSubmit}
           >
             Sign in
