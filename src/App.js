@@ -1,12 +1,13 @@
 import './App.css';
-import Sidebar from "./Component/Sidebar"
+// import Sidebar from "./Component/Sidebar"
 import Crypto from './Crypto/crypto';
+import CreateAccount from './Component/CreateAccount';
 
 function App() {
   return (
       <div data-testid="container">
-    
-    <Sidebar />
+    <CreateAccount/>
+    {/* <Sidebar /> */}
     <Crypto />
     </div>
   );
