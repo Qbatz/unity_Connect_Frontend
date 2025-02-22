@@ -14,14 +14,14 @@ function CryptoComponent() {
     setDecryptedPassword(decryptedPass);
   }, [password]);
 
-  console.log(
-    "password",
-    password,
-    "encryptedPassword",
-    encryptedPassword,
-    "decryptedPassword",
-    decryptedPassword
-  );
+  // console.log(
+  //   "password",
+  //   password,
+  //   "encryptedPassword",
+  //   encryptedPassword,
+  //   "decryptedPassword",
+  //   decryptedPassword
+  // );
 
   return <div></div>;
 }

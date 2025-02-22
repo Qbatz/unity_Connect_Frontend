@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Create1 from '../Images/Createtleft.svg';
-import Create2 from '../Images/Createright.svg';
-import Unityicon from '../Icons/Unityicon.svg'
+import Create1 from '../../Images/Createtleft.svg';
+import Create2 from '../../Images/Createright.svg';
+import Unityicon from '../../Icons/Unityicon.svg'
 import { Eye, EyeSlash } from "iconsax-react";
 
-function CreateAccount() {
+import { useDispatch, connect } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+
+function CreateAccount({state}) {
+
+  const dispatch = useDispatch()
+  let navigate = useNavigate();
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,16 +19,61 @@ function CreateAccount() {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const [firstNameError, setFirstNameError] = useState();
+  const [lastNameError,setLastNameError] = useState();
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('')
+  const [passwordErrors, setPasswordErrors] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [allError, setAllError] = useState('')
+  const [bothPasswordError, setBothPasswordError] = useState('')
+
+
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName :'',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+    bothPassword: '',
+    all: ''
+});
+
+
 
   useEffect(() => {
     validateForm();
   }, [firstName, lastName, email, mobileNumber, password, confirmPassword]);
+
+  useEffect(() => {
+    if (state.CreateAccount.statusCodeCreateAccount === 200) {
+    
+        setFirstName('');
+        setLastName('');
+        setMobileNumber('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+
+        setErrors("");
+
+       
+        dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT' });
+        dispatch({type: 'CLEAR_EMAIL_ERROR'})
+    }
+}, [state.CreateAccount.statusCodeCreateAccount]);
+
+const handleLoginPage = () => {
+  navigate('/sign-in')
+}
+  
 
   const isFormValid = firstName && lastName && email && mobileNumber && password && confirmPassword && Object.keys(errors).length === 0;
 
@@ -33,21 +85,26 @@ function CreateAccount() {
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
     setErrors((prev) => ({ ...prev, firstName: "" }));
+    setFirstNameError('');
   };
 
   const handleLastNameChange = (e) => {
     setLastName(e.target.value);
     setErrors((prev) => ({ ...prev, lastName: "" }));
+    setLastNameError('');
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setErrors((prev) => ({ ...prev, password: "" }));
+    setPasswordErrors('')
   };
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
     setErrors((prev) => ({ ...prev, confirmPassword: "" }));
+    setConfirmPasswordError('');
+    dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' })
   };
 
   const validateForm = () => {
@@ -83,26 +140,101 @@ function CreateAccount() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitted(true);
 
-    if (validateForm()) {
-      console.log("Form Submitted", { firstName, lastName, email, mobileNumber, password });
-    }
-  };
+const handleSubmit =  (e) => {
+  e.preventDefault();
+  setIsSubmitted(true);
+  setFirstNameError('');
+  setLastNameError('')
+  setEmailError('');
+  setPhoneError('');
+  setPasswordErrors('');
+  setConfirmPasswordError('');
+  setBothPasswordError('');
+  setAllError('');
+
+  const emailElement = document.getElementById('emailIDError');
+  const emailError = emailElement ? emailElement.innerHTML : '';
+
+  if (!firstName && !mobileNumber && !email && !password && !lastName) {
+      setAllError('Please enter all mandatory fields');
+  }
+
+  if (!firstName) {
+      setFirstNameError('Please enter first name');
+  }
+  if (!lastName) {
+    setLastNameError('Please enter last name');
+}
+
+  if (!email) {
+      setEmailError('Please enter email id');
+  }
+
+  if (emailError === 'Invalid Email Id *') {
+      setEmailError('Please enter a valid email address');
+  }
+
+  if (!mobileNumber) {
+      setPhoneError('Please enter mobile no.');
+  }
+
+  const phonePattern = /^\d{10}$/;
+  const isValidMobileNo = phonePattern.test(mobileNumber);
+
+  if (!isValidMobileNo) {
+      setPhoneError('Please enter a valid 10-digit mobile number');
+  }
+
+  if (!password) {
+      setPasswordErrors('Please enter password');
+  }
+
+  if (!confirmPassword) {
+      setConfirmPasswordError('Please enter confirm password');
+  }
+
+  if (password !== confirmPassword) {
+      setBothPasswordError('Please Enter Confirm Password Same as Password');
+  }
+
+  if (firstName && mobileNumber && lastName && email && password) {
+      const payload = { 
+          first_name: firstName, 
+          last_name: lastName, 
+          phone: mobileNumber, 
+          email_id: email, 
+          password: password 
+      };
+
+    
+
+      dispatch({
+          type: 'CREATE_ACCOUNT',
+          payload: payload
+      });
+  }
 
 
+};
 
 
   const handleMobileNumberChange = (e) => {
+  dispatch({ type: 'CLEAR_MOBILE_ERROR' });
+  dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+  setPhoneError('');
     const value = e.target.value;
     if (/^\d*$/.test(value) && value.length <= 10) {
       setMobileNumber(value);
     }
     setErrors((prev) => ({ ...prev, mobileNumber: "" }));
   };
+
   const handleEmailChange = (e) => {
+  
+  dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+  dispatch({ type: 'CLEAR_MOBILE_ERROR' });
+  setEmailError('');
     const value = e.target.value;
     setEmail(value);
 
@@ -128,7 +260,8 @@ function CreateAccount() {
               <input type="text" data-testid='input-fname' placeholder="First name" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={firstName} onChange={handleFirstNameChange}
               />
-              {isSubmitted && errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
+   
+              {isSubmitted && firstNameError && <p className="text-red-500 text-sm">{firstNameError}</p>}
             </div>
 
             <div className="w-full">
@@ -136,7 +269,7 @@ function CreateAccount() {
               <input type="text" data-testid='input-lname' placeholder="Last name" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={lastName} onChange={handleLastNameChange}
               />
-              {isSubmitted && errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
+              {isSubmitted && lastNameError && <p className="text-red-500 text-sm">{lastNameError}</p>}
             </div>
 
             <div className="w-full">
@@ -144,7 +277,10 @@ function CreateAccount() {
               <input data-testid='input-email' type="email" placeholder="Email address" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={email} onChange={handleEmailChange}
               />
-              {isSubmitted && errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                         {state.CreateAccount.mobileError === "Email Id Already Exists" && (
+    <p className="text-red-500 text-sm mt-1">{state.CreateAccount.mobileError}</p>
+  )}
+              {isSubmitted && emailError && <p className="text-red-500 text-sm">{emailError}</p>}
             </div>
 
             <div className="w-full">
@@ -160,10 +296,13 @@ function CreateAccount() {
                   placeholder="9876543210"
                   value={mobileNumber}
                   onChange={handleMobileNumberChange}
-                  disabled={false} // Ensure this is not true
+                  disabled={false} 
                 />
               </div>
-              {isSubmitted && errors.mobileNumber && <p className="text-red-500 text-sm">{errors.mobileNumber}</p>}
+                        {state.CreateAccount.email_mobile_Error === "Mobile Number Already Exists" && (
+    <p className="text-red-500 text-sm mt-1">{state.CreateAccount.email_mobile_Error}</p>
+  )}
+              {isSubmitted && phoneError && <p className="text-red-500 text-sm">{phoneError}</p>}
             </div>
 
             <div className="w-full">
@@ -176,7 +315,7 @@ function CreateAccount() {
                   {showPassword ? <Eye size="20" color="#292D32" /> : <EyeSlash size="20" color="#292D32" />}
                 </button>
               </div>
-              {isSubmitted && errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+              {isSubmitted && passwordErrors && <p className="text-red-500 text-sm">{passwordErrors}</p>}
             </div>
 
             <div className="w-full">
@@ -189,7 +328,7 @@ function CreateAccount() {
                   {showConfirmPassword ? <Eye size="20" color="#292D32" /> : <EyeSlash size="20" color="#292D32" />}
                 </button>
               </div>
-              {isSubmitted && errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
+              {isSubmitted && confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
             </div>
           </div>
 
@@ -202,7 +341,7 @@ function CreateAccount() {
           </button>
 
           <div className="mt-1">
-            <label className="font-Gilroy text-base font-normal " >Already have an account?<span className="ms-2 create-account-hover font-Gilroy text-base font-semibold" style={{ color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
+            <label className="font-Gilroy text-base font-normal " >Already have an account?<span onClick={handleLoginPage} className="ms-2 create-account-hover font-Gilroy text-base font-semibold" style={{ color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
           </div>
         </div>
 
@@ -222,4 +361,9 @@ function CreateAccount() {
   );
 }
 
-export default CreateAccount;
+const mapsToProps = (stateInfo) => {
+    return {
+      state: stateInfo
+    }
+}
+export default connect(mapsToProps)(CreateAccount)

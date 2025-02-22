@@ -1,18 +1,27 @@
 import { render, screen } from "@testing-library/react";
-import CreateAccount from "../Component/CreateAccount";
+import CreateAccount from "../../Pages/AccountManagement/CreateAccount";
 import userEvent from '@testing-library/user-event'
 import configureStore from 'redux-mock-store';
 import { Provider, useSelector } from "react-redux";
+import { MemoryRouter } from "react-router-dom";
 
 describe('checks for Create account', () => {
 
     const mockStore = configureStore()
     const store = mockStore({
+       
+            CreateAccount: {
+                statusCodeCreateAccount: 200
+            }
+
     })
 
     it('checks for UI render', () => {
-        render( <Provider store={store}>
+
+        render(<Provider store={store}>
+            <MemoryRouter>
                 <CreateAccount />
+            </MemoryRouter>
         </Provider>
         )
         expect(screen.getByTestId('create-account')).toBeInTheDocument()
@@ -49,8 +58,10 @@ describe('checks for Create account', () => {
 
     it('it should throw error when passing null values', () => {
         render(<Provider store={store}>
+            <MemoryRouter>
             <CreateAccount />
-    </Provider>)
+            </MemoryRouter>
+        </Provider>)
         expect(screen.getByTestId('create-account')).toBeInTheDocument()
         const inputEmail = screen.getByTestId('input-email')
         const firstName = screen.getByTestId('input-fname')
