@@ -3,12 +3,13 @@ import Create1 from '../../Images/Createtleft.svg';
 import Create2 from '../../Images/Createright.svg';
 import Unityicon from '../../Icons/Unityicon.svg'
 import { Eye, EyeSlash } from "iconsax-react";
-import { useDispatch, useSelector } from 'react-redux';
+
+import { useDispatch, connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-function CreateAccount() {
+
+function CreateAccount({state}) {
 
   const dispatch = useDispatch()
-  const state = useSelector(state => state)
   let navigate = useNavigate();
   
   const [firstName, setFirstName] = useState("");
@@ -360,4 +361,9 @@ const handleSubmit =  (e) => {
   );
 }
 
-export default CreateAccount;
+const mapsToProps = (stateInfo) => {
+    return {
+      state: stateInfo
+    }
+}
+export default connect(mapsToProps)(CreateAccount)
