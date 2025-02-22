@@ -7,37 +7,26 @@ import SignIn from "./Pages/AccountManagement/SignIn";
 import Crypto from './Crypto/crypto';
 import CreateAccount from './Component/CreateAccount';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { decryptLogin } from './Crypto/Utils';
 
 
 
-
-
-function App() {
-
-
-  const state = useSelector(state => state);
+function App({state}) {
 
   const [success, setSuccess] = useState(null)
-
-  console.log("state", state)
-
   const Unity_Connect_Login = localStorage.getItem("unity_connect_login");
-
-
 
   useEffect(() => {
     if (Unity_Connect_Login) {
       const decryptedData = decryptLogin(Unity_Connect_Login);
-      console.log("Decrypted Data:", decryptedData);
       setSuccess(decryptedData)
     }
 
   }, [Unity_Connect_Login])
 
   return (
-    <div>
+    <div data-testid='container'>
 
       <ToastContainer />
 
@@ -66,4 +55,11 @@ function App() {
   );
 }
 
-export default App;
+const mapsToProps = (stateInfo) => {
+  console.log(stateInfo)
+  return {
+    state: stateInfo.SignIn
+  }
+}
+
+export default connect(mapsToProps)(App);

@@ -3,13 +3,13 @@ import Create1 from '../Images/Createtleft.svg';
 import Create2 from '../Images/Createright.svg';
 import Unityicon from '../Icons/Unityicon.svg'
 import { Eye, EyeSlash } from "iconsax-react";
-import { useDispatch, useSelector } from 'react-redux';
-function CreateAccount() {
+import { useDispatch, useSelector, connect } from 'react-redux';
 
-  const dispatch = useDispatch()
-  const state = useSelector(state => state)
- 
+function CreateAccount({state}) {
   
+  const dispatch = useDispatch()
+ 
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -357,4 +357,9 @@ const handleSubmit =  (e) => {
   );
 }
 
-export default CreateAccount;
+const mapsToProps = (stateInfo) => {
+    return {
+      state: stateInfo
+    }
+}
+export default connect(mapsToProps)(CreateAccount);
