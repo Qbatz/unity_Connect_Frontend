@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Create1 from '../Images/Createtleft.svg';
-import Create2 from '../Images/Createright.svg';
-import Unityicon from '../Icons/Unityicon.svg'
+import Create1 from '../../Images/Createtleft.svg';
+import Create2 from '../../Images/Createtleft.svg';
+import Unityicon from '../../Icons/Unityicon.svg'
 import { Eye, EyeSlash } from "iconsax-react";
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 function CreateAccount() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state)
- 
+  let navigate = useNavigate();
   
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -68,7 +69,9 @@ function CreateAccount() {
     }
 }, [state.CreateAccount.statusCodeCreateAccount]);
 
-
+const handleLoginPage = () => {
+  navigate('/sign-in')
+}
   
 
   const isFormValid = firstName && lastName && email && mobileNumber && password && confirmPassword && Object.keys(errors).length === 0;
@@ -337,7 +340,7 @@ const handleSubmit =  (e) => {
           </button>
 
           <div className="mt-1">
-            <label className="font-Gilroy text-base font-normal " >Already have an account?<span className="ms-2 create-account-hover font-Gilroy text-base font-semibold" style={{ color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
+            <label className="font-Gilroy text-base font-normal " >Already have an account?<span onClick={handleLoginPage} className="ms-2 create-account-hover font-Gilroy text-base font-semibold" style={{ color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
           </div>
         </div>
 
