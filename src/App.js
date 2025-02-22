@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from "./Component/Sidebar";
 import SignIn from "./Pages/AccountManagement/SignIn";
 import Crypto from './Crypto/crypto';
-import CreateAccount from './Component/CreateAccount';
+import CreateAccount from './Pages/AccountManagement/CreateAccount';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { decryptLogin } from './Crypto/Utils';
@@ -52,7 +52,7 @@ function App() {
           ) : (
             <>
               <Route path="/" element={<CreateAccount />} />
-              <Route path="/" element={<SignIn />} />
+              <Route path="/sign-in" element={<SignIn />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
