@@ -1,29 +1,67 @@
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import Sidebar from "./Component/Sidebar"
-import TopBar from './Component/TopBar';
-import MeetUnityConnect from './Component/MeetUnityConnect';
-import WelcomeImage from './Component/WelcomeImage';
-import CountNumbers from './Component/CountNumbers';
-import Footer from './Component/Footer';
-import WhyUnityConnect from './Component/WhyUnityConnect';
-import FAQSection from './Component/FAQSection';
-import GetStarted from './Component/GetStarted';
-import HowItWorks from './Component/HowItWorks';
-import Settings from './Settings/Settings';
-import ExpensesSetting from './Settings/ExpensesSetting';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from "./Component/Sidebar";
+import SignIn from "./Pages/AccountManagement/SignIn";
+import Crypto from './Crypto/crypto';
+import CreateAccount from './Pages/AccountManagement/CreateAccount';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { decryptLogin } from './Crypto/Utils';
+
+
+
+
+
 function App() {
+
+
+  const state = useSelector(state => state);
+
+  const [success, setSuccess] = useState(null)
+
+  console.log("state", state)
+
+  const Unity_Connect_Login = localStorage.getItem("unity_connect_login");
+
+
+
+  useEffect(() => {
+    if (Unity_Connect_Login) {
+      const decryptedData = decryptLogin(Unity_Connect_Login);
+      console.log("Decrypted Data:", decryptedData);
+      setSuccess(decryptedData)
+    }
+
+  }, [Unity_Connect_Login])
+
   return (
-      <div data-testid="container">
-    {/* <TopBar/>
-    <MeetUnityConnect/>
-    <WelcomeImage/>
-    <CountNumbers/>
-    <HowItWorks/>
-    <WhyUnityConnect/>
-    <FAQSection/>
-<GetStarted/>  
-    <Footer/> */}
-    <Settings/>
+    <div>
+
+      <ToastContainer />
+
+      <Router >
+        <Routes>
+          {success || state.SignIn?.isLoggedIn ? (
+            <>
+              <Route path="/" element={<Sidebar />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<CreateAccount />} />
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+
+            </>
+          )}
+        </Routes>
+      </Router>
+
+      <Crypto />
+
     </div>
   );
 }
