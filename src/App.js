@@ -15,7 +15,7 @@ import { decryptLogin } from './Crypto/Utils';
 
 function App() {
 
-  const dispatch = useDispatch();
+
   const state = useSelector(state => state);
 
 const [success, setSuccess] = useState(null)
