@@ -87,7 +87,6 @@ function CreateAccount() {
     e.preventDefault();
     setIsSubmitted(true);
 
-    console.log(errors)
     if (validateForm()) {
       console.log("Form Submitted", { firstName, lastName, email, mobileNumber, password });
     }
