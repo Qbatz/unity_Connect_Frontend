@@ -5,6 +5,7 @@ const initialState = {
     errorEmail: '',
     errorPassword: '',
     statusCode: 0,
+    isLoggedIn: false  
 };
 const SignInReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -13,7 +14,9 @@ const SignInReducer = (state = initialState, action) => {
         case 'ERROR_PASSWORD':
             return { ...state, errorPassword: action.payload };
         case 'SIGNIN-SUCCESS':
-            return { ...state, statusCode: 200, errorEmail: '', errorPassword: '' };
+            return { ...state, isLoggedIn: true  };
+            case 'LOGOUT':
+            return { ...state, isLoggedIn: false  };
         case 'CLEAR_ERROR_EMAIL':
             return { ...state, errorEmail: '', statusCode: 0 };
         case 'CLEAR_ERROR_PASSWORD':

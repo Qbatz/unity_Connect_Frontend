@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import UnityConnectImg from '../Icons/UnityConnectImg.svg';
-import SignInTop from "../Icons/SignInTop.svg";
-import SignInBottom from "../Icons/SignInBottom.svg";
+import UnityConnectImg from '../../Icons/UnityConnectImg.svg';
+import SignInTop from "../../Icons/SignInTop.svg";
+import SignInBottom from "../../Icons/SignInBottom.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
-
+import {encryptLogin  } from "../../Crypto/Utils";
 
 const SignIn = () => {
 
@@ -21,6 +21,10 @@ const SignIn = () => {
   useEffect(() => {
     if (state.SignIn.statusCode === 200) {
       dispatch({ type: "SIGNIN-SUCCESS" });
+
+      const encryptData = encryptLogin(JSON.stringify(true));
+      localStorage.setItem("unity_connect_login", encryptData.toString());
+
     }
   }, [state.SignIn.statusCode]);
 
