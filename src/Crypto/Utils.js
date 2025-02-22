@@ -1,14 +1,22 @@
 import CryptoJS from "crypto-js";
 
-const secretKey = "abcd123"; 
+const secretKey = "abcd123";
 
 
 export const encryptPassword = (password) => {
-  return CryptoJS.AES.encrypt(password, secretKey).toString();
+  if (password && password.length > 0) {
+    return CryptoJS.AES.encrypt(password, secretKey).toString();
+  }
+  return "Invalid Password"
 };
 
 
 export const decryptPassword = (encryptedPassword) => {
-  const decrypted = CryptoJS.AES.decrypt(encryptedPassword, secretKey);
-  return decrypted.toString(CryptoJS.enc.Utf8);
+  if (encryptedPassword && encryptedPassword.length > 0) {
+    const decrypted = CryptoJS.AES.decrypt(encryptedPassword, secretKey);
+
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  }
+
+  return "Invalid Password"
 };

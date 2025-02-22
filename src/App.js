@@ -5,7 +5,7 @@ import Crypto from './Crypto/crypto';
 
 function App() {
   return (
-      <div>
+      <div data-testid='container'>
     {/* <Sidebar /> */}
     <SignIn />
     <Crypto />
