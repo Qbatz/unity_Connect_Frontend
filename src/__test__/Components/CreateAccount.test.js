@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import CreateAccount from "../../Component/CreateAccount";
+import CreateAccount from "../../Pages/AccountManagement/CreateAccount";
 import userEvent from '@testing-library/user-event'
 import configureStore from 'redux-mock-store';
 import { Provider, useSelector } from "react-redux";
@@ -58,7 +58,9 @@ describe('checks for Create account', () => {
 
     it('it should throw error when passing null values', () => {
         render(<Provider store={store}>
+            <MemoryRouter>
             <CreateAccount />
+            </MemoryRouter>
         </Provider>)
         expect(screen.getByTestId('create-account')).toBeInTheDocument()
         const inputEmail = screen.getByTestId('input-email')

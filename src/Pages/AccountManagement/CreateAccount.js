@@ -8,12 +8,10 @@ import { useDispatch, connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 function CreateAccount({state}) {
-  
+
   const dispatch = useDispatch()
   let navigate = useNavigate();
-
- 
-
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
