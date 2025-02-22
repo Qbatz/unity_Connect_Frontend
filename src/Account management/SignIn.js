@@ -1,25 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UnityConnectImg from '../Icons/UnityConnectImg.svg';
 import SignInTop from "../Icons/SignInTop.svg";
 import SignInBottom from "../Icons/SignInBottom.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
-import Cookies from 'universal-cookie';
+
 
 const SignIn = () => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
 
-
   const dispatch = useDispatch();
+  const state = useSelector(state => state)
+
+
+  useEffect(() => {
+    if (state.SignIn.statusCode === 200) {
+      dispatch({ type: "SIGNIN-SUCCESS" });
+    }
+  }, [state.SignIn.statusCode]);
+
+  useEffect(() => {
+    if (email || password) {
+      setTimeout(() => {
+        if (email) {
+          dispatch({ type: "CLEAR_ERROR_EMAIL" });
+        }
+        if (password) {
+          dispatch({ type: "CLEAR_ERROR_PASSWORD" });
+        }
+      }, 100);
+    }
+  }, [email, password, dispatch]);
+
+
+
 
 
   const validateForm = () => {
 
-    dispatch({ type: 'SIGNININFO', payload: { email_Id: email, password: password }}); 
+    dispatch({ type: 'SIGNININFO', payload: { email_Id: email, password: password } });
     let formErrors = {};
 
     if (!email) {
@@ -51,11 +75,7 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
     if (validateForm()) {
-      console.log("Email:", email);
-      console.log("Password:", password);
     }
   };
 
@@ -70,54 +90,72 @@ const SignIn = () => {
           Enter your details below to get onto your Unity Connect account.
         </p>
 
-        <label className="font-Gilroy font-medium text-sm leading-4">
-          Email ID <span className="text-red-500 align-super">*</span>
-        </label>
-        <input
-          type="email"
-          placeholder="Email address"
-          className="border rounded-lg p-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-5 tracking-normal"
-          value={email}
-          // value={ email_Id}
-          onChange={handleEmailChange}
-        />
-        <div className="">
-          {errors.email && (
-            <p className="text-red-500 text-sm font-medium mb-4 flex items-center">
-              <MdError className="mr-1 text-sm" /> {errors.email}
-            </p>
-          )}
+        <div>
+          <label className="font-Gilroy font-medium text-sm leading-4">
+            Email ID <span className="text-red-500 align-super">*</span>
+          </label>
+          <input
+            type="email"
+            placeholder="Email address"
+            className="border rounded-lg p-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-5 tracking-normal"
+            value={email}
+            onChange={handleEmailChange}
+          />
+          <div className="">
+            {errors.email && (
+              <p className="text-red-500 text-sm font-medium mb-4 flex items-center">
+                <MdError className="mr-1 text-sm" /> {errors.email}
+              </p>
+            )}
+          </div>
+          <div>
+            {state.SignIn.errorEmail && (
+              <label className="text-red-500 text-xs font-bold font-gilroy ml-1 -mt-1/2 mb-2 block">
+                {state.SignIn.errorEmail}
+              </label>
+            )}
+          </div>
         </div>
 
-        <label className="font-Gilroy font-medium text-sm leading-4 mt-2">
-          Password <span className="text-red-500 align-super">*</span>
-        </label>
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="********"
-            className="border rounded-lg py-2.5 px-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-6 tracking-normal pr-10"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-          <button
-            type="button"
-            className="absolute right-3 top-4"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? (
-              <EyeSlashIcon className="w-5 h-5 text-gray-500" />
-            ) : (
-              <EyeIcon className="w-5 h-5 text-gray-500" />
+        <div>
+          <label className="font-Gilroy font-medium text-sm leading-4 mt-2">
+            Password <span className="text-red-500 align-super">*</span>
+          </label>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="********"
+              className="border rounded-lg py-2.5 px-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-6 tracking-normal pr-10"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            <button
+              type="button"
+              className="absolute right-3 top-5"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+              ) : (
+                <EyeIcon className="w-5 h-5 text-gray-500" />
+              )}
+            </button>
+          </div>
+          <div className="">
+            {errors.password && (
+              <p className="text-red-500 text-sm font-medium mb-4 flex items-center">
+                <MdError className="mr-1 text-sm" /> {errors.password}
+              </p>
             )}
-          </button>
-        </div>
-        <div className="">
-          {errors.password && (
-            <p className="text-red-500 text-sm font-medium mb-4 flex items-center">
-              <MdError className="mr-1 text-sm" /> {errors.password}
-            </p>
-          )}
+          </div>
+          <div>
+            {state.SignIn.errorPassword && (
+              <label className="text-red-500 text-xs font-bold font-gilroy ml-1 -mt-1/2 mb-2 block">
+                {state.SignIn.errorPassword}
+              </label>
+            )}
+          </div>
+
         </div>
 
         <div>
