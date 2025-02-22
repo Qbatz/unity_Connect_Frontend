@@ -1,11 +1,11 @@
 import {all} from 'redux-saga/effects';
-// import SignInSaga from '../SagaMiddleware/SignInSaga';
+import SignInSaga from '../SagaMiddleware/SignInSaga';
 
 
 function* RootSaga() {
     
 yield all([
-    // SignInSaga(),
+    SignInSaga(),
 
 ])
 }
