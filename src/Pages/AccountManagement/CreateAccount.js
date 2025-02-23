@@ -281,7 +281,7 @@ const handleSubmit =  (e) => {
                 value={email} onChange={handleEmailChange}
               />
                          {state.CreateAccount.mobileError === "Email Id Already Exists" && (
-    <p className="text-red-500 text-sm mt-1">{state.CreateAccount.mobileError}</p>
+    <p data-testid='mobile-error' className="text-red-500 text-sm mt-1">{state.CreateAccount.mobileError}</p>
   )}
               {isSubmitted && emailError && <p className="text-red-500 text-sm">{emailError}</p>}
             </div>
@@ -303,7 +303,7 @@ const handleSubmit =  (e) => {
                 />
               </div>
                         {state.CreateAccount.email_mobile_Error === "Mobile Number Already Exists" && (
-    <p className="text-red-500 text-sm mt-1">{state.CreateAccount.email_mobile_Error}</p>
+    <p data-testid='mobile_error' className="text-red-500 text-sm mt-1">{state.CreateAccount.email_mobile_Error}</p>
   )}
               {isSubmitted && phoneError && <p className="text-red-500 text-sm">{phoneError}</p>}
             </div>
