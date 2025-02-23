@@ -121,7 +121,7 @@ describe('checks for Create account', () => {
         userEvent.click(loginPage)
     })
 
-    it('it should through invalid email error', () => {
+    it('it should throw invalid email error', () => {
         render(<Provider store={store}>
             <MemoryRouter>
                 <CreateAccount />
@@ -152,12 +152,34 @@ describe('checks for Create account', () => {
         userEvent.type(firstName, 'Test')
         userEvent.type(lasttName, 'User')
         userEvent.type(password, 'abcdef')
-        userEvent.type(conPassword, 'abcdef')
+        userEvent.type(conPassword, 'abcdefg')
         userEvent.type(mobileNumber, '9876654439')
         userEvent.click(buttonSHowConfirmPassword)
         userEvent.click(buttonShowPassword)
         userEvent.click(buttonSubmit)
 
         screen.getByTestId('email-error').toBeInTheDocument()
+    })
+
+    it('it will throw Invalid email and password error from server', () => {
+        const store = mockStore({
+       
+            CreateAccount: {
+                statusCodeCreateAccount: 201,
+                mobileError: 'Email Id Already Exists',
+                email_mobile_Error: 'Mobile Number Already Exists'
+            }
+
+    })
+
+        render(<Provider store={store}>
+            <MemoryRouter>
+                <CreateAccount />
+            </MemoryRouter>
+        </Provider>
+        )
+
+        expect(screen.getByTestId('mobile_error')).toBeInTheDocument()
+        expect(screen.getByTestId('mobile-error')).toBeInTheDocument()
     })
 })
