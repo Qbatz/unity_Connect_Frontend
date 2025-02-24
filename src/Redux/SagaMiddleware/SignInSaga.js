@@ -3,7 +3,7 @@ import { SignIncall } from '../Action/SignInAction';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
 
-function* SignIn(action) {
+export function* SignIn(action) {
     try {
         const response = yield call(SignIncall, action.payload);
 
@@ -53,6 +53,7 @@ function* SignIn(action) {
 
     } catch (error) {
         console.error("Sign-in failed", error);
+        yield put({ type: 'ERROR_EMAIL', payload: 'Error' });
     }
    
 }

@@ -19,8 +19,9 @@ import ProfileIcon from "../Icons/ProfileIcon.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Members from "../Members/AddMemberForm";
 import { encryptLogin } from "../Crypto/Utils";
-import { useDispatch, connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
+import Settings from '../Settings/Settings';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -145,7 +146,7 @@ const handleLogout = () =>{
 
         {activeMenu === "Settings" && (
           <div className="bg-white mt-2">
-            {/* <Settings /> */}
+            <Settings />
           </div>
         )}
 

@@ -11,6 +11,8 @@
     "axios": "^1.7.9",
     "crypto-js": "^4.2.0",
     "iconsax-react": "^0.0.8",
+    "lint": "^0.8.19",
+    "lucide-react": "^0.475.0",
     "react": "^19.0.0",
     "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
@@ -28,7 +30,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint src",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -11,7 +11,9 @@ import { connect } from 'react-redux';
 import { decryptLogin } from './Crypto/Utils';
 import Cookies from 'universal-cookie';
 import { useDispatch} from 'react-redux';
-
+import LandingPage from './Component/LandingPage';
+import Settings from '../src/Settings/Settings';
+import Cookies from 'universal-cookie';
 
 function App({ state ,isLogged_In}) {
 
@@ -75,6 +77,7 @@ function App({ state ,isLogged_In}) {
       <ToastContainer />
 
       <Router >
+      
         <Routes>
           {Boolean(success === true) || Boolean(isLogged_In === true) ? (
             <>
@@ -84,8 +87,12 @@ function App({ state ,isLogged_In}) {
             </>
           ) :  (
             <>
-              <Route path="/" element={<SignIn />} />
-              <Route path="/createaccount" element={<CreateAccount />} />
+              {/* <Route path="/" element={<CreateAccount />} /> */}
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sidebar" element={<Sidebar />} />
+              <Route path="/create-account" element={<CreateAccount />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
@@ -93,7 +100,8 @@ function App({ state ,isLogged_In}) {
         </Routes>
       </Router>
 
-      <Crypto />
+      <Crypto /> 
+
 
     </div>
   );
