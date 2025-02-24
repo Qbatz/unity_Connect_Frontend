@@ -5,7 +5,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundColor:{
+        lightgray:'#22222280'
 
+      },
+    
       fontFamily: {
         'Outfit': ["Outfit", "sans-serif"],
         'Gilroy': ['Gilroy', 'sans-serif'],
