@@ -96,17 +96,17 @@ const SignIn = ({ state }) => {
     }
   };
 
-  // const LandingNavigates = useNavigate();
-  // const handleLogoClicks = () => {
-  //   LandingNavigates("/All_Landing_pages");
-  // };
+  const LandingNavigates = useNavigate();
+  const handleLogoClicks = () => {
+    LandingNavigates("/LandingPage");
+  };
 
   return (
     <div className="flex flex-col md:flex-row h-screen sm:overflow-auto md:overflow-hidden">
       <div className="flex flex-col justify-center md:w-1/2 p-6 md:p-16 container mx-auto">
         <div className="mb-3">
           <img src={UnityConnectImg}
-            //  onClick={handleLogoClicks}
+             onClick={handleLogoClicks}
             alt="Illustration" />
         </div>
         <h1 className="text-black font-Gilroy text-2xl font-semibold leading-normal mb-2">Welcome back!</h1>
