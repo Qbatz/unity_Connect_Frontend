@@ -34,7 +34,7 @@ function App({state}) {
         <Routes>
           {success || state.SignIn?.isLoggedIn ? (
             <>
-              <Route path="/" element={<Sidebar />} />
+              <Route path="/sidebar" element={<Sidebar />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
@@ -42,6 +42,7 @@ function App({state}) {
             <>
               <Route path="/" element={<CreateAccount />} />
               <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sidebar" element={<Sidebar />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
