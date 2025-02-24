@@ -9,9 +9,9 @@ import CreateAccount from './Pages/AccountManagement/CreateAccount';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { decryptLogin } from './Crypto/Utils';
-
-
-
+import LandingPage from './Component/LandingPage';
+import Settings from '../src/Settings/Settings';
+import Cookies from 'universal-cookie';
 function App({state}) {
 
   const [success, setSuccess] = useState(null)
@@ -26,11 +26,13 @@ function App({state}) {
   }, [Unity_Connect_Login])
 
   return (
-    <div data-testid='container'>
+    <div>
+      {/* <Settings/> */}
 
       <ToastContainer />
 
       <Router >
+      
         <Routes>
           {success || state.SignIn?.isLoggedIn ? (
             <>
@@ -40,9 +42,12 @@ function App({state}) {
             </>
           ) : (
             <>
-              <Route path="/" element={<CreateAccount />} />
+              {/* <Route path="/" element={<CreateAccount />} /> */}
+              <Route path="/" element={<LandingPage />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sidebar" element={<Sidebar />} />
+              <Route path="/create-account" element={<CreateAccount />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
@@ -50,7 +55,8 @@ function App({state}) {
         </Routes>
       </Router>
 
-      <Crypto />
+      <Crypto /> 
+
 
     </div>
   );
