@@ -4,6 +4,7 @@ import SignIn from "../Pages/AccountManagement/SignIn";
 import configureStore from 'redux-mock-store';
 import { Provider } from "react-redux";
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from "react-router-dom";
 
 jest.useFakeTimers()
 describe('test signIn UI', () => {
@@ -20,7 +21,9 @@ describe('test signIn UI', () => {
     it('it will check for UI renders', () => {
         render(
             <Provider store={store}>
+                <MemoryRouter>
                 <SignIn />
+                </MemoryRouter>
             </Provider>
         )
 
@@ -42,7 +45,9 @@ describe('test signIn UI', () => {
     it('it should check for empty email id and password', () => {
         render(
             <Provider store={store}>
+                <MemoryRouter>
                 <SignIn />
+                </MemoryRouter>
             </Provider>
         )
 
@@ -62,7 +67,9 @@ describe('test signIn UI', () => {
     it('it should check for invalid email id and password', () => {
         render(
             <Provider store={store}>
+                <MemoryRouter>
                 <SignIn />
+                </MemoryRouter>
             </Provider>
         )
 
@@ -88,7 +95,9 @@ describe('test signIn UI', () => {
     it('it should validate invalid emailId', () => {
         render(
             <Provider store={store}>
+                <MemoryRouter>
                 <SignIn />
+                </MemoryRouter>
             </Provider>
         )
 
@@ -112,7 +121,9 @@ describe('test signIn UI', () => {
         })
         render(
             <Provider store={store}>
+                <MemoryRouter>
                 <SignIn />
+                </MemoryRouter>
             </Provider>
         )
     })
@@ -129,7 +140,9 @@ describe('test signIn UI', () => {
         })
         render(
             <Provider store={store}>
+                <MemoryRouter>
                 <SignIn />
+                </MemoryRouter>
             </Provider>
         )
     })
