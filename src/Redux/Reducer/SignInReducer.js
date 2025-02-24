@@ -9,8 +9,10 @@ const initialState = {
 };
 const SignInReducer = (state = initialState, action) => {
     switch (action.type) {
+        // case 'SIGNIN-INFO':
+        //     return {...state,}
         case 'ERROR_EMAIL':
-            return { ...state, errorEmail: action.payload };
+            return { ...state, errorEmail: action.payload }; 
         case 'ERROR_PASSWORD':
             return { ...state, errorPassword: action.payload };
         case 'SIGNIN-SUCCESS':
