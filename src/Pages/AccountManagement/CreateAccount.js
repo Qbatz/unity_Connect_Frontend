@@ -83,25 +83,25 @@ const handleLoginPage = () => {
   };
 
   const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
+    setFirstName(e.target.value.trim());
     setErrors((prev) => ({ ...prev, firstName: "" }));
     setFirstNameError('');
   };
 
   const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
+    setLastName(e.target.value.trim());
     setErrors((prev) => ({ ...prev, lastName: "" }));
     setLastNameError('');
   };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    setPassword(e.target.value.trim());
     setErrors((prev) => ({ ...prev, password: "" }));
     setPasswordErrors('')
   };
 
   const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
+    setConfirmPassword(e.target.value.trim());
     setErrors((prev) => ({ ...prev, confirmPassword: "" }));
     setConfirmPasswordError('');
     dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' })
@@ -156,6 +156,9 @@ const handleSubmit =  (e) => {
   const emailElement = document.getElementById('emailIDError');
   const emailError = emailElement ? emailElement.innerHTML : '';
 
+  console.log(firstName)
+  console.log(mobileNumber)
+  console.log(email)
   if (!firstName && !mobileNumber && !email && !password && !lastName) {
       setAllError('Please enter all mandatory fields');
   }
@@ -261,7 +264,7 @@ const handleSubmit =  (e) => {
                 value={firstName} onChange={handleFirstNameChange}
               />
    
-              {isSubmitted && firstNameError && <p className="text-red-500 text-sm">{firstNameError}</p>}
+              {isSubmitted && firstNameError && <p data-testid='email-error' className="text-red-500 text-sm">{firstNameError}</p>}
             </div>
 
             <div className="w-full">
@@ -278,7 +281,7 @@ const handleSubmit =  (e) => {
                 value={email} onChange={handleEmailChange}
               />
                          {state.CreateAccount.mobileError === "Email Id Already Exists" && (
-    <p className="text-red-500 text-sm mt-1">{state.CreateAccount.mobileError}</p>
+    <p data-testid='mobile-error' className="text-red-500 text-sm mt-1">{state.CreateAccount.mobileError}</p>
   )}
               {isSubmitted && emailError && <p className="text-red-500 text-sm">{emailError}</p>}
             </div>
@@ -300,7 +303,7 @@ const handleSubmit =  (e) => {
                 />
               </div>
                         {state.CreateAccount.email_mobile_Error === "Mobile Number Already Exists" && (
-    <p className="text-red-500 text-sm mt-1">{state.CreateAccount.email_mobile_Error}</p>
+    <p data-testid='mobile_error' className="text-red-500 text-sm mt-1">{state.CreateAccount.email_mobile_Error}</p>
   )}
               {isSubmitted && phoneError && <p className="text-red-500 text-sm">{phoneError}</p>}
             </div>
@@ -341,7 +344,7 @@ const handleSubmit =  (e) => {
           </button>
 
           <div className="mt-1">
-            <label className="font-Gilroy text-base font-normal " >Already have an account?<span onClick={handleLoginPage} className="ms-2 create-account-hover font-Gilroy text-base font-semibold" style={{ color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
+            <label className="font-Gilroy text-base font-normal " >Already have an account?<span data-testid='login-page' onClick={handleLoginPage} className="ms-2 create-account-hover font-Gilroy text-base font-semibold" style={{ color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
           </div>
         </div>
 

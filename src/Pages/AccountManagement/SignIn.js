@@ -4,13 +4,13 @@ import SignInTop from "../../Icons/SignInTop.svg";
 import SignInBottom from "../../Icons/SignInBottom.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import {encryptLogin  } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
 
 
 
-const SignIn = () => {
+const SignIn = ({state}) => {
 
   const navigate = useNavigate();
 
@@ -21,7 +21,6 @@ const SignIn = () => {
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
-  const state = useSelector(state => state)
 
 
   useEffect(() => {
@@ -111,15 +110,16 @@ const SignIn = () => {
             Email ID <span className="text-red-500 align-super">*</span>
           </label>
           <input
+            data-testid="input-email"
             type="email"
             placeholder="Email address"
             className="border rounded-lg p-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-5 tracking-normal"
             value={email}
             onChange={handleEmailChange}
           />
-          <div className="">
+          <div data-testid='error-email' className="">
             {errors.email && (
-              <p className="text-red-500 text-sm font-medium mb-4 flex items-center">
+              <p data-testid='label-error-email' className="text-red-500 text-sm font-medium mb-4 flex items-center">
                 <MdError className="mr-1 text-sm" /> {errors.email}
               </p>
             )}
@@ -139,6 +139,7 @@ const SignIn = () => {
           </label>
           <div className="relative">
             <input
+              data-testid='input-password'
               type={showPassword ? "text" : "password"}
               placeholder="********"
               className="border rounded-lg py-2.5 px-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-6 tracking-normal pr-10"
@@ -146,6 +147,7 @@ const SignIn = () => {
               onChange={handlePasswordChange}
             />
             <button
+              data-testid='button-show-password'
               type="button"
               className="absolute right-3 top-5"
               onClick={() => setShowPassword(!showPassword)}
@@ -159,7 +161,7 @@ const SignIn = () => {
           </div>
           <div className="">
             {errors.password && (
-              <p className="text-red-500 text-sm font-medium mb-4 flex items-center">
+              <p data-testid='input-error-password' className="text-red-500 text-sm font-medium mb-4 flex items-center">
                 <MdError className="mr-1 text-sm" /> {errors.password}
               </p>
             )}
@@ -176,6 +178,7 @@ const SignIn = () => {
 
         <div>
           <button
+            data-testid="button-submit"
             type="submit"
             className={`w-full py-3 rounded-3xl text-white text-lg font-Gilroy leading-6 tracking-normal font-medium hover:bg-gray-600 transition mt-8 mb-2 ${email.trim() && password.trim() ? "bg-black" : "bg-gray-500"
               }`}
@@ -201,5 +204,11 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;   
+const mapsToProps = (stateInfo) => {
+  return {
+    state: stateInfo
+  }
+}
+
+export default connect(mapsToProps)(SignIn);   
 
