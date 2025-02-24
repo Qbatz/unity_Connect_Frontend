@@ -4,13 +4,15 @@ const initialState = {
     password: '',
     errorEmail: '',
     errorPassword: '',
+    signinsuccessstatuscode:'',
+    JWTtoken:'',
     statusCode: 0,
     isLoggedIn: false  
 };
 const SignInReducer = (state = initialState, action) => {
     switch (action.type) {
-        // case 'SIGNIN-INFO':
-        //     return {...state,}
+        case 'SIGNIN-INFO':
+            return {...state,signinsuccessstatuscode: action.payload.status_code,JWTtoken:action.payload.response.token}
         case 'ERROR_EMAIL':
             return { ...state, errorEmail: action.payload }; 
         case 'ERROR_PASSWORD':

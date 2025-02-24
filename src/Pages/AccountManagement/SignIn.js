@@ -7,6 +7,7 @@ import { MdError } from "react-icons/md";
 import { useDispatch, connect } from 'react-redux';
 import {encryptLogin  } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 
 
@@ -25,13 +26,21 @@ const SignIn = ({state}) => {
 
   useEffect(() => {
     if (state.SignIn.statusCode === 200) {
+      console.log("tokenCookies",tokenCookies);
+      
       dispatch({ type: "SIGNIN-SUCCESS" });
+
+      const token = state.SignIn.JWTtoken
+      const cookies = new Cookies()
+      cookies.set('UnityTokenToken', token, { path: '/' });
+      const tokenCookies = cookies.get('UnityTokenToken');
 
       const encryptData = encryptLogin(JSON.stringify(true));
       localStorage.setItem("unity_connect_login", encryptData.toString());
 
     }
-  }, [state.SignIn.statusCode]);
+  }, [state.SignIn.statusCode]); 
+
 
   useEffect(() => {
     if (email || password) {

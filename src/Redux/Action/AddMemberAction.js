@@ -5,16 +5,12 @@ import config from '../../WebService/Config';
 export async function addMember(params) {
 
     const formData = new FormData();
-    if (params.profile) formData.append("profile", params.profile);
-    if (params.lastname) formData.append("lastname", params.lastname)
-    if (params.firstname) formData.append("firstname", params.firstname)
-    if (params.Address) formData.append("Address", params.Address)
-    if (params.hostel_Id) formData.append("hostel_Id", params.hostel_Id)
-    if (params.Email) formData.append("Email", params.Email)
-    if (params.Phone) formData.append("Phone", params.Phone)
-
+   
+    if (params.user_name) formData.append("user_name", params.user_name)
+    if (params.address) formData.append("address", params.address)
+    if (params.email_id) formData.append("email_id", params.email_id)
     if (params.joining_date) formData.append("joining_date", params.joining_date)
-    if (params.ID) formData.append("ID", params.ID)
+
 
 
     try {

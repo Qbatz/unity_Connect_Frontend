@@ -26,7 +26,7 @@ function App({state}) {
   }, [Unity_Connect_Login])
 
   return (
-    <div data-testid='container'>
+    <div>
 
       <ToastContainer />
 
@@ -40,8 +40,8 @@ function App({state}) {
             </>
           ) : (
             <>
-              <Route path="/" element={<CreateAccount />} />
-              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/" element={<SignIn />} />
+              <Route path="/createaccount" element={<CreateAccount />} />
               <Route path="/sidebar" element={<Sidebar />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
