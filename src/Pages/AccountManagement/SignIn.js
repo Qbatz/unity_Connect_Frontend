@@ -4,18 +4,23 @@ import SignInTop from "../../Icons/SignInTop.svg";
 import SignInBottom from "../../Icons/SignInBottom.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import {encryptLogin  } from "../../Crypto/Utils";
+import { useNavigate } from "react-router-dom";
 
-const SignIn = () => {
 
+
+const SignIn = ({state}) => {
+
+  const navigate = useNavigate();
+
+      
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
-  const state = useSelector(state => state)
 
 
   useEffect(() => {
@@ -73,18 +78,27 @@ const SignIn = () => {
     setErrors((prev) => ({ ...prev, password: "" }));
   };
 
+ 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
+      navigate("/sidebar"); 
     }
-    
   };
+
+  // const LandingNavigates = useNavigate();
+  // const handleLogoClicks = () => {
+  //   LandingNavigates("/All_Landing_pages");
+  // };
 
   return (
     <div className="flex flex-col md:flex-row h-screen sm:overflow-auto md:overflow-hidden">
       <div className="flex flex-col justify-center md:w-1/2 p-6 md:p-16 container mx-auto">
         <div className="mb-3">
-          <img src={UnityConnectImg} alt="Illustration" />
+          <img src={UnityConnectImg}
+          //  onClick={handleLogoClicks}
+            alt="Illustration" />
         </div>
         <h1 className="text-black font-Gilroy text-2xl font-semibold leading-normal mb-2">Welcome back!</h1>
         <p className="font-Gilroy font-normal text-base leading-4 tracking-normal mb-8">
@@ -96,15 +110,16 @@ const SignIn = () => {
             Email ID <span className="text-red-500 align-super">*</span>
           </label>
           <input
+            data-testid="input-email"
             type="email"
             placeholder="Email address"
             className="border rounded-lg p-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-5 tracking-normal"
             value={email}
             onChange={handleEmailChange}
           />
-          <div className="">
+          <div data-testid='error-email' className="">
             {errors.email && (
-              <p className="text-red-500 text-sm font-medium mb-4 flex items-center">
+              <p data-testid='label-error-email' className="text-red-500 text-sm font-medium mb-4 flex items-center">
                 <MdError className="mr-1 text-sm" /> {errors.email}
               </p>
             )}
@@ -124,6 +139,7 @@ const SignIn = () => {
           </label>
           <div className="relative">
             <input
+              data-testid='input-password'
               type={showPassword ? "text" : "password"}
               placeholder="********"
               className="border rounded-lg py-2.5 px-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-6 tracking-normal pr-10"
@@ -131,6 +147,7 @@ const SignIn = () => {
               onChange={handlePasswordChange}
             />
             <button
+              data-testid='button-show-password'
               type="button"
               className="absolute right-3 top-5"
               onClick={() => setShowPassword(!showPassword)}
@@ -144,7 +161,7 @@ const SignIn = () => {
           </div>
           <div className="">
             {errors.password && (
-              <p className="text-red-500 text-sm font-medium mb-4 flex items-center">
+              <p data-testid='input-error-password' className="text-red-500 text-sm font-medium mb-4 flex items-center">
                 <MdError className="mr-1 text-sm" /> {errors.password}
               </p>
             )}
@@ -161,6 +178,7 @@ const SignIn = () => {
 
         <div>
           <button
+            data-testid="button-submit"
             type="submit"
             className={`w-full py-3 rounded-3xl text-white text-lg font-Gilroy leading-6 tracking-normal font-medium hover:bg-gray-600 transition mt-8 mb-2 ${email.trim() && password.trim() ? "bg-black" : "bg-gray-500"
               }`}
@@ -172,7 +190,7 @@ const SignIn = () => {
 
         <p className="mt-3 font-Gilroy font-normal text-base leading-5 tracking-normal ml-1">
           Don’t have an account?{" "}
-          <a href="#" className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
+          <a href="#" onClick={() => navigate("/create-account")} className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
             Create an account
           </a>
         </p>
@@ -186,5 +204,11 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;   
+const mapsToProps = (stateInfo) => {
+  return {
+    state: stateInfo
+  }
+}
+
+export default connect(mapsToProps)(SignIn);   
 

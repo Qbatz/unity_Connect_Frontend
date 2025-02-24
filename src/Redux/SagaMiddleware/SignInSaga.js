@@ -41,9 +41,9 @@ function* SignIn(action) {
                 style: toastStyle,
             });
         }
-        else if (response.status === 201 || response.statusCode === 201) {
+        else if (response.status === 203 || response.statusCode === 203) {
             yield put({ type: 'ERROR_EMAIL', payload: response.data.message });
-        } else if (response.status === 201 || response.statusCode === 201) {
+        } else if (response.status === 202 || response.statusCode === 202) {
             yield put({ type: 'ERROR_PASSWORD', payload: response.data.message });
         }
 
