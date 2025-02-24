@@ -35,6 +35,7 @@ const Sidebar = () => {
 
 
   return (
+    <>
     <div className="flex h-screen">
       <button
         className={`md:hidden fixed left-4 mt-1 z-50 bg-gray-800 text-white p-2 rounded transition-transform duration-300 ${isSidebarOpen ? 'translate-x-44 ' : 'mt-7'}`}
@@ -133,6 +134,7 @@ const Sidebar = () => {
 
       </div>
     </div>
+    </>
   );
 };
 
