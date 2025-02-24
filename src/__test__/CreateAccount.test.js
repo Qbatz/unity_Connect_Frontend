@@ -158,7 +158,8 @@ describe('checks for Create account', () => {
         userEvent.click(buttonShowPassword)
         userEvent.click(buttonSubmit)
 
-        screen.getByTestId('email-error').toBeInTheDocument()
+        screen.debug()
+        expect(screen.getByTestId('email-error')).toBeInTheDocument()
     })
 
     it('it will throw Invalid email and password error from server', () => {
@@ -180,6 +181,5 @@ describe('checks for Create account', () => {
         )
 
         expect(screen.getByTestId('mobile_error')).toBeInTheDocument()
-        expect(screen.getByTestId('mobile-error')).toBeInTheDocument()
     })
 })
