@@ -31,7 +31,7 @@ function* CreateAccountPage(action) {
             console.log("Success Response:", response.data);
         yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode} });
   
-        toast.success('created successfully', {
+        toast.success(response.message ||'created successfully', {
           position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: true,
