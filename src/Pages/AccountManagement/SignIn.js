@@ -6,9 +6,15 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
 import { useDispatch, connect } from 'react-redux';
 import {encryptLogin  } from "../../Crypto/Utils";
+import { useNavigate } from "react-router-dom";
+
+
 
 const SignIn = ({state}) => {
 
+  const navigate = useNavigate();
+
+      
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -72,18 +78,27 @@ const SignIn = ({state}) => {
     setErrors((prev) => ({ ...prev, password: "" }));
   };
 
+ 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
+      navigate("/sidebar"); 
     }
-    
   };
+
+  // const LandingNavigates = useNavigate();
+  // const handleLogoClicks = () => {
+  //   LandingNavigates("/All_Landing_pages");
+  // };
 
   return (
     <div className="flex flex-col md:flex-row h-screen sm:overflow-auto md:overflow-hidden">
       <div className="flex flex-col justify-center md:w-1/2 p-6 md:p-16 container mx-auto">
         <div className="mb-3">
-          <img src={UnityConnectImg} alt="Illustration" />
+          <img src={UnityConnectImg}
+          //  onClick={handleLogoClicks}
+            alt="Illustration" />
         </div>
         <h1 className="text-black font-Gilroy text-2xl font-semibold leading-normal mb-2">Welcome back!</h1>
         <p className="font-Gilroy font-normal text-base leading-4 tracking-normal mb-8">
@@ -175,7 +190,7 @@ const SignIn = ({state}) => {
 
         <p className="mt-3 font-Gilroy font-normal text-base leading-5 tracking-normal ml-1">
           Don’t have an account?{" "}
-          <a href="#" className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
+          <a href="#" onClick={() => navigate("/create-account")} className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
             Create an account
           </a>
         </p>

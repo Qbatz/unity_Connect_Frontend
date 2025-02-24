@@ -8,7 +8,13 @@ module.exports = {
       backgroundColor:{
         lightgray:'#22222280'
 
-      }
+      },
+    
+      fontFamily: {
+        'Outfit': ["Outfit", "sans-serif"],
+        'Gilroy': ['Gilroy', 'sans-serif'],
+        'Raleway': ["Raleway", "sans-serif"],
+      },
     },
   },
   plugins: [],

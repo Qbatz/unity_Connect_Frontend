@@ -1,14 +1,10 @@
 import { useState } from "react";
 import Dashboard from "../Icons/Dashboard.svg";
 import DashboardActive from "../Icons/DashboardActive.svg";
-import Subscription from "../Icons/Subscription.svg";
-import SubscriptionActive from "../Icons/SubscriptionActive.svg";
 import Member from "../Icons/Member.svg";
 import MemberActive from "../Icons/MemberActive.svg";
 import Loan from "../Icons/Loan.svg";
 import LoanActive from "../Icons/LoanActive.svg";
-import investment from "../Icons/Investments.svg";
-import investmentActive from "../Icons/Investments.svg";
 import Expenses from "../Icons/Expenses.svg";
 import ExpensesActive from "../Icons/ExpensesActive.svg";
 import Statements from "../Icons/Statements.svg";
@@ -21,6 +17,7 @@ import Star from "../Icons/Star.svg";
 import UnityConnectImg from "../Icons/UnityConnectImg.svg";
 import ProfileIcon from "../Icons/ProfileIcon.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
+import Members from "../Members/AddMemberForm";
 
 const Sidebar = () => {
 
@@ -57,10 +54,8 @@ const Sidebar = () => {
         <ul className="flex-1">
           {[
             { name: "Dashboard", icon: Dashboard, activeIcon: DashboardActive },
-            { name: "Subscription", icon: Subscription, activeIcon: SubscriptionActive },
             { name: "Members", icon: Member, activeIcon: MemberActive },
             { name: "Loan", icon: Loan, activeIcon: LoanActive },
-            { name: "Investments", icon: investment, activeIcon: investmentActive },
             { name: "Expenses", icon: Expenses, activeIcon: ExpensesActive },
             { name: "Statements", icon: Statements, activeIcon: StatementActive },
             { name: "Reports", icon: Reports, activeIcon: ReportsActive },
@@ -100,27 +95,15 @@ const Sidebar = () => {
           </div>
         )}
 
-        {activeMenu === "Subscription" && (
-          <div className="bg-white mt-2">
-            {/* <Subscription /> */}
-          </div>
-        )}
-
         {activeMenu === "Members" && (
           <div className="bg-white mt-2">
-            {/* <Members /> */}
+            <Members />
           </div>
         )}
 
         {activeMenu === "Loan" && (
           <div className="bg-white mt-2">
             {/* <Loan /> */}
-          </div>
-        )}
-
-        {activeMenu === "Investments" && (
-          <div className="bg-white mt-2">
-            {/* <Investments /> */}
           </div>
         )}
 
