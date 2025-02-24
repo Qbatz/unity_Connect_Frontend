@@ -1,4 +1,4 @@
-import axios from 'axios'; 
+import AxiosConfig from '../../WebService/AxiosConfig'; 
 import config from '../../WebService/Config';
 
 
@@ -11,10 +11,8 @@ export async function addMember(params) {
     if (params.email_id) formData.append("email_id", params.email_id)
     if (params.joining_date) formData.append("joining_date", params.joining_date)
 
-
-
     try {
-        const response = await axios.post(`${config.apiBaseUrl}/member/add_new_member`, formData, {
+        const response = await AxiosConfig.post(`${config.apiBaseUrl}/member/add_new_member`, formData, {
             headers: {
                 "Content-type": "multipart/form-data",
             },

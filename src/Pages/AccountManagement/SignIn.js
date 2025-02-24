@@ -199,7 +199,7 @@ const SignIn = ({ state }) => {
 
         <p className="mt-3 font-Gilroy font-normal text-base leading-5 tracking-normal ml-1">
           Don’t have an account?{" "}
-          <a href="#" onClick={() => navigate("/create-account")} className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
+          <a href="#" onClick={() => navigate("/createaccount")} className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
             Create an account
           </a>
         </p>
