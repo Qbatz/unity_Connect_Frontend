@@ -1,11 +1,66 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import ExpensesIcon from "../Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../Icons/ThreeDotMore.svg";
 import CloseCircleIcon from "../Icons/close-circle.svg";
+import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'universal-cookie';
 
 function ExpensesSetting() {
+  const dispatch = useDispatch();
+  const state = useSelector(state => state)
+  console.log("STateL:,",state);
+  
+  const[categoryName,setCategoryName]=useState('');
+  const[subCategoryName,setSubCategoryName]=useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubCategory, setIsSubCategory] = useState(false);
+
+
+
+
+  const handleSubmit =  (e) => {
+    e.preventDefault();
+   
+        const payload = { 
+          category_Name:categoryName,
+          sub_Category:subCategoryName,
+          id:state.SettingAddExpenses.id
+        };
+
+        dispatch({
+            type: 'SETTING_ADD_EXPENSES',
+            payload: payload
+        });
+    }
+  
+    const handlecategoryName = (e) => {
+      setCategoryName(e.target.value);
+    };
+
+    
+    const handlesubCategoryName = (e) => {
+      setSubCategoryName(e.target.value);
+    };
+
+
+    useEffect(() => {
+      if (state.login.statusCode === 200) {
+  
+  
+          dispatch({ type: 'LOGIN-SUCCESS' });
+  
+        const token = state.login.JWTtoken
+        const cookies = new Cookies()
+        cookies.set('token', token, { path: '/' });
+        const tokenCookies = cookies.get('token');
+  
+        setTimeout(() => {
+          dispatch({ type: 'CLEAR_STATUSCODE' });
+        }, 100);
+  
+      }
+  
+    }, [state.login.statusCode]);
 
   return (
     <div className="container mx-auto mt-10">
@@ -35,19 +90,22 @@ function ExpensesSetting() {
        
               <label className="text-black text-sm font-medium text-[18px]">Category name</label>
               <input
+               onChange={handlecategoryName}
+              value={categoryName}
                 type="text"
                 placeholder="Enter category name"
                 className="w-full h-[60px] border border-[#D9D9D9] rounded-[16px] p-4 mt-3 text-[16px] placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
               />
 
               <div className="flex items-center mt-7 cursor-pointer">
-                <input
-                  type="checkbox"
-                  id="makeSubCategory"
-                  className="w-5 h-5"
-                  checked={isSubCategory}
-                  onChange={() => setIsSubCategory(!isSubCategory)}
-                />
+              <input
+  type="checkbox"
+  id="makeSubCategory"
+  className="w-5 h-5"
+  checked={isSubCategory}
+  onChange={() => setIsSubCategory(!isSubCategory)} // Corrected
+/>
+
                 <label
                   htmlFor="makeSubCategory"
                   className="text-black font-medium text-[16px] pl-[10px] cursor-pointer"
@@ -69,7 +127,7 @@ function ExpensesSetting() {
               )}
             </div>
    
-            <button 
+            <button onClick={handleSubmit}
               className="mt-10 w-full h-[59px] bg-black text-white rounded-[60px] text-[16px] font-medium"
             >
               Add category
@@ -99,5 +157,4 @@ function ExpensesSetting() {
     </div>
   );
 }
-
 export default ExpensesSetting;

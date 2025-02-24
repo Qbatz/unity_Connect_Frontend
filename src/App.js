@@ -9,9 +9,9 @@ import CreateAccount from './Pages/AccountManagement/CreateAccount';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { decryptLogin } from './Crypto/Utils';
-
-
-
+import LandingPage from './Component/LandingPage';
+import Settings from '../src/Settings/Settings';
+import Cookies from 'universal-cookie';
 
 
 function App() {
@@ -38,10 +38,12 @@ function App() {
 
   return (
     <div>
+      {/* <Settings/> */}
 
       <ToastContainer />
 
       <Router >
+      
         <Routes>
           {success || state.SignIn?.isLoggedIn ? (
             <>
@@ -51,8 +53,11 @@ function App() {
             </>
           ) : (
             <>
-              <Route path="/" element={<CreateAccount />} />
+              {/* <Route path="/" element={<CreateAccount />} /> */}
+              <Route path="/" element={<LandingPage />} />
               <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/create-account" element={<CreateAccount />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
@@ -60,7 +65,8 @@ function App() {
         </Routes>
       </Router>
 
-      <Crypto />
+      <Crypto /> 
+
 
     </div>
   );
