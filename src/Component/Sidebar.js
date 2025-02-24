@@ -105,7 +105,7 @@ const handleLogout = () =>{
 
       <div className="flex-1 bg-gray-200">
         <div className="text-center">
-          {/* <h2 className="text-2xl font-bold">{activeMenu}</h2> */}
+          <h2 className="text-2xl font-bold">{activeMenu}</h2>
         </div>
 
         {activeMenu === "Dashboard" && (
