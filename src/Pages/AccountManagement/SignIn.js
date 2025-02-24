@@ -5,17 +5,17 @@ import SignInBottom from "../../Icons/SignInBottom.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
 import { useDispatch, connect } from 'react-redux';
-import {encryptLogin  } from "../../Crypto/Utils";
+import { encryptLogin } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
 
 
 
-const SignIn = ({state}) => {
+const SignIn = ({ state }) => {
 
   const navigate = useNavigate();
 
-      
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -25,21 +25,21 @@ const SignIn = ({state}) => {
 
 
   useEffect(() => {
-    if (state.SignIn.statusCode === 200) {
-      console.log("tokenCookies",tokenCookies);
-      
+    if (state.SignIn.signinsuccessstatuscode === 200) {
+
       dispatch({ type: "SIGNIN-SUCCESS" });
 
       const token = state.SignIn.JWTtoken
       const cookies = new Cookies()
       cookies.set('UnityTokenToken', token, { path: '/' });
-      const tokenCookies = cookies.get('UnityTokenToken');
-
       const encryptData = encryptLogin(JSON.stringify(true));
       localStorage.setItem("unity_connect_login", encryptData.toString());
 
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_LOGIN_STATUS_CODE' })
+      }, 1000)
     }
-  }, [state.SignIn.statusCode]); 
+  }, [state.SignIn.signinsuccessstatuscode]);
 
 
   useEffect(() => {
@@ -87,12 +87,12 @@ const SignIn = ({state}) => {
     setErrors((prev) => ({ ...prev, password: "" }));
   };
 
- 
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      navigate("/sidebar"); 
+      navigate("/sidebar");
     }
   };
 
@@ -106,7 +106,7 @@ const SignIn = ({state}) => {
       <div className="flex flex-col justify-center md:w-1/2 p-6 md:p-16 container mx-auto">
         <div className="mb-3">
           <img src={UnityConnectImg}
-          //  onClick={handleLogoClicks}
+            //  onClick={handleLogoClicks}
             alt="Illustration" />
         </div>
         <h1 className="text-black font-Gilroy text-2xl font-semibold leading-normal mb-2">Welcome back!</h1>
@@ -219,5 +219,5 @@ const mapsToProps = (stateInfo) => {
   }
 }
 
-export default connect(mapsToProps)(SignIn);   
+export default connect(mapsToProps)(SignIn);
 

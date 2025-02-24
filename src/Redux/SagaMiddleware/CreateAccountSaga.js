@@ -60,9 +60,7 @@ function* CreateAccountPage(action) {
   
     
       }
-      if(response){
-        refreshToken(response)
-     }
+     
     } catch (error) {
       console.log("error", error);
     }
@@ -70,20 +68,7 @@ function* CreateAccountPage(action) {
 
 
 
-  function refreshToken(response){
-    if(response.data && response.data.refresh_token){
-       const refreshTokenGet = response.data.refresh_token
-       const cookies = new Cookies()
-       cookies.set('token', refreshTokenGet, { path: '/' });
-    }else if (response.status === 206) {
-      const message = response.status
-      const cookies = new Cookies()
-      
-      cookies.set('access-denied', message, { path: '/' });
-    
-   }
-    
-    }
+  
     function* CreateAccountSaga() {
         yield takeEvery('CREATE_ACCOUNT', CreateAccountPage)
       

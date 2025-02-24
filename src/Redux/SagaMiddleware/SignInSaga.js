@@ -7,6 +7,8 @@ function* SignIn(action) {
     try {
         const response = yield call(SignIncall, action.payload);
 
+
+
         var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
@@ -26,7 +28,7 @@ function* SignIn(action) {
             yield put({
                 type: 'SIGNIN-INFO',
                 payload: {
-                    response: response.data,
+                   token: response.data.token,
                     statusCode: response.status || response.statusCode
                 }
             });
@@ -41,9 +43,7 @@ function* SignIn(action) {
                 progress: undefined,
                 style: toastStyle,
             });
-            if (response) {
-                refreshToken(response);
-              }
+           
         }
         else if (response.status === 203 || response.statusCode === 203) {
             yield put({ type: 'ERROR_EMAIL', payload: response.data.message });
@@ -57,20 +57,7 @@ function* SignIn(action) {
    
 }
 
-function refreshToken(response) {
-    if (response.data && response.data.refresh_token) {
-       const refreshTokenGet = response.data.refresh_token
-       const cookies = new Cookies()
-       cookies.set('token', refreshTokenGet, { path: '/' });
-    } else if (response.status === 206) {
-       const message = response.status
-       const cookies = new Cookies()
-       cookies.set('access-denied', message, { path: '/' });
- 
-    }
-    
- 
- }
+
 
 function* SignInSaga() {
     yield takeEvery('SIGNININFO', SignIn);

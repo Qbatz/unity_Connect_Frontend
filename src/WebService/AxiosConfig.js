@@ -12,9 +12,9 @@ const AxiosConfig = axios.create({
 })
 AxiosConfig.interceptors.request.use(
     (config) => {
-        console.log("UnityConnectToken",UnityConnectToken);
+     
         
-        const UnityConnectToken = cookies.get('token');
+        const UnityConnectToken = cookies.get('UnityConnectToken');
 
         if (UnityConnectToken) {
             config.headers['Authorization'] = `Bearer ${UnityConnectToken}`;

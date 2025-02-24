@@ -132,9 +132,9 @@ function refreshToken(response) {
       const cookies = new Cookies()
       cookies.set('UnityConnectToken', refreshTokenGet, { path: '/' });
    } else if (response.status === 206) {
-      const message = response.status
+      const message = response.status     
       const cookies = new Cookies()
-      cookies.set('UnityConnectToken access-denied', message, { path: '/' });
+      cookies.set('Unity_ConnectToken_Access-Denied', message, { path: '/' });
 
    }
 
