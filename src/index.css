@@ -11,6 +11,96 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@font-face {
+  font-family: 'Outfit';
+  src:url('/src/Asset/Fonts/Outfit/Outfit-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/src/Asset/Fonts/Outfit/Outfit-Regular_1.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Outfit';
+  src: url('/src/Asset/Fonts/Outfit/Outfit-Medium.ttf') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/src/Asset/Fonts/Outfit/Outfit-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/src/Asset/Fonts/Gilroy/Gilroy-ExtraBold.otf') format('truetype');
+         font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/src/Asset/Fonts/Gilroy/Gilroy-Light_0.ttf') format('truetype');
+         font-weight: 300;
+  font-style: normal;
+}
+
+/* semi bold - 600 */
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/src/Asset/Fonts/Gilroy/Gilroy-SemiBold_0.ttf') format('truetype');
+         font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/src/Asset/Fonts/Gilroy/Gilroy-Medium_0.ttf') format('truetype');
+         font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+     font-family: 'Gilroy';
+     src: url('/src/Asset/Fonts/Gilroy/Gilroy-Black_0.ttf') format('truetype');
+            font-weight: 900;
+     font-style: normal;
+   }
+   @font-face {
+    font-family: 'Kalam';
+    src: url('/src/Asset/Fonts/Kalam/Kalam-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Kalam';
+    src: url('/src/Asset/Fonts/Kalam/Kalam-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Kalam';
+    src: url('/src/Asset/Fonts/Kalam/Kalam-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Raleway';
+    src: url('/src/Asset/Fonts/Raleway/Raleway-Medium.ttf') format('woff');
+    font-weight: 500;
+    font-style: normal;
+  }
