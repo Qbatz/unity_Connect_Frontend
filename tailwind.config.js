@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor:{
-        lightgray:'#22222280'
+        'lightgray':'#22222280',
+       
 
       },
     
@@ -94,6 +95,11 @@ module.exports = {
         '40':'40px',
         '60': '60px',
       },
+      colors: {
+        'lightgray' :'#939393',
+        
+
+      }
     },
   },
   plugins: [],
