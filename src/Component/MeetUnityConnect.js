@@ -5,51 +5,50 @@ import FlyingDollar from "../Icons/CashwithWings.svg";
 const MeetUnityConnect = () => {
   return (
     <div className="container">
-    <div className="relative flex flex-col items-center text-center px-6 py-10 md:px-10 lg:px-16">
-
-      <img
-        src={MoneyBag}
-        alt="Money Bag"
-        className="hidden lg:block absolute w-[148.89px] h-auto 
-        top-[205.12px] left-[140.59px] transform rotate-[4.16deg]"
-      />
+      <div className="relative flex flex-col items-center text-center px-6 py-10 md:px-10 lg:px-16">
 
 
-      <div className="text-black font-[500] text-[16px] sm:text-[18px] leading-[28.8px] tracking-[0%] text-center px-4 py-1 
-      rounded-full inline-block font-[Outfit]">
-        👋 MEET UNITY CONNECT
-      </div>
+        <img
+          src={MoneyBag}
+          alt="Money Bag"
+          className="hidden md:hidden sm:hidden lg:block absolute w-[150px] h-auto 
+          top-[210px] left-[120px] transform rotate-[0.16deg]"
+        />
 
-    
-      <div className="text-[40px] sm:text-[60px] md:text-[80px] leading-[50px] sm:leading-[72px] md:leading-[96px] text-center">
-        <span className="italic text-purple-600 font-[400] font-[Kalam]">Invest</span>{" "}
-        <span className="text-black font-[700] font-[Gilroy]">Together</span>,
-        <br />
-        <span className="text-black font-[700] font-[Gilroy]">Grow</span>{" "}
-        <span className="text-[#000000]-700 font-[300] font-[Gilroy]">Together</span>
-      </div>
-
-     
-      <p className="text-black text-[16px] sm:text-[18px] leading-[24px] sm:leading-[28.8px] text-center font-[400] mt-4">
-        Join a community of investors who thrive on mutual support and collective growth.
-      </p>
-
-
-      <button className="mt-5 rounded-[16px] bg-[#7F00FF] text-white 
-      px-[20px] py-[16px] md:px-[32px] md:py-[24px] 
-      font-[600] text-[16px] sm:text-[18px] font-semibold hover:bg-purple-700 transition">
-        Join a community
-      </button>
+        <div className="text-black font-medium text-base sm:text-lg leading-[28.8px] text-center px-4 py-1 
+        rounded-full inline-block font-Outfit">
+          👋 MEET UNITY CONNECT
+        </div>
 
     
-      <img
-        src={FlyingDollar}
-        alt="Flying Dollar"
-        className="hidden lg:block absolute w-[150px] h-auto 
-        top-[50px] left-[1080.79px] transform rotate-[-6.59deg]"
-      />
+        <div className="text-[60px] sm:text-[50px] md:text-[70px] lg:text-[80px] leading-[1.1] text-center">
+          <span className="text-purple-600 font-normal font-kalam">Invest</span>{" "}
+          <span className="text-black font-bold font-Gilroy">Together</span>,
+          <br />
+          <span className="text-black font-bold font-Gilroy">Grow</span>{" "}
+          <span className="text-black font-light font-Gilroy">Together</span>
+        </div>
 
-    </div>
+  
+        <p className="text-black font-Gilroy text-base sm:text-lg leading-[24px] sm:leading-[28.8px] text-center font-normal mt-6">
+          Join a community of investors who thrive on mutual support and collective growth.
+        </p>
+
+    
+        <button className="mt-5 font-Raleway rounded-2xl bg-[#7F00FF] text-white 
+        px-5 py-3 md:px-6 md:py-3 lg:px-8 lg:py-4
+        font-semibold text-base sm:text-lg hover:bg-[#7F00FF] transition">
+          Join a community
+        </button>
+
+        <img
+          src={FlyingDollar}
+          alt="Flying Dollar"
+          className="hidden md:hidden sm:hidden lg:block absolute w-[150px] h-auto 
+          top-40 left-[1080px] transform rotate-[-6.59deg]"
+        />
+
+      </div>
     </div>
   );
 };

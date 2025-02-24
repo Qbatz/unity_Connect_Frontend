@@ -9,8 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 function* SettingAddExpensesPage(action) {
     try {
       const response = yield call(SettingAddExpenses, action.payload);
-    
-
       var toastStyle = {
         backgroundColor: "#E6F6E6",
         color: "black",

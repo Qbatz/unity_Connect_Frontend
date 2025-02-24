@@ -1,66 +1,68 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import UnityConnectLetter from "../Icons/UnityConnectLetter.svg";
 import { Menu, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import UnityConnectLetter from '../Icons/UnityConnectLetter.svg';
 
 const TopBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate(); 
+
+  
+  const navigate = useNavigate();
+
+
+
+const handleNavigation = (path) => {
+    navigate(path);
+    setIsOpen(false); 
+  };
 
   return (
-    <nav className="container mx-auto flex items-center justify-between px-6 py-4">
-      <div className="flex items-center space-x-2 md:pr-[20px] lg:pr-[20px]">
-        <img 
-          src={UnityConnectLetter} 
-          alt="Logo" 
-          className="w-[120px] h-auto min-w-[100px] md:w-[150px] lg:w-[180px]" 
-        />
-      </div>
+    <nav className="w-full px-6 py-4">
+      <div className="container mx-auto flex items-center justify-between">
+    
+        <div className="flex items-center space-x-2">
+          <img src={UnityConnectLetter} alt="Logo"  />
+         
+        </div>
 
-      <ul className="hidden md:flex items-center text-[#000000] text-[16px] md:text-[15px] sm:text-[14px] font-medium leading-[18.83px] 
-        space-x-[80px] md:space-x-[60px] sm:space-x-[40px]">
-        <li className="hover:text-black cursor-pointer whitespace-nowrap">How it works</li>
-        <li className="hover:text-black cursor-pointer whitespace-nowrap">Why us</li>
-        <li className="hover:text-black cursor-pointer">About</li>
-        <li className="hover:text-black cursor-pointer">Testimonials</li>
-      </ul>
+ 
+        <ul className="hidden md:flex font-Gilroy items-center space-x-20 text-black text-base font-medium">
+          <li className="text-black  hover:text-black">How it works</li>
+          <li className="text-black hover:text-black">Why us</li>
+          <li className="text-black hover:text-black">About</li>
+          <li className="text-black hover:text-black">Testimonials</li>
+        </ul>
 
-      <div className="hidden md:flex items-center space-x-[22px] lg:space-x-[20px] sm:space-x-[20px]">
-        <button 
-          className="md:pl-[20px] lg:pl-[20px] text-[#000000] hover:text-black text-[16px] md:text-[15px] sm:text-[14px] font-medium leading-[18.83px] whitespace-nowrap"
-          onClick={() => navigate("/sign-in")} 
+        <div className="hidden md:flex items-center space-x-6">
+        <button className="text-black font-Gilroy hover:text-black" onClick={() => handleNavigation("/sign-in")}>
+            Sign in
+          </button>
+          <button className="bg-#7F00FF lg:w-[161px] lg:h[51px] text-base font-Gilroy text-white p-[20px] pr-[24px] pb-[20px] pl-[24px]
+ rounded-2xl">
+            Get Started
+          </button>
+        </div>
+
+    
+        <button
+          className="md:hidden flex items-center text-black"
+          onClick={() => setIsOpen(!isOpen)}
         >
-          Sign in
-        </button>
-
-        <button className="bg-[#7F00FF] text-white w-[161px] h-[59px] px-6 py-5 rounded-[16px] 
-          hover:bg-purple-700 text-[16px] font-semibold leading-[19.09px]">
-          Get Started
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      <button
-        className="md:hidden focus:outline-none"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
-
+ 
       {isOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white shadow-md md:hidden">
-          <ul className="flex flex-col items-center space-y-4 py-4 text-gray-700">
-            <li className="hover:text-black cursor-pointer">How it works</li>
-            <li className="hover:text-black cursor-pointer">Why us</li>
-            <li className="hover:text-black cursor-pointer">About</li>
-            <li className="hover:text-black cursor-pointer">Testimonials</li>
-
-            <button 
-              className="text-gray-700 hover:text-black"
-              onClick={() => navigate("/sign-in")} // Redirect to SignIn page
-            >
-              Sign in
-            </button>
-            <button className="bg-[#7F00FF] text-white px-4 py-2 rounded-full">
+        <div className="md:hidden mt-4 bg-white  rounded-lg p-4">
+          <ul className="flex flex-col font-Gilroy items-center space-y-4 text-black text-base font-medium">
+            <li className="text-black hover:text-black">How it works</li>
+            <li className="text-black hover:text-black">Why us</li>
+            <li className="text-black hover:text-black">About</li>
+            <li className="text-black hover:text-black">Testimonials</li>
+            <button className="text-black">Sign in</button>
+            <button className="bg-#7F00FF text-white p-[20px] pr-[24px] pb-[20px] pl-[24px]
+ rounded-2xl">
               Get Started
             </button>
           </ul>
