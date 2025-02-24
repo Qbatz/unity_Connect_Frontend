@@ -13,7 +13,7 @@ import Cookies from 'universal-cookie';
 import { useDispatch} from 'react-redux';
 import LandingPage from './Component/LandingPage';
 import Settings from '../src/Settings/Settings';
-import Cookies from 'universal-cookie';
+
 
 function App({ state ,isLogged_In}) {
 
