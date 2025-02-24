@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor:{
-        lightgray:'#22222280'
+        'lightgray':'#22222280',
+       
 
       },
     
@@ -15,6 +16,11 @@ module.exports = {
         'Gilroy': ['Gilroy', 'sans-serif'],
         'Raleway': ["Raleway", "sans-serif"],
       },
+      colors: {
+        'lightgray' :'#939393',
+        
+
+      }
     },
   },
   plugins: [],

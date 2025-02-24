@@ -18,6 +18,7 @@ import UnityConnectImg from "../Icons/UnityConnectImg.svg";
 import ProfileIcon from "../Icons/ProfileIcon.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Members from "../Members/AddMemberForm";
+import Settings from "../Settings/Settings";
 
 const Sidebar = () => {
 
@@ -84,9 +85,9 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="flex-1 p-6 bg-gray-100">
+      <div className="flex-1 p-6">
         <div className="text-center">
-          <h2 className="text-2xl font-bold">{activeMenu}</h2>
+         
         </div>
 
         {activeMenu === "Dashboard" && (
@@ -127,7 +128,7 @@ const Sidebar = () => {
 
         {activeMenu === "Settings" && (
           <div className="bg-white mt-2">
-            {/* <Settings /> */}
+            <Settings />
           </div>
         )}
 
