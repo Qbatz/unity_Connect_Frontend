@@ -43,7 +43,7 @@ function App({ isLogged_In }) {
   const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('Unity_ConnectToken_Access-Denied')));
 
   useEffect(() => {
-    if (tokenAccessDenied == 206) {
+    if (tokenAccessDenied === 206) {
       dispatch({ type: 'LOGOUT' });
       setSuccess(false);
       cookies.set('Unity_ConnectToken_Access-Denied', null, { path: '/', expires: new Date(0) });

@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { useDispatch, connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 
 function MemberID ({state}) {
@@ -127,4 +128,8 @@ const mapsToProps = (stateInfo) => {
       state: stateInfo
     }
 }
+
+MemberID.propTypes = {
+  state: PropTypes.object, 
+};
 export default connect(mapsToProps)(MemberID)

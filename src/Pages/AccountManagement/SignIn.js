@@ -8,7 +8,7 @@ import { useDispatch, connect } from 'react-redux';
 import {encryptData  } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
-
+import PropTypes from 'prop-types';
 
 
 const SignIn = ({ state }) => {
@@ -217,6 +217,10 @@ const mapsToProps = (stateInfo) => {
   return {
     state: stateInfo
   }
+}
+
+SignIn.propTypes = {
+  state: PropTypes.object
 }
 
 export default connect(mapsToProps)(SignIn);
