@@ -29,7 +29,7 @@ const Settings = () => {
           >
             {tab}
             <span
-              className={`absolute left-0 bottom-0 h-[3px] w-24 transition-all ${
+              className={`absolute left-0 bottom-0 h-[3px] w-full transition-all ${
                 activeTab === tab ? "bg-purple-600" : "bg-transparent"
               }`}
             ></span>

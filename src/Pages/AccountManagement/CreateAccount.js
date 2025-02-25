@@ -8,7 +8,7 @@ import { useDispatch, connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 function CreateAccount({state}) {
-console.log("state",state);
+
 
   const dispatch = useDispatch()
   let navigate = useNavigate();

@@ -7,8 +7,9 @@ module.exports = {
     extend: {
       backgroundColor:{
         'lightgray':'#22222280',
-       
+         'lightblue':'#D9E9FF'
 
+         
       },
     
       fontFamily: {

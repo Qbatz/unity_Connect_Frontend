@@ -18,9 +18,8 @@ import Star from "../Icons/Star.svg";
 import UnityConnectImg from "../Icons/UnityConnectImg.svg";
 import ProfileIcon from "../Icons/ProfileIcon.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
-import Members from "../Members/AddMemberForm";
 import Settings from "../Settings/Settings";
-
+import Members from "../Members/Member";
 
 const Sidebar = () => {
 
