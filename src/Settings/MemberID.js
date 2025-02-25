@@ -8,6 +8,7 @@ function MemberID ({state}) {
 
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
+   const [error, setError] = useState({ prefix: "", suffix: "" });
 
 useEffect(() => {
     if (state.Settings.statusCodeMemberID === 200) {
@@ -19,14 +20,41 @@ useEffect(() => {
     }
 }, [state.Settings.statusCodeMemberID]);
 
+const handlePrefix = (e) => {
+    const value = e.target.value;
+    if (/^[A-Za-z]*$/.test(value)) {
+      setPrefix(value);
+      setError((prev) => ({ ...prev, prefix: "" }));
+    } else {
+      setError((prev) => ({ ...prev, prefix: "Prefix should contain only letters." }));
+    }
+  };
   const handleSuffix = (e) => {
     const value = e.target.value;
-      if (/^\d*$/.test(value)) {
-        setSuffix(value);
-      }
-  }
+    if (/^\d*$/.test(value)) {
+      setSuffix(value);
+      setError((prev) => ({ ...prev, suffix: "" }));
+    } else {
+      setError((prev) => ({ ...prev, suffix: "Suffix should contain only numbers." }));
+    }
+  };
 
   const handleSave = () => {
+
+    let newError = { prefix: "", suffix: "" };
+    let hasError = false;
+
+    if (!prefix) {
+      newError.prefix = "Prefix is required.";
+      hasError = true;
+    }
+    if (!suffix) {
+      newError.suffix = "Suffix is required.";
+      hasError = true;
+    }
+
+    setError(newError);
+    if (!hasError) {
     const payload = { 
         prefix:prefix,
         suffix:suffix,
@@ -39,36 +67,43 @@ useEffect(() => {
         payload: payload
     });
   }
+}
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-semibold font-Gilroy">Member ID</h1>
-      <p className="text-gray-500 font-Gilroy text-sm font-normal mt-4">
+    <div className="container mx-auto mt-10">
+        <h1 className="text-xl font-semibold font-Gilroy">Member ID</h1>
+      <p className="text-lightgray font-Gilroy text-sm font-normal mt-4">
         Set up the prefix and suffix for Member ID
       </p>
-      <div className="mt-4 grid grid-cols-3 gap-4">
+      <div className="mt-6 grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-Gilroy font-medium text-gray-700">Prefix</label>
+          <label className="block text-sm font-Gilroy font-medium">Prefix</label>
           <input
-            className="border p-2 rounded-md w-full"
+            className="border p-2 mt-4 rounded-xl w-full h-14"
             placeholder="Prefix"
             value={prefix}
-            onChange={(e) => setPrefix(e.target.value)}
+            onChange={handlePrefix}
           />
+           {error.prefix && (
+            <p className="text-red-500 text-sm mt-1">{error.prefix}</p>
+          )}
         </div>
         <div>
-          <label className="block text-sm font-Gilroy font-medium text-gray-700">Suffix</label>
+          <label className="block text-sm font-Gilroy font-medium">Suffix</label>
           <input
-            className="border p-2 rounded-md w-full"
+            className="border p-2 mt-4 rounded-xl w-full h-14"
             placeholder="Suffix"
             value={suffix}
             onChange={handleSuffix}
           />
+           {error.suffix && (
+            <p className="text-red-500 text-sm mt-1">{error.suffix}</p>
+          )}
         </div>
         <div>
-          <label className="block text-sm font-Gilroy font-medium text-gray-700">Preview</label>
+          <label className="block text-sm font-Gilroy font-medium">Preview</label>
           <input
-            className="border p-2 rounded-md w-full bg-gray-100"
+            className="border p-2 rounded-xl mt-4 w-full bg-gray-100 h-14"
             placeholder="Preview"
             value={`${prefix}${suffix}`}
             disabled
@@ -76,13 +111,14 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* Save Changes Button */}
+     
       <div className="mt-6 flex justify-end">
         <button onClick={handleSave} className="bg-lightgray text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium">
           Save changes
         </button>
       </div>
     </div>
+    
   );
 };
 

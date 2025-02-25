@@ -8,11 +8,12 @@ import Crypto from './Crypto/crypto';
 import CreateAccount from './Pages/AccountManagement/CreateAccount';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { decryptLogin } from './Crypto/Utils';
+import { decryptData } from './Crypto/Utils';
 import Cookies from 'universal-cookie';
 import { useDispatch} from 'react-redux';
 import LandingPage from './Component/LandingPage';
 import Settings from '../src/Settings/Settings';
+
 
 
 function App({ state ,isLogged_In}) {
@@ -25,7 +26,7 @@ function App({ state ,isLogged_In}) {
 
   useEffect(() => {
     if (Unity_Connect_Login) {
-      const decryptedData = decryptLogin(Unity_Connect_Login);
+      const decryptedData = decryptData(Unity_Connect_Login);
 
       console.log("Decrypted Data:", decryptedData);
 

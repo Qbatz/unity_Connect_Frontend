@@ -18,10 +18,11 @@ import UnityConnectImg from "../Icons/UnityConnectImg.svg";
 import ProfileIcon from "../Icons/ProfileIcon.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Members from "../Members/AddMemberForm";
-import { encryptLogin } from "../Crypto/Utils";
+import { encryptData } from "../Crypto/Utils";
 import { useDispatch } from 'react-redux';
 
-import Settings from '../Settings/Settings';
+import Settings from "../Settings/Settings";
+
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const Sidebar = () => {
 const handleLogout = () =>{
   dispatch({ type: 'LOGOUT'})
 
-  const encryptData = encryptLogin(JSON.stringify(false));
+  const encryptData = encryptData(JSON.stringify(false));
         localStorage.setItem("unity_connect_login", encryptData.toString());
 }
 
@@ -105,7 +106,7 @@ const handleLogout = () =>{
 
       <div className="flex-1 bg-gray-200">
         <div className="text-center">
-          <h2 className="text-2xl font-bold">{activeMenu}</h2>
+         
         </div>
 
         {activeMenu === "Dashboard" && (

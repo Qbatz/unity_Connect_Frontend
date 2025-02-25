@@ -5,7 +5,7 @@ import SignInBottom from "../../Icons/SignInBottom.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
 import { useDispatch, connect } from 'react-redux';
-import { encryptLogin } from "../../Crypto/Utils";
+import {encryptData  } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
 
@@ -32,7 +32,7 @@ const SignIn = ({ state }) => {
       const token = state.SignIn.JWTtoken
       const cookies = new Cookies()
       cookies.set('UnityConnectToken', token, { path: '/' });
-      const encryptData = encryptLogin(JSON.stringify(true));
+      const encryptData = encryptData(JSON.stringify(true));
       localStorage.setItem("unity_connect_login", encryptData.toString());
 
       setTimeout(() => {
