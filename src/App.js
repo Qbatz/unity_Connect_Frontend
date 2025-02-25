@@ -9,47 +9,90 @@ import CreateAccount from './Pages/AccountManagement/CreateAccount';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { decryptData } from './Crypto/Utils';
+import Cookies from 'universal-cookie';
+import { useDispatch} from 'react-redux';
 import LandingPage from './Component/LandingPage';
 import Settings from '../src/Settings/Settings';
-import Cookies from 'universal-cookie';
 
-function App({state}) {
 
+
+function App({ state ,isLogged_In}) {
+
+
+  const dispatch = useDispatch();
+  const cookies = new Cookies();
   const [success, setSuccess] = useState(null)
   const Unity_Connect_Login = localStorage.getItem("unity_connect_login");
 
   useEffect(() => {
     if (Unity_Connect_Login) {
       const decryptedData = decryptData(Unity_Connect_Login);
-      setSuccess(decryptedData)
+
+      console.log("Decrypted Data:", decryptedData);
+
+      setSuccess(decryptedData); 
+    } 
+  }, [Unity_Connect_Login]);
+
+
+
+  console.log("state", state)
+  console.log("isLogged_In",isLogged_In)
+  console.log("success",success)
+
+  
+
+  const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('Unity_ConnectToken_Access-Denied')));
+
+  useEffect(() => {
+    if (tokenAccessDenied == 206) {
+      dispatch({ type: 'LOGOUT' });
+      setSuccess(false);
+      cookies.set('Unity_ConnectToken_Access-Denied', null, { path: '/', expires: new Date(0) });
+      localStorage.clear();
+
     }
+  }, [tokenAccessDenied]);
 
-  }, [Unity_Connect_Login])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTokenAccessDenied(Number(cookies.get('Unity_ConnectToken_Access-Denied')));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
+  useEffect(() => {
+    if (!isLogged_In && !success) {
+                cookies.set('Unity_ConnectToken_Access-Denied', null, { path: '/', expires: new Date(0) });
+    }
+  }, [state.login?.isLoggedIn]);
+
+
+ 
   return (
     <div>
-      {/* <Settings/> */}
 
       <ToastContainer />
 
       <Router >
       
         <Routes>
-          {success || state.SignIn?.isLoggedIn ? (
+          {Boolean(success === true) || Boolean(isLogged_In === true) ? (
             <>
-              <Route path="/sidebar" element={<Sidebar />} />
+              <Route path="/" element={<Sidebar />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
-          ) : (
+          ) :  (
             <>
-              {/* <Route path="/" element={<CreateAccount />} /> */}
-              <Route path="/" element={<LandingPage />} />
+                         <Route path="/" element={<LandingPage />} />
               <Route path="/sign-in" element={<SignIn />} />
-              <Route path="/sidebar" element={<Sidebar />} />
-              <Route path="/create-account" element={<CreateAccount />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+                          <Route path="/create-account" element={<CreateAccount />} />
+                      <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
           )}
@@ -64,9 +107,10 @@ function App({state}) {
 }
 
 const mapsToProps = (stateInfo) => {
-  console.log(stateInfo)
+  console.log("stateInfo", stateInfo)
   return {
-    state: stateInfo.SignIn
+    state: stateInfo.SignIn,
+    isLogged_In: stateInfo.SignIn.isLoggedIn
   }
 }
 

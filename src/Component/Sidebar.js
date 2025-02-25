@@ -6,7 +6,6 @@ import MemberActive from "../Icons/MemberActive.svg";
 import Loan from "../Icons/Loan.svg";
 import LoanActive from "../Icons/LoanActive.svg";
 import Expenses from "../Icons/Expenses.svg";
-
 import ExpensesActive from "../Icons/ExpensesActive.svg";
 import Statements from "../Icons/Statements.svg";
 import StatementActive from "../Icons/StatementActive.svg";
@@ -19,11 +18,14 @@ import UnityConnectImg from "../Icons/UnityConnectImg.svg";
 import ProfileIcon from "../Icons/ProfileIcon.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Members from "../Members/AddMemberForm";
+import { encryptData } from "../Crypto/Utils";
+import { useDispatch } from 'react-redux';
+
 import Settings from "../Settings/Settings";
 
 
 const Sidebar = () => {
-
+  const dispatch = useDispatch();
   const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -37,7 +39,17 @@ const Sidebar = () => {
   };
 
 
+const handleLogout = () =>{
+  dispatch({ type: 'LOGOUT'})
+
+  const encryptData = encryptData(JSON.stringify(false));
+        localStorage.setItem("unity_connect_login", encryptData.toString());
+}
+
+
+
   return (
+    <>
     <div className="flex h-screen">
       <button
         className={`md:hidden fixed left-4 mt-1 z-50 bg-gray-800 text-white p-2 rounded transition-transform duration-300 ${isSidebarOpen ? 'translate-x-44 ' : 'mt-7'}`}
@@ -85,9 +97,14 @@ const Sidebar = () => {
             <p className="text-neutral-400 font-normal text-xs leading-tight">vikramkumar@gmail.com</p>
           </div>
         </div>
+
+
+        <div onClick={handleLogout}>
+          <label >Logout</label>
+        </div>
       </div>
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 bg-gray-200">
         <div className="text-center">
          
         </div>
@@ -136,6 +153,7 @@ const Sidebar = () => {
 
       </div>
     </div>
+    </>
   );
 };
 
