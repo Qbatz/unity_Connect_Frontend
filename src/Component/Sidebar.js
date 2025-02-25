@@ -1,14 +1,10 @@
 import { useState } from "react";
 import Dashboard from "../Icons/Dashboard.svg";
 import DashboardActive from "../Icons/DashboardActive.svg";
-import Subscription from "../Icons/Subscription.svg";
-import SubscriptionActive from "../Icons/SubscriptionActive.svg";
 import Member from "../Icons/Member.svg";
 import MemberActive from "../Icons/MemberActive.svg";
 import Loan from "../Icons/Loan.svg";
 import LoanActive from "../Icons/LoanActive.svg";
-import investment from "../Icons/Investments.svg";
-import investmentActive from "../Icons/Investments.svg";
 import Expenses from "../Icons/Expenses.svg";
 import ExpensesActive from "../Icons/ExpensesActive.svg";
 import Statements from "../Icons/Statements.svg";
@@ -21,11 +17,20 @@ import Star from "../Icons/Star.svg";
 import UnityConnectImg from "../Icons/UnityConnectImg.svg";
 import ProfileIcon from "../Icons/ProfileIcon.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
+import Members from "../Members/AddMemberForm";
+import { encryptData } from "../Crypto/Utils";
+import { useDispatch } from 'react-redux';
+import Logout from "../Icons/turn-off.png";
+
+import Settings from "../Settings/Settings";
+
 
 const Sidebar = () => {
-
+  const dispatch = useDispatch();
   const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+const [logoutformshow, setLogoutFormShow] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -37,7 +42,23 @@ const Sidebar = () => {
   };
 
 
+const handleLogout = () =>{
+  setLogoutFormShow(true);
+}
+
+
+  const handleCloseLogout = () => setLogoutFormShow(false);
+  
+const handleConfirmLogout = () =>{
+  dispatch({ type: 'LOGOUT'})
+
+  const encryptDataLogin = encryptData(JSON.stringify(false));
+        localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
+}
+
+
   return (
+    <>
     <div className="flex h-screen">
       <button
         className={`md:hidden fixed left-4 mt-1 z-50 bg-gray-800 text-white p-2 rounded transition-transform duration-300 ${isSidebarOpen ? 'translate-x-44 ' : 'mt-7'}`}
@@ -57,10 +78,8 @@ const Sidebar = () => {
         <ul className="flex-1">
           {[
             { name: "Dashboard", icon: Dashboard, activeIcon: DashboardActive },
-            { name: "Subscription", icon: Subscription, activeIcon: SubscriptionActive },
             { name: "Members", icon: Member, activeIcon: MemberActive },
             { name: "Loan", icon: Loan, activeIcon: LoanActive },
-            { name: "Investments", icon: investment, activeIcon: investmentActive },
             { name: "Expenses", icon: Expenses, activeIcon: ExpensesActive },
             { name: "Statements", icon: Statements, activeIcon: StatementActive },
             { name: "Reports", icon: Reports, activeIcon: ReportsActive },
@@ -87,11 +106,20 @@ const Sidebar = () => {
             <p className="text-neutral-400 font-normal text-xs leading-tight">vikramkumar@gmail.com</p>
           </div>
         </div>
+
+
+        <div className="flex items-center justify-center mb-2" >
+        <img onClick={handleLogout}
+                    src={Logout}
+                    alt="Logout Icon"
+                    style={{ width: 24, height: 24 }}
+                  />
+        </div>
       </div>
 
-      <div className="flex-1 p-6 bg-gray-100">
+      <div className="flex-1 bg-gray-200">
         <div className="text-center">
-          <h2 className="text-2xl font-bold">{activeMenu}</h2>
+         
         </div>
 
         {activeMenu === "Dashboard" && (
@@ -100,27 +128,15 @@ const Sidebar = () => {
           </div>
         )}
 
-        {activeMenu === "Subscription" && (
-          <div className="bg-white mt-2">
-            {/* <Subscription /> */}
-          </div>
-        )}
-
         {activeMenu === "Members" && (
           <div className="bg-white mt-2">
-            {/* <Members /> */}
+            <Members />
           </div>
         )}
 
         {activeMenu === "Loan" && (
           <div className="bg-white mt-2">
             {/* <Loan /> */}
-          </div>
-        )}
-
-        {activeMenu === "Investments" && (
-          <div className="bg-white mt-2">
-            {/* <Investments /> */}
           </div>
         )}
 
@@ -144,12 +160,65 @@ const Sidebar = () => {
 
         {activeMenu === "Settings" && (
           <div className="bg-white mt-2">
-            {/* <Settings /> */}
+            <Settings />
           </div>
         )}
 
       </div>
     </div>
+
+
+
+
+    <div
+      className={`fixed inset-0 flex items-center justify-center ${
+        logoutformshow ? "visible" : "hidden"
+      } bg-black bg-opacity-50`}
+    >
+      <div className="bg-white rounded-lg shadow-lg w-[388px] h-[200px] p-6">
+   
+        <div className="flex justify-center border-b-0">
+          <h2 className="text-[18px] font-semibold text-[#222222] text-center flex-1">
+            Logout?
+          </h2>
+        </div>
+
+   
+        <div className="text-center text-[14px] text-[#646464] font-medium mt-[20px]">
+          Are you sure you want to Logout?
+        </div>
+
+    
+        <div className="flex justify-center border-t-0 mt-[10px] space-x-4">
+          <button
+            className="w-[160px] h-[52px] rounded-lg border border-[#7F00FF] text-[#7F00FF] font-semibold text-[14px] bg-white"
+            onClick={handleCloseLogout}
+          >
+            Cancel
+          </button>
+          <button
+            className="w-[160px] h-[52px] rounded-lg bg-[#7F00FF] text-white font-semibold text-[14px]"
+            onClick={handleConfirmLogout}
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </>
   );
 };
 

@@ -31,7 +31,7 @@ function* CreateAccountPage(action) {
             console.log("Success Response:", response.data);
         yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode} });
   
-        toast.success('created successfully', {
+        toast.success(response.message ||'created successfully', {
           position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: true,
@@ -60,9 +60,7 @@ function* CreateAccountPage(action) {
   
     
       }
-      if(response){
-        refreshToken(response)
-     }
+     
     } catch (error) {
       console.log("error", error);
     }
@@ -70,20 +68,7 @@ function* CreateAccountPage(action) {
 
 
 
-  function refreshToken(response){
-    if(response.data && response.data.refresh_token){
-       const refreshTokenGet = response.data.refresh_token
-       const cookies = new Cookies()
-       cookies.set('token', refreshTokenGet, { path: '/' });
-    }else if (response.status === 206) {
-      const message = response.status
-      const cookies = new Cookies()
-      
-      cookies.set('access-denied', message, { path: '/' });
-    
-   }
-    
-    }
+  
     function* CreateAccountSaga() {
         yield takeEvery('CREATE_ACCOUNT', CreateAccountPage)
       
