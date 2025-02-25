@@ -82,18 +82,16 @@ function App({ state ,isLogged_In}) {
           {Boolean(success === true) || Boolean(isLogged_In === true) ? (
             <>
               <Route path="/" element={<Sidebar />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
           ) :  (
             <>
-              {/* <Route path="/" element={<CreateAccount />} /> */}
-              <Route path="/" element={<LandingPage />} />
+                         <Route path="/" element={<LandingPage />} />
               <Route path="/sign-in" element={<SignIn />} />
-              <Route path="/sidebar" element={<Sidebar />} />
-              <Route path="/create-account" element={<CreateAccount />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+                          <Route path="/create-account" element={<CreateAccount />} />
+                      <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
           )}

@@ -18,7 +18,7 @@ function AddMemberForm() {
     const validateForm = (data) => {
         let newErrors = {};
         if (!data.memberId) newErrors.memberId = "Member ID is required";
-        if (!data.userName) newErrors.userName = "User Name is required";
+        if (!data.user_name) newErrors.userName = "User Name is required";
         if (!data.email) newErrors.email = "Email Address is required";
         if (!data.joiningDate) newErrors.joiningDate = "Joining Date is required";
         if (!data.mobile) newErrors.mobile = "Mobile No. is required";
@@ -36,7 +36,7 @@ function AddMemberForm() {
         event.preventDefault();
         const formData = {
             memberId: event.target.memberId.value,
-            userName: event.target.userName.value,
+            user_name: event.target.userName.value,
             email: event.target.email.value,
             joiningDate: event.target.joiningDate.value,
             mobile: event.target.mobile.value,

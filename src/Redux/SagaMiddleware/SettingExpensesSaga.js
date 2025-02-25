@@ -56,12 +56,12 @@ function* SettingAddExpensesPage(action) {
     if(response.data && response.data.refresh_token){
        const refreshTokenGet = response.data.refresh_token
        const cookies = new Cookies()
-       cookies.set('token', refreshTokenGet, { path: '/' });
+       cookies.set('UnityConnectToken', refreshTokenGet, { path: '/' });
     }else if (response.status === 206) {
       const message = response.status
       const cookies = new Cookies()
       
-      cookies.set('access-denied', message, { path: '/' });
+      cookies.set('Unity_ConnectToken_Access-Denied', message, { path: '/' });
     
    }
     

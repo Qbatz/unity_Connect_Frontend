@@ -31,7 +31,7 @@ const SignIn = ({ state }) => {
 
       const token = state.SignIn.JWTtoken
       const cookies = new Cookies()
-      cookies.set('UnityTokenToken', token, { path: '/' });
+      cookies.set('UnityConnectToken', token, { path: '/' });
       const encryptData = encryptLogin(JSON.stringify(true));
       localStorage.setItem("unity_connect_login", encryptData.toString());
 
