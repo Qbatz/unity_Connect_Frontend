@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from "./Component/Sidebar";
 import SignIn from "./Pages/AccountManagement/SignIn";
-import Crypto from './Crypto/crypto';
 import CreateAccount from './Pages/AccountManagement/CreateAccount';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -93,7 +92,7 @@ function App({ state, isLogged_In }) {
         </Routes>
       </Router>
 
-      <Crypto />
+    
 
 
 
@@ -103,8 +102,7 @@ function App({ state, isLogged_In }) {
 }
 
 const mapsToProps = (stateInfo) => {
-  console.log("stateInfo", stateInfo)
-  return {
+   return {
     state: stateInfo.SignIn,
     isLogged_In: stateInfo.SignIn.isLoggedIn
   }
