@@ -8,6 +8,7 @@ import WhyUnityConnect from "./WhyUnityConnect";
 import FAQSection from "./FAQSection";
 import GetStarted from "./GetStarted";
 import Footer from "./Footer";
+
 function LandingPage(){
     return(
         <>
