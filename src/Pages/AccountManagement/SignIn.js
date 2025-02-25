@@ -26,18 +26,15 @@ const SignIn = ({ state }) => {
 
   useEffect(() => {
     if (state.SignIn.signinsuccessstatuscode === 200) {
-
       dispatch({ type: "SIGNIN-SUCCESS" });
-
       const token = state.SignIn.JWTtoken
       const cookies = new Cookies()
       cookies.set('UnityConnectToken', token, { path: '/' });
-      const encryptData = encryptData(JSON.stringify(true));
-      localStorage.setItem("unity_connect_login", encryptData.toString());
-
+      const encryptDataLogin = encryptData(JSON.stringify(true));
+      localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
       setTimeout(() => {
         dispatch({ type: 'REMOVE_LOGIN_STATUS_CODE' })
-      }, 1000)
+      }, 100)
     }
   }, [state.SignIn.signinsuccessstatuscode]);
 

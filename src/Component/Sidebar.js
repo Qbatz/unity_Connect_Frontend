@@ -42,8 +42,8 @@ const Sidebar = () => {
 const handleLogout = () =>{
   dispatch({ type: 'LOGOUT'})
 
-  const encryptData = encryptData(JSON.stringify(false));
-        localStorage.setItem("unity_connect_login", encryptData.toString());
+  const encryptDataLogin = encryptData(JSON.stringify(false));
+        localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
 }
 
 
