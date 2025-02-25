@@ -67,12 +67,9 @@ const initialState = {
                    case 'CLEAR_PASSWORD_DOESNT_ERROR':
                       return{...state, passwordDoesnotMatchError:''}
 
-                      
+               default: 
+                  return state; 
                 }
 
-
-                
- 
-    return state
  }
  export default CreateAccountReducer;

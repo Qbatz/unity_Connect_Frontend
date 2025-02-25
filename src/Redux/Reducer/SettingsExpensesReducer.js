@@ -18,10 +18,10 @@ const initialState = {
            case 'CLEARSETTINGADDEXPENSES':
            return{ ...state, statusCodeSettingsAddExpenses:0
                 }
+
+            default:
+                return state
             }
 
-                
- 
-    return state
  }
  export default SettingAddExpensesReducer;

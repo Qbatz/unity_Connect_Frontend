@@ -41,6 +41,7 @@ function LoanSetting() {
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-semibold">Add new loan</h2>
                             <img 
+                            alt="Close Circle icon"
                                 src={CloseCircleIcon} 
                                 onClick={() => setIsModalOpen(false)} 
                                 className="w-32 h-32 cursor-pointer"

@@ -21,9 +21,9 @@ const initialState = {
           return { ...state, LoanIDprefix: action.payload.prefix, LoanIDsuffix: action.payload.suffix, statusCodeLoanID:action.payload.statusCode}
           case 'CLEAR_STATUS_CODE_LOAN_ID':
              return {...state, statusCodeLoanID:0}  
-     
+         default:
+            return state;
 }
 
-return state
  }
  export default SettingReducer;
