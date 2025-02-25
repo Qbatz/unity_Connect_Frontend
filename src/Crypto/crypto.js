@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { encryptPassword, decryptPassword } from "../Crypto/Utils"; 
+import { encryptData, decryptData } from "../Crypto/Utils"; 
 
 function CryptoComponent() {
   const password = "Mathu@1995";
@@ -7,10 +7,10 @@ function CryptoComponent() {
   const [decryptedPassword, setDecryptedPassword] = useState("");
 
   useEffect(() => {
-    const encrypted = encryptPassword(password); 
+    const encrypted = encryptData(password); 
     setEncryptedPassword(encrypted);
 
-    const decryptedPass = decryptPassword(encrypted); 
+    const decryptedPass = decryptData(encrypted); 
     setDecryptedPassword(decryptedPass);
   }, [password]);
 

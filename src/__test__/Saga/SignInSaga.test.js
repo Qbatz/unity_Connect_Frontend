@@ -46,12 +46,9 @@ describe('SignIn Saga', () => {
             mockAction
         ).toPromise();
 
-        expect(dispatchedActions).toContainEqual({
+        expect(dispatchedActions[0]).toStrictEqual({
             type: "SIGNIN-INFO",
-            payload: {
-                response: mockResponse.data,
-                statusCode: 200,
-            }
+            payload: mockResponse.data
         })
 
     })
