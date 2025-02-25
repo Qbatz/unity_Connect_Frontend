@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
@@ -19,7 +20,6 @@ import PropTypes from 'prop-types';
 function App({ isLogged_In }) {
   const dispatch = useDispatch();
   const cookies = new Cookies();
-  const [name, setName] = useState()
   const [success, setSuccess] = useState(null)
   const [unityLogin, setUnityLogin] = useState(localStorage.getItem("unity_connect_login"));
 
@@ -44,7 +44,7 @@ function App({ isLogged_In }) {
   const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('Unity_ConnectToken_Access-Denied')));
 
   useEffect(() => {
-    if (tokenAccessDenied == 206) {
+    if (tokenAccessDenied === 206) {
       dispatch({ type: 'LOGOUT' });
       setSuccess(false);
       cookies.set('Unity_ConnectToken_Access-Denied', null, { path: '/', expires: new Date(0) });
