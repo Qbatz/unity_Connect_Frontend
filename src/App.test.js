@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 import configureStore from 'redux-mock-store';
-import { Provider, useSelector } from "react-redux";
-import SignIn from './Pages/AccountManagement/SignIn';
+import { Provider } from "react-redux";
 import { encryptData, decryptData } from './Crypto/Utils';
 
 jest.mock('./Crypto/Utils', () => ({

@@ -13,6 +13,7 @@ import Cookies from 'universal-cookie';
 import { useDispatch } from 'react-redux';
 import LandingPage from './Component/LandingPage';
 import Settings from '../src/Settings/Settings';
+import PropTypes from 'prop-types';
 
 
 
@@ -105,5 +106,9 @@ const mapsToProps = (stateInfo) => {
     isLogged_In: stateInfo.SignIn.isLoggedIn
   }
 }
+
+App.propTypes = {
+  isLogged_In: PropTypes.bool.isRequired, 
+};
 
 export default connect(mapsToProps)(App);
