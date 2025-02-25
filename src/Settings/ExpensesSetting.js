@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState,useEffect } from "react";
 import ExpensesIcon from "../Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../Icons/ThreeDotMore.svg";
