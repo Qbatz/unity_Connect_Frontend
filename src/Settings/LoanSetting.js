@@ -182,7 +182,7 @@ function LoanSetting() {
             <div className="mt-10 w-350 h-170 border border-[#E7E7E7] bg-#F4F7FF flex flex-col rounded-3xl">
         <div className="flex items-center px-4 py-4">
           <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
-          <p className="text-darkGray text-base font-semibold leading-[19.09px] ml-2" font-Gilroy>
+          <p className="text-darkGray text-base font-semibold leading-[19.09px] ml-2 font-Gilroy" >
             Category Name
           </p>
           <div className="flex-grow"></div>
