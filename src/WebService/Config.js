@@ -1,5 +1,5 @@
 const config = {
-    apiBaseUrl:"https://unityconnectdevapi.s3remotica.com/api",
+    apiBaseUrl:"http://localhost:2020/api",
 };
 
 export default config;
