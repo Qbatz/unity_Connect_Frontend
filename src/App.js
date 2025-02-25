@@ -16,9 +16,7 @@ import Settings from '../src/Settings/Settings';
 
 
 
-function App({ state, isLogged_In }) {
-
-
+function App({ isLogged_In }) {
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const [success, setSuccess] = useState(null)
@@ -104,7 +102,6 @@ function App({ state, isLogged_In }) {
 
 const mapsToProps = (stateInfo) => {
   return {
-    state: stateInfo.SignIn,
     isLogged_In: stateInfo.SignIn.isLoggedIn
   }
 }

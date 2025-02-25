@@ -37,7 +37,8 @@ export default [
       "jest/no-identical-title": "error",
       "jest/prefer-to-have-length": "warn",
       "jest/valid-expect": "error",
-       "react/react-in-jsx-scope": "off"
+       "react/react-in-jsx-scope": "off",
+       "react/prop-types": "off"
     }
   }
 ];
