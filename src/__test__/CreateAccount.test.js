@@ -157,8 +157,7 @@ describe('checks for Create account', () => {
         userEvent.click(buttonSHowConfirmPassword)
         userEvent.click(buttonShowPassword)
         userEvent.click(buttonSubmit)
-
-        screen.debug()
+        
         expect(screen.getByTestId('email-error')).toBeInTheDocument()
     })
 
