@@ -67,7 +67,7 @@ function App({ state, isLogged_In }) {
 
 
   return (
-    <div>
+    <div data-testid="parent">
 
       <ToastContainer />
 
@@ -103,7 +103,6 @@ function App({ state, isLogged_In }) {
 }
 
 const mapsToProps = (stateInfo) => {
-  console.log("stateInfo", stateInfo)
   return {
     state: stateInfo.SignIn,
     isLogged_In: stateInfo.SignIn.isLoggedIn

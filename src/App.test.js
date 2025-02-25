@@ -3,12 +3,11 @@ import App from './App';
 import configureStore from 'redux-mock-store';
 import { Provider, useSelector } from "react-redux";
 import SignIn from './Pages/AccountManagement/SignIn';
-import { decryptLogin, encryptPassword, decryptPassword } from './Crypto/Utils';
+import { encryptData, decryptData } from './Crypto/Utils';
 
 jest.mock('./Crypto/Utils', () => ({
-  decryptLogin: jest.fn(),
-  encryptPassword: jest.fn(),
-  decryptPassword: jest.fn()
+  encryptData: jest.fn(),
+  decryptData: jest.fn()
 }))
 test('renders learn react link', () => {
   const mockStore = configureStore()
@@ -25,13 +24,13 @@ test('renders learn react link', () => {
   render(<Provider store={store}>
     <App />
   </Provider>);
-  const linkElement = screen.getByTestId("container");
+  const linkElement = screen.getByTestId("parent");
   expect(linkElement).toBeInTheDocument();
 });
 
 test('renders when user is not logged id', () => {
-  decryptLogin.mockReturnValue('true');
-  decryptPassword.mockReturnValue('abcd')
+  decryptData.mockReturnValue('true');
+  encryptData.mockReturnValue('abcd')
   const mockStore = configureStore()
   const store = mockStore({
     SignIn: {
@@ -47,6 +46,6 @@ test('renders when user is not logged id', () => {
   render(<Provider store={store}>
     <App />
   </Provider>);
-  const linkElement = screen.getByTestId("container");
+  const linkElement = screen.getByTestId("parent");
   expect(linkElement).toBeInTheDocument();
 })
