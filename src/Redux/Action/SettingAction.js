@@ -1,15 +1,14 @@
-import axios from 'axios'; 
-import config from '../../WebService/Config';
+import AxiosConfig from '../../WebService/AxiosConfig';
 
 export async function SettingMemberIDAction(datum) {
-    return await axios.post(`${config.apiBaseUrl}/member_id/add_new_member_id`,datum,{
+    return await AxiosConfig.post('/member_id/add_new_member_id',datum,{
 
         data:datum  
     });
 }
 
 export async function SettingLoanIDAction(loan) {
-    return await axios.post(`${config.apiBaseUrl}/loan/add_new_loan_id`,loan,{
+    return await AxiosConfig.post('/loan/add_new_loan_id',loan,{
 
      data:loan  
     });
@@ -17,7 +16,7 @@ export async function SettingLoanIDAction(loan) {
 
 
 export async function SettingAddExpenses(datum) {
-    return await axios.post(`${config.apiBaseUrl}/expense/add_ecpense_category`,datum,{
+    return await AxiosConfig.post('/expense/add_ecpense_category',datum,{
         data:datum  
     });
 }

@@ -116,7 +116,7 @@ const handleConfirmLogout = () =>{
         </div>
       </div>
 
-      <div className="flex-1 bg-gray-200">
+      <div className="flex-1">
         <div className="text-center">
          
         </div>
@@ -128,7 +128,7 @@ const handleConfirmLogout = () =>{
         )}
 
         {activeMenu === "Members" && (
-          <div className="bg-white mt-2">
+          <div className="bg-white mt-2 p-6">
             <Members />
           </div>
         )}
@@ -158,7 +158,7 @@ const handleConfirmLogout = () =>{
         )}
 
         {activeMenu === "Settings" && (
-          <div className="bg-white mt-2">
+          <div className="bg-white mt-2 p-6">
             <Settings />
           </div>
         )}

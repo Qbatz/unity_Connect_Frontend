@@ -388,10 +388,10 @@ const handleSubmit =  (e) => {
 
         {/* Right Section - Images */}
         <div className="flex flex-col items-center  gap-0">
-          <img src={Create1} className="w-96 h-[330px] block" alt="Illustration 1" />
+          <img src={Create1} className="w-full h-[330px] block" alt="Illustration 1" />
           <img
             src={Create2}
-            className="w-96 h-[300px] block ml-[210px] -mt-[25px]"
+            className="w-full h-[300px] block ml-[206px] -mt-[25px]"
             alt="Illustration 2"
           />
         </div>

@@ -1,13 +1,12 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { CreateAccountAction} from '../Action/CreateAccountAction';
-import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 
 function* CreateAccountPage(action) {
-    try {
+    
       const response = yield call(CreateAccountAction, action.payload);
     
 
@@ -28,10 +27,10 @@ function* CreateAccountPage(action) {
       };
      
         if (response.status === 200 || response.statusCode === 200) {
-            console.log("Success Response:", response.data);
+          
         yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode} });
   
-        toast.success(response.message ||'created successfully', {
+        toast.success(response.message ,{
           position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: true,
@@ -61,9 +60,7 @@ function* CreateAccountPage(action) {
     
       }
      
-    } catch (error) {
-      console.log("error", error);
-    }
+    
   }
 
 
