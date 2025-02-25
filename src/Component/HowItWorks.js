@@ -1,7 +1,6 @@
 import React from "react";
 import HowItWorksImage from "../Icons/HowItWorksTw.svg";
 import PurpleDot from "../Icons/PurpleDot.svg";
-import Line from "../Icons/Line 10.svg";
 
 const HowItWorks = () => {
   return (

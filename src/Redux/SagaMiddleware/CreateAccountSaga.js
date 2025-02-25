@@ -1,6 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { CreateAccountAction} from '../Action/CreateAccountAction';
-import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

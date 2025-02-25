@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, connect } from "react-redux";
+import PropTypes from 'prop-types';
 
 function LoanID({ state }) {
   const dispatch = useDispatch();
@@ -137,4 +138,7 @@ const mapsToProps = (stateInfo) => {
   };
 };
 
+LoanID.propTypes = {
+  state: PropTypes.object
+}
 export default connect(mapsToProps)(LoanID);

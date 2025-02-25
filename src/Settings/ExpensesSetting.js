@@ -11,7 +11,7 @@ function ExpensesSetting() {
   console.log("STateL:,",state);
   
   const[categoryName,setCategoryName]=useState('');
-  const[subCategoryName,setSubCategoryName]=useState('');
+  const[subCategoryName]=useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubCategory, setIsSubCategory] = useState(false);
 
@@ -36,12 +36,6 @@ function ExpensesSetting() {
     const handlecategoryName = (e) => {
       setCategoryName(e.target.value);
     };
-
-    
-    const handlesubCategoryName = (e) => {
-      setSubCategoryName(e.target.value);
-    };
-
 
     useEffect(() => {
       if (state.SettingAddExpenses.statusCode === 200) {
