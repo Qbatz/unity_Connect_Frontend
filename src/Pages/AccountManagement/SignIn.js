@@ -23,7 +23,6 @@ const SignIn = ({ state }) => {
  
   const dispatch = useDispatch();
 
-console.log("state.SignIn.signinsuccessstatuscode",state.SignIn.signinsuccessstatuscode)
   useEffect(() => {
     if (state.SignIn.signinsuccessstatuscode === 200) {
       dispatch({ type: "SIGNIN-SUCCESS" });
