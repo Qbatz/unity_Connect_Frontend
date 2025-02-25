@@ -5,16 +5,17 @@ import SignInBottom from "../../Icons/SignInBottom.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
 import { useDispatch, connect } from 'react-redux';
-import {encryptLogin  } from "../../Crypto/Utils";
+import {encryptData  } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 
 
-const SignIn = ({state}) => {
+const SignIn = ({ state }) => {
 
   const navigate = useNavigate();
 
-      
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -24,14 +25,19 @@ const SignIn = ({state}) => {
 
 
   useEffect(() => {
-    if (state.SignIn.statusCode === 200) {
+    if (state.SignIn.signinsuccessstatuscode === 200) {
       dispatch({ type: "SIGNIN-SUCCESS" });
-
-      const encryptData = encryptLogin(JSON.stringify(true));
-      localStorage.setItem("unity_connect_login", encryptData.toString());
-
+      const token = state.SignIn.JWTtoken
+      const cookies = new Cookies()
+      cookies.set('UnityConnectToken', token, { path: '/' });
+      const encryptDataLogin = encryptData(JSON.stringify(true));
+      localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_LOGIN_STATUS_CODE' })
+      }, 100)
     }
-  }, [state.SignIn.statusCode]);
+  }, [state.SignIn.signinsuccessstatuscode]);
+
 
   useEffect(() => {
     if (email || password) {
@@ -78,26 +84,26 @@ const SignIn = ({state}) => {
     setErrors((prev) => ({ ...prev, password: "" }));
   };
 
- 
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      navigate("/sidebar"); 
+      navigate("/sidebar");
     }
   };
 
-  // const LandingNavigates = useNavigate();
-  // const handleLogoClicks = () => {
-  //   LandingNavigates("/All_Landing_pages");
-  // };
+  const LandingNavigates = useNavigate();
+  const handleLogoClicks = () => {
+    LandingNavigates("/LandingPage");
+  };
 
   return (
     <div className="flex flex-col md:flex-row h-screen sm:overflow-auto md:overflow-hidden">
       <div className="flex flex-col justify-center md:w-1/2 p-6 md:p-16 container mx-auto">
         <div className="mb-3">
           <img src={UnityConnectImg}
-          //  onClick={handleLogoClicks}
+             onClick={handleLogoClicks}
             alt="Illustration" />
         </div>
         <h1 className="text-black font-Gilroy text-2xl font-semibold leading-normal mb-2">Welcome back!</h1>
@@ -190,7 +196,7 @@ const SignIn = ({state}) => {
 
         <p className="mt-3 font-Gilroy font-normal text-base leading-5 tracking-normal ml-1">
           Don’t have an account?{" "}
-          <a href="#" onClick={() => navigate("/create-account")} className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
+          <a href="#" onClick={() => navigate("/createaccount")} className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
             Create an account
           </a>
         </p>
@@ -210,5 +216,5 @@ const mapsToProps = (stateInfo) => {
   }
 }
 
-export default connect(mapsToProps)(SignIn);   
+export default connect(mapsToProps)(SignIn);
 

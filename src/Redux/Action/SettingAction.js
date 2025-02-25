@@ -14,3 +14,10 @@ export async function SettingLoanIDAction(loan) {
      data:loan  
     });
 }
+
+
+export async function SettingAddExpenses(datum) {
+    return await axios.post(`${config.apiBaseUrl}/expense/add_ecpense_category`,datum,{
+        data:datum  
+    });
+}
