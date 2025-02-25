@@ -20,6 +20,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import Members from "../Members/AddMemberForm";
 import { encryptData } from "../Crypto/Utils";
 import { useDispatch } from 'react-redux';
+import Logout from "../Icons/turn-off.png";
 
 import Settings from "../Settings/Settings";
 
@@ -28,6 +29,8 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+const [logoutformshow, setLogoutFormShow] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -40,12 +43,18 @@ const Sidebar = () => {
 
 
 const handleLogout = () =>{
+  setLogoutFormShow(true);
+}
+
+
+  const handleCloseLogout = () => setLogoutFormShow(false);
+  
+const handleConfirmLogout = () =>{
   dispatch({ type: 'LOGOUT'})
 
   const encryptDataLogin = encryptData(JSON.stringify(false));
         localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
 }
-
 
 
   return (
@@ -99,8 +108,12 @@ const handleLogout = () =>{
         </div>
 
 
-        <div onClick={handleLogout}>
-          <label >Logout</label>
+        <div className="flex items-center justify-center mb-2" >
+        <img onClick={handleLogout}
+                    src={Logout}
+                    alt="Logout Icon"
+                    style={{ width: 24, height: 24 }}
+                  />
         </div>
       </div>
 
@@ -153,6 +166,58 @@ const handleLogout = () =>{
 
       </div>
     </div>
+
+
+
+
+    <div
+      className={`fixed inset-0 flex items-center justify-center ${
+        logoutformshow ? "visible" : "hidden"
+      } bg-black bg-opacity-50`}
+    >
+      <div className="bg-white rounded-lg shadow-lg w-[388px] h-[200px] p-6">
+   
+        <div className="flex justify-center border-b-0">
+          <h2 className="text-[18px] font-semibold text-[#222222] text-center flex-1">
+            Logout?
+          </h2>
+        </div>
+
+   
+        <div className="text-center text-[14px] text-[#646464] font-medium mt-[20px]">
+          Are you sure you want to Logout?
+        </div>
+
+    
+        <div className="flex justify-center border-t-0 mt-[10px] space-x-4">
+          <button
+            className="w-[160px] h-[52px] rounded-lg border border-[#7F00FF] text-[#7F00FF] font-semibold text-[14px] bg-white"
+            onClick={handleCloseLogout}
+          >
+            Cancel
+          </button>
+          <button
+            className="w-[160px] h-[52px] rounded-lg bg-[#7F00FF] text-white font-semibold text-[14px]"
+            onClick={handleConfirmLogout}
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
     </>
   );
 };
