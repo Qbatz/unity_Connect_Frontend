@@ -42,11 +42,8 @@ export default [
       "jest/valid-expect": "error",
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
-      "react-hooks/exhaustive-deps": "off",
       "eqeqeq": "error",
-      "react-hooks/exhaustive-deps": "warn",
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
     }
   }
 ];
