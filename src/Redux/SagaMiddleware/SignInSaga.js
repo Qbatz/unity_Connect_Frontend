@@ -1,7 +1,6 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { SignIncall } from '../Action/SignInAction';
 import { toast } from 'react-toastify';
-import Cookies from 'universal-cookie';
 
 export function* SignIn(action) {
     try {
@@ -29,6 +28,7 @@ export function* SignIn(action) {
                 type: 'SIGNIN-INFO',
                 payload: {
                    token: response.data.token,
+                   message: response.data.message,
                     statusCode: response.status || response.statusCode
                 }
             });

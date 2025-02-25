@@ -52,8 +52,7 @@ function ExpensesSetting() {
         const token = state.SettingAddExpenses.JWTtoken
         const cookies = new Cookies()
         cookies.set('token', token, { path: '/' });
-        const tokenCookies = cookies.get('token');
-  
+        
         setTimeout(() => {
           dispatch({ type: 'CLEAR_STATUSCODE' });
         }, 100);

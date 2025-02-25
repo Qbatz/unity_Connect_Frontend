@@ -12,12 +12,11 @@ import Cookies from 'universal-cookie';
 import { useDispatch } from 'react-redux';
 import LandingPage from './Component/LandingPage';
 import Settings from '../src/Settings/Settings';
+import PropTypes from 'prop-types';
 
 
 
-function App({ state, isLogged_In }) {
-
-
+function App({ isLogged_In }) {
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const [success, setSuccess] = useState(null)
@@ -66,7 +65,7 @@ function App({ state, isLogged_In }) {
 
 
   return (
-    <div>
+    <div data-testid="parent">
 
       <ToastContainer />
 
@@ -102,10 +101,13 @@ function App({ state, isLogged_In }) {
 }
 
 const mapsToProps = (stateInfo) => {
-   return {
-    state: stateInfo.SignIn,
+  return {
     isLogged_In: stateInfo.SignIn.isLoggedIn
   }
 }
+
+App.propTypes = {
+  isLogged_In: PropTypes.bool.isRequired, 
+};
 
 export default connect(mapsToProps)(App);

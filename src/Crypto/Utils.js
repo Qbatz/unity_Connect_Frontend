@@ -7,6 +7,7 @@ export const encryptData = (data) => {
   if (data) {
     return CryptoJS.AES.encrypt(data, secretKey).toString();
   }
+  return "Invalid Data"
  
 };
 
@@ -17,4 +18,5 @@ export const decryptData = (encryptedData) => {
     return decrypted.toString(CryptoJS.enc.Utf8);
   }
  
+  return "Invalid Data"
 };

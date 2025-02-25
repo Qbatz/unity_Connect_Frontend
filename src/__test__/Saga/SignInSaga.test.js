@@ -1,8 +1,6 @@
 import { runSaga } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
-import SignInSaga, { SignIn } from '../../Redux/SagaMiddleware/SignInSaga';
+import { SignIn } from '../../Redux/SagaMiddleware/SignInSaga';
 import { SignIncall } from '../../Redux/Action/SignInAction';
-import { toast } from 'react-toastify';
 
 
 jest.mock('react-toastify', () => ({
@@ -19,7 +17,7 @@ jest.mock('../../Redux/Action/SignInAction', () => ({
 describe('SignIn Saga', () => {
     const mockAction = { type: 'SIGNININFO', payload: { email: 'abcd@example.com', password: 'abcd123' } };
    
-    it.only('it should return the signIn success', async () => {
+    it('it should return the signIn success', async () => {
 
         const mockResponse = {
             status: 200,
@@ -46,12 +44,9 @@ describe('SignIn Saga', () => {
             mockAction
         ).toPromise();
 
-        expect(dispatchedActions).toContainEqual({
+        expect(dispatchedActions[0]).toStrictEqual({
             type: "SIGNIN-INFO",
-            payload: {
-                response: mockResponse.data,
-                statusCode: 200,
-            }
+            payload: mockResponse.data
         })
 
     })
