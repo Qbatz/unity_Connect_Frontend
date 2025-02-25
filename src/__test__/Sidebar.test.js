@@ -89,7 +89,7 @@ describe('render and check sidebar functionalities', () => {
         
     })
 
-    it('it should UI and select loan, expense and statements', () => {
+    it('it should UI and select reports and settings', () => {
         render(<Provider store={store}>
             <Sidebar />
         </Provider>)
