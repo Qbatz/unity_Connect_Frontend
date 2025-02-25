@@ -1,131 +1,178 @@
-import React, { useState } from "react";
-import { MdError } from "react-icons/md";
-import { IoCloseCircle } from "react-icons/io5";
-import { FiPlus } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { MdClose, MdError } from "react-icons/md";
+import { AiOutlinePlus } from 'react-icons/ai';
 import { useDispatch } from "react-redux";
+import { connect } from 'react-redux';
 
 
+function AddMemberModal({ state }) {
 
-
-function AddMemberForm() {
 
     const dispatch = useDispatch();
 
     const [isOpen, setIsOpen] = useState(true);
+    const [memberId, setMemberId] = useState("");
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [joiningDate, setJoiningDate] = useState("");
+    const [mobileNo, setMobileNo] = useState("");
+    const [address, setAddress] = useState("");
+    const [document, setDocument] = useState("");
     const [errors, setErrors] = useState({});
-    const [file, setFile] = useState(null);
 
-    const validateForm = (data) => {
-        let newErrors = {};
-        if (!data.memberId) newErrors.memberId = "Member ID is required";
-        if (!data.user_name) newErrors.userName = "User Name is required";
-        if (!data.email) newErrors.email = "Email Address is required";
-        if (!data.joiningDate) newErrors.joiningDate = "Joining Date is required";
-        if (!data.mobile) newErrors.mobile = "Mobile No. is required";
-        if (!data.subscriber) newErrors.subscriber = "Subscriber status is required";
-        if (!data.address) newErrors.address = "Address is required";
-        if (!file) newErrors.file = "Document upload is required";
-        return newErrors;
-    };
+    useEffect(() => {
+        if (state.addMember.statusCodeForAddUser === 200) {
 
-    const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
-    };
+            setMemberId("");
+            setUserName("");
+            setEmail("");
+            setJoiningDate("");
+            setMobileNo("");
+            setAddress("");
+            setDocument("");
+            setErrors("");
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const formData = {
-            memberId: event.target.memberId.value,
-            user_name: event.target.userName.value,
-            email: event.target.email.value,
-            joiningDate: event.target.joiningDate.value,
-            mobile: event.target.mobile.value,
-            subscriber: event.target.subscriber.value,
-            address: event.target.address.value,
-        };
-        dispatch({ type: "MEMBERINFO", payload: formData });
-        const validationErrors = validateForm(formData);
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-        } else {
-            console.log("Member added successfully");
-            setErrors({});
+            dispatch({ type: 'CLEAR_STATUS_CODES' });
         }
+    }, [state.addMember.statusCodeForAddUser]);
+
+    const validate = () => {
+        let tempErrors = {};
+        if (!memberId) tempErrors.memberId = "Member ID is required";
+        if (!userName) tempErrors.userName = "User Name is required";
+        if (!email) tempErrors.email = "Email is required";
+        if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
+        if (!mobileNo) {
+            tempErrors.mobileNo = "Mobile No. is required";
+        } else if (!/^\d{10}$/.test(mobileNo)) {
+            tempErrors.mobileNo = "Mobile No. must be 10 digits";
+        }
+
+        if (!address) tempErrors.address = "Address is required";
+        setErrors(tempErrors);
+        return Object.keys(tempErrors).length === 0;
+    };
+
+    const handleChange = (field, value) => {
+        if (field === "memberId") setMemberId(value);
+        if (field === "userName") setUserName(value);
+        if (field === "email") setEmail(value);
+        if (field === "joiningDate") setJoiningDate(value);
+        if (field === "mobileNo") setMobileNo(value);
+        if (field === "address") setAddress(value);
+        if (field === "document") setDocument(value);
+        setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     };
 
     if (!isOpen) return null;
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setDocument(URL.createObjectURL(file));
+        }
+    };
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault();
+        if (validate()) {
+            console.log("Form Data Submitted:", { memberId, userName, email, joiningDate, mobileNo, address, document });
+            setMemberId("");
+            setUserName("");
+            setEmail("");
+            setJoiningDate("");
+            setMobileNo("");
+            setAddress("");
+            setDocument("");
+            setErrors({});
+
+        }
+        if (userName && memberId && email && address && document && mobileNo) {
+            const payload = {
+                user_name: userName,
+                email_id: email,
+                mobile_no: mobileNo,
+                joining_date: joiningDate,
+                address: address,
+                // file:file
+                document_url: document
+            };
+            dispatch({
+                type: 'MEMBERINFO',
+                payload: payload
+            });
+        }
+
+    };
+
     return (
-        <div className="flex justify-center items-center overflow-hidden">
-        <div className="relative rounded-3xl shadow-lg p-4 w-full max-w-sm md:max-w-md lg:max-w-lg mt-5 bg-white">
-            <div className="flex justify-between items-center mb-4 border-b border-gray-300 pb-2">
-                <h2 className="text-base font-semibold text-start mt-0">Add a member</h2>
-                <button className="text-gray-500 hover:text-black text-xl ml-2" onClick={() => setIsOpen(false)}>
-                    <IoCloseCircle className="w-5 h-5" />
-                </button>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-5 rounded-2xl shadow-lg w-full max-w-lg relative">
+                <div className="flex items-center justify-between border-b pb-2 mb-4">
+                    <h2 className="text-xl font-semibold">Add a Member</h2>
+                    <button className="text-gray-600" onClick={() => setIsOpen(false)}>
+                        <MdClose size={24} />
+                    </button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-2 mt-2">
+                    <div className="flex gap-4">
+                        <div className="w-1/2">
+                            <label className="block text-start text-sm font-medium mb-1">Member ID</label>
+                            <input type="text" className="w-full p-2 h-10 border rounded-lg" value={memberId} onChange={(e) => handleChange("memberId", e.target.value)} />
+                            {errors.memberId && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.memberId}</p>}
+                        </div>
+                        <div className="w-1/2">
+                            <label className="block text-start text-sm font-medium mb-1">User Name</label>
+                            <input type="text" className="w-full p-2 h-10 border rounded-lg" value={userName} onChange={(e) => handleChange("userName", e.target.value)} />
+                            {errors.userName && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.userName}</p>}
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                        <div className="w-1/2">
+                            <label className="block text-start text-sm font-medium mb-1">Email</label>
+                            <input type="email" className="w-full p-2 h-10 border rounded-lg" value={email} onChange={(e) => handleChange("email", e.target.value)} />
+                            {errors.email && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.email}</p>}
+                        </div>
+                        <div className="w-1/2">
+                            <label className="block text-start text-sm font-medium mb-1">Mobile No.</label>
+                            <input type="text" className="w-full p-2 h-10 border rounded-lg" value={mobileNo} onChange={(e) => handleChange("mobileNo", e.target.value)} />
+                            {errors.mobileNo && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.mobileNo}</p>}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-start text-sm font-medium mb-1">Joining Date</label>
+                        <input type="date" className=" w-56 p-2 h-10 border rounded-lg" value={joiningDate} onChange={(e) => handleChange("joiningDate", e.target.value)} />
+                        {errors.joiningDate && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.joiningDate}</p>}
+                    </div>
+
+                    <div>
+                        <label className="block text-start text-sm font-medium mb-1">Address</label>
+                        <textarea className="w-full p-2 border rounded-lg h-10" value={address} onChange={(e) => handleChange("address", e.target.value)} />
+                        {errors.address && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.address}</p>}
+                    </div>
+                    <div>
+                        <label className="block text-start text-sm font-medium mb-1">Add Documents</label>
+                        <div className="border rounded px-2 py-4 flex items-center justify-center relative w-28">
+                            <input type="file" className="absolute inset-0 opacity-0 w-full h-full" onChange={handleFileChange} />
+                            {document ? <img src={document} alt="Selected" /> : <AiOutlinePlus size={20} />}
+                        </div>
+                    </div>
+                    <button type="submit" className="w-full bg-black text-white p-2 rounded-lg">Add Member</button>
+                </form>
             </div>
-            <form className="space-y-6"onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                        <label className="block text-xs font-medium text-gray-700 text-start mb-1">Member ID <span className="text-red-500">*</span></label>
-                        <input name="memberId" type="text" placeholder="Enter member ID" className="border p-1.5 rounded-lg w-full text-xs" />
-                        {errors.memberId && <p className="text-red-500 text-xs flex items-center mt-1"><MdError className="mr-1" />{errors.memberId}</p>}
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-gray-700 text-start mb-1">User Name <span className="text-red-500">*</span></label>
-                        <input name="userName" type="text" placeholder="Enter user name" className="border p-1.5 rounded-lg w-full text-xs" />
-                        {errors.userName && <p className="text-red-500 text-xs flex items-center mt-1"><MdError className="mr-1" />{errors.userName}</p>}
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                        <label className="block text-xs font-medium text-gray-700 text-start mb-1">Email Address <span className="text-red-500">*</span></label>
-                        <input name="email" type="email" placeholder="email@gmail.com" className="border p-1.5 rounded-lg w-full text-xs" />
-                        {errors.email && <p className="text-red-500 text-xs flex items-center mt-1"><MdError className="mr-1" />{errors.email}</p>}
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-gray-700 text-start mb-1">Joining Date <span className="text-red-500">*</span></label>
-                        <input name="joiningDate" type="date" className="border p-1.5 rounded-lg w-full text-xs" />
-                        {errors.joiningDate && <p className="text-red-500 text-xs flex items-center mt-1"><MdError className="mr-1" />{errors.joiningDate}</p>}
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                        <label className="block text-xs font-medium text-gray-700 text-start mb-1">Mobile No. <span className="text-red-500">*</span></label>
-                        <input name="mobile" type="text" placeholder="Mobile No." className="border p-1.5 rounded-lg w-full text-xs" />
-                        {errors.mobile && <p className="text-red-500 text-xs flex items-center mt-1"><MdError className="mr-1" />{errors.mobile}</p>}
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-gray-700 text-start mb-1">Subscriber <span className="text-red-500">*</span></label>
-                        <select name="subscriber" className="border p-1.5 rounded-lg w-full text-xs">
-                            <option value="">Select</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                        {errors.subscriber && <p className="text-red-500 text-xs flex items-center mt-1"><MdError className="mr-1" />{errors.subscriber}</p>}
-                    </div>
-                </div>
-                <div>
-                    <label className="block text-xs font-medium text-gray-700 text-start mb-1">Address <span className="text-red-500">*</span></label>
-                    <input name="address" type="text" placeholder="Enter address" className="border p-1.5 rounded-lg w-full text-xs" />
-                    {errors.address && <p className="text-red-500 text-xs flex items-center mt-1"><MdError className="mr-1" />{errors.address}</p>}
-                </div>
-                <div>
-                    <label className="block text-xs font-medium text-gray-700 text-start mb-1">Document Upload <span className="text-red-500">*</span></label>
-                    <div className="border p-1.5 rounded-lg w-14 h-14 flex justify-center items-center cursor-pointer">
-                        <input type="file" onChange={handleFileChange} className="hidden" id="fileUpload" />
-                        <label htmlFor="fileUpload" className="w-full h-full flex justify-center items-center cursor-pointer">
-                            <FiPlus className="text-gray-500 w-6 h-6" />
-                        </label>
-                    </div>
-                    <p className="text-gray-500 text-xs text-start mt-1 mb-3">Note: File should be .JPG, .PDF, .PNG (max 2MB)</p>
-                </div>
-                <button type="submit" className="w-full bg-black text-white py-2 rounded-3xl mt-2 text-xs">Add member</button>
-            </form>
         </div>
-    </div>
-    
     );
 }
 
-export default AddMemberForm;
+const mapsToProps = (stateInfo) => {
+    return {
+        state: stateInfo
+    }
+}
+
+export default connect(mapsToProps)(AddMemberModal);
+

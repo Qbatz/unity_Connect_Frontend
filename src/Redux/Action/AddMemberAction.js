@@ -10,6 +10,7 @@ export async function addMember(params) {
     if (params.address) formData.append("address", params.address)
     if (params.email_id) formData.append("email_id", params.email_id)
     if (params.joining_date) formData.append("joining_date", params.joining_date)
+    // if (params.document_url) formData.append("document_url", params.document_url)
 
     try {
         const response = await AxiosConfig.post('/member/add_new_member', formData, {

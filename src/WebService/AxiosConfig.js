@@ -1,19 +1,19 @@
 import axios from 'axios'
 import Cookies from 'universal-cookie';
-import config from './Config'
+import config from './Config';
+
 
 const cookies = new Cookies();
 
 const AxiosConfig = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
+    baseURL: config.apiBaseUrl,
     headers: {
         'Content-Type': 'application/json',
-        // 'Access-Control-Allow-Origin' : '*'
     }
 })
 AxiosConfig.interceptors.request.use(
     (config) => {
-            
+
         const UnityConnectToken = cookies.get('UnityConnectToken');
 
         if (UnityConnectToken) {
