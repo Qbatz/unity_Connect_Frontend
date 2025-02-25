@@ -123,7 +123,7 @@ describe('render and check sidebar functionalities', () => {
             <Sidebar />
         </Provider>)
 
-        expect(screen.getByTestId('container-mai')).toBeInTheDocument();
+        expect(screen.getByTestId('container-main')).toBeInTheDocument();
         const defaultItem = screen.getByTestId('div-dashboard')
         expect(defaultItem).toBeInTheDocument();
         const menuItem = screen.getByTestId('menu-item-1')
