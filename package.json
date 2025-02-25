@@ -55,7 +55,7 @@
   },
   "jest": {
     "transformIgnorePatterns": [
-      "node_modules/(?!(axios|iconsax-react))"
+      "node_modules/(?!(axios|iconsax-react|lucide-react))"
     ],
     "transform": {
       "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
