@@ -8,10 +8,11 @@ import Crypto from './Crypto/crypto';
 import CreateAccount from './Pages/AccountManagement/CreateAccount';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { decryptLogin } from './Crypto/Utils';
+import { decryptData } from './Crypto/Utils';
 import LandingPage from './Component/LandingPage';
 import Settings from '../src/Settings/Settings';
 import Cookies from 'universal-cookie';
+
 function App({state}) {
 
   const [success, setSuccess] = useState(null)
@@ -19,7 +20,7 @@ function App({state}) {
 
   useEffect(() => {
     if (Unity_Connect_Login) {
-      const decryptedData = decryptLogin(Unity_Connect_Login);
+      const decryptedData = decryptData(Unity_Connect_Login);
       setSuccess(decryptedData)
     }
 

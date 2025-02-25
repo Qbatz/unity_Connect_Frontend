@@ -5,7 +5,7 @@ import SignInBottom from "../../Icons/SignInBottom.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
 import { useDispatch, connect } from 'react-redux';
-import {encryptLogin  } from "../../Crypto/Utils";
+import {encryptData  } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
 
 
@@ -27,7 +27,7 @@ const SignIn = ({state}) => {
     if (state.SignIn.statusCode === 200) {
       dispatch({ type: "SIGNIN-SUCCESS" });
 
-      const encryptData = encryptLogin(JSON.stringify(true));
+      const encryptData = encryptData(JSON.stringify(true));
       localStorage.setItem("unity_connect_login", encryptData.toString());
 
     }
