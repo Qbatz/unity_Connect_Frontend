@@ -5,7 +5,7 @@ import config from './Config'
 const cookies = new Cookies();
 
 const AxiosConfig = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
+    baseURL: config.apiBaseUrl,
     headers: {
         'Content-Type': 'application/json',
         // 'Access-Control-Allow-Origin' : '*'

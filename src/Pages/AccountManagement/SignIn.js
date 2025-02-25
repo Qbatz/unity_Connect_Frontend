@@ -20,10 +20,10 @@ const SignIn = ({ state }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
-
+ 
   const dispatch = useDispatch();
 
-
+console.log("state.SignIn.signinsuccessstatuscode",state.SignIn.signinsuccessstatuscode)
   useEffect(() => {
     if (state.SignIn.signinsuccessstatuscode === 200) {
       dispatch({ type: "SIGNIN-SUCCESS" });
@@ -88,15 +88,19 @@ const SignIn = ({ state }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      navigate("/sidebar");
-    }
+    validateForm()
+    
   };
 
   const LandingNavigates = useNavigate();
   const handleLogoClicks = () => {
     LandingNavigates("/LandingPage");
   };
+
+
+  
+
+
 
   return (
     <div className="flex flex-col md:flex-row h-screen sm:overflow-auto md:overflow-hidden">
