@@ -60,7 +60,7 @@ function ExpensesSetting({ state }) {
         if(state.SettingExpenses.statusCodeSettingsAddExpenses === 200){
           dispatch({ type: 'CLEARSETTINGADDEXPENSES' });
         }
-      },[state.SettingExpenses.statusCodeSettingsAddExpenses])
+      })
     
   return (
     
