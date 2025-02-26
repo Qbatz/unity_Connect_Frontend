@@ -58,8 +58,9 @@ const handleConfirmLogout = () =>{
 
   return (
     <>
-    <div className="flex h-screen">
+    <div className="flex h-screen" data-testid='container-main'>
       <button
+        data-testid='button-toggle'
         className={`md:hidden fixed left-4 mt-1 z-50 bg-gray-800 text-white p-2 rounded transition-transform duration-300 ${isSidebarOpen ? 'translate-x-44 ' : 'mt-7'}`}
         onClick={toggleSidebar}
       >
@@ -83,8 +84,9 @@ const handleConfirmLogout = () =>{
             { name: "Statements", icon: Statements, activeIcon: StatementActive },
             { name: "Reports", icon: Reports, activeIcon: ReportsActive },
             { name: "Settings", icon: settings, activeIcon: settingsActive }
-          ].map((menu) => (
+          ].map((menu, i) => (
             <li
+              data-testid={`menu-item-${i}`}
               key={menu.name}
               className={`flex justify-between items-center px-4 py-2 ml-2 font-normal text-base leading-tight cursor-pointer ${activeMenu === menu.name ? "text-[#7F00FF]" : "text-black"}`}
               onClick={() => handleMenuClick(menu.name)}
@@ -112,6 +114,7 @@ const handleConfirmLogout = () =>{
                     src={Logout}
                     alt="Logout Icon"
                     style={{ width: 24, height: 24 }}
+                    data-testid='img-logout'
                   />
         </div>
       </div>
@@ -122,43 +125,43 @@ const handleConfirmLogout = () =>{
         </div>
 
         {activeMenu === "Dashboard" && (
-          <div className="bg-white mt-2">
+          <div data-testid='div-dashboard' className="bg-white mt-2">
             {/* <Dashboard /> */}
           </div>
         )}
 
         {activeMenu === "Members" && (
-          <div className="bg-white mt-2 p-6">
+          <div data-testid='div-members' className="bg-white mt-2 p-6">
             <Members />
           </div>
         )}
 
         {activeMenu === "Loan" && (
-          <div className="bg-white mt-2">
+          <div data-testid='div-loan' className="bg-white mt-2">
             {/* <Loan /> */}
           </div>
         )}
 
         {activeMenu === "Expenses" && (
-          <div className="bg-white mt-2">
+          <div data-testid='div-expenses' className="bg-white mt-2">
             {/* <Expenses /> */}
           </div>
         )}
 
         {activeMenu === "Statements" && (
-          <div className="bg-white mt-2">
+          <div data-testid='div-statements' className="bg-white mt-2">
             {/* <Statements /> */}
           </div>
         )}
 
         {activeMenu === "Reports" && (
-          <div className="bg-white mt-2">
+          <div data-testid='div-reports' className="bg-white mt-2">
             {/* <Reports /> */}
           </div>
         )}
 
         {activeMenu === "Settings" && (
-          <div className="bg-white mt-2 p-6">
+          <div data-testid='div-settings' className="bg-white mt-2 p-6">
             <Settings />
           </div>
         )}
@@ -190,12 +193,14 @@ const handleConfirmLogout = () =>{
     
         <div className="flex justify-center border-t-0 mt-[10px] space-x-4">
           <button
+            data-testid='button-close-logout'
             className="w-[160px] h-[52px] rounded-lg border border-[#7F00FF] text-[#7F00FF] font-semibold text-[14px] bg-white"
             onClick={handleCloseLogout}
           >
             Cancel
           </button>
           <button
+            data-testid='button-logout'
             className="w-[160px] h-[52px] rounded-lg bg-[#7F00FF] text-white font-semibold text-[14px]"
             onClick={handleConfirmLogout}
           >

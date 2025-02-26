@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import UnityConnectLetter from "../Icons/UnityConnectLetter.svg";
 import FB from "../Icons/Facebook.svg";

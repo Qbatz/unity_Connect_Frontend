@@ -78,7 +78,7 @@ function ExpensesSetting() {
           <div className={`bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300 ${isSubCategory ? 'h-auto' : 'h-[380px]'}`}>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Add new category</h2>
-              <img src={CloseCircleIcon} onClick={() => setIsModalOpen(false)} className="w-32 h-32 cursor-pointer" />
+              <img alt="" src={CloseCircleIcon} onClick={() => setIsModalOpen(false)} className="w-32 h-32 cursor-pointer" />
             </div>
             <div className="w-full border border-[#E7E7E7] mx-auto"></div>
             <div className="mt-7">

@@ -41,7 +41,7 @@ const FAQSection = () => {
     <>
         
 
-<div className="mt-20 flex flex-col">
+<div className="mt-20 flex flex-col" data-testid='get-answer-container'>
 <h2
   className="text-6xl font-Gilroy font-bold leading-[67.2px] text-gray-900 text-center"
   
@@ -73,6 +73,7 @@ const FAQSection = () => {
      className="border-b border-[#C3C3C3] last:border-none"
      >
       <button
+        data-testid={`button-toggle-faq-${index}`}
         className="w-full flex justify-between items-center text-left py-4 px-4 text-black font-500 text-xl rounded-lg"
         onClick={() => toggleFAQ(index)}
       >
@@ -90,7 +91,7 @@ const FAQSection = () => {
         )}
       </button>
       {openIndex === index && (
-        <div className="px-4 pb-4 text-#000000 text-sm">{faq.answer}</div>
+        <div data-testid='div-answers' className="px-4 pb-4 text-#000000 text-sm">{faq.answer}</div>
       )}
     
     </div>
