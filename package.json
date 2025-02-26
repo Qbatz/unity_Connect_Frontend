@@ -54,6 +54,14 @@
     ]
   },
   "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 40,
+        "functions": 50,
+        "lines": 47,
+        "statements": 46
+      }
+    },
     "transformIgnorePatterns": [
       "node_modules/(?!(axios|iconsax-react|lucide-react))"
     ],

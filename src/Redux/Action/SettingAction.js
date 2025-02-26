@@ -7,6 +7,7 @@ export async function SettingMemberIDAction(datum) {
     });
 }
 
+
 export async function SettingLoanIDAction(loan) {
     return await AxiosConfig.post('/loan/add_new_loan_id',loan,{
 
@@ -15,8 +16,23 @@ export async function SettingLoanIDAction(loan) {
 }
 
 
+
+
+
 export async function SettingAddExpenses(datum) {
-    return await AxiosConfig.post('/expense/add_ecpense_category',datum,{
-        data:datum  
+
+return await AxiosConfig.post("/expense/add_expense_category", datum,{
+    data:datum
+  });
+}
+
+
+export async function SettingGetExpenses(datum) {
+    
+    return await AxiosConfig.get("/expense/get_expense_category", {
+        data: datum, 
     });
 }
+
+  
+  
