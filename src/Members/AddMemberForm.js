@@ -79,7 +79,6 @@ function AddMemberModal({ state }) {
 
         e.preventDefault();
         if (validate()) {
-            // console.log("Form Data Submitted:", { memberId, userName, email, joiningDate, mobileNo, address,file });
             setFile("");
             setMemberId("");
             setUserName("");

@@ -5,14 +5,13 @@ const initialState = {
     statusCodeForAddUser: 0,
     phoneError: '',
     emailError: '',
-    
+
 }
 
 const AddMemberReducer = (state = initialState, action) => {
-   console.log("action",action.payload);
-   
+
     switch (action.type) {
-        case'ADD_USER_SUCCESS':
+        case 'ADD_USER_SUCCESS':
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
             return { ...state, statusCodeForAddUser: 0 }

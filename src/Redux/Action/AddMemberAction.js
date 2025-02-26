@@ -19,12 +19,11 @@ export async function addMember(params) {
             },
             timeout: 100000000,
             onUploadProgress: (event) => {
-                console.log("event", event)
             }
         });
         return response.data;
     } catch (error) {
-        console.error("Axios Error", error);
+       
     }
 }
 

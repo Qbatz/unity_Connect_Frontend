@@ -4,23 +4,18 @@ import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
 
 function* handleAddMember(datum) {
-  
-   
-    const response = yield call(addMember, datum.payload);
-    console.log("datum.payload",datum.payload);
-    
 
-    console.log("response add member",response)
+
+    const response = yield call(addMember, datum.payload);
 
 
     if (response.statusCode === 200 || response.status === 200) {
-       
+
         yield put({
             type: 'ADD_USER_SUCCESS',
             payload: { response: response.message, statusCode: response.statusCode || response.status },
         });
 
-        // Toast Notification
         toast.success(response.message, {
             position: "bottom-center",
             autoClose: 2000,
@@ -49,22 +44,22 @@ function* handleAddMember(datum) {
     } else if (response.statusCode === 203) {
         yield put({ type: 'EMAIL_ERROR', payload: response.message });
     }
-     if (response) {
-            refreshToken(response);
-        }
+    if (response) {
+        refreshToken(response);
+    }
 }
 
 function refreshToken(response) {
-     
-   if (response && response.refresh_token) {
-      const refreshTokenGet = response.refresh_token
-      const cookies = new Cookies()
-      cookies.set('UnityConnectToken', refreshTokenGet, { path: '/' });
-   } else if (response.status === 206 || response.statusCode === 206) {
-      const message = response.status ||  response.statusCode   
-      const cookies = new Cookies()
-      cookies.set('Unity_ConnectToken_Access-Denied', message, { path: '/' });
-   }
+
+    if (response && response.refresh_token) {
+        const refreshTokenGet = response.refresh_token
+        const cookies = new Cookies()
+        cookies.set('UnityConnectToken', refreshTokenGet, { path: '/' });
+    } else if (response.status === 206 || response.statusCode === 206) {
+        const message = response.status || response.statusCode
+        const cookies = new Cookies()
+        cookies.set('Unity_ConnectToken_Access-Denied', message, { path: '/' });
+    }
 
 }
 
