@@ -18,11 +18,12 @@ export async function addMember(params) {
                 "Content-type": "multipart/form-data",
             },
             timeout: 100000000,
-            onUploadProgress: (event) => {
+            onUploadProgress: () => {
             }
         });
         return response.data;
     } catch (error) {
+       console.log("No error",error);
        
     }
 }
