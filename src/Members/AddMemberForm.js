@@ -171,7 +171,7 @@ function AddMemberModal({ state, memberData }) {
                     <h2 className="text-xl font-semibold">
                         {memberData ? "Edit Member" : "Add a Member"}
                     </h2>
-                    <button className="text-gray-600" onClick={() => setIsOpen(false)}>
+                    <button data-testid='button-close' className="text-gray-600" onClick={() => setIsOpen(false)}>
                         <MdClose size={24} />
                     </button>
                 </div>

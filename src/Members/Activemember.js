@@ -8,7 +8,6 @@ import editIcon from "../Icons/edit_blue.svg";
 import deleteIcon from "../Icons/Delete.svg";
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
-import AddMemberForm from "./AddMemberForm";
 
 function ActiveMember({ state }) {
 

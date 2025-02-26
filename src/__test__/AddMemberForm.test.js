@@ -21,8 +21,8 @@ describe('it should check for add member form UI', () => {
             <AddMemberForm />
         </Provider>)
 
-        // const buttonClose = screen.getByTestId('button-close')
-        // expect(buttonClose).toBeInTheDocument()
+        const buttonClose = screen.getByTestId('button-close')
+        expect(buttonClose).toBeInTheDocument()
         const inputMemberId = screen.getByTestId('input-member-id');
         const inputUserName = screen.getByTestId('input-user-name');
         const inputMemberEmail = screen.getByTestId('input-member-email');
@@ -43,7 +43,7 @@ describe('it should check for add member form UI', () => {
         userEvent.type(inputJoiningDate, '28-02-2025');
         userEvent.type(inputMemberAddress, 'abcd1234, abcd, state');
 
-        // userEvent.click(buttonClose)
+        userEvent.click(buttonClose)
 
     })
 })
