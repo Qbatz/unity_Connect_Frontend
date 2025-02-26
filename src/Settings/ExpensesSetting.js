@@ -3,12 +3,12 @@ import React, { useState,useEffect } from "react";
 import ExpensesIcon from "../Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../Icons/ThreeDotMore.svg";
 import CloseCircleIcon from "../Icons/close-circle.svg";
-import { useDispatch, useSelector } from 'react-redux';
-import Cookies from 'universal-cookie';
+import { useDispatch, useSelector ,connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
-function ExpensesSetting() {
+function ExpensesSetting({state}) {
+  const expensesetting=useSelector((state)=>state.SettingExpenses.id)
   const dispatch = useDispatch();
-  const state = useSelector(state => state)
   console.log("STateL:,",state);
   
   const[categoryName,setCategoryName]=useState('');
@@ -25,8 +25,10 @@ function ExpensesSetting() {
         const payload = { 
           category_Name:categoryName,
           sub_Category:subCategoryName,
-          id:state.SettingAddExpenses.id
+          // id:state.SettingExpenses.id
+          id:expensesetting
         };
+console.log(handleSubmit);
 
         dispatch({
             type: 'SETTING_ADD_EXPENSES',
@@ -39,14 +41,12 @@ function ExpensesSetting() {
     };
 
     useEffect(() => {
-      if (state.SettingAddExpenses.statusCode === 200) {
+      if (state.SettingExpenses.statusCodeSettingsAddExpenses === 200) {
   
   
           dispatch({ type: 'SETTING_ADD_EXPENSES' });
   
-        const token = state.SettingAddExpenses.JWTtoken
-        const cookies = new Cookies()
-        cookies.set('token', token, { path: '/' });
+
         
         setTimeout(() => {
           dispatch({ type: 'CLEAR_STATUSCODE' });
@@ -54,7 +54,7 @@ function ExpensesSetting() {
   
       }
   
-    }, [state.SettingAddExpenses.statusCode]);
+    }, [state.SettingExpenses.statusCodeSettingsAddExpenses]);
 
   return (
     <div className="container mx-auto mt-10">
@@ -153,4 +153,15 @@ function ExpensesSetting() {
     </div>
   );
 }
-export default ExpensesSetting;
+// export default ExpensesSetting;
+const mapsToProps = (stateInfo) => {
+  return {
+    state: stateInfo
+  }
+}
+
+ExpensesSetting.propTypes = {
+state: PropTypes.object, 
+};
+export default connect(mapsToProps)(ExpensesSetting)
+

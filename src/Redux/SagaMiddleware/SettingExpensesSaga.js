@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function* SettingAddExpensesPage(action) {
-    try {
+    
       const response = yield call(SettingAddExpenses, action.payload);
       var toastStyle = {
         backgroundColor: "#E6F6E6",
@@ -45,27 +45,24 @@ function* SettingAddExpensesPage(action) {
       if(response){
         refreshToken(response)
      }
-    } catch (error) {
-      console.log("error", error);
-    }
+     
   }
 
 
 
-  function refreshToken(response){
-    if(response.data && response.data.refresh_token){
-       const refreshTokenGet = response.data.refresh_token
-       const cookies = new Cookies()
-       cookies.set('UnityConnectToken', refreshTokenGet, { path: '/' });
-    }else if (response.status === 206) {
-      const message = response.status
+function refreshToken(response) {
+     
+   if (response && response.refresh_token) {
+      const refreshTokenGet = response.refresh_token
       const cookies = new Cookies()
-      
+      cookies.set('UnityConnectToken', refreshTokenGet, { path: '/' });
+   } else if (response.status === 206 || response.statusCode === 206) {
+      const message = response.status ||  response.statusCode   
+      const cookies = new Cookies()
       cookies.set('Unity_ConnectToken_Access-Denied', message, { path: '/' });
-    
    }
-    
-    }
+
+}
     function* SettingAddExpensesSaga() {
         yield takeEvery('SETTING_ADD_EXPENSES', SettingAddExpensesPage)
       
