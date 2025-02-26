@@ -11,10 +11,13 @@ function LoanSetting() {
     const [isWeekDropdownOpen, setIsWeekDropdownOpen] = useState(false);
     const [selectedMonthlyType, setSelectedMonthlyType] = useState("Select Monthly Type");
     const [isMonthlyDropdownOpen, setIsMonthlyDropdownOpen] = useState(false);
+const [selectedDay, setSelectedDay] = useState("Select a day");
+    const [isDayDropdownOpen, setIsDayDropdownOpen] = useState(false);
 
     const options = ["Daily", "Weekly", "Monthly"];
     const weeklyOptions = ["Daily", "Weekly", "Monthly", "Yearly"];
     const monthlyOptions = ["Day", "Date"];
+const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
     return (
         <div className="container mx-auto mt-10">
@@ -156,6 +159,46 @@ function LoanSetting() {
                                     )}
                                 </div>
                             )}
+{selectedMonthlyType === "Day" && (
+  <div className="relative w-full mt-3 flex gap-2">
+    
+    
+    <div className="w-1/2 relative">
+      <div 
+        className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
+        onClick={() => {
+          setIsDayDropdownOpen(!isDayDropdownOpen);
+          
+        }}
+      >
+        <span className={`text-base font-medium ${selectedDay === "Select a day" ? "text-gray-400" : "text-black"}`}>
+          {selectedDay}
+        </span>
+        <ChevronDown className="w-5 h-5 text-gray-500" />
+      </div>
+
+      {isDayDropdownOpen && (
+        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
+          {dayOptions.map((day, index) => (
+            <div
+              key={index}
+              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+              onClick={() => { 
+                setSelectedDay(day); 
+                setIsDayDropdownOpen(false);
+              }}
+            >
+              {day}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+
+  </div>
+)}
+
+
 
                     
                             <div className="mt-5">
@@ -204,3 +247,4 @@ function LoanSetting() {
 }
 
 export default LoanSetting;
+
