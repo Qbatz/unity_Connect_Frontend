@@ -8,7 +8,7 @@ const initialState = {
   
   const SettingAddExpensesReducer = (state = initialState, action) => {
     
-  console.log("Action get expense:",action);
+  
   
     switch (action.type) {
       case "SETTINGADDEXPENSES":

@@ -63,7 +63,7 @@ function* SettingAddExpensesPage(action) {
 function* SettingGetExpensesPage(action) {
    
   const response = yield call(SettingGetExpenses, action.payload);
- console.log("SettingGetExpensesPage",response);
+ 
  
  
    if ( response.status === 200) {

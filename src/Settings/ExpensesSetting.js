@@ -8,11 +8,10 @@ import PropTypes from "prop-types";
 function ExpensesSetting({ state }) {
 
   const dispatch = useDispatch();
-  // const expensesetting = useSelector((state) => state.SettingExpenses.getExpenseData);
 
   const expensesetting = useSelector((state) => state.SettingExpenses?.expenses || []);
 
-  console.log("Getexpenses",expensesetting);
+  
   
   const statusCode = useSelector((state) => state.SettingExpenses.statusCodeSettingsAddExpenses);
 
