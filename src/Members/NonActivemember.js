@@ -53,7 +53,7 @@ const toggleMenu = (event, index) => {
  
   return (
     <>
-     <div className="flex justify-end">
+     <div data-testid='inactive-member-div' className="flex justify-end">
         <button
           data-testid="button-add-member"
           className="bg-black text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium mt-[-60px]"

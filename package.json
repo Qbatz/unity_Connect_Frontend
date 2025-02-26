@@ -62,8 +62,10 @@
         "statements": 46
       }
     },
+    "collectCoverageFrom": ["!src/Store.js", "!src/index.js", "!src/reportWebVitals.js", "!src/WebService/**.*", "!src/Redux/Action/**.*", "!src/Icons/**.**", "!src/Images/**.*"],
     "transformIgnorePatterns": [
-      "node_modules/(?!(axios|iconsax-react|lucide-react))"
+      "node_modules/(?!(axios|iconsax-react|lucide-react))",
+      "/src/Store.js"
     ],
     "transform": {
       "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"

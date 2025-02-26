@@ -1,6 +1,7 @@
 import React from "react";
 import paymenticon from '../Icons/PaymentIcon.svg';
 import Tick from '../Icons/tick.svg'
+
 const Payment = () => {
   return (
     <div className="mt-6 grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6">

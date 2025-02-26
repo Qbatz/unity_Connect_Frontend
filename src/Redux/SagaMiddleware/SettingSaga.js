@@ -1,9 +1,9 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { SettingMemberIDAction,SettingLoanIDAction } from '../Action/SettingAction';
 import { toast } from 'react-toastify';
-import Cookies from 'universal-cookie';
+import { refreshToken } from '../../Config/Tokenizer';
 
-function* SettingMemberID(action) {
+export function* SettingMemberID(action) {
     
         const response = yield call(SettingMemberIDAction, action.payload);
 
@@ -45,7 +45,7 @@ function* SettingMemberID(action) {
     } 
 
 
-function* SettingLoanID(action) {
+export function* SettingLoanID(action) {
     
         const response = yield call(SettingLoanIDAction, action.payload);
 
@@ -90,19 +90,6 @@ function* SettingLoanID(action) {
 
     }  
   
-function refreshToken(response) {
-     
-    if (response && response.refresh_token) {
-       const refreshTokenGet = response.refresh_token
-       const cookies = new Cookies()
-       cookies.set('UnityConnectToken', refreshTokenGet, { path: '/' });
-    } else if (response.status === 206 || response.statusCode === 206) {
-       const message = response.status ||  response.statusCode   
-       const cookies = new Cookies()
-       cookies.set('Unity_ConnectToken_Access-Denied', message, { path: '/' });
-    }
- 
- }
 
 function* SettingSaga() {
     yield takeEvery('SETTINGSMEMBERID', SettingMemberID);
