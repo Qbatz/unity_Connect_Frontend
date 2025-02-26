@@ -180,12 +180,12 @@ function AddMemberModal({ state, memberData }) {
                     <div className="flex gap-4">
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">Member ID</label>
-                            <input type="text" className="w-full p-2 h-10 border rounded-lg" value={formData.memberId} onChange={(e) => handleChange("memberId", e.target.value)} />
+                            <input data-testid='input-member-id' type="text" className="w-full p-2 h-10 border rounded-lg" value={formData.memberId} onChange={(e) => handleChange("memberId", e.target.value)} />
                             {errors.memberId && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.memberId}</p>}
                         </div>
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">User Name</label>
-                            <input type="text" className="w-full p-2 h-10 border rounded-lg"
+                            <input data-testid='input-user-name' type="text" className="w-full p-2 h-10 border rounded-lg"
                                 value={formData.userName}
                                 onChange={(e) => handleChange("userName", e.target.value)} />
                             {errors.userName && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.userName}</p>}
@@ -195,27 +195,27 @@ function AddMemberModal({ state, memberData }) {
                     <div className="flex gap-4">
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">Email</label>
-                            <input type="email" className="w-full p-2 h-10 border rounded-lg"
+                            <input data-testid='input-member-email' type="email" className="w-full p-2 h-10 border rounded-lg"
                                 value={formData.email}
                                 onChange={(e) => handleChange("email", e.target.value)} />
                             {errors.email && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.email}</p>}
                         </div>
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">Mobile No.</label>
-                            <input type="text" className="w-full p-2 h-10 border rounded-lg"  value={formData.mobileNo}onChange={(e) => handleChange("mobileNo", e.target.value)} />
+                            <input data-testid='input-member-phone' type="text" className="w-full p-2 h-10 border rounded-lg"  value={formData.mobileNo}onChange={(e) => handleChange("mobileNo", e.target.value)} />
                             {errors.mobileNo && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.mobileNo}</p>}
                         </div>
                     </div>
 
                     <div>
                         <label className="block text-start text-sm font-medium mb-1">Joining Date</label>
-                        <input type="date" className=" w-56 p-2 h-10 border rounded-lg" value={joiningDate} onChange={(e) => handleChange("joiningDate", e.target.value)} />
+                        <input data-testid='input-joining-data' type="date" className=" w-56 p-2 h-10 border rounded-lg" value={joiningDate} onChange={(e) => handleChange("joiningDate", e.target.value)} />
                         {errors.joiningDate && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.joiningDate}</p>}
                     </div>
 
                     <div>
                         <label className="block text-start text-sm font-medium mb-1">Address</label>
-                        <textarea className="w-full p-2 border rounded-lg h-10"
+                        <textarea data-testid='input-member-address' className="w-full p-2 border rounded-lg h-10"
                             value={formData.address}
                             onChange={(e) => handleChange("address", e.target.value)} />
                         {errors.address && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.address}</p>}
