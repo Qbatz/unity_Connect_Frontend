@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import TopBar from "../Component/TopBar";
-import { MemoryRouter, BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
 describe('checks for top bar UI', () => {
