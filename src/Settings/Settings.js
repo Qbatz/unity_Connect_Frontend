@@ -17,7 +17,7 @@ const Settings = () => {
         Settings
       </h2>
 
-      {/* Tabs Section */}
+      
       <div className="border-b border-gray-300 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 md:gap-10 lg:gap-[75px] scrollbar-hide">
         {["Member ID", "Loan ID", "Subscription", "Loan", "Interest", "Returns", "Expenses", "Payment"].map((tab) => (
           <button
@@ -29,7 +29,7 @@ const Settings = () => {
           >
             {tab}
             <span
-              className={`absolute left-0 bottom-0 h-[3px] w-24 transition-all ${
+              className={`absolute left-0 bottom-0 h-[3px] w-full transition-all ${
                 activeTab === tab ? "bg-purple-600" : "bg-transparent"
               }`}
             ></span>
@@ -37,7 +37,7 @@ const Settings = () => {
         ))}
       </div>
 
-      {/* Dynamic Tab Content */}
+     
       <div className="mt-6">
         {activeTab === "Loan" && <LoanSetting />}
         {activeTab === "Expenses" && <ExpensesSetting />}

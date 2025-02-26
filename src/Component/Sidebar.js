@@ -17,13 +17,12 @@ import Star from "../Icons/Star.svg";
 import UnityConnectImg from "../Icons/UnityConnectImg.svg";
 import ProfileIcon from "../Icons/ProfileIcon.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
-import Members from "../Members/AddMemberForm";
 import { encryptData } from "../Crypto/Utils";
 import { useDispatch } from 'react-redux';
 import Logout from "../Icons/turn-off.png";
 
 import Settings from "../Settings/Settings";
-
+import Members from "../Members/Member";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -120,7 +119,7 @@ const handleConfirmLogout = () =>{
         </div>
       </div>
 
-      <div className="flex-1 bg-gray-200" >
+      <div className="flex-1">
         <div className="text-center">
          
         </div>
@@ -132,7 +131,7 @@ const handleConfirmLogout = () =>{
         )}
 
         {activeMenu === "Members" && (
-          <div data-testid='div-members' className="bg-white mt-2">
+          <div data-testid='div-members' className="bg-white mt-2 p-6">
             <Members />
           </div>
         )}
@@ -162,7 +161,7 @@ const handleConfirmLogout = () =>{
         )}
 
         {activeMenu === "Settings" && (
-          <div data-testid='div-settings' className="bg-white mt-2">
+          <div data-testid='div-settings' className="bg-white mt-2 p-6">
             <Settings />
           </div>
         )}
