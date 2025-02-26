@@ -1,7 +1,5 @@
 import AxiosConfig from '../../WebService/AxiosConfig'; 
 
-
-
 export async function addMember(params) {
 
     const formData = new FormData();
@@ -18,12 +16,10 @@ export async function addMember(params) {
                 "Content-type": "multipart/form-data",
             },
             timeout: 100000000,
-            onUploadProgress: (event) => {
-            }
         });
         return response.data;
     } catch (error) {
-       
+        console.log(error)
     }
 }
 
