@@ -1,15 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Create1 from '../../Images/Createtleft.svg';
 import Create2 from '../../Images/Createright.svg';
 import Unityicon from '../../Icons/Unityicon.svg'
 import { Eye, EyeSlash } from "iconsax-react";
-
+import PropTypes from 'prop-types';
 import { useDispatch, connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 function CreateAccount({state}) {
-console.log("state",state);
-
   const dispatch = useDispatch()
   let navigate = useNavigate();
   
@@ -407,4 +406,8 @@ const mapsToProps = (stateInfo) => {
       state: stateInfo
     }
 }
+
+CreateAccount.propTypes = {
+  state: PropTypes.object, 
+};
 export default connect(mapsToProps)(CreateAccount)

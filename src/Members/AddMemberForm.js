@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { MdClose, MdError } from "react-icons/md";
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useDispatch } from "react-redux";
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 
 function AddMemberModal({ state }) {
@@ -17,19 +19,19 @@ function AddMemberModal({ state }) {
     const [joiningDate, setJoiningDate] = useState("");
     const [mobileNo, setMobileNo] = useState("");
     const [address, setAddress] = useState("");
-    const [document, setDocument] = useState("");
+    const [file, setFile]= useState("");
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
         if (state.addMember.statusCodeForAddUser === 200) {
-
+           
+            setFile("");
             setMemberId("");
             setUserName("");
             setEmail("");
             setJoiningDate("");
             setMobileNo("");
             setAddress("");
-            setDocument("");
             setErrors("");
 
             dispatch({ type: 'CLEAR_STATUS_CODES' });
@@ -60,16 +62,16 @@ function AddMemberModal({ state }) {
         if (field === "joiningDate") setJoiningDate(value);
         if (field === "mobileNo") setMobileNo(value);
         if (field === "address") setAddress(value);
-        if (field === "document") setDocument(value);
+        if (field === "file") setFile(value);
         setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     };
 
     if (!isOpen) return null;
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setDocument(URL.createObjectURL(file));
+        const files = e.target.files[0];
+        if (files) {
+            setFile(URL.createObjectURL(files));
         }
     };
 
@@ -77,34 +79,31 @@ function AddMemberModal({ state }) {
 
         e.preventDefault();
         if (validate()) {
-            console.log("Form Data Submitted:", { memberId, userName, email, joiningDate, mobileNo, address, document });
+            // console.log("Form Data Submitted:", { memberId, userName, email, joiningDate, mobileNo, address,file });
+            setFile("");
             setMemberId("");
             setUserName("");
             setEmail("");
             setJoiningDate("");
             setMobileNo("");
             setAddress("");
-            setDocument("");
             setErrors({});
 
         }
-        if (userName && memberId && email && address && document && mobileNo) {
+        if (userName && memberId && email && address && file && mobileNo) {
             const payload = {
                 user_name: userName,
                 email_id: email,
                 mobile_no: mobileNo,
                 joining_date: joiningDate,
                 address: address,
-                // file:file
-                document_url: document
+                file:file,
             };
-            dispatch({
-                type: 'MEMBERINFO',
-                payload: payload
-            });
+            dispatch({ type: 'MEMBERINFO', payload: payload });
         }
 
     };
+    
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -158,7 +157,7 @@ function AddMemberModal({ state }) {
                         <label className="block text-start text-sm font-medium mb-1">Add Documents</label>
                         <div className="border rounded px-2 py-4 flex items-center justify-center relative w-28">
                             <input type="file" className="absolute inset-0 opacity-0 w-full h-full" onChange={handleFileChange} />
-                            {document ? <img src={document} alt="Selected" /> : <AiOutlinePlus size={20} />}
+                            {file ? <img src={file} alt="Selected" /> : <AiOutlinePlus size={20} />}
                         </div>
                     </div>
                     <button type="submit" className="w-full bg-black text-white p-2 rounded-lg">Add Member</button>
@@ -173,6 +172,9 @@ const mapsToProps = (stateInfo) => {
         state: stateInfo
     }
 }
+AddMemberModal.propTypes = {
+  state: PropTypes.object, 
+};
 
 export default connect(mapsToProps)(AddMemberModal);
 

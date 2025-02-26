@@ -12,8 +12,6 @@ const AddMemberReducer = (state = initialState, action) => {
    console.log("action",action.payload);
    
     switch (action.type) {
-
-
         case'ADD_USER_SUCCESS':
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
@@ -32,9 +30,9 @@ const AddMemberReducer = (state = initialState, action) => {
         case 'CLEAR_EMAIL_ERROR':
             return { ...state, emailError: '' }
 
-
+        default:
+            return state
 
     }
-    return state;
 }
 export default AddMemberReducer;

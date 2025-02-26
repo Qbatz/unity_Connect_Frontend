@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import UnityConnectImg from '../../Icons/UnityConnectImg.svg';
 import SignInTop from "../../Icons/SignInTop.svg";
@@ -8,7 +10,7 @@ import { useDispatch, connect } from 'react-redux';
 import {encryptData  } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
-
+import PropTypes from 'prop-types';
 
 
 const SignIn = ({ state }) => {
@@ -20,9 +22,8 @@ const SignIn = ({ state }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
-
+ 
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     if (state.SignIn.signinsuccessstatuscode === 200) {
@@ -88,15 +89,19 @@ const SignIn = ({ state }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      navigate("/sidebar");
-    }
+    validateForm()
+    
   };
 
   const LandingNavigates = useNavigate();
   const handleLogoClicks = () => {
     LandingNavigates("/LandingPage");
   };
+
+
+  
+
+
 
   return (
     <div className="container mx-auto flex flex-col md:flex-row h-screen sm:overflow-auto md:overflow-hidden">
@@ -214,6 +219,10 @@ const mapsToProps = (stateInfo) => {
   return {
     state: stateInfo
   }
+}
+
+SignIn.propTypes = {
+  state: PropTypes.object
 }
 
 export default connect(mapsToProps)(SignIn);

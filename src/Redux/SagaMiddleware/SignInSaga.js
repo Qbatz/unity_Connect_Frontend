@@ -29,6 +29,7 @@ export function* SignIn(action) {
                 type: 'SIGNIN-INFO',
                 payload: {
                    token: response.data.token,
+                   message: response.data.message,
                     statusCode: response.status || response.statusCode
                 }
             });

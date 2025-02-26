@@ -3,7 +3,8 @@ import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 import pluginJest from "eslint-plugin-jest";
-
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginJsxA11y from "eslint-plugin-jsx-a11y"
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -29,6 +30,20 @@ export default [
     }
   },
   {
+    plugins: {
+      "react-hooks": pluginReactHooks,
+      "jsx-a11y": pluginJsxA11y,
+    },
+    rules: {
+      "eqeqeq": "error", 
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "error",
+      "jsx-a11y/anchor-is-valid": "error",
+      "default-case": "error",
+      "jsx-a11y/alt-text": 'error'
+    }
+  },
+  {
     files: ["**/__tests__/**", "**/*.test.js", "**/*.test.ts", "**/*.spec.js", "**/*.spec.ts"],
     plugins: { jest: pluginJest },
     rules: {
@@ -37,7 +52,9 @@ export default [
       "jest/no-identical-title": "error",
       "jest/prefer-to-have-length": "warn",
       "jest/valid-expect": "error",
-       "react/react-in-jsx-scope": "off"
+      "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
+      "default-case": 'error'
     }
   }
 ];
