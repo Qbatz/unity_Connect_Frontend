@@ -13,14 +13,11 @@ function LoanSetting() {
     const [isMonthlyDropdownOpen, setIsMonthlyDropdownOpen] = useState(false);
 const [selectedDay, setSelectedDay] = useState("Select a day");
     const [isDayDropdownOpen, setIsDayDropdownOpen] = useState(false);
-const[isDayCountDropdownOpen,setIsDayCountDropdownOpen]=useState(false);
-const [selectedDayCount, setSelectedDayCount] = useState("Select a day");
 
     const options = ["Daily", "Weekly", "Monthly"];
     const weeklyOptions = ["Daily", "Weekly", "Monthly", "Yearly"];
     const monthlyOptions = ["Day", "Date"];
 const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const dayCountOptions = ['1st'];
 
     return (
         <div className="container mx-auto mt-10">
@@ -171,7 +168,7 @@ const dayCountOptions = ['1st'];
         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
         onClick={() => {
           setIsDayDropdownOpen(!isDayDropdownOpen);
-          setIsDayCountDropdownOpen(false); 
+          
         }}
       >
         <span className={`text-base font-medium ${selectedDay === "Select a day" ? "text-gray-400" : "text-black"}`}>

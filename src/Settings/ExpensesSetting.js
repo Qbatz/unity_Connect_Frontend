@@ -56,7 +56,12 @@ function ExpensesSetting({ state }) {
         dispatch({type:"SETTING_GET_EXPENSES"});
       },[dispatch]);
 
-      
+      useEffect(()=> {
+        if(state.SettingExpenses.statusCodeSettingsAddExpenses === 200){
+          dispatch({ type: 'CLEARSETTINGADDEXPENSES' });
+        }
+      },[state.SettingExpenses.statusCodeSettingsAddExpenses])
+    
   return (
     
     <div className="container mx-auto mt-10">
