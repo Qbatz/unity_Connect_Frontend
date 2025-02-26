@@ -81,14 +81,14 @@ const toggleMenu = (event, index) => {
       >
               <button
                 className="flex items-center gap-2 w-full px-3 py-2 text-blue-600 rounded-lg"
-                onClick={() => console.log("Edit clicked")}
+               
               >
                 <img src={editIcon} alt="Edit" className="h-4 w-4" />
                 Edit
               </button>
               <button
                 className="flex items-center gap-2 w-full px-3 py-2 text-red-600  rounded-lg"
-                onClick={() => console.log("Delete clicked")}
+               
               >
                 <img src={deleteIcon} alt="Delete" className="h-4 w-4" />
                 Delete

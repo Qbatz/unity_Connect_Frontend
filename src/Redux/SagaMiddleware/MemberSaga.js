@@ -7,10 +7,8 @@ function* handleMemberList(action) {
    
     const response = yield call(ActiveMemberGetAction, action.payload);
    
-    console.log("action",action);
     
-
-    if (response.statusCode === 200 || response.status === 200) {
+     if (response.statusCode === 200 || response.status === 200) {
         yield put({
             type: 'GET_MEMBER',
             payload: { response:response.data, statusCode: response.statusCode || response.status },

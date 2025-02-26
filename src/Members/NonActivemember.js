@@ -1,20 +1,34 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import img1 from "../Images/Memberone.svg";
-import img2 from "../Images/Membertwo.svg";
 import call from "../Icons/call.svg";
 import sms from "../Icons/sms.svg";
 import building from "../Icons/buildings.svg";
 import editIcon from "../Icons/edit_blue.svg"; 
-import deleteIcon from "../Icons/Delete.svg"; 
+import deleteIcon from "../Icons/Delete.svg";
+import { useDispatch, useSelector,connect } from "react-redux"; 
+import PropTypes from 'prop-types';
 
-
-function NonActiveMember() {
+function ActiveMember({state}) {
+  
+  const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(null);
- 
-  const popupRef = useRef(null);
 
-  const toggleMenu = (event, index) => {
+  const popupRef = useRef(null);
+  const members = useSelector((state) => state.Member.Memberdata);
+  
+  useEffect(()=> {
+    if(state.Member.statusCodeMemberList === 200){
+      dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
+    }
+  })
+
+  useEffect(() => {
+    dispatch({ type: 'MEMBERLIST' });
+  }, [dispatch]);
+
+
+const toggleMenu = (event, index) => {
     event.stopPropagation();
     setOpenMenu(openMenu === index ? null : index);
   };
@@ -34,74 +48,7 @@ function NonActiveMember() {
     };
   }, []);
 
-  const members = [
-    {
-      id: "ABC001",
-      name: "Justin Culhane",
-      email: "justinculhane@gmail.com",
-      phone: "+91 9876543210",
-      address: "203, E block, Nivas Nagar, Chennai 2145602",
-      status: "Active",
-      subscription: "Subscriber",
-      image: img1,
-      joined: "Since Feb 2024",
-    },
-    {
-      id: "ABC003",
-      name: "Justin Culhane",
-      email: "tatina@gmail.com",
-      phone: "+91 9876543210",
-      address: "105, A block, Nivas Nagar, Chennai 2145602",
-      status: "Active",
-      subscription: "Non Subscriber",
-      image: img2,
-      joined: "Since Feb 2024",
-    },
-    {
-        id: "ABC003",
-        name: "Alfonso Korsgaard",
-        email: "alfonso@gmail.com",
-        phone: "+91 9876543210",
-        address: "105, A block, Nivas Nagar, Chennai 2145602",
-        status: "Active",
-        subscription: "Non Subscriber",
-        image: img2,
-        joined: "Since Feb 2024",
-      },
-      {
-        id: "ABC003",
-        name: "Justin Culhane",
-        email: "kaylynnk@gmail.com",
-        phone: "+91 9876543210",
-        address: "105, A block, Nivas Nagar, Chennai 2145602",
-        status: "Active",
-        subscription: "Non Subscriber",
-        image: img2,
-        joined: "Since Feb 2024",
-      },
-      {
-        id: "ABC003",
-        name: "Justin Culhane",
-        email: "justinculhane@gmail.com",
-        phone: "+91 9876543210",
-        address: "105, A block, Nivas Nagar, Chennai 2145602",
-        status: "Active",
-        subscription: "Non Subscriber",
-        image: img2,
-        joined: "Since Feb 2024",
-      },
-      {
-        id: "ABC003",
-        name: "Justin Culhane",
-        email: "tatina@gmail.com",
-        phone: "+91 9876543210",
-        address: "105, A block, Nivas Nagar, Chennai 2145602",
-        status: "Active",
-        subscription: "Non Subscriber",
-        image: img2,
-        joined: "Since Feb 2024",
-      },
-  ];
+ 
 
  
   return (
@@ -114,7 +61,7 @@ function NonActiveMember() {
          + Add Member
         </button>
       </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
       {members.map((member, index) => (
         <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
         
@@ -128,20 +75,20 @@ function NonActiveMember() {
 
          
           {openMenu === index && (
-          <div
-          ref={popupRef}
-          className="absolute right-4 top-10 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[160px]"
-        >
+        <div
+        ref={popupRef}
+        className="absolute right-4 top-10 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[160px]"
+      >
               <button
                 className="flex items-center gap-2 w-full px-3 py-2 text-blue-600 rounded-lg"
-                onClick={() => console.log("Edit clicked")}
+               
               >
                 <img src={editIcon} alt="Edit" className="h-4 w-4" />
                 Edit
               </button>
               <button
                 className="flex items-center gap-2 w-full px-3 py-2 text-red-600  rounded-lg"
-                onClick={() => console.log("Delete clicked")}
+               
               >
                 <img src={deleteIcon} alt="Delete" className="h-4 w-4" />
                 Delete
@@ -149,25 +96,24 @@ function NonActiveMember() {
             </div>
           )}
 
-        
+
           <div className="flex items-center gap-4">
-            <img src={member.image} alt={member.name} className="rounded-full" />
+            <img src={img1} alt='Member' className="rounded-full" />
             <div>
-              <h3 className="font-semibold text-base font-Gilroy">{member.name}</h3>
+              <h3 className="font-semibold text-base font-Gilroy">{member.User_Name}</h3>
               <div className="flex gap-2 text-sm mt-1">
                 <span className="bg-blue-100 text-sm font-medium font-Gilroy  px-2 py-1 rounded-xl">
-                  {member.id}
+                  {member.Member_Id
+                  }
                 </span>
                 <span className="px-2 py-1 rounded-xl text-sm font-medium font-Gilroy bg-yellow-200 ">
                   {member.subscription}
                 </span>
-                <span
-                  className={`px-2 py-1 rounded-xl text-sm font-medium font-Gilroy ${
-                    member.status === "Active" ? "bg-green-200" : "bg-pink-200"
-                  }`}
-                >
-                  {member.status}
-                </span>
+                <span className={`px-2 py-1 rounded-xl text-sm font-medium font-Gilroy ${
+  member.Status === "Active" ? "bg-green-200" : "bg-pink-200"
+}`}>
+  {member.Status}
+</span>
               </div>
             </div>
           </div>
@@ -177,16 +123,17 @@ function NonActiveMember() {
             <div className="flex justify-stretch items-center">
               <p className="flex items-center gap-2 font-Gilroy">
                 <img src={sms} className="text-gray-500" alt="sms" />
-                {member.email}
+                {member.Email_Id}
               </p>
               <p className="flex items-center gap-2 font-Gilroy">
                 <img src={call} className="text-gray-500" alt="call" />
-                {member.phone}
+                {member.Mobile_No
+                }
               </p>
             </div>
             <p className="flex items-center gap-2 mt-2 font-Gilroy">
               <img src={building} className="text-gray-500" alt="building" />
-              {member.address}
+              {member.Address}
             </p>
           </div>
 
@@ -196,7 +143,7 @@ function NonActiveMember() {
               View attached documents
             </p>
             <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-              {member.joined}
+              {member.Joining_Date}
             </span>
           </div>
         </div>
@@ -206,4 +153,12 @@ function NonActiveMember() {
   );
 }
 
-export default NonActiveMember;
+const mapsToProps = (stateInfo) => {
+  return {
+    state: stateInfo
+  }
+}
+ActiveMember.propTypes = {
+  state: PropTypes.object, 
+};
+export default connect(mapsToProps)(ActiveMember)
