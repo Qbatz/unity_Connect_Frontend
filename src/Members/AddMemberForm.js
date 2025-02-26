@@ -109,7 +109,7 @@ function AddMemberModal({ state }) {
             <div className="bg-white p-5 rounded-2xl shadow-lg w-full max-w-lg relative">
                 <div className="flex items-center justify-between border-b pb-2 mb-4">
                     <h2 className="text-xl font-semibold">Add a Member</h2>
-                    <button className="text-gray-600" onClick={() => setIsOpen(false)}>
+                    <button data-testid='button-close' className="text-gray-600" onClick={() => setIsOpen(false)}>
                         <MdClose size={24} />
                     </button>
                 </div>
