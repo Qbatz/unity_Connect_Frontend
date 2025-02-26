@@ -6,7 +6,7 @@ import sms from "../Icons/sms.svg";
 import building from "../Icons/buildings.svg";
 import editIcon from "../Icons/edit_blue.svg";
 import deleteIcon from "../Icons/Delete.svg";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
 import AddMemberForm from "./AddMemberForm";
 
@@ -20,7 +20,7 @@ function ActiveMember({ state }) {
 
 
   const popupRef = useRef(null);
-  const members = useSelector((state) => state.Member.Memberdata);
+  const members = state.Member.Memberdata;
 
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
@@ -75,6 +75,7 @@ const handleEditMemberClick = (index, member) => {
     <>
       <div className="flex justify-end">
         <button
+          data-testid="button-add-member"
 
           className="bg-black text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium mt-[-60px]"
           onClick={handleClickAddMember}
@@ -89,7 +90,8 @@ const handleEditMemberClick = (index, member) => {
 
             <div className="absolute top-4 right-4">
               <FaEllipsisH
-                className="text-gray-500 cursor-pointer"
+                data-testid={`button-toggle-menu${index}`}
+              className="text-gray-500 cursor-pointer"
                 onClick={(event) => toggleMenu(event, index)}
               />
             </div>
@@ -98,7 +100,8 @@ const handleEditMemberClick = (index, member) => {
             {openMenu === index && (
               <div
                 ref={popupRef}
-                className="absolute right-4 top-10 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[160px]"
+                data-testid='edit-container'
+        className="absolute right-4 top-10 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[160px]"
               >
                 <button
                 className="flex items-center gap-2 w-full px-3 py-2 text-blue-600 rounded-lg"

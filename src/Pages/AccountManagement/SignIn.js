@@ -107,7 +107,7 @@ const SignIn = ({ state }) => {
     <div className="container mx-auto flex flex-col md:flex-row h-screen sm:overflow-auto md:overflow-hidden">
       <div className="flex flex-col justify-center md:w-1/2 p-6 md:p-16 container mx-auto">
         <div className="mb-3">
-          <img src={UnityConnectImg}
+          <img data-testid='img-logo' src={UnityConnectImg}
              onClick={handleLogoClicks}
             alt="Illustration" />
         </div>
@@ -201,7 +201,7 @@ const SignIn = ({ state }) => {
 
         <p className="mt-3 font-Gilroy font-normal text-base leading-5 tracking-normal ml-1">
           Don’t have an account?{" "}
-          <a href="#" onClick={() => navigate("/create-account")} className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
+          <a data-testid='link-create-account' href="#" onClick={() => navigate("/create-account")} className="font-Gilroy font-normal text-base text-violet-700 leading-5 tracking-normal hover:underline font-semibold text-base leading-5 tracking-normal">
             Create an account
           </a>
         </p>
