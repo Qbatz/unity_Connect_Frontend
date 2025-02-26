@@ -7,16 +7,21 @@ import building from "../Icons/buildings.svg";
 import editIcon from "../Icons/edit_blue.svg"; 
 import deleteIcon from "../Icons/Delete.svg";
 import { useDispatch, useSelector,connect } from "react-redux"; 
-
+import PropTypes from 'prop-types';
 
 function ActiveMember({state}) {
+  
   const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(null);
 
   const popupRef = useRef(null);
   const members = useSelector((state) => state.Member.Memberdata);
   
-  
+  useEffect(()=> {
+    if(state.Member.statusCodeMemberList === 200){
+      dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
+    }
+  })
 
   useEffect(() => {
     dispatch({ type: 'MEMBERLIST' });
@@ -43,74 +48,7 @@ const toggleMenu = (event, index) => {
     };
   }, []);
 
-  // const members = [
-  //   {
-  //     id: "ABC001",
-  //     name: "Justin Culhane",
-  //     email: "justinculhane@gmail.com",
-  //     phone: "+91 9876543210",
-  //     address: "203, E block, Nivas Nagar, Chennai 2145602",
-  //     status: "Active",
-  //     subscription: "Subscriber",
-  //     image: img1,
-  //     joined: "Since Feb 2024",
-  //   },
-  //   {
-  //     id: "ABC003",
-  //     name: "Justin Culhane",
-  //     email: "tatina@gmail.com",
-  //     phone: "+91 9876543210",
-  //     address: "105, A block, Nivas Nagar, Chennai 2145602",
-  //     status: "Active",
-  //     subscription: "Non Subscriber",
-  //     image: img2,
-  //     joined: "Since Feb 2024",
-  //   },
-  //   {
-  //       id: "ABC003",
-  //       name: "Alfonso Korsgaard",
-  //       email: "alfonso@gmail.com",
-  //       phone: "+91 9876543210",
-  //       address: "105, A block, Nivas Nagar, Chennai 2145602",
-  //       status: "Active",
-  //       subscription: "Non Subscriber",
-  //       image: img2,
-  //       joined: "Since Feb 2024",
-  //     },
-  //     {
-  //       id: "ABC003",
-  //       name: "Justin Culhane",
-  //       email: "kaylynnk@gmail.com",
-  //       phone: "+91 9876543210",
-  //       address: "105, A block, Nivas Nagar, Chennai 2145602",
-  //       status: "Active",
-  //       subscription: "Non Subscriber",
-  //       image: img2,
-  //       joined: "Since Feb 2024",
-  //     },
-  //     {
-  //       id: "ABC003",
-  //       name: "Justin Culhane",
-  //       email: "justinculhane@gmail.com",
-  //       phone: "+91 9876543210",
-  //       address: "105, A block, Nivas Nagar, Chennai 2145602",
-  //       status: "Active",
-  //       subscription: "Non Subscriber",
-  //       image: img2,
-  //       joined: "Since Feb 2024",
-  //     },
-  //     {
-  //       id: "ABC003",
-  //       name: "Justin Culhane",
-  //       email: "tatina@gmail.com",
-  //       phone: "+91 9876543210",
-  //       address: "105, A block, Nivas Nagar, Chennai 2145602",
-  //       status: "Active",
-  //       subscription: "Non Subscriber",
-  //       image: img2,
-  //       joined: "Since Feb 2024",
-  //     },
-  // ];
+ 
 
  
   return (
@@ -220,4 +158,7 @@ const mapsToProps = (stateInfo) => {
     state: stateInfo
   }
 }
+ActiveMember.propTypes = {
+  state: PropTypes.object, 
+};
 export default connect(mapsToProps)(ActiveMember)

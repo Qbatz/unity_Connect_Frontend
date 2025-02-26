@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState,useEffect } from "react";
 import ExpensesIcon from "../Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../Icons/ThreeDotMore.svg";
@@ -11,7 +12,7 @@ function ExpensesSetting() {
   console.log("STateL:,",state);
   
   const[categoryName,setCategoryName]=useState('');
-  const[subCategoryName,setSubCategoryName]=useState('');
+  const[subCategoryName]=useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubCategory, setIsSubCategory] = useState(false);
 
@@ -37,12 +38,6 @@ function ExpensesSetting() {
       setCategoryName(e.target.value);
     };
 
-    
-    const handlesubCategoryName = (e) => {
-      setSubCategoryName(e.target.value);
-    };
-
-
     useEffect(() => {
       if (state.SettingAddExpenses.statusCode === 200) {
   
@@ -52,8 +47,7 @@ function ExpensesSetting() {
         const token = state.SettingAddExpenses.JWTtoken
         const cookies = new Cookies()
         cookies.set('token', token, { path: '/' });
-        const tokenCookies = cookies.get('token');
-  
+        
         setTimeout(() => {
           dispatch({ type: 'CLEAR_STATUSCODE' });
         }, 100);

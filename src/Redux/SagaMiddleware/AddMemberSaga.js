@@ -84,6 +84,9 @@ function* handleAddMember(datum) {
    
     const response = yield call(addMember, datum.payload);
 
+    console.log("response add member",response)
+
+
     if (response.statusCode === 200 || response.status === 200) {
         yield put({
             type: 'ADD_USER',
@@ -125,17 +128,15 @@ function* handleAddMember(datum) {
 }
 
 function refreshToken(response) {
-   console.log("response",response);
-   
-   if (response.data && response.data.refresh_token) {
-      const refreshTokenGet = response.data.refresh_token
+     
+   if (response && response.refresh_token) {
+      const refreshTokenGet = response.refresh_token
       const cookies = new Cookies()
       cookies.set('UnityConnectToken', refreshTokenGet, { path: '/' });
-   } else if (response.status === 206) {
-      const message = response.status     
+   } else if (response.status === 206 || response.statusCode === 206) {
+      const message = response.status ||  response.statusCode   
       const cookies = new Cookies()
       cookies.set('Unity_ConnectToken_Access-Denied', message, { path: '/' });
-
    }
 
 }

@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from "./Component/Sidebar";
 import SignIn from "./Pages/AccountManagement/SignIn";
-import Crypto from './Crypto/crypto';
 import CreateAccount from './Pages/AccountManagement/CreateAccount';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -13,12 +13,11 @@ import Cookies from 'universal-cookie';
 import { useDispatch } from 'react-redux';
 import LandingPage from './Component/LandingPage';
 import Settings from '../src/Settings/Settings';
+import PropTypes from 'prop-types';
 
 
 
-function App({ state, isLogged_In }) {
-
-
+function App({ isLogged_In }) {
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const [success, setSuccess] = useState(null)
@@ -45,7 +44,7 @@ function App({ state, isLogged_In }) {
   const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('Unity_ConnectToken_Access-Denied')));
 
   useEffect(() => {
-    if (tokenAccessDenied == 206) {
+    if (tokenAccessDenied === 206) {
       dispatch({ type: 'LOGOUT' });
       setSuccess(false);
       cookies.set('Unity_ConnectToken_Access-Denied', null, { path: '/', expires: new Date(0) });
@@ -67,7 +66,7 @@ function App({ state, isLogged_In }) {
 
 
   return (
-    <div>
+    <div data-testid="parent">
 
       <ToastContainer />
 
@@ -93,7 +92,7 @@ function App({ state, isLogged_In }) {
         </Routes>
       </Router>
 
-      <Crypto />
+    
 
 
 
@@ -103,11 +102,13 @@ function App({ state, isLogged_In }) {
 }
 
 const mapsToProps = (stateInfo) => {
-  console.log("stateInfo", stateInfo)
   return {
-    state: stateInfo.SignIn,
     isLogged_In: stateInfo.SignIn.isLoggedIn
   }
 }
+
+App.propTypes = {
+  isLogged_In: PropTypes.bool.isRequired, 
+};
 
 export default connect(mapsToProps)(App);

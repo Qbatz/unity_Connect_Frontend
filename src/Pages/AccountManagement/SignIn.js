@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import UnityConnectImg from '../../Icons/UnityConnectImg.svg';
 import SignInTop from "../../Icons/SignInTop.svg";
@@ -8,7 +9,7 @@ import { useDispatch, connect } from 'react-redux';
 import {encryptData  } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
-
+import PropTypes from 'prop-types';
 
 
 const SignIn = ({ state }) => {
@@ -23,7 +24,6 @@ const SignIn = ({ state }) => {
  
   const dispatch = useDispatch();
 
-console.log("state.SignIn.signinsuccessstatuscode",state.SignIn.signinsuccessstatuscode)
   useEffect(() => {
     if (state.SignIn.signinsuccessstatuscode === 200) {
       dispatch({ type: "SIGNIN-SUCCESS" });
@@ -218,6 +218,10 @@ const mapsToProps = (stateInfo) => {
   return {
     state: stateInfo
   }
+}
+
+SignIn.propTypes = {
+  state: PropTypes.object
 }
 
 export default connect(mapsToProps)(SignIn);

@@ -7,15 +7,16 @@ function* handleMemberList(action) {
    
     const response = yield call(ActiveMemberGetAction, action.payload);
    
+    console.log("action",action);
     
 
     if (response.statusCode === 200 || response.status === 200) {
         yield put({
             type: 'GET_MEMBER',
-            payload: { response: response.message,response: response.data, statusCode: response.statusCode || response.status },
+            payload: { response:response.data, statusCode: response.statusCode || response.status },
         });
 
-        toast.success(response.message, {
+        toast.success(response.data.message, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
