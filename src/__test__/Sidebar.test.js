@@ -8,8 +8,11 @@ describe('render and check sidebar functionalities', () => {
     
     const mockStore = configureStore()
             const store = mockStore({
-                Settings: {
-                    statusCodeMemberID: 200
+                addMember: {
+                    statusCodeForAddUser : 200
+                  },
+                  Settings: {
+                    statusCodeMemberID : 200
                   },
                 Member: {
                     Memberdata:[],

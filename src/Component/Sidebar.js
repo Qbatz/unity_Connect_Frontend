@@ -20,7 +20,6 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { encryptData } from "../Crypto/Utils";
 import { useDispatch } from 'react-redux';
 import Logout from "../Icons/turn-off.png";
-
 import Settings from "../Settings/Settings";
 import Members from "../Members/Member";
 
