@@ -6,7 +6,7 @@ import sms from "../Icons/sms.svg";
 import building from "../Icons/buildings.svg";
 import editIcon from "../Icons/edit_blue.svg"; 
 import deleteIcon from "../Icons/Delete.svg";
-import { useDispatch, useSelector,connect } from "react-redux"; 
+import { useDispatch,connect } from "react-redux"; 
 import PropTypes from 'prop-types';
 
 function ActiveMember({state}) {
@@ -15,7 +15,7 @@ function ActiveMember({state}) {
   const [openMenu, setOpenMenu] = useState(null);
 
   const popupRef = useRef(null);
-  const members = useSelector((state) => state.Member.Memberdata);
+  const members = state.Member.Memberdata;
   
   useEffect(()=> {
     if(state.Member.statusCodeMemberList === 200){
@@ -55,7 +55,7 @@ const toggleMenu = (event, index) => {
     <>
      <div className="flex justify-end">
         <button
-          
+          data-testid="button-add-member"
           className="bg-black text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium mt-[-60px]"
         >
          + Add Member
@@ -68,6 +68,7 @@ const toggleMenu = (event, index) => {
          
           <div className="absolute top-4 right-4">
             <FaEllipsisH
+              data-testid={`button-toggle-menu${index}`}
               className="text-gray-500 cursor-pointer"
               onClick={(event) => toggleMenu(event, index)}
             />
@@ -77,6 +78,7 @@ const toggleMenu = (event, index) => {
           {openMenu === index && (
         <div
         ref={popupRef}
+        data-testid='edit-container'
         className="absolute right-4 top-10 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[160px]"
       >
               <button
