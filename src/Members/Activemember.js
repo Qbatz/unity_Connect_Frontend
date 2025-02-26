@@ -139,9 +139,9 @@ const toggleMenu = (event, index) => {
 
          
           <div className="flex justify-between items-center mt-3">
-            <a href="#" className="text-purple-600 font-medium text-sm font-Gilroy">
+            <p className="text-purple-600 font-medium text-sm font-Gilroy">
               View attached documents
-            </a>
+            </p>
             <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
               {member.Joining_Date}
             </span>

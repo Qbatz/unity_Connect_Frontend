@@ -11,6 +11,10 @@ describe('render and check sidebar functionalities', () => {
                 Settings: {
                     statusCodeMemberID: 200
                   },
+                Member: {
+                    Memberdata:[],
+                    statusCodeMemberList:200
+                },  
         
             })
 

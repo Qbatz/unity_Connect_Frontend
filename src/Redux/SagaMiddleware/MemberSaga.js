@@ -1,6 +1,6 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { ActiveMemberGetAction } from '../Action/MemberAction';
-import { toast } from 'react-toastify';
+
 import Cookies from 'universal-cookie';
 
 function* handleMemberList(action) {
@@ -14,29 +14,6 @@ function* handleMemberList(action) {
         yield put({
             type: 'GET_MEMBER',
             payload: { response:response.data, statusCode: response.statusCode || response.status },
-        });
-
-        toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: {
-                backgroundColor: "#E6F6E6",
-                color: "black",
-                borderRadius: "60px",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                fontSize: 14,
-                textAlign: "start",
-                display: "flex",
-                alignItems: "center",
-                padding: "10px",
-            },
         });
 
     } 
