@@ -34,7 +34,7 @@ const handleNavigation = (path) => {
         </ul>
 
         <div className="hidden md:flex items-center space-x-6">
-        <button className="text-black font-Gilroy hover:text-black" onClick={() => handleNavigation("/sign-in")}>
+        <button data-testid='button-sign-in' className="text-black font-Gilroy hover:text-black" onClick={() => handleNavigation("/sign-in")}>
             Sign in
           </button>
           <button onClick={()=>handleNavigation("/create-account")}
@@ -46,6 +46,7 @@ const handleNavigation = (path) => {
 
     
         <button
+          data-testid='button-menu'
           className="md:hidden flex items-center text-black"
           onClick={() => setIsOpen(!isOpen)}
         >

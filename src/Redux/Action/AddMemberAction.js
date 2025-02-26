@@ -10,6 +10,7 @@ export async function addMember(params) {
     if (params.address) formData.append("address", params.address)
     if (params.email_id) formData.append("email_id", params.email_id)
     if (params.joining_date) formData.append("joining_date", params.joining_date)
+    if (params.file) formData.append("file", params.file)
 
     try {
         const response = await AxiosConfig.post('/member/add_new_member', formData, {
@@ -18,12 +19,11 @@ export async function addMember(params) {
             },
             timeout: 100000000,
             onUploadProgress: (event) => {
-                console.log("event", event)
             }
         });
         return response.data;
     } catch (error) {
-        console.error("Axios Error", error);
+       
     }
 }
 
