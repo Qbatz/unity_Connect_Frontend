@@ -289,7 +289,7 @@ const handleSubmit =  (e) => {
   return (
     <div data-testid='create-account' className="w-full font-gilroy bg-white px-4 md:px-16 mt-4 overflow-hidden h-auto">
       <div className="grid grid-cols-1 md:grid-cols-2  w-full">
-        {/* Left Section - Form */}
+        
         <div className="space-y-5 w-full">
           <img src={Unityicon} alt="Unity Icon" />
           <h1 className="text-3xl font-semibold text-gray-900 font-Gilroy">Create your free account</h1>
@@ -387,7 +387,7 @@ const handleSubmit =  (e) => {
           </div>
         </div>
 
-        {/* Right Section - Images */}
+       
         <div className="flex flex-col items-center  gap-0">
           <img src={Create1} className="w-full h-[330px] block" alt="Illustration 1" />
           <img
