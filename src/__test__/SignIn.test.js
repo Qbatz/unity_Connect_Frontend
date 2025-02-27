@@ -4,7 +4,7 @@ import SignIn from "../Pages/AccountManagement/SignIn";
 import configureStore from 'redux-mock-store';
 import { Provider } from "react-redux";
 import userEvent from '@testing-library/user-event'
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, BrowserRouter } from "react-router-dom";
 
 jest.useFakeTimers()
 describe('test signIn UI', () => {
@@ -115,17 +115,27 @@ describe('test signIn UI', () => {
         const store = mockStore({
             SignIn: {
                 isLoggedIn: true,
-                statusCode: 200,
+                signinsuccessstatuscode: 200,
               },
     
         })
         render(
             <Provider store={store}>
-                <MemoryRouter>
+                <BrowserRouter>
                 <SignIn />
-                </MemoryRouter>
+                </BrowserRouter>
             </Provider>
         )
+        jest.advanceTimersByTime(100);
+
+        const imgLogoHome = screen.getByTestId('img-logo-home');
+        expect(imgLogoHome).toBeInTheDocument();
+        const createAccount = screen.getByTestId('href-create-account')
+        expect(createAccount).toBeInTheDocument();
+        userEvent.click(imgLogoHome);
+        expect(global.window.location.pathname).toBe('/LandingPage');
+        userEvent.click(createAccount);
+        expect(global.window.location.pathname).toBe('/create-account');
     })
 
     it('it should return invalid emailId and password from server', () => {

@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
     MemberIDprefix:'',
     MemberIdsuffix:'',
     statusCodeMemberID:0,
