@@ -51,6 +51,10 @@ test('renders when user is not logged id', () => {
     },
     CreateAccount: {
       statusCodeCreateAccount: 100
+    },
+    Member: {
+      Memberdata: [],
+      statusCodeMemberList: 200
     }
   })
 

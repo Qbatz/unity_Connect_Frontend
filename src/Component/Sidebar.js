@@ -25,7 +25,7 @@ import Members from "../Members/Member";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const [activeMenu, setActiveMenu] = useState("Members");
+  const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const [logoutformshow, setLogoutFormShow] = useState(false);
