@@ -55,8 +55,6 @@ function AddMemberModal({ state, memberData, onClose }) {
         setNoChanges("");
     }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
 
-
-
     const validate = () => {
         let tempErrors = {};
         if (!memberId) tempErrors.memberId = "Member ID is required";
