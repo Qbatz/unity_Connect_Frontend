@@ -1,12 +1,7 @@
 import MemberListReducer from "../../Redux/Reducer/MemberReducer";
+import { initialState as INITIAL_STATE } from "../../Redux/Reducer/MemberReducer";
 
 describe('checks for Member Reducer', () => {
-    const INITIAL_STATE = {
-        id: 0,
-        statusCodeMemberList: 0,
-        Memberdata: [],
-        deleteMemberStatusCode:0
-    }
 
     it('it should check for GET_MEMBER', () => {
         const action = {

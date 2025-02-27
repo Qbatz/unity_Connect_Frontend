@@ -1,16 +1,8 @@
 import SettingReducer from "../../Redux/Reducer/SettingReducer";
+import { initialState as INITIAL_STATE } from "../../Redux/Reducer/SettingReducer";
 
 describe('it checks on settings reducer', () => {
-    const INITIAL_STATE = {
-        MemberIDprefix: '',
-        MemberIdsuffix: '',
-        statusCodeMemberID: 0,
-        LoanIDprefix: '',
-        LoanIDsuffix: '',
-        statusCodeLoanID: 0,
-        error: ''
-    }
-
+   
 
     it('it will check for SETTINGS_MEMBER_ID', () => {
         const action = {

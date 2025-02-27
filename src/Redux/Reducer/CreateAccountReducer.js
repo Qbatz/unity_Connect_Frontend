@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
    id: 0,
    statusCodeTwo: 0,
    EmailId: '',

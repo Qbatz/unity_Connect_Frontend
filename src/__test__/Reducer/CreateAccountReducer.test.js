@@ -1,33 +1,15 @@
 import CreateAccountReducer from "../../Redux/Reducer/CreateAccountReducer";
+import { initialState } from "../../Redux/Reducer/CreateAccountReducer";
 
 describe('it should check for create acoount reducer', () => {
-    const INITIAL_STATE = {
-        id: 0,
-        statusCodeTwo: 0,
-        EmailId: '',
-        Password: '',
-        MobileNo: '',
-        Name: '',
-        errorMessage: '',
-        accountMgs: {},
-        IsEnable: '',
-        accountList: [],
-        statusCodeForAccount: 0,
-        statusCodeCreateAccount: 0,
-        message: '',
-        emailError: '',
-        mobileError: '',
-        email_mobile_Error: '',
-        passwordDoesnotMatchError: '',
-    }
-
+    
     it('it should check for ERROR', () => {
         const action = {
             type: 'ERROR',
             payload: 'Invalid'
         }
 
-        expect(CreateAccountReducer(INITIAL_STATE, action)).toStrictEqual({
+        expect(CreateAccountReducer(initialState, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
             EmailId: '',
@@ -61,7 +43,7 @@ describe('it should check for create acoount reducer', () => {
             }
         }
 
-        expect(CreateAccountReducer(INITIAL_STATE, action)).toStrictEqual({
+        expect(CreateAccountReducer(initialState, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
             EmailId: 'abcd@gmail.com',
@@ -95,7 +77,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE, MobileNo: '9876543210',
+            ...initialState, MobileNo: '9876543210',
             EmailId: 'abcd@gmail.com',
             Password: 'qwer1234',
             Name: 'Abcd'
@@ -134,7 +116,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE, MobileNo: '9876543210',
+            ...initialState, MobileNo: '9876543210',
             EmailId: 'abcd@gmail.com',
             Password: 'qwer1234',
             Name: 'Abcd'
@@ -166,7 +148,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE, MobileNo: '9876543210',
+            ...initialState, MobileNo: '9876543210',
             EmailId: 'abcd@gmail.com',
             Password: 'qwer1234',
             Name: 'Abcd'
@@ -205,7 +187,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -237,7 +219,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -271,7 +253,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -301,7 +283,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -330,7 +312,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -359,7 +341,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -388,7 +370,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -417,7 +399,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -446,7 +428,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -475,7 +457,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -504,7 +486,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,
@@ -533,7 +515,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE,
+            ...initialState,
             statusCodeForAccountList: 200
         }, action)).toStrictEqual({
             id: 0,
@@ -564,7 +546,7 @@ describe('it should check for create acoount reducer', () => {
         }
 
         expect(CreateAccountReducer({
-            ...INITIAL_STATE
+            ...initialState
         }, action)).toStrictEqual({
             id: 0,
             statusCodeTwo: 0,

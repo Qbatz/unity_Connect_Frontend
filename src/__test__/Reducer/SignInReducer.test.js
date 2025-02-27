@@ -1,18 +1,7 @@
 import SignInReducer from "../../Redux/Reducer/SignInReducer";
-
+import { initialState as INITIAL_STATE } from "../../Redux/Reducer/SignInReducer";
 
 describe('check for sign in reducer', () => {
-    let INITIAL_STATE = {
-        id: 0,
-        email_Id: '',
-        password: '',
-        errorEmail: '',
-        errorPassword: '',
-        signinsuccessstatuscode: 0,
-        JWTtoken: '',
-        statusCode: 0,
-        isLoggedIn: false
-    }
 
     it('it should check for No INITIAL STATE', () => {
         const action = {

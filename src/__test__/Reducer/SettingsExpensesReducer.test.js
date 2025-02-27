@@ -1,12 +1,7 @@
 import SettingAddExpensesReducer from "../../Redux/Reducer/SettingsExpensesReducer";
+import { initialState as INITIAL_STATE } from "../../Redux/Reducer/SettingsExpensesReducer";
 
 describe('it will check for settings expenses reducers', () => {
-    const INITIAL_STATE = {
-        categoryname: '',
-        subcategoryname: '',
-        id: 0,
-        statusCodeSettingsAddExpenses: 0,
-    }
 
     it('it will check for SETTINGADDEXPENSES', () => {
         const action = {
