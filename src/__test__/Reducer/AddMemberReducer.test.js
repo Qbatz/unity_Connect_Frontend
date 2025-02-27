@@ -1,15 +1,8 @@
 import AddMemberReducer from "../../Redux/Reducer/AddMemberReducer";
+import { initialState } from "../../Redux/Reducer/AddMemberReducer";
 
 describe('it will check for add member reducer', () => {
-    const INITIAL_STATE = {
-        Users: [],
-        addUser: [],
-        statusCodeForAddUser: 0,
-        statusCodeClearForAddUser:0,
-        phoneError: '',
-        emailError: '',
-        
-    }
+    
 
     it('it checks and return the member reducer CLEAR_EMAIL_ERROR_TEST', () => {
         const action = {
@@ -30,7 +23,7 @@ describe('it will check for add member reducer', () => {
             }
         }
 
-        expect(AddMemberReducer(INITIAL_STATE, action)).toStrictEqual({
+        expect(AddMemberReducer(initialState, action)).toStrictEqual({
             Users: [],
             addUser: 'Added User Successfully',
             statusCodeForAddUser: 200,
@@ -48,7 +41,7 @@ describe('it will check for add member reducer', () => {
             }
         }
 
-        expect(AddMemberReducer({...INITIAL_STATE, statusCodeForAddUser: 200}, action)).toStrictEqual({
+        expect(AddMemberReducer({...initialState, statusCodeForAddUser: 200}, action)).toStrictEqual({
             Users: [],
             addUser: [],
             statusCodeForAddUser: 200,
@@ -65,7 +58,7 @@ describe('it will check for add member reducer', () => {
             payload: 'Invalid Phone Number'
         }
 
-        expect(AddMemberReducer({...INITIAL_STATE, statusCodeForAddUser: 200}, action)).toStrictEqual({
+        expect(AddMemberReducer({...initialState, statusCodeForAddUser: 200}, action)).toStrictEqual({
             Users: [],
             addUser: [],
             statusCodeForAddUser: 200,
@@ -82,7 +75,7 @@ describe('it will check for add member reducer', () => {
             payload: ''
         }
 
-        expect(AddMemberReducer({...INITIAL_STATE, phoneError: 'Invalid Phone Number'}, action)).toStrictEqual({
+        expect(AddMemberReducer({...initialState, phoneError: 'Invalid Phone Number'}, action)).toStrictEqual({
             Users: [],
             addUser: [],
             statusCodeForAddUser: 0,
@@ -99,7 +92,7 @@ describe('it will check for add member reducer', () => {
             payload: 'Invalid Email'
         }
 
-        expect(AddMemberReducer({...INITIAL_STATE, phoneError: 'Invalid Phone Number'}, action)).toStrictEqual({
+        expect(AddMemberReducer({...initialState, phoneError: 'Invalid Phone Number'}, action)).toStrictEqual({
             Users: [],
             addUser: [],
             statusCodeForAddUser: 0,
@@ -116,7 +109,7 @@ describe('it will check for add member reducer', () => {
             payload: ''
         }
 
-        expect(AddMemberReducer({...INITIAL_STATE, emailError: 'Invalid Email'}, action)).toStrictEqual({
+        expect(AddMemberReducer({...initialState, emailError: 'Invalid Email'}, action)).toStrictEqual({
             Users: [],
             addUser: [],
             statusCodeForAddUser: 0,
