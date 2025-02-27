@@ -56,10 +56,10 @@
   "jest": {
     "coverageThreshold": {
       "global": {
-        "branches": 57,
-        "functions": 64,
-        "lines": 68,
-        "statements": 68
+        "branches": 61,
+        "functions": 65,
+        "lines": 70,
+        "statements": 70
       }
     },
     "collectCoverageFrom": ["!src/Store.js", "!src/index.js", "!src/reportWebVitals.js", "!src/WebService/**.*", "!src/Redux/Action/**.*", "!src/Icons/**.**", "!src/Images/**.*"],

@@ -25,6 +25,40 @@ describe('it should check for settings saga', () => {
                 statusCode: 200,
                 token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9uYW1lIjoiY2NjIiwiaWF0IjoxNzQwMzkyNTI0LCJleHAiOjE3NDAzOTYxMjR9.9LS6--AYmEgYFprJF9EjimUt6Z0B24v32rxEFaXk_nI"
             }
+        };
+        let dispatchedActions = [];
+        SettingMemberIDAction.mockResolvedValue(mockResponse);
+
+        await runSaga(
+            {
+                dispatch: (action) => {
+
+                    return dispatchedActions.push(action)
+                }
+            },
+            SettingMemberID,
+            mockAction
+        ).toPromise();
+
+        expect(dispatchedActions[0]).toStrictEqual({
+            type: "SETTINGS_MEMBER_ID",
+            payload: {
+                response: mockResponse.data,
+                statusCode: mockResponse.status
+            }
+        })
+    })
+
+    it('it should check for SettingMemberID with Status code', async () => {
+        const mockAction = { type: 'SETTINGSMEMBERID', payload: { } };
+        const mockResponse = {
+            status: 100,
+            statusCode: 200,
+            data: {
+                message: "Login successful",
+                statusCode: 200,
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9uYW1lIjoiY2NjIiwiaWF0IjoxNzQwMzkyNTI0LCJleHAiOjE3NDAzOTYxMjR9.9LS6--AYmEgYFprJF9EjimUt6Z0B24v32rxEFaXk_nI"
+            }
 
 
         };
@@ -48,6 +82,34 @@ describe('it should check for settings saga', () => {
                 response: mockResponse.data,
                 statusCode: mockResponse.status
             }
+        })
+    })
+
+    it('it should check for SettingMemberID with Status code 201', async () => {
+        const mockAction = { type: 'SETTINGSMEMBERID', payload: { } };
+        const mockResponse = {
+            status: 201,
+            statusCode: 201,
+            data: {
+                message: "Login successful"
+            }
+        };
+        let dispatchedActions = [];
+        SettingMemberIDAction.mockResolvedValue(mockResponse);
+
+        await runSaga(
+            {
+                dispatch: (action) => {
+                    return dispatchedActions.push(action)
+                }
+            },
+            SettingMemberID,
+            mockAction
+        ).toPromise();
+
+        expect(dispatchedActions[0]).toStrictEqual({
+            type: "ERROR",
+            payload: mockResponse.data.message
         })
     })
 
@@ -83,6 +145,73 @@ describe('it should check for settings saga', () => {
                 response: mockResponse.data,
                 statusCode: mockResponse.status
             }
+        })
+    })
+
+    it('it should check for SettingLoanID with statusCode 200', async () => {
+        const mockAction = { type: 'SETTINGSLOANID', payload: { } };
+        const mockResponse = {
+            statusCode: 200,
+            data: {
+                message: "Login successful",
+                statusCode: 200,
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9uYW1lIjoiY2NjIiwiaWF0IjoxNzQwMzkyNTI0LCJleHAiOjE3NDAzOTYxMjR9.9LS6--AYmEgYFprJF9EjimUt6Z0B24v32rxEFaXk_nI"
+            }
+
+
+        };
+        let dispatchedActions = [];
+        SettingLoanIDAction.mockResolvedValue(mockResponse);
+
+        await runSaga(
+            {
+                dispatch: (action) => {
+
+                    return dispatchedActions.push(action)
+                }
+            },
+            SettingLoanID,
+            mockAction
+        ).toPromise();
+
+        expect(dispatchedActions[0]).toStrictEqual({
+            type: "SETTINGS_LOAN_ID",
+            payload: {
+                response: mockResponse.data,
+                statusCode: mockResponse.statusCode
+            }
+        })
+    })
+
+    it('it should check for SettingLoanID with statusCode 201', async () => {
+        const mockAction = { type: 'SETTINGSLOANID', payload: { } };
+        const mockResponse = {
+            status: 201,
+            data: {
+                message: "Login successful",
+                statusCode: 200,
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9uYW1lIjoiY2NjIiwiaWF0IjoxNzQwMzkyNTI0LCJleHAiOjE3NDAzOTYxMjR9.9LS6--AYmEgYFprJF9EjimUt6Z0B24v32rxEFaXk_nI"
+            }
+
+
+        };
+        let dispatchedActions = [];
+        SettingLoanIDAction.mockResolvedValue(mockResponse);
+
+        await runSaga(
+            {
+                dispatch: (action) => {
+
+                    return dispatchedActions.push(action)
+                }
+            },
+            SettingLoanID,
+            mockAction
+        ).toPromise();
+
+        expect(dispatchedActions[0]).toStrictEqual({
+            type: "ERROR",
+            payload: mockResponse.data.message
         })
     })
 })
