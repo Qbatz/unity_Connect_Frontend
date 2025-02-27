@@ -106,6 +106,7 @@ const handleEditMemberClick = (index, member) => {
         className="absolute right-4 top-10 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[160px]"
               >
                 <button
+                data-testid={`button-edit-member-${index}`}
                 className="flex items-center gap-2 w-full px-3 py-2 text-blue-600 rounded-lg"
                 onClick={() => handleEditMemberClick(index, member)}
               >

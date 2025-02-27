@@ -50,6 +50,9 @@ describe('checks for active members', () => {
                     Joining_Date: '26-Feb-2025'
                 }],
                 statusCodeMemberList: 200
+            },
+            addMember: {
+                statusCodeForAddUser: 100
             }
     
         })
@@ -61,14 +64,20 @@ describe('checks for active members', () => {
     
         </Provider>)
 
-        expect(screen.getByTestId('button-add-member')).toBeInTheDocument();
+        const buttonAddMember = screen.getByTestId('button-add-member')
+        expect(buttonAddMember).toBeInTheDocument();
         const buttonToggleMenu = screen.getByTestId('button-toggle-menu0');
         userEvent.click(buttonToggleMenu)
         const editContainer = screen.getByTestId('edit-container')
         expect(editContainer).toBeInTheDocument()
 
+        const buttonEditMember = screen.getByTestId('button-edit-member-0')
+        expect(buttonEditMember).toBeInTheDocument()
+        userEvent.click(buttonEditMember)
+        
         userEvent.click(document.body)
         userEvent.click(buttonToggleMenu);
         userEvent.click(buttonToggleMenu)
+        userEvent.click(buttonAddMember)
     })
 })
