@@ -142,7 +142,7 @@ const handleEditMemberClick = () => {
 
   return (
     <>
-      <div data-testid='active-member-div' className="flex justify-end">
+      <div data-testid='inactive-member-div' className="flex justify-end">
         <button
           data-testid="button-add-member"
 

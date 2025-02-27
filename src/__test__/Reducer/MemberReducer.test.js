@@ -17,7 +17,10 @@ describe('checks for Member Reducer', () => {
             id: 0,
             Memberdata: [],
             statusCodeMemberList: 200,
-            deleteMemberStatusCode: 0
+            deleteMemberStatusCode: 0,
+            changestatus: '',
+            changestausStatusCode: 0,
+            errormsg: ''
         })
     })
 
@@ -31,11 +34,14 @@ describe('checks for Member Reducer', () => {
                 statusCode: 200
             }
         }
-        expect(MemberListReducer({...INITIAL_STATE, statusCodeMemberList: 200}, action)).toStrictEqual({
+        expect(MemberListReducer({ ...INITIAL_STATE, statusCodeMemberList: 200 }, action)).toStrictEqual({
             id: 0,
             Memberdata: [],
             statusCodeMemberList: 0,
-            deleteMemberStatusCode: 0
+            deleteMemberStatusCode: 0,
+            changestatus: '',
+            changestausStatusCode: 0,
+            errormsg: ''
         })
     })
 
@@ -46,26 +52,32 @@ describe('checks for Member Reducer', () => {
                 statusCode: 200
             }
         }
-        expect(MemberListReducer({...INITIAL_STATE, statusCodeMemberList: 200}, action)).toStrictEqual({
+        expect(MemberListReducer({ ...INITIAL_STATE, statusCodeMemberList: 200 }, action)).toStrictEqual({
             id: 0,
             Memberdata: [],
             statusCodeMemberList: 200,
-            deleteMemberStatusCode: 200
+            deleteMemberStatusCode: 200,
+            changestatus: '',
+            changestausStatusCode: 0,
+            errormsg: ''
         })
     })
 
-    it('it should check for CLEAR _DELETE_MEMBER', () => {
+    it('it should check for CLEAR_DELETE_MEMBER', () => {
         const action = {
-            type: 'CLEAR _DELETE_MEMBER',
+            type: 'CLEAR_DELETE_MEMBER',
             payload: {
                 statusCode: 200
             }
         }
-        expect(MemberListReducer({...INITIAL_STATE, deleteMemberStatusCode: 200}, action)).toStrictEqual({
+        expect(MemberListReducer({ ...INITIAL_STATE, deleteMemberStatusCode: 200 }, action)).toStrictEqual({
             id: 0,
             Memberdata: [],
             statusCodeMemberList: 0,
-            deleteMemberStatusCode: 0
+            deleteMemberStatusCode: 0,
+            changestatus: '',
+            changestausStatusCode: 0,
+            errormsg: ''
         })
     })
 
@@ -76,11 +88,14 @@ describe('checks for Member Reducer', () => {
                 statusCode: 200
             }
         }
-        expect(MemberListReducer({...INITIAL_STATE}, action)).toStrictEqual({
+        expect(MemberListReducer({ ...INITIAL_STATE }, action)).toStrictEqual({
             id: 0,
             Memberdata: [],
             statusCodeMemberList: 0,
-            deleteMemberStatusCode: 0
+            deleteMemberStatusCode: 0,
+            changestatus:'',
+            changestausStatusCode:0,
+            errormsg:''
         })
     })
 
