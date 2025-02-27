@@ -3,10 +3,12 @@ const initialState = {
   dueon: "",
   duetype: "",
   dueamount: "",
-  statusCodeLoan: 0,
+  statusCodeLoans: 0,
+  getLoan:[],
 };
 
 const SettingLoanReducer = (state = initialState, action) => {
+ 
   switch (action.type) {
     case "SETTINGADDLOAN":
       return {
@@ -15,13 +17,19 @@ const SettingLoanReducer = (state = initialState, action) => {
         dueon: action.payload.due_on,
         duetype: action.payload.due_type,
         dueamount: action.payload.due_count,
-        statusCodeLoan: action.payload.statusCode,
+        statusCodeLoans: action.payload.statusCode,
       };
+
+      case "SETTINGSGETLOAN":
+        return {
+           ...state, getLoan: action.payload.response, statusCodeLoans: action.payload.statusCode 
+        };
+  
 
     case "CLEARSETTINGLOAN":
       return {
         ...state,
-        statusCodeLoan: 0,
+        statusCodeLoans: 0,
       };
 
     default:

@@ -14,5 +14,6 @@ SettingExpenses:SettingAddExpensesReducer,
     addMember: AddMemberReducer,
     Member: MemberListReducer,
     SettingLoan:SettingLoanReducer,
+
 })
 export default RootReducer;

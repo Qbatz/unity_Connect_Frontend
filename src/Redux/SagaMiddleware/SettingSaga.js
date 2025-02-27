@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { SettingMemberIDAction,SettingLoanIDAction,SettingAddLoan } from '../Action/SettingAction';
+import { SettingMemberIDAction,SettingLoanIDAction,SettingAddLoan ,SettingGetLoan} from '../Action/SettingAction';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
 
@@ -122,6 +122,28 @@ function* SettingLoanID(action) {
       }
 
 
+      
+function* SettingGetLoanPage(action) {
+   
+    const response = yield call(SettingGetLoan, action.payload);
+   
+   console.log("Loan Response:",response);
+   
+   
+     if ( response.status === 200 ) {
+        yield put({
+            type: 'SETTINGSGETLOAN',
+            payload: { response:response.data, statusCodeLoan: response.status },
+        });
+  
+  
+    }
+     if (response) {
+            refreshToken(response);
+        }
+  }
+  
+
 
 function refreshToken(response) {
      
@@ -141,6 +163,7 @@ function* SettingSaga() {
     yield takeEvery('SETTINGSMEMBERID', SettingMemberID);
     yield takeEvery('SETTINGSLOANID', SettingLoanID);
     yield takeEvery("SETTINGS_LOAN", SettingAddLoanPage);
+    yield takeEvery("SETTINGS_GET_LOAN", SettingGetLoanPage);
 }
 
 export default SettingSaga;

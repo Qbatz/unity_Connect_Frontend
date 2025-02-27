@@ -39,5 +39,8 @@ export async function SettingAddLoan(loanDatum) {
     return await AxiosConfig.post("/loan/add_loan", loanDatum);
 }
 
+export async function SettingGetLoan(loanGetDatum) {
+    return await AxiosConfig.get("/loan/all_loans", loanGetDatum);
+}
   
     

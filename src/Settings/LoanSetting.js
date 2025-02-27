@@ -6,10 +6,17 @@ import ThreeDotMore from "../Icons/ThreeDotMore.svg";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector, connect } from "react-redux";
 
+
+
 function LoanSetting({ state }) {
 
     const dispatch = useDispatch();
-    const statusCode = useSelector((state) => state.SettingLoan.statusCodeLoan);
+    const loanGetSetting = useSelector((state) => state);
+    
+
+    const statusCode = useSelector((state) => state.SettingLoan.statusCodeLoans);
+
+
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +30,7 @@ const [selectedDay, setSelectedDay] = useState("Select a day");
     const [isDayDropdownOpen, setIsDayDropdownOpen] = useState(false);
 
     const options = ["Daily", "Weekly", "Monthly"];
-    const weeklyOptions = ["Daily", "Weekly", "Monthly", "Yearly"];
+    const weeklyOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const monthlyOptions = ["Day", "Date"];
 const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
@@ -32,13 +39,25 @@ const [selectedDueDate, setSelectedDueDate] = useState("");
 const [selectedDueCount, setSelectedDueCount] = useState("");  
 
 
+const [isOrdinalDropdownOpen, setIsOrdinalDropdownOpen] = useState(false);
+const [selectedOrdinal, setSelectedOrdinal] = useState("1st");
+
+
+const ordinalOptions = ["1st", "2nd", "3rd", "4th", "5th"];
+const [selectedDate, setSelectedDate] = useState(null); 
+
+
 const handleSubmit = (e) => {
     e.preventDefault();
+
+    
+    
     const payload = {
       loan_name: selectedLoanName, 
       due_on: selectedDueDate, 
       due_type: selectedOption, 
       due_count: selectedDueCount, 
+      Id:loanGetSetting,
     };
   
     dispatch({
@@ -52,7 +71,7 @@ const handleSubmit = (e) => {
     if (statusCode === 200) {
       dispatch({ type: "CLEARSETTINGLOAN" });
       setIsModalOpen(false);
-     
+      dispatch({ type: "SETTINGS_GET_LOAN" });
     }
 
 
@@ -60,12 +79,45 @@ const handleSubmit = (e) => {
     setSelectedDueDate("");
     setSelectedDueCount("");
 
+    setSelectedLoanName("");
+    setSelectedOption("Select a due type");
+    setSelectedWeekDay("Select a due type");
+    setSelectedMonthlyType("Select Monthly Type");
+    setSelectedOrdinal("1st");
+    setSelectedDay("Select a day");
+    setSelectedDate("");
+    setSelectedDueCount("");
+    setIsModalOpen(false);
+
   }, [statusCode, dispatch]);
 
 
+useEffect(() => {
+    dispatch({ type: "SETTINGS_GET_LOAN" });
+  }, [dispatch]);
 
 
+    useEffect(() => {
+      if (state.SettingGetLoan?.statusCodeLoans === 200) {
+       
+        dispatch({ type: "CLEARSETTINGADDLOAN" });
+  
+      }
+    }, [state.SettingLoan.statusCodeLoans, dispatch]);
 
+
+   
+        useEffect(()=>{
+            if(state.SettingLoan.statusCodeLoans == 200){
+                dispatch({ type: "SETTINGS_GET_LOAN" });
+
+                setTimeout(()=>{
+dispatch({type:"CLEARSETTINGLOAN"})
+                },500)
+            }
+        },[state.SettingLoan.statusCodeLoans])
+
+        
     return (
         <div className="container mx-auto">
             <div className="flex items-center justify-between w-full">
@@ -86,7 +138,7 @@ const handleSubmit = (e) => {
 
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white w-464 rounded-40 p-6 shadow-lg">
+                    <div className="bg-white w-464 rounded-40 p-6 shadow-lg ">
                   
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-semibold font-Gilroy">Add new loan</h2>
@@ -108,13 +160,14 @@ const handleSubmit = (e) => {
                                 placeholder="Enter Name" onChange={(e) => setSelectedLoanName(e.target.value)}
                                 className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 
                                         placeholder:text-base placeholder:font-medium placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"/>
-                            
+                           
                   
                             <div className="relative w-full mt-5">
                                 <label className="text-black text-sm font-Gilroy font-medium text-lg">Due on</label>
                                 <div 
                                     className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
                                     onClick={() => setIsOpen(!isOpen)}
+                                   
                                 >
                                     <span className={`text-base font-Gilroy font-medium ${selectedOption === "Select a due type" ? "text-gray-400" : "text-black"}`}>
                                         {selectedOption}
@@ -132,6 +185,9 @@ const handleSubmit = (e) => {
                                                 onClick={() => {
                                                     setSelectedOption(option);
                                                     setIsOpen(false);
+                                                    if (option === "Daily") {
+                                                        setSelectedDueDate("Daily"); 
+                                                      }
                                                 }}
                                             >
                                                 {option}
@@ -148,6 +204,7 @@ const handleSubmit = (e) => {
                                     <div 
                                         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
                                         onClick={() => setIsWeekDropdownOpen(!isWeekDropdownOpen)}
+                                       
                                     >
                                         <span className={`text-base font-Gilroy font-medium ${selectedWeekDay === "Select a due type" ? "text-gray-400" : "text-black"}`}>
                                             {selectedWeekDay}
@@ -164,7 +221,9 @@ const handleSubmit = (e) => {
                                                     onClick={() => {
                                                         setSelectedWeekDay(day);
                                                         setIsWeekDropdownOpen(false);
+                                                        setSelectedDueDate(day);
                                                     }}
+                                                   
                                                 >
                                                     {day}
                                                 </div>
@@ -210,40 +269,92 @@ const handleSubmit = (e) => {
   <div className="relative w-full mt-3 flex gap-2">
     
     
-    <div className="w-1/2 relative">
-      <div 
-        className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
-        onClick={() => {
-          setIsDayDropdownOpen(!isDayDropdownOpen);
-          
-        }}
-      >
-        <span className={`text-base font-Gilroy font-medium ${selectedDay === "Select a day" ? "text-gray-400" : "text-black"}`}>
-          {selectedDay}
-        </span>
-        <ChevronDown className="w-5 h-5 text-gray-500" />
-      </div>
 
-      {isDayDropdownOpen && (
-        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
-          {dayOptions.map((day, index) => (
-            <div
-              key={index}
-              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
-              onClick={() => { 
-                setSelectedDay(day); 
-                setIsDayDropdownOpen(false);
-              }}
-            >
-              {day}
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="flex gap-4">
+
+  <div className="lg:w-[80px] relative">
+    <div
+      className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
+      onClick={() => setIsOrdinalDropdownOpen(!isOrdinalDropdownOpen)}
+    >
+      <span className={`text-base font-Gilroy font-medium ${selectedOrdinal === "Select a day count" ? "text-gray-400" : "text-black"}`}>
+        {selectedOrdinal}
+      </span>
+      <ChevronDown className="w-5 h-5 text-gray-500" />
     </div>
+
+    {isOrdinalDropdownOpen && (
+      <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
+        {ordinalOptions.map((ordinal, index) => (
+          <div
+            key={index}
+            className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+            onClick={() => {
+              setSelectedOrdinal(ordinal);
+              setIsOrdinalDropdownOpen(false);
+              setSelectedDueDate(`${ordinal} ${selectedDay}`); 
+            }}
+          >
+            {ordinal}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <div className="lg:w-[320px] relative">
+    <div
+      className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
+      onClick={() => setIsDayDropdownOpen(!isDayDropdownOpen)}
+    >
+      <span className={`text-base font-Gilroy font-medium ${selectedDay === "Select a day" ? "text-gray-400" : "text-black"}`}>
+        {selectedDay}
+      </span>
+      <ChevronDown className="w-5 h-5 text-gray-500" />
+    </div>
+
+    {isDayDropdownOpen && (
+      <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
+        {dayOptions.map((day, index) => (
+          <div
+            key={index}
+            className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+            onClick={() => {
+              setSelectedDay(day);
+              setIsDayDropdownOpen(false);
+              setSelectedDueDate(`${selectedOrdinal} ${day}`); 
+            }}
+          >
+            {day}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
 
   </div>
 )}
+
+{selectedMonthlyType === "Date" && (
+        <div className="mt-3">
+          <label className="text-black text-base font-Gilroy font-medium">Select Date</label>
+          <div className="mt-2">
+          <input type="date"  value={selectedDate}
+              selected={selectedDate}
+              onChange={(e) => {
+                setSelectedDate(e.target.value);
+                setSelectedDueDate(e.target.value);
+              }}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="Select a date"
+              className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
+            />
+          </div>
+        </div>
+      )}
+
 
 
 
@@ -270,26 +381,35 @@ const handleSubmit = (e) => {
                 </div>
             
             )}
-            <div className="mt-5 w-350 h-170 border border-[#E7E7E7] bg-#F4F7FF flex flex-col rounded-3xl">
-                
-        <div className="flex items-center px-4 py-4">
-          <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
-          <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy" >
-            Category Name
-          </p>
-          <div className="flex-grow"></div>
-          <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
-        </div>
-        <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
-        <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-          <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Sub-category 1</p>
-          <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">Name</p>
-        </div>
-        <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-          <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Sub-category 1</p>
-          <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">Name</p>
-        </div>
+
+
+
+      <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {loanGetSetting?.SettingLoan?.getLoan.loans?.map((loan, index) => (
+    <div key={index} className="w-350 h-170 border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
+      <div className="flex items-center px-4 py-4">
+        <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
+        <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
+          {loan.Loan_Name}
+        </p>
+        <div className="flex-grow"></div>
+        <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
       </div>
+      <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
+
+      <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+        <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
+        <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_On}</p>
+      </div>
+
+      <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+        <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
+        <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
+      </div>
+    </div>
+  ))}
+</div>
+
         </div>
     );
 }

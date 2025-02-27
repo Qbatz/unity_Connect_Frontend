@@ -15,6 +15,7 @@ function* RootSaga() {
         AddMemberSaga(),
         SettingAddExpensesSaga(),
         MemberSaga(),
+        
 
     ])
 }
