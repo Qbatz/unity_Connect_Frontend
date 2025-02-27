@@ -8,16 +8,16 @@ import editIcon from "../Icons/edit_blue.svg";
 import deleteIcon from "../Icons/Delete.svg";
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
-import AddMemberForm from "./AddMemberForm";
 
 function ActiveMember({ state }) {
 
   const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedMember, setSelectedMember] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  
 
+ 
+
+  const [deletePopup, setDeletePopup] = useState(null);
 
   const popupRef = useRef(null);
   const members = state.Member.Memberdata;
@@ -32,6 +32,28 @@ function ActiveMember({ state }) {
   useEffect(() => {
     dispatch({ type: 'MEMBERLIST' });
   }, [dispatch]);
+
+  useEffect(() => {
+    if(state.Member.deleteMemberStatusCode === 200){
+      dispatch({type:'CLEAR _DELETE_MEMBER'})
+      setDeletePopup(null)
+    }
+  },[state.Member.deleteMemberStatusCode,dispatch])
+
+  const handleDeleteClick = (index) => {
+    setDeletePopup(index);
+  };
+
+  const confirmDelete = (memberId) => {
+    const payload = { 
+      id: memberId,
+    };
+    
+   
+    dispatch({ type: "DELETEMEMBER", payload });
+    
+  };
+  
 
 
   const toggleMenu = (event, index) => {
@@ -55,20 +77,18 @@ function ActiveMember({ state }) {
   }, []);
 
   const handleClickAddMember =()=>{
-    setShowModal(true);
-    setIsEditing(false);
+   
+   
   }
 
-  const handleValidationError = () => {
-    setIsEditing(false); 
-};
+  
  
 
 
-const handleEditMemberClick = (index, member) => {
-    setSelectedMember(member);
-    setShowModal(true);
-    setIsEditing(true);
+const handleEditMemberClick = () => {
+   
+   
+    
   };
 
   return (
@@ -114,7 +134,7 @@ const handleEditMemberClick = (index, member) => {
                
                 <button
                   className="flex items-center gap-2 w-full px-3 py-2 text-red-600  rounded-lg"
-
+                  onClick={() => handleDeleteClick(index)}
                 >
                   <img src={deleteIcon} alt="Delete" className="h-4 w-4" />
                   Delete
@@ -162,19 +182,58 @@ const handleEditMemberClick = (index, member) => {
               </p>
             </div>
 
-
-            <div className="flex justify-between items-center mt-3">
-              <p className="text-purple-600 font-medium text-sm font-Gilroy">
-                View attached documents
-              </p>
-              <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-                {member.Joining_Date}
-              </span>
-            </div>
+         
+          <div className="flex justify-between items-center mt-3">
+            <p className="text-purple-600 font-medium text-sm font-Gilroy">
+              View attached documents
+            </p>
+            <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
+              {member.Joining_Date}
+            </span>
           </div>
-        ))}
-          {showModal && <AddMemberForm memberData={selectedMember}isEditing={isEditing} onValidationError={handleValidationError} onClose={() => setShowModal(false)} />}
+
+         
+            {deletePopup === index && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
+    <div className="bg-white w-[388px] h-[200px] mx-auto rounded-2xl shadow-lg">
+      
+      <div className="flex justify-center items-center p-4">
+        <h2 className="text-[18px] font-semibold text-[#222222] font-gilroy">
+          Delete Member ?
+        </h2>
       </div>
+
+     
+      <div className="text-center text-[14px] font-medium text-[#646464] font-gilroy mt-[-10px]">
+        Are you sure you want to delete this Member?
+      </div>
+
+   
+      <div className="flex justify-center mt-4 p-4">
+        <button
+          className="w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white text-[#1E45E1] border border-[#1E45E1] font-semibold font-gilroy text-[14px] mr-2"
+          onClick={() => setDeletePopup(null)}
+        >
+          Cancel
+        </button>
+        <button
+          className="w-[160px] h-[52px] rounded-lg px-5 py-3 bg-[#1E45E1] text-white font-semibold font-gilroy text-[14px]"
+          onClick={() => confirmDelete(member.Id)}
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+        </div>
+      ))}
+    </div>
+
+     
+    
+
     </>
   );
 }

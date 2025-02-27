@@ -5,6 +5,7 @@ const initialState = {
     LoanIDprefix:'',
     LoanIDsuffix:'',
     statusCodeLoanID:0,
+    error:''
  
  }
  const SettingReducer = (state = initialState, action) => {
@@ -20,7 +21,11 @@ const initialState = {
              case 'SETTINGS_LOAN_ID':
           return { ...state, LoanIDprefix: action.payload.prefix, LoanIDsuffix: action.payload.suffix, statusCodeLoanID:action.payload.statusCode}
           case 'CLEAR_STATUS_CODE_LOAN_ID':
-             return {...state, statusCodeLoanID:0}  
+             return {...state, statusCodeLoanID:0} 
+             case 'ERROR':
+          return { ...state, error: action.payload } 
+          case 'CLEAR_ERROR':
+    return {...state, error:''}
          default:
             return state;
 }

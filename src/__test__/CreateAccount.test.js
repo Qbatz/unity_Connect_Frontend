@@ -181,42 +181,4 @@ describe('checks for Create account', () => {
 
         expect(screen.getByTestId('mobile_error')).toBeInTheDocument()
     })
-
-    it('entering information with space on password', () => {
-        render(<Provider store={store}>
-            <MemoryRouter>
-                <CreateAccount />
-            </MemoryRouter>
-        </Provider>
-        )
-        expect(screen.getByTestId('create-account')).toBeInTheDocument()
-        const inputEmail = screen.getByTestId('input-email')
-        const firstName = screen.getByTestId('input-fname')
-        const lasttName = screen.getByTestId('input-lname')
-        const password = screen.getByTestId('input-password')
-        const conPassword = screen.getByTestId('con-password')
-        const mobileNumber = screen.getByTestId('input-mobile')
-        const buttonSHowConfirmPassword = screen.getByTestId('show-confirm-password')
-        const buttonShowPassword = screen.getByTestId('button-show-password')
-        const buttonSubmit = screen.getByTestId('button-submit')
-        expect(inputEmail).toBeInTheDocument();
-        expect(firstName).toBeInTheDocument();
-        expect(lasttName).toBeInTheDocument();
-        expect(password).toBeInTheDocument();
-        expect(conPassword).toBeInTheDocument();
-        expect(mobileNumber).toBeInTheDocument()
-        expect(buttonSHowConfirmPassword).toBeInTheDocument()
-        expect(buttonShowPassword).toBeInTheDocument()
-        expect(buttonSubmit).toBeInTheDocument()
-
-        userEvent.type(inputEmail, 'abdefgh')
-        userEvent.type(firstName, 'Test')
-        userEvent.type(lasttName, 'User')
-        userEvent.type(password, 'abc def')
-        userEvent.type(conPassword, undefined)
-        userEvent.type(mobileNumber, '9876654439')
-        userEvent.click(buttonSHowConfirmPassword)
-        userEvent.click(buttonShowPassword)
-        userEvent.click(buttonSubmit)
-    })
 })

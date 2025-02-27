@@ -118,7 +118,11 @@ const handlePrefix = (e) => {
         <button onClick={handleSave} className="bg-lightgray text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium">
           Save changes
         </button>
+
       </div>
+      {state.Settings.error === "Prefix and Suffix already Exist" && (
+    <p  className="text-red-500 text-sm text-center font-Gilroy">{state.Settings.error}</p>
+  )}
     </div>
     
   );
