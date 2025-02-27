@@ -7,12 +7,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 
-function AddMemberModal({ state, memberData,onClose }) {
+function AddMemberModal({ state, memberData, onClose }) {
 
 
     const dispatch = useDispatch();
 
-    const [isOpen, setIsOpen] = useState(true);
     const [memberId, setMemberId] = useState("");
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
@@ -22,21 +21,19 @@ function AddMemberModal({ state, memberData,onClose }) {
     const [file, setFile] = useState("");
     const [errors, setErrors] = useState({});
     const [noChanges, setNoChanges] = useState("");
-
+   
 
     useEffect(() => {
         if (memberData) {
-    
-            setMemberId(memberData.Member_Id || "");
-            setUserName(memberData.User_Name || "");
-            setEmail(memberData.Email_Id || "");
-            setMobileNo(memberData.Mobile_No || "");
-            setAddress(memberData.Address || "");
-            setJoiningDate(memberData.Joining_Date || "");
-            setFile(memberData.file || "");
+            setMemberId(prev => memberData.Member_Id || prev);
+            setUserName(prev => memberData.User_Name || prev);
+            setEmail(prev => memberData.Email_Id || prev);
+            setMobileNo(prev => memberData.Mobile_No || prev);
+            setAddress(prev => memberData.Address || prev);
+            setJoiningDate(prev => memberData.Joining_Date || prev);
+            setFile(prev => memberData.file || prev);
         }
     }, [memberData]);
-    
 
 
     useEffect(() => {
@@ -50,10 +47,15 @@ function AddMemberModal({ state, memberData,onClose }) {
             setAddress("");
             setFile("");
             setErrors("");
-          
+
             dispatch({ type: 'CLEAR_STATUS_CODES' });
         }
     }, [state.addMember.statusCodeForAddUser]);
+    useEffect(() => {
+        setNoChanges("");
+    }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
+
+
 
     const validate = () => {
         let tempErrors = {};
@@ -63,9 +65,9 @@ function AddMemberModal({ state, memberData,onClose }) {
         if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
         if (!mobileNo) {
             tempErrors.mobileNo = "Mobile number is required";
-          } else if (!/^\d{10}$/.test(mobileNo)) {
+        } else if (!/^\d{10}$/.test(mobileNo)) {
             tempErrors.mobileNo = "Mobile number must be exactly 10 digits";
-          }
+        }
 
         if (!address) tempErrors.address = "Address is required";
         setErrors(tempErrors);
@@ -80,21 +82,22 @@ function AddMemberModal({ state, memberData,onClose }) {
         if (field === "mobileNo") setMobileNo(value);
         if (field === "address") setAddress(value);
         if (field === "file") setFile(value);
-       
+
         setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     };
 
-
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setFile(URL.createObjectURL(file));
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setFile(selectedFile);
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setNoChanges("");
 
+        let valid = true
         if (memberData) {
             const isUnchanged =
                 memberId === memberData.Member_Id &&
@@ -103,29 +106,22 @@ function AddMemberModal({ state, memberData,onClose }) {
                 mobileNo === memberData.Mobile_No &&
                 address === memberData.Address &&
                 joiningDate === memberData.Joining_Date &&
-                file === memberData.file;
+                (!file || (memberData.file && file.name === memberData.file.name));
 
             if (isUnchanged) {
                 setNoChanges("No Changes Detected");
-                return;
+                return
+
             } else {
                 setNoChanges("");
             }
+
+        }
+        if (!validate()) {
+            return
         }
 
-        // if (validate()) {
-
-        //     setMemberId("");
-        //     setUserName("");
-        //     setEmail("");
-        //     setJoiningDate("");
-        //     setMobileNo("");
-        //     setAddress("");
-        //     setFile("");
-        //     setErrors({});
-        // }
-
-        if (validate()){
+        if (valid) {
             if (userName && memberId && email && address && file && mobileNo) {
                 const payload = {
                     user_name: userName,
@@ -133,13 +129,13 @@ function AddMemberModal({ state, memberData,onClose }) {
                     mobile_no: mobileNo,
                     joining_date: joiningDate,
                     address: address,
-                    file: file
+                    file: file ? file.name : "",
                 };
                 dispatch({
                     type: 'MEMBERINFO',
                     payload: payload
                 });
-                setIsOpen(false);
+
             }
         }
       
@@ -158,16 +154,17 @@ function AddMemberModal({ state, memberData,onClose }) {
                     </button>
                 </div>
 
-                <div className="space-y-2 mt-2">
+
+                <div className="space-y-1 mt-2">
                     <div className="flex gap-4">
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">Member ID</label>
-                            <input type="text" className="w-full p-2 h-10 border rounded-lg" value={memberId} onChange={(e) => handleChange("memberId", e.target.value)} />
+                            <input type="text" className="w-full p-2 h-10 border rounded-lg text-xs" value={memberId} onChange={(e) => handleChange("memberId", e.target.value)} />
                             {errors.memberId && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.memberId}</p>}
                         </div>
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">User Name</label>
-                            <input type="text" className="w-full p-2 h-10 border rounded-lg"
+                            <input type="text" className="w-full p-2 h-10 border rounded-lg text-xs"
                                 value={userName}
                                 onChange={(e) => handleChange("userName", e.target.value)} />
                             {errors.userName && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.userName}</p>}
@@ -177,31 +174,32 @@ function AddMemberModal({ state, memberData,onClose }) {
                     <div className="flex gap-4">
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">Email</label>
-                            <input type="email" className="w-full p-2 h-10 border rounded-lg"
+                            <input type="email" className="w-full p-2 h-10 border rounded-lg text-xs"
                                 value={email}
                                 onChange={(e) => handleChange("email", e.target.value)} />
                             {errors.email && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.email}</p>}
                         </div>
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">Mobile No.</label>
-                            <input type="text" className="w-full p-2 h-10 border rounded-lg"  value={mobileNo}onChange={(e) => handleChange("mobileNo", e.target.value)} />
+                            <input type="text" className="w-full p-2 h-10 border rounded-lg text-xs" value={mobileNo} onChange={(e) => handleChange("mobileNo", e.target.value)} />
                             {errors.mobileNo && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.mobileNo}</p>}
                         </div>
                     </div>
 
                     <div>
                         <label className="block text-start text-sm font-medium mb-1">Joining Date</label>
-                        <input type="date" className=" w-56 p-2 h-10 border rounded-lg" value={joiningDate} onChange={(e) => handleChange("joiningDate", e.target.value)} />
+                        <input type="date" className=" w-56 p-2 h-10 border rounded-lg text-xs" value={joiningDate} onChange={(e) => handleChange("joiningDate", e.target.value)} />
                         {errors.joiningDate && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.joiningDate}</p>}
                     </div>
 
                     <div>
                         <label className="block text-start text-sm font-medium mb-1">Address</label>
-                        <textarea className="w-full p-2 border rounded-lg h-10"
+                        <textarea className="w-full p-2 border rounded-lg h-10 text-xs"
                             value={address}
                             onChange={(e) => handleChange("address", e.target.value)} />
                         {errors.address && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.address}</p>}
                     </div>
+                   
                     <div>
                         <label className="block text-start text-sm font-medium mb-1">Add Documents</label>
                         <div className="border rounded px-2 py-4 flex items-center justify-center relative w-28">
@@ -209,10 +207,16 @@ function AddMemberModal({ state, memberData,onClose }) {
                             {file ? <img src={file} alt="Selected" /> : <AiOutlinePlus size={20} />}
                         </div>
                     </div>
-                    {noChanges && <p className="text-red-500 text-sm text-center mt-8">{noChanges}</p>}
+
+                    {noChanges && (
+                        <div className="flex items-center justify-center mt-8 text-red-500 text-sm font-semibold">
+                            <MdError className="text-sm mr-2" />
+                            <p>{noChanges}</p>
+                        </div>
+                    )}
 
                     <button type="submit" className="w-full bg-black text-white p-2 rounded-lg"
-                    onClick={handleSubmit}>{memberData ? "Save Changes" : "Add Member"}</button>
+                        onClick={handleSubmit}>{memberData ? "Save Changes" : "Add Member"}</button>
                 </div>
             </div>
         </div>
@@ -225,7 +229,8 @@ const mapsToProps = (stateInfo) => {
     }
 }
 AddMemberModal.propTypes = {
-      memberData: PropTypes.object, state :PropTypes.object, onClose : PropTypes.bool
-    };
+    memberData: PropTypes.object, state: PropTypes.object, onClose: PropTypes.bool
+};
 
 export default connect(mapsToProps)(AddMemberModal);
+

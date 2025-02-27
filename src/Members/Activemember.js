@@ -56,7 +56,6 @@ function ActiveMember({ state }) {
   const handleClickAddMember =()=>{
     setShowModal(true);
     setSelectedMember("");
-    console.log("clicked");
     
   }
 
@@ -66,11 +65,10 @@ const handleOnClose=()=>{
 }
 
 
-const handleEditMemberClick = (index, member) => {
+const handleEditMemberClick = (member) => {
     setSelectedMember(member);
     setShowModal(true);
   };
-  console.log("setShowModal",showModal);
   
 
   return (

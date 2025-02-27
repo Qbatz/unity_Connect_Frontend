@@ -99,36 +99,19 @@ const Sidebar = () => {
             ))}
           </ul>
 
-          {/* <div className="p-4 flex items-center gap-1 mb-6">
-          <img src={ProfileIcon} alt="Profile" className="w-14 h-14 rounded-full" />
-          <div className="text-start">
-            <p className="text-black font-semibold text-base leading-snug">John Doe</p>
-            <p className="text-neutral-400 font-normal text-xs leading-tight">vikramkumar@gmail.com</p>
-          </div>
-        </div>
-
-
-        <div className="flex items-center justify-center mb-2" >
-        <img onClick={handleLogout}
-                    src={Logout}
-                    alt="Logout Icon"
-                    style={{ width: 24, height: 24 }}
-                    data-testid='img-logout'
-                  />
-        </div> */}
           <div className="p-4 flex items-center justify-between w-full">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <img src={ProfileIcon} alt="Profile" className="w-14 h-14 rounded-full" />
               <div className="text-start">
                 <p className="text-black font-semibold text-base leading-snug">John Doe</p>
-                <p className="text-neutral-400 font-normal text-xs leading-tight">vikramkumar@gmail.com</p>
+                <p className="text-neutral-400 font-normal text-xs leading-tight">vikram@gmail.com</p>
               </div>
             </div>
             <img
               onClick={handleLogout}
               src={Logout}
               alt="Logout Icon"
-              className="w-6 h-6 cursor-pointer"
+              className="w-5 h-5 cursor-pointer ml-2"
               data-testid="img-logout"
             />
           </div>
