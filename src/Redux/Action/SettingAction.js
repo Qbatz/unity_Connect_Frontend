@@ -35,4 +35,9 @@ export async function SettingGetExpenses(datum) {
 }
 
   
+export async function SettingAddLoan(loanDatum) {
+    return await AxiosConfig.post("/loan/add_loan", loanDatum);
+}
+
   
+    

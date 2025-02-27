@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { SettingMemberIDAction,SettingLoanIDAction } from '../Action/SettingAction';
+import { SettingMemberIDAction,SettingLoanIDAction,SettingAddLoan } from '../Action/SettingAction';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
 
@@ -89,7 +89,40 @@ function* SettingLoanID(action) {
         } 
 
     }  
-  
+
+ 
+    function* SettingAddLoanPage(action) {
+        try {
+          const response = yield call(SettingAddLoan, action.payload);
+      
+          if (response?.status === 200 || response?.statusCode === 200) {
+            yield put({
+              type: "SETTINGADDLOAN",
+              payload: {
+                loan_name: response.data.loan_name,
+                due_on: response.data.due_on,
+                due_type: response.data.due_type,
+                due_count: response.data.due_count,
+                statusCode: response.status || response.statusCode,
+              },
+            });
+      
+            toast.success("Loan added successfully!", {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: true,
+            });
+          } else {
+            toast.error("Failed to add loan");
+          }
+        } catch (error) {
+          console.error("Saga API Error:", error);
+          toast.error("Failed to add loan");
+        }
+      }
+
+
+
 function refreshToken(response) {
      
     if (response && response.refresh_token) {
@@ -107,9 +140,7 @@ function refreshToken(response) {
 function* SettingSaga() {
     yield takeEvery('SETTINGSMEMBERID', SettingMemberID);
     yield takeEvery('SETTINGSLOANID', SettingLoanID);
+    yield takeEvery("SETTINGS_LOAN", SettingAddLoanPage);
 }
 
 export default SettingSaga;
-
-
-

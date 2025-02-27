@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import CloseCircleIcon from '../Icons/close-circle.svg';
 import { ChevronDown } from "lucide-react";
 import ExpensesIcon from "../Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../Icons/ThreeDotMore.svg";
-function LoanSetting() {
+import PropTypes from "prop-types";
+import { useDispatch, useSelector, connect } from "react-redux";
+
+function LoanSetting({ state }) {
+
+    const dispatch = useDispatch();
+    const statusCode = useSelector((state) => state.SettingLoan.statusCodeLoan);
+
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState("Select a due type");
@@ -19,18 +27,57 @@ const [selectedDay, setSelectedDay] = useState("Select a day");
     const monthlyOptions = ["Day", "Date"];
 const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
+const [selectedLoanName, setSelectedLoanName] = useState("");  
+const [selectedDueDate, setSelectedDueDate] = useState("");    
+const [selectedDueCount, setSelectedDueCount] = useState("");  
+
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      loan_name: selectedLoanName, 
+      due_on: selectedDueDate, 
+      due_type: selectedOption, 
+      due_count: selectedDueCount, 
+    };
+  
+    dispatch({
+      type: "SETTINGS_LOAN",
+      payload,
+    });
+  };
+  
+
+  useEffect(() => {
+    if (statusCode === 200) {
+      dispatch({ type: "CLEARSETTINGLOAN" });
+      setIsModalOpen(false);
+     
+    }
+
+
+    setSelectedLoanName("");
+    setSelectedDueDate("");
+    setSelectedDueCount("");
+
+  }, [statusCode, dispatch]);
+
+
+
+
+
     return (
-        <div className="container mx-auto mt-10">
-            <div className="flex items-center justify-between w-full pb-4">
+        <div className="container mx-auto">
+            <div className="flex items-center justify-between w-full">
                 <div>
                     <p className="font-Gilroy font-semibold text-xl text-black">Loan</p>
-                    <p className="mt-5 text-gray-500 text-sm font-medium">
+                    <p className="mt-5 text-gray-500 text-sm font-Gilroy font-medium">
                         Set up the loan type and manage them
                     </p>
                 </div>
                 <button 
-                    className="bg-black text-white w-155 h-51 rounded-60 text-base font-medium pt-[16px] pr-[20px] pb-[16px] pl-[20px]
-"
+                   className="bg-black font-Gilroy text-white w-[155px] rounded-[60px] text-base font-medium pt-[16px] pr-[20px]
+                    pb-[16px] pl-[20px]"
                     onClick={() => setIsModalOpen(true)}
                 >
                     + Loan type
@@ -42,7 +89,7 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
                     <div className="bg-white w-464 rounded-40 p-6 shadow-lg">
                   
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-semibold">Add new loan</h2>
+                            <h2 className="text-xl font-semibold font-Gilroy">Add new loan</h2>
                             <img 
                             alt="Close Circle icon"
                                 src={CloseCircleIcon} 
@@ -55,24 +102,24 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
 
                         <div className="mt-7">
                
-                            <label className="text-black text-sm font-medium text-lg">Name</label>
-                            <input
+                            <label className="text-black text-sm font-medium font-Gilroy text-lg">Name</label>
+                            <input  value={selectedLoanName}
                                 type="text"
-                                placeholder="Enter Name"
+                                placeholder="Enter Name" onChange={(e) => setSelectedLoanName(e.target.value)}
                                 className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 
                                         placeholder:text-base placeholder:font-medium placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"/>
                             
                   
                             <div className="relative w-full mt-5">
-                                <label className="text-black text-sm font-medium text-lg">Due on</label>
+                                <label className="text-black text-sm font-Gilroy font-medium text-lg">Due on</label>
                                 <div 
                                     className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
                                     onClick={() => setIsOpen(!isOpen)}
                                 >
-                                    <span className={`text-base font-medium ${selectedOption === "Select a due type" ? "text-gray-400" : "text-black"}`}>
+                                    <span className={`text-base font-Gilroy font-medium ${selectedOption === "Select a due type" ? "text-gray-400" : "text-black"}`}>
                                         {selectedOption}
                                     </span>
-                                    <ChevronDown className="w-5 h-5 text-gray-500" />
+                                    <ChevronDown className="w-5 h-5  text-gray-500" />
                                 </div>
 
                               
@@ -81,7 +128,7 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
                                         {options.map((option, index) => (
                                             <div
                                                 key={index}
-                                                className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                                                className="px-4 py-3 text-black text-base font-Gilroy font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
                                                 onClick={() => {
                                                     setSelectedOption(option);
                                                     setIsOpen(false);
@@ -97,12 +144,12 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
                           
                             {selectedOption === "Weekly" && (
                                 <div className="relative w-full mt-3">
-                                    <label className="text-black text-sm font-medium text-lg">Due Type</label>
+                                    <label className="text-black text-sm  font-Gilroy font-medium text-lg">Due Type</label>
                                     <div 
                                         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
                                         onClick={() => setIsWeekDropdownOpen(!isWeekDropdownOpen)}
                                     >
-                                        <span className={`text-base font-medium ${selectedWeekDay === "Select a due type" ? "text-gray-400" : "text-black"}`}>
+                                        <span className={`text-base font-Gilroy font-medium ${selectedWeekDay === "Select a due type" ? "text-gray-400" : "text-black"}`}>
                                             {selectedWeekDay}
                                         </span>
                                         <ChevronDown className="w-5 h-5 text-gray-500" />
@@ -113,7 +160,7 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
                                             {weeklyOptions.map((day, index) => (
                                                 <div
                                                     key={index}
-                                                    className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                                                    className="px-4 py-3 text-black text-base font-Gilroy font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
                                                     onClick={() => {
                                                         setSelectedWeekDay(day);
                                                         setIsWeekDropdownOpen(false);
@@ -130,12 +177,12 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
                      
                             {selectedOption === "Monthly" && (
                                 <div className="relative w-full mt-3">
-                                    <label className="text-black text-sm font-medium text-lg">Monthly Type</label>
+                                    <label className="text-black text-sm font-Gilroy font-medium text-lg">Monthly Type</label>
                                     <div 
                                         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
                                         onClick={() => setIsMonthlyDropdownOpen(!isMonthlyDropdownOpen)}
                                     >
-                                        <span className={`text-base font-medium ${selectedMonthlyType === "Select Monthly Type" ? "text-gray-400" : "text-black"}`}>
+                                        <span className={`text-base font-Gilroy font-medium ${selectedMonthlyType === "Select Monthly Type" ? "text-gray-400" : "text-black"}`}>
                                             {selectedMonthlyType}
                                         </span>
                                         <ChevronDown className="w-5 h-5 text-gray-500" />
@@ -171,7 +218,7 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
           
         }}
       >
-        <span className={`text-base font-medium ${selectedDay === "Select a day" ? "text-gray-400" : "text-black"}`}>
+        <span className={`text-base font-Gilroy font-medium ${selectedDay === "Select a day" ? "text-gray-400" : "text-black"}`}>
           {selectedDay}
         </span>
         <ChevronDown className="w-5 h-5 text-gray-500" />
@@ -202,18 +249,18 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
 
                     
                             <div className="mt-5">
-                                <label className="text-black text-sm font-medium text-lg">Due count</label>
+                                <label className="text-black font-Gilroy text-sm font-medium text-lg">Due count</label>
                                 <input
-                                    type="text"
-                                    placeholder="Enter due count"
+                                    type="text"  value={selectedDueCount}
+                                    placeholder="Enter due count" onChange={(e) => setSelectedDueCount(e.target.value)}
                                     className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                                 />
                             </div>
                         </div>
                         
                        
-                        <button 
-                            className="mt-10 w-full h-60 bg-black text-white rounded-60 pt-[20px] pr-[40px] pb-[20px] pl-[40px]
+                        <button   onClick={handleSubmit}
+                            className="mt-10 w-full h-60 font-Gilroy bg-black text-white rounded-60 pt-[20px] pr-[40px] pb-[20px] pl-[40px]
  text-base font-medium"
                         >
                             Add loan
@@ -223,10 +270,11 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
                 </div>
             
             )}
-            <div className="mt-10 w-350 h-170 border border-[#E7E7E7] bg-#F4F7FF flex flex-col rounded-3xl">
+            <div className="mt-5 w-350 h-170 border border-[#E7E7E7] bg-#F4F7FF flex flex-col rounded-3xl">
+                
         <div className="flex items-center px-4 py-4">
           <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
-          <p className="text-darkGray text-base font-semibold leading-[19.09px] ml-2 font-Gilroy" >
+          <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy" >
             Category Name
           </p>
           <div className="flex-grow"></div>
@@ -246,5 +294,9 @@ const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
     );
 }
 
-export default LoanSetting;
-
+LoanSetting.propTypes = {
+    state: PropTypes.object,
+  };
+  
+  export default connect((stateInfo) => ({ state: stateInfo }))(LoanSetting);
+  
