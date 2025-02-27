@@ -228,4 +228,363 @@ describe('it should check for create acoount reducer', () => {
         })
     })
 
+    it('it should check for PASSWORD-UPDATE', () => {
+        const action = {
+            type: 'PASSWORD-UPDATE',
+            payload: {
+                message: 'Password Updated'
+            }
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: 'Password Updated',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+        })
+    })
+
+    it('it should check for ACCOUNT_DETAILS', () => {
+        const action = {
+            type: 'ACCOUNT_DETAILS',
+            payload: {
+                response: {
+                    data: ''
+                },
+                statusCode: 200
+            }
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [{data: ''}],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+            statusCodeForAccountList: 200
+        })
+    })
+
+    it('it should check for EMAIL_ERROR', () => {
+        const action = {
+            type: 'EMAIL_ERROR',
+            payload: 'Invalid Email'
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: 'Invalid Email',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+        })
+    })
+
+    it('it should check for CLEAR_EMAIL_ERROR', () => {
+        const action = {
+            type: 'CLEAR_EMAIL_ERROR',
+            payload: 'Invalid Email'
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+        })
+    })
+
+    it('it should check for MOBILE_ERROR', () => {
+        const action = {
+            type: 'MOBILE_ERROR',
+            payload: 'Invalid Mobile'
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: 'Invalid Mobile',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+        })
+    })
+
+    it('it should check for CLEAR_MOBILE_ERROR', () => {
+        const action = {
+            type: 'CLEAR_MOBILE_ERROR',
+            payload: ''
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+        })
+    })
+
+    it('it should check for EMAIL_MOBILE_ERROR', () => {
+        const action = {
+            type: 'EMAIL_MOBILE_ERROR',
+            payload: 'No idea'
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+            email_mobile_Error: 'No idea'
+        })
+    })
+
+    it('it should check for CLEAR_EMAIL_MOBILE_ERROR', () => {
+        const action = {
+            type: 'CLEAR_EMAIL_MOBILE_ERROR',
+            payload: ''
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+            email_mobile_Error: ''
+        })
+    })
+
+    it('it should check for PASSWORD_DOESNT_ERROR', () => {
+        const action = {
+            type: 'PASSWORD_DOESNT_ERROR',
+            payload: 'Password doesnt match'
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: 'Password doesnt match'
+        })
+    })
+
+    it('it should check for CLEAR_PASSWORD_DOESNT_ERROR', () => {
+        const action = {
+            type: 'CLEAR_PASSWORD_DOESNT_ERROR',
+            payload: 'Password doesnt match'
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: ''
+        })
+    })
+
+    it('it should check for CLEAR_ACCOUNT_STATUS_CODE', () => {
+        const action = {
+            type: 'CLEAR_ACCOUNT_STATUS_CODE',
+            payload: 'Password doesnt match'
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE,
+            statusCodeForAccountList: 200
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+            statusCodeForAccountList: 0
+        })
+    })
+
+    it('it should check for DEFAULT_CASE', () => {
+        const action = {
+            type: 'CLEAR_ACCOUNT_STATUS_CODE_TEST',
+            payload: 'Password doesnt match'
+        }
+
+        expect(CreateAccountReducer({
+            ...INITIAL_STATE
+        }, action)).toStrictEqual({
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: ''
+        })
+    })
 })
