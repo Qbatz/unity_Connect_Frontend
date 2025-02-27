@@ -13,6 +13,7 @@ function* RootSaga() {
     SettingSaga(),
         AddMemberSaga(),
         MemberSaga(),
+        
 
     ])
 }
