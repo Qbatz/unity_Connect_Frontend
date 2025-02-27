@@ -50,5 +50,81 @@ describe('SignIn Saga', () => {
         })
 
     })
+
+    it('it should return the failure with 203', async () => {
+        const mockResponse = {
+            status: 203,
+            data: {
+                message: "Invalid Email Id!"
+            }
+        };
+        let dispatchedActions = [];
+        SignIncall.mockResolvedValue(mockResponse);
+
+        await runSaga(
+            {
+                dispatch: (action) => {
+                   
+                    return dispatchedActions.push(action)
+                }
+            },
+            SignIn,
+            mockAction
+        ).toPromise();
+
+        expect(dispatchedActions[0]).toStrictEqual({
+            type: "ERROR_EMAIL",
+            payload: mockResponse.data.message
+        })
+    })
+
+    it('it should return the failure with 202', async () => {
+        const mockResponse = {
+            status: 202,
+            data: {
+                message: "Invalid Password!"
+            }
+        };
+        let dispatchedActions = [];
+        SignIncall.mockResolvedValue(mockResponse);
+
+        await runSaga(
+            {
+                dispatch: (action) => {
+                   
+                    return dispatchedActions.push(action)
+                }
+            },
+            SignIn,
+            mockAction
+        ).toPromise();
+
+        expect(dispatchedActions[0]).toStrictEqual({
+            type: 'ERROR_PASSWORD',
+            payload: mockResponse.data.message
+        })
+    })
+
+    it('it should throw the network error', async () => {
+        const mockError = new Error("Network Error");
+        let dispatchedActions = [];
+        SignIncall.mockRejectedValue(mockError);
+
+        await runSaga(
+            {
+                dispatch: (action) => {
+                   
+                    return dispatchedActions.push(action)
+                }
+            },
+            SignIn,
+            mockAction
+        ).toPromise();
+
+        expect(dispatchedActions[0]).toStrictEqual({
+            type: 'ERROR_EMAIL',
+            payload: 'Error'
+        })
+    })
 })
 

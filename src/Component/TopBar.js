@@ -37,7 +37,8 @@ const handleNavigation = (path) => {
         <button data-testid='button-sign-in' className="text-black font-Gilroy hover:text-black" onClick={() => handleNavigation("/sign-in")}>
             Sign in
           </button>
-          <button className="bg-#7F00FF lg:w-[161px] lg:h[51px] text-base font-Gilroy text-white p-[20px] pr-[24px] pb-[20px] pl-[24px]
+          <button data-testid='button-create-account' onClick={()=>handleNavigation("/create-account")}
+           className="bg-#7F00FF lg:w-[161px] lg:h[51px] text-base font-Gilroy text-white p-[20px] pr-[24px] pb-[20px] pl-[24px]
  rounded-2xl">
             Get Started
           </button>
@@ -61,8 +62,8 @@ const handleNavigation = (path) => {
             <li className="text-black hover:text-black">Why us</li>
             <li className="text-black hover:text-black">About</li>
             <li className="text-black hover:text-black">Testimonials</li>
-            <button className="text-black">Sign in</button>
-            <button className="bg-#7F00FF text-white p-[20px] pr-[24px] pb-[20px] pl-[24px]
+            <button data-testid='button-signin' className="text-black" onClick={() => handleNavigation("/sign-in")}>Sign in</button>
+            <button data-testid='button-create-account-2' onClick={()=>handleNavigation("/create-account")} className="bg-#7F00FF text-white p-[20px] pr-[24px] pb-[20px] pl-[24px]
  rounded-2xl">
               Get Started
             </button>

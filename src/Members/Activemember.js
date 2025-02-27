@@ -95,7 +95,7 @@ const handleEditMemberClick = (index, member) => {
 
   return (
     <>
-      <div className="flex justify-end">
+      <div data-testid='active-member-div' className="flex justify-end">
         <button
           data-testid="button-add-member"
 
