@@ -434,7 +434,6 @@ describe('it should check for create acoount reducer', () => {
             message: '',
             emailError: '',
             mobileError: '',
-            email_mobile_Error: '',
             passwordDoesnotMatchError: '',
             email_mobile_Error: 'No idea'
         })
@@ -465,8 +464,7 @@ describe('it should check for create acoount reducer', () => {
             emailError: '',
             mobileError: '',
             email_mobile_Error: '',
-            passwordDoesnotMatchError: '',
-            email_mobile_Error: ''
+            passwordDoesnotMatchError: ''
         })
     })
 
