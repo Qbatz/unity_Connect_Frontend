@@ -13,9 +13,9 @@ function ActiveMember({ state }) {
 
   const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedMember, setSelectedMember] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  
+
+ 
 
   const [deletePopup, setDeletePopup] = useState(null);
 
@@ -77,20 +77,18 @@ function ActiveMember({ state }) {
   }, []);
 
   const handleClickAddMember =()=>{
-    setShowModal(true);
-    setIsEditing(false);
+   
+   
   }
 
-  const handleValidationError = () => {
-    setIsEditing(false); 
-};
+  
  
 
 
-const handleEditMemberClick = (index, member) => {
-    setSelectedMember(member);
-    setShowModal(true);
-    setIsEditing(true);
+const handleEditMemberClick = () => {
+   
+   
+    
   };
 
   return (
