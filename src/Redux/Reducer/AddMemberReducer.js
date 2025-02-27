@@ -10,7 +10,6 @@ const initialState = {
 }
 
 const AddMemberReducer = (state = initialState, action) => {
-
    
     switch (action.type) {
         case'ADD_USER_SUCCESS':
