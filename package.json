@@ -30,8 +30,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:local": "REACT_APP_ENV=local react-scripts start",
+    "start:qa": "REACT_APP_ENV=qa react-scripts start",
     "lint": "eslint src || true",
     "build": "react-scripts build",
+    "build:local": "REACT_APP_ENV=local react-scripts build",
+    "build:qa": "REACT_APP_ENV=qa react-scripts build",
+    "build:prod": "REACT_APP_ENV=production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -62,7 +67,15 @@
         "statements": 70
       }
     },
-    "collectCoverageFrom": ["!src/Store.js", "!src/index.js", "!src/reportWebVitals.js", "!src/WebService/**.*", "!src/Redux/Action/**.*", "!src/Icons/**.**", "!src/Images/**.*"],
+    "collectCoverageFrom": [
+      "!src/Store.js",
+      "!src/index.js",
+      "!src/reportWebVitals.js",
+      "!src/WebService/**.*",
+      "!src/Redux/Action/**.*",
+      "!src/Icons/**.**",
+      "!src/Images/**.*"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!(axios|iconsax-react|lucide-react))",
       "/src/Store.js"

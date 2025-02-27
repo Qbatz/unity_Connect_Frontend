@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-function* SettingAddExpensesPage(action) {
+export function* SettingAddExpensesPage(action) {
     try {
       const response = yield call(SettingAddExpenses, action.payload);
       var toastStyle = {
