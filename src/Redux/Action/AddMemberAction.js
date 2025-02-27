@@ -7,6 +7,7 @@ export async function addMember(params) {
     if (params.user_name) formData.append("user_name", params.user_name)
     if (params.address) formData.append("address", params.address)
     if (params.email_id) formData.append("email_id", params.email_id)
+    if (params.mobile_no) formData.append("mobile_no", params.mobile_no)
     if (params.joining_date) formData.append("joining_date", params.joining_date)
     if (params.file) formData.append("file", params.file)
 

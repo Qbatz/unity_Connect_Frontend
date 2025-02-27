@@ -16,7 +16,6 @@ function ActiveMember({ state }) {
   const [openMenu, setOpenMenu] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
 
 
   const popupRef = useRef(null);
@@ -56,20 +55,23 @@ function ActiveMember({ state }) {
 
   const handleClickAddMember =()=>{
     setShowModal(true);
-    setIsEditing(false);
+    setSelectedMember("");
+    console.log("clicked");
+    
   }
 
-  const handleValidationError = () => {
-    setIsEditing(false); 
-};
  
+const handleOnClose=()=>{
+  setShowModal(false);
+}
 
 
 const handleEditMemberClick = (index, member) => {
     setSelectedMember(member);
     setShowModal(true);
-    setIsEditing(true);
   };
+  console.log("setShowModal",showModal);
+  
 
   return (
     <>
@@ -172,8 +174,9 @@ const handleEditMemberClick = (index, member) => {
             </div>
           </div>
         ))}
-          {showModal && <AddMemberForm memberData={selectedMember}isEditing={isEditing} onValidationError={handleValidationError} onClose={() => setShowModal(false)} />}
+         
       </div>
+      {showModal && <AddMemberForm memberData={selectedMember} onClose={handleOnClose} />}
     </>
   );
 }
