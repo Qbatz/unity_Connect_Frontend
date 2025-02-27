@@ -97,25 +97,18 @@ useEffect(() => {
   }, [dispatch]);
 
 
-    useEffect(() => {
-      if (state.SettingGetLoan?.statusCodeLoans === 200) {
-       
-        dispatch({ type: "CLEARSETTINGADDLOAN" });
-  
-      }
-    }, [state.SettingLoan.statusCodeLoans, dispatch]);
 
 
    
         useEffect(()=>{
-            if(state.SettingLoan.statusCodeLoans == 200){
+            if(state.SettingLoan.statusCodeLoans === 200){
                 dispatch({ type: "SETTINGS_GET_LOAN" });
 
                 setTimeout(()=>{
 dispatch({type:"CLEARSETTINGLOAN"})
                 },500)
             }
-        },[state.SettingLoan.statusCodeLoans])
+        },[state.SettingLoan.statusCodeLoans,dispatch])
 
         
     return (
@@ -347,8 +340,8 @@ dispatch({type:"CLEARSETTINGLOAN"})
                 setSelectedDate(e.target.value);
                 setSelectedDueDate(e.target.value);
               }}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="Select a date"
+
+              placeholder="Select a date"
               className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
             />
           </div>
