@@ -11,9 +11,9 @@ describe('it will check for add member reducer', () => {
         
     }
 
-    it('it checks and return the member reducer CLEAR_EMAIL_ERROR', () => {
+    it('it checks and return the member reducer CLEAR_EMAIL_ERROR_TEST', () => {
         const action = {
-            type: 'CLEAR_EMAIL_ERROR_INVALID',
+            type: 'CLEAR_EMAIL_ERROR_INVALID_TEST',
             payload: ''
         }
 
