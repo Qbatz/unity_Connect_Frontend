@@ -6,11 +6,11 @@ import CloseCircleIcon from "../Icons/close-circle.svg";
 import PropTypes from "prop-types";
 
 function ExpensesSetting({ state }) {
-  console.log("ExpensesSetting", state);
+
   const dispatch = useDispatch();
 
   const expensesetting = useSelector((state) => state.SettingExpenses?.getExpenseData.data || []);
-  console.log("expensesetting", expensesetting);
+  
 
   const statusCode = useSelector((state) => state.SettingExpenses.statusCodeSettingsAddExpenses);
 
@@ -52,11 +52,18 @@ function ExpensesSetting({ state }) {
     dispatch({ type: "SETTING_GET_EXPENSES" });
   }, [dispatch]);
 
+
+
   useEffect(() => {
-    if (state.SettingExpenses.statusCodeSettingsAddExpenses === 200) {
-      dispatch({ type: "CLEARSETTINGADDEXPENSES" });
+    if (state.SettingExpenses == 200) {
+      dispatch({ type: "SETTING_GET_EXPENSES" });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEARSETTINGADDEXPENSES" })
+      }, 500)
     }
-  }, [state.SettingExpenses.statusCodeSettingsAddExpenses, dispatch]);
+  }, [state.SettingExpenses])
+
 
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -144,7 +151,7 @@ function ExpensesSetting({ state }) {
       )}
 
 
-<div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentExpenses.map((category, index) => (
           <div key={index} className="w-350 h-170 border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
@@ -158,11 +165,11 @@ function ExpensesSetting({ state }) {
             <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
 
             {category.subcategory?.map((sub, subIndex) => (
-             
-              <div  key={subIndex} className="flex justify-between w-310 mx-auto px-2 pt-5">
-          <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Sub-category </p>
-          <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{sub.subcategory}</p>
-        </div>
+
+              <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pt-5">
+                <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Sub-category </p>
+                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{sub.subcategory}</p>
+              </div>
             ))}
           </div>
         ))}
