@@ -8,7 +8,8 @@ describe('it will check for settings expenses reducers', () => {
             type: 'SETTINGADDEXPENSES',
             payload: {
                 category_Name: 'ABC',
-                sub_Category: 'XYZ'
+                sub_Category: 'XYZ',
+                statusCode:200
             }
         }
 
@@ -16,7 +17,8 @@ describe('it will check for settings expenses reducers', () => {
             categoryname: 'ABC',
             subcategoryname: 'XYZ',
             id: 0,
-            statusCodeSettingsAddExpenses: 0,
+            statusCodeSettingsAddExpenses: 200,
+            getExpenseData:[],
         })
     })
 
@@ -31,6 +33,7 @@ describe('it will check for settings expenses reducers', () => {
             subcategoryname: '',
             id: 0,
             statusCodeSettingsAddExpenses: 0,
+            getExpenseData:[],
         })
     })
 
@@ -45,6 +48,7 @@ describe('it will check for settings expenses reducers', () => {
             subcategoryname: '',
             id: 0,
             statusCodeSettingsAddExpenses: 0,
+            getExpenseData:[],
         })
     })
 })
