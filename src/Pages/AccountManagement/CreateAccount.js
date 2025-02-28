@@ -349,7 +349,7 @@ const handleSubmit =  (e) => {
             <div className="w-full">
               <label className="block text-sm font-medium mb-2">Password</label>
               <div className="flex items-center border border-gray-300 rounded-xl bg-white p-3 w-full">
-                <input data-testid='input-password' type={showPassword ? "text" : "password"} className="flex-1 outline-none bg-transparent text-gray-900"
+                <input data-testid='input-password' type={showPassword ? "text" : "password"} className="flex-1 w-full outline-none bg-transparent text-gray-900 pr-1"
                   placeholder="Enter your password" value={password} onChange={handlePasswordChange}
                 />
                 <button data-testid='button-show-password' type="button" className="ml-2 focus:outline-none" onClick={() => setShowPassword(!showPassword)}>
@@ -362,7 +362,7 @@ const handleSubmit =  (e) => {
             <div className="w-full">
               <label className="block text-sm font-medium mb-2">Confirm Password</label>
               <div className="flex items-center border border-gray-300 rounded-xl p-3 bg-white">
-                <input data-testid='con-password' type={showConfirmPassword ? "text" : "password"} className="flex-1 outline-none bg-transparent text-gray-900"
+                <input data-testid='con-password' type={showConfirmPassword ? "text" : "password"} className="flex-1 w-full pr-1  outline-none bg-transparent text-gray-900"
                   placeholder="Confirm your password" value={confirmPassword} onChange={handleConfirmPasswordChange}
                 />
                 <button data-testid='show-confirm-password' type="button" className="ml-2 focus:outline-none" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>

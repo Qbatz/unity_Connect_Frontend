@@ -1,14 +1,15 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { ActiveMemberGetAction,ActiveMemberDeleteAction } from '../Action/MemberAction';
+import { ActiveMemberGetAction,ActiveMemberDeleteAction,ActiveMemberStatusAction } from '../Action/MemberAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 
-function* handleMemberList(action) {
+function* handleMemberList() {
    
-    const response = yield call(ActiveMemberGetAction, action.payload);
+    const response = yield call(ActiveMemberGetAction);
    
-   
+      
+       
     
      if (response.statusCode === 200 || response.status === 200) {
         yield put({
@@ -16,7 +17,10 @@ function* handleMemberList(action) {
             payload: { response:response.data, statusCode: response.statusCode || response.status },
         });
 
-    } 
+    } else if (response.status === 201 || response.statusCode === 201) {
+  
+        yield put({ type: 'ERROR', payload: response.data.message });
+    }
      if (response) {
             refreshToken(response);
         }
@@ -64,6 +68,50 @@ function* handledeleteMember(action) {
         }
 }
 
+function* handleStatusMember(action) {
+   
+    const response = yield call(ActiveMemberStatusAction, action.payload);
+   
+    
+    var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "auto",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center", 
+        padding: "10px",
+       
+      };
+    
+     if (response.statusCode === 200 || response.status === 200) {
+        yield put({
+            type: 'STATUS_MEMBER',
+            payload: { response: response.data, statusCode: response.statusCode || response.status },
+        });
+        toast.success(response.data.message ,{
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: true,
+                  closeButton: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  style: toastStyle,
+                });
+
+    } 
+     if (response) {
+            refreshToken(response);
+        }
+}
+
 function refreshToken(response) {
   
    
@@ -84,6 +132,7 @@ function refreshToken(response) {
 function* MemberSaga() {
     yield takeEvery('MEMBERLIST', handleMemberList);
     yield takeEvery('DELETEMEMBER', handledeleteMember);
+    yield takeEvery('CHANGE_STATUS',handleStatusMember)
 }
 
 export default MemberSaga;
