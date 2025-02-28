@@ -38,21 +38,9 @@ function AddMemberModal({ state, memberData, onClose }) {
   
     useEffect(() => {
         if (state.addMember.statusCodeForAddUser === 200) {
-
-            setMemberId("");
-            setUserName("");
-            setEmail("");
-            setJoiningDate("");
-            setMobileNo("");
-            setAddress("");
-            setFile("");
-            setErrors("");
-
-            dispatch({ type: 'CLEAR_STATUS_CODES' });
-            if (memberData) {
                 dispatch({ type: 'MEMBERLIST' });
+                dispatch({ type: 'CLEAR_STATUS_CODES' });
             }
-        }
     }, [state.addMember.statusCodeForAddUser]);
 
     useEffect(() => {
@@ -61,7 +49,6 @@ function AddMemberModal({ state, memberData, onClose }) {
 
     const validate = () => {
         let tempErrors = {};
-        // if (!memberId) tempErrors.memberId = "Member ID is required";
         if (!userName) tempErrors.userName = "User Name is required";
         if (!email) tempErrors.email = "Email is required";
         if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
@@ -91,9 +78,15 @@ function AddMemberModal({ state, memberData, onClose }) {
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
-            setFile(selectedFile);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFile(reader.result); 
+            };
+            reader.readAsDataURL(selectedFile); 
         }
     };
+    
+   
     const handleClose = () => {
         onClose()
     }
@@ -110,8 +103,9 @@ function AddMemberModal({ state, memberData, onClose }) {
                 email === memberData.Email_Id &&
                 mobileNo === memberData.Mobile_No &&
                 address === memberData.Address &&
-                joiningDate === memberData.Joining_Date &&
-                file === memberData.file;
+                joiningDate === memberData.Joining_date &&
+                (!file || file.name === memberData.file);
+                
 
             if (isUnchanged) {
                 setNoChanges("No Changes Detected");
@@ -132,7 +126,7 @@ function AddMemberModal({ state, memberData, onClose }) {
                 mobile_no: mobileNo,
                 joining_date: joiningDate,
                 address: address,
-                file: file
+                file: file ? file : memberData?.file,
             };
 
             const Editpayload = {

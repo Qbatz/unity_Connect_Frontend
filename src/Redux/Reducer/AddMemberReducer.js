@@ -4,10 +4,9 @@ export const initialState = {
     addUser: [],
     statusCodeForAddUser: 0,
     statusCodeClearForAddUser: 0,
-    statusCodeForEditUser: 0,
     phoneError: '',
     emailError: '',
-    EditUser: '',
+  
 
 }
 
