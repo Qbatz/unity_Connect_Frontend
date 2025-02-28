@@ -8,12 +8,11 @@ function* handleAddMember(datum) {
 
     const response = yield call(addMember, datum.payload);
 
-
     if (response.statusCode === 200 || response.status === 200) {
 
         yield put({
             type: 'ADD_USER_SUCCESS',
-            payload: { response: response.message, statusCode: response.statusCode || response.status },
+            payload: { response: response.data, statusCode: response.statusCode || response.status },
         });
 
         toast.success(response.message, {
