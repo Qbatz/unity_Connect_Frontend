@@ -51,4 +51,22 @@ describe('it will check for settings expenses reducers', () => {
             getExpenseData:[],
         })
     })
+
+    it('it will check for SETTINGGETEXPENSES', () => {
+        const action = {
+            type: 'SETTINGGETEXPENSES',
+            payload: {
+                statusCode:200,
+                response:[] 
+            }
+        }
+
+        expect(SettingAddExpensesReducer({...INITIAL_STATE}, action)).toStrictEqual({
+            categoryname: '',
+            subcategoryname: '',
+            id: 0,
+            statusCodeSettingsAddExpenses: 200,
+            getExpenseData:[],
+        })
+    })
 })
