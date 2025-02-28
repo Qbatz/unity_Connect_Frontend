@@ -8,7 +8,12 @@ function* handleAddMember(datum) {
 
     const response = yield call(addMember, datum.payload);
 
-
+    // response = {
+    //     status: 200,
+    //     data: {},
+    //     xconfg: {}
+    //     headers: {}
+    //     }
     if (response.statusCode === 200 || response.status === 200) {
 
         yield put({

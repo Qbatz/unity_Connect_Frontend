@@ -1,8 +1,8 @@
 
 export const initialState = {
     Users: [],
-    addUser: 'Added User Successfully',
-    statusCodeForAddUser: 200,
+    addUser: '',
+    statusCodeForAddUser: 0,
     statusCodeClearForAddUser: 0,
     phoneError: '',
     emailError: '',

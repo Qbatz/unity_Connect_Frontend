@@ -230,7 +230,9 @@ const mapsToProps = (stateInfo) => {
     }
 }
 AddMemberModal.propTypes = {
-    memberData: PropTypes.object, state: PropTypes.object, onClose: PropTypes.bool
+    memberData: PropTypes.object, 
+    state: PropTypes.object, 
+    onClose: PropTypes.func
 };
 
 export default connect(mapsToProps)(AddMemberModal);

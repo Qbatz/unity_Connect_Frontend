@@ -15,9 +15,11 @@ describe('it should check for add member form UI', () => {
 
     })
 
+    const onClose = jest.fn()
+
     it('it should render a basic UI', () => {
         render(<Provider store={store}>
-            <AddMemberForm />
+            <AddMemberForm onClose={onClose}/>
         </Provider>)
 
         const buttonClose = screen.getByTestId('button-close')
