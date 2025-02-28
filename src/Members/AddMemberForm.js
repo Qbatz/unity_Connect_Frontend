@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 
 function AddMemberModal({ state, memberData, onClose }) {
 
-
     const dispatch = useDispatch();
 
     const [memberId, setMemberId] = useState("");
@@ -19,21 +18,24 @@ function AddMemberModal({ state, memberData, onClose }) {
     const [mobileNo, setMobileNo] = useState("");
     const [address, setAddress] = useState("");
     const [file, setFile] = useState("");
+    const [id, setId] = useState("");
     const [errors, setErrors] = useState({});
     const [noChanges, setNoChanges] = useState("");
-   
+
 
     useEffect(() => {
         if (memberData) {
+            setId(prev => memberData.Id || prev);
             setMemberId(prev => memberData.Member_Id || prev);
             setUserName(prev => memberData.User_Name || prev);
             setEmail(prev => memberData.Email_Id || prev);
             setMobileNo(prev => memberData.Mobile_No || prev);
             setAddress(prev => memberData.Address || prev);
             setJoiningDate(prev => memberData.Joining_Date || prev);
-            setFile(prev => memberData.file || prev);
+            setFile(prev => memberData.Document_Url || prev);
         }
     }, [memberData]);
+
 
 
     useEffect(() => {
@@ -49,6 +51,9 @@ function AddMemberModal({ state, memberData, onClose }) {
             setErrors("");
 
             dispatch({ type: 'CLEAR_STATUS_CODES' });
+            if (memberData) {
+                dispatch({ type: 'MEMBERLIST' });
+            }
         }
     }, [state.addMember.statusCodeForAddUser]);
     useEffect(() => {
@@ -95,7 +100,7 @@ function AddMemberModal({ state, memberData, onClose }) {
         e.preventDefault();
         setNoChanges("");
 
-        let valid = true
+        let valid = true;
         if (memberData) {
             const isUnchanged =
                 memberId === memberData.Member_Id &&
@@ -104,40 +109,122 @@ function AddMemberModal({ state, memberData, onClose }) {
                 mobileNo === memberData.Mobile_No &&
                 address === memberData.Address &&
                 joiningDate === memberData.Joining_Date &&
-                (!file || (memberData.file && file.name === memberData.file.name));
+                file === memberData.Document_Url;
 
             if (isUnchanged) {
                 setNoChanges("No Changes Detected");
-                return
-
+                return;
             } else {
                 setNoChanges("");
             }
-
         }
+
         if (!validate()) {
-            return
+            return;
         }
 
         if (valid) {
-            if (userName && memberId && email && address && file && mobileNo) {
-                const payload = {
-                    user_name: userName,
-                    email_id: email,
-                    mobile_no: mobileNo,
-                    joining_date: joiningDate,
-                    address: address,
-                    file: file ? file.name : "",
-                };
-                dispatch({
-                    type: 'MEMBERINFO',
-                    payload: payload
-                });
+            const payload = {
+                user_name: userName,
+                email_id: email,
+                mobile_no: mobileNo,
+                joining_date: joiningDate,
+                address: address,
+                file: file
+            };
 
-            }
+            const Editpayload = {
+                ...payload,
+                Id: id
+            };
+
+            dispatch({
+                type: 'MEMBERINFO',
+                payload: memberData ? Editpayload : payload
+            });
         }
-      
+
+        onClose();
     };
+
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     setNoChanges("");
+
+
+    //     let valid = true
+    //     if (memberData) {
+    //         const isUnchanged =
+    //             memberId === memberData.Member_Id &&
+    //             userName === memberData.User_Name &&
+    //             email === memberData.Email_Id &&
+    //             mobileNo === memberData.Mobile_No &&
+    //             address === memberData.Address &&
+    //             joiningDate === memberData.Joining_Date &&
+    //             file === memberData.document_url
+    //         if (isUnchanged) {
+    //             setNoChanges("No Changes Detected");
+    //             return
+
+    //         } else {
+    //             setNoChanges("");
+    //         }
+
+    //     }
+    //     if (!validate()) {
+    //         return
+    //     }
+
+    //     // if (valid) {
+    //     //     if (userName && memberId && email && address && file && mobileNo ) {
+    //     //         const payload = {
+    //     //             user_name: userName,
+    //     //             email_id: email,
+    //     //             mobile_no: mobileNo,
+    //     //             joining_date: joiningDate,
+    //     //             address: address,
+    //     //             file: file ? file.name : "",
+    //     //         };
+    //     //         const Editpayload = {
+    //     //             user_name: userName,
+    //     //             email_id: email,
+    //     //             mobile_no: mobileNo,
+    //     //             joining_date: joiningDate,
+    //     //             address: address,
+    //     //             file: file ? file.name : "",
+    //     //             Id : id
+    //     //         };
+    //     //         dispatch({
+    //     //             type: 'MEMBERINFO',
+    //     //             payload: memberData ? {  } : payload
+    //     //         });
+
+    //     //     }
+    //     // }
+    //     if (valid) {
+    //         if (userName && memberId && email && address && file && mobileNo) {
+    //             const payload = {
+    //                 user_name: userName,
+    //                 email_id: email,
+    //                 mobile_no: mobileNo,
+    //                 joining_date: joiningDate,
+    //                 address: address,
+    //                 file: file 
+    //             };
+    //             const Editpayload = {
+    //                 ...payload,
+    //                 Id: id
+    //             };
+
+    //             dispatch({
+    //                 type: 'MEMBERINFO',
+    //                 payload: memberData ? Editpayload : payload
+    //             });
+    //         }
+    //     }
+    //   onClose();
+    // };
 
 
     return (
@@ -197,7 +284,7 @@ function AddMemberModal({ state, memberData, onClose }) {
                             onChange={(e) => handleChange("address", e.target.value)} />
                         {errors.address && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.address}</p>}
                     </div>
-                   
+
                     <div>
                         <label className="block text-start text-sm font-medium mb-1">Add Documents</label>
                         <div className="border rounded px-2 py-4 flex items-center justify-center relative w-28">

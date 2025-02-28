@@ -106,7 +106,7 @@ const handleEditMemberClick = (member) => {
                 <button
                 data-testid={`button-edit-member-${index}`}
                 className="flex items-center gap-2 w-full px-3 py-2 text-blue-600 rounded-lg"
-                onClick={() => handleEditMemberClick(index, member)}
+                onClick={() => handleEditMemberClick(member)}
               >
                 <img src={editIcon} alt="Edit" className="h-4 w-4" />
                 Edit
