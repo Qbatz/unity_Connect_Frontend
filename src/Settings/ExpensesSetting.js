@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
 import ExpensesIcon from "../Icons/ExpensesIcon.svg";
@@ -55,14 +56,14 @@ function ExpensesSetting({ state }) {
 
 
   useEffect(() => {
-    if (state.SettingExpenses == 200) {
+    if (state.SettingExpenses === 200) {
       dispatch({ type: "SETTING_GET_EXPENSES" });
 
       setTimeout(() => {
         dispatch({ type: "CLEARSETTINGADDEXPENSES" })
       }, 500)
     }
-  }, [state.SettingExpenses])
+  }, [state.SettingExpenses,dispatch])
 
 
 

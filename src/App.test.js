@@ -9,7 +9,7 @@ jest.mock('./Crypto/Utils', () => ({
   encryptData: jest.fn(),
   decryptData: jest.fn()
 }))
-
+jest.useFakeTimers()
 
 test('renders learn react link', () => {
   const mockStore = configureStore()
@@ -22,7 +22,7 @@ test('renders learn react link', () => {
     }
   })
   localStorage.setItem("unity_connect_login", "encryptedData");
-
+  jest.advanceTimersByTime(1000);
   render(<Provider store={store}>
     <App />
   </Provider>);
@@ -42,7 +42,6 @@ test('renders when user is not logged id', () => {
       statusCodeCreateAccount: 100
     }
   })
-
   localStorage.setItem("unity_connect_login", "encryptedData");
 
   render(<Provider store={store}>
@@ -50,6 +49,8 @@ test('renders when user is not logged id', () => {
   </Provider>);
   const linkElement = screen.getByTestId("parent");
   expect(linkElement).toBeInTheDocument();
+
+  jest.advanceTimersByTime(1000);
 })
 
 test('it should checks for access denied', () => {

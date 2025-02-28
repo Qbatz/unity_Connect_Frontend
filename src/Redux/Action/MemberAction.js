@@ -7,3 +7,11 @@ export async function ActiveMemberGetAction(datum) {
         data:datum  
     });
 }
+
+export async function ActiveMemberDeleteAction(user) {
+   
+    return await AxiosConfig.post('/member/delete_member',user,{
+
+        data:user  
+    });
+}

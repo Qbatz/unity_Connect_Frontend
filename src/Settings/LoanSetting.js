@@ -8,6 +8,8 @@ import { useDispatch, useSelector, connect } from "react-redux";
 
 
 
+
+
 function LoanSetting({ state }) {
 
     const dispatch = useDispatch();
@@ -19,6 +21,8 @@ function LoanSetting({ state }) {
 
 
 
+
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState("Select a due type");
@@ -26,17 +30,18 @@ function LoanSetting({ state }) {
     const [isWeekDropdownOpen, setIsWeekDropdownOpen] = useState(false);
     const [selectedMonthlyType, setSelectedMonthlyType] = useState("Select Monthly Type");
     const [isMonthlyDropdownOpen, setIsMonthlyDropdownOpen] = useState(false);
-const [selectedDay, setSelectedDay] = useState("Select a day");
-    const [isDayDropdownOpen, setIsDayDropdownOpen] = useState(false);
 
     const options = ["Daily", "Weekly", "Monthly"];
     const weeklyOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
     const monthlyOptions = ["Day", "Date"];
 const dayOptions = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 const [selectedLoanName, setSelectedLoanName] = useState("");  
 const [selectedDueDate, setSelectedDueDate] = useState("");    
 const [selectedDueCount, setSelectedDueCount] = useState("");  
+const [selectedDay, setSelectedDay] = useState("Select a day");
+    const [isDayDropdownOpen, setIsDayDropdownOpen] = useState(false);
 
 
 const [isOrdinalDropdownOpen, setIsOrdinalDropdownOpen] = useState(false);
@@ -72,6 +77,7 @@ const handleSubmit = (e) => {
       dispatch({ type: "CLEARSETTINGLOAN" });
       setIsModalOpen(false);
       dispatch({ type: "SETTINGS_GET_LOAN" });
+
     }
 
 
@@ -347,8 +353,8 @@ dispatch({type:"CLEARSETTINGLOAN"})
                 setSelectedDate(e.target.value);
                 setSelectedDueDate(e.target.value);
               }}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="Select a date"
+
+              placeholder="Select a date"
               className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
             />
           </div>

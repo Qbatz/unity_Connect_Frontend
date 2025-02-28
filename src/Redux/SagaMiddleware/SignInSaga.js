@@ -7,8 +7,6 @@ export function* SignIn(action) {
     try {
         const response = yield call(SignIncall, action.payload);
 
-
-
         var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
@@ -24,13 +22,13 @@ export function* SignIn(action) {
             padding: "13px",
         };
 
-        if (response.status === 200 || response.statusCode === 200) {
+        if (response.status === 200 && response.data.statusCode === 200) {
             yield put({
                 type: 'SIGNIN-INFO',
                 payload: {
                    token: response.data.token,
                    message: response.data.message,
-                    statusCode: response.status || response.statusCode
+                    statusCode: response.status
                 }
             });
             toast.success(response.message || "Sign-in successful!", {
@@ -46,9 +44,9 @@ export function* SignIn(action) {
             });
            
         }
-        else if (response.status === 203 || response.statusCode === 203) {
+        else if (response.status === 203 ) {
             yield put({ type: 'ERROR_EMAIL', payload: response.data.message });
-        } else if (response.status === 202 || response.statusCode === 202) {
+        } else if (response.status === 202 ) {
             yield put({ type: 'ERROR_PASSWORD', payload: response.data.message });
         }
 

@@ -128,6 +128,9 @@ function LoanID({ state }) {
           Save changes
         </button>
       </div>
+      {state.Settings.error === "Prefix and Suffix already Exist" && (
+    <p  className="text-red-500 text-sm text-center font-Gilroy">{state.Settings.error}</p>
+  )}
     </div>
   );
 }

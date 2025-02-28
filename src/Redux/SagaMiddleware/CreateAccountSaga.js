@@ -8,9 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 function* CreateAccountPage(action) {
     
       const response = yield call(CreateAccountAction, action.payload);
-    
-
-      var toastStyle = {
+  
+       var toastStyle = {
         backgroundColor: "#E6F6E6",
         color: "black",
         width: "auto",
@@ -30,7 +29,7 @@ function* CreateAccountPage(action) {
           
         yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode} });
   
-        toast.success(response.message ,{
+        toast.success(response.data.message ,{
           position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: true,
