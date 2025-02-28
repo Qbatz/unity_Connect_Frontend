@@ -1,20 +1,18 @@
 
 export const initialState = {
     Users: [],
-    addUser: [],
-    statusCodeForAddUser: 0,
+    addUser: 'Added User Successfully',
+    statusCodeForAddUser: 200,
     statusCodeClearForAddUser: 0,
     phoneError: '',
     emailError: '',
-  
-
 }
 
 const AddMemberReducer = (state = initialState, action) => {
-   
+
     switch (action.type) {
         case 'ADD_USER_SUCCESS':
-            return { ...state, addUser: action.payload.response,statusCodeForAddUser: action.payload.statusCode }
+            return { ...state, addUser: action.payload.response, statusCodeForAddUser: action.payload.statusCode }
 
         case 'EDIT_USER_SUCCESS':
             return { ...state, EditUser: action.payload.message, statusCodeForEditUser: action.payload.statusCode }
