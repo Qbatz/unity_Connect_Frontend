@@ -109,7 +109,7 @@ function AddMemberModal({ state, memberData, onClose }) {
                 mobileNo === memberData.Mobile_No &&
                 address === memberData.Address &&
                 joiningDate === memberData.Joining_Date &&
-                file === memberData.Document_Url;
+                file === memberData.document_Url;
 
             if (isUnchanged) {
                 setNoChanges("No Changes Detected");
@@ -130,7 +130,7 @@ function AddMemberModal({ state, memberData, onClose }) {
                 mobile_no: mobileNo,
                 joining_date: joiningDate,
                 address: address,
-                file: file
+                document_Url:file
             };
 
             const Editpayload = {
@@ -146,86 +146,6 @@ function AddMemberModal({ state, memberData, onClose }) {
 
         onClose();
     };
-
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     setNoChanges("");
-
-
-    //     let valid = true
-    //     if (memberData) {
-    //         const isUnchanged =
-    //             memberId === memberData.Member_Id &&
-    //             userName === memberData.User_Name &&
-    //             email === memberData.Email_Id &&
-    //             mobileNo === memberData.Mobile_No &&
-    //             address === memberData.Address &&
-    //             joiningDate === memberData.Joining_Date &&
-    //             file === memberData.document_url
-    //         if (isUnchanged) {
-    //             setNoChanges("No Changes Detected");
-    //             return
-
-    //         } else {
-    //             setNoChanges("");
-    //         }
-
-    //     }
-    //     if (!validate()) {
-    //         return
-    //     }
-
-    //     // if (valid) {
-    //     //     if (userName && memberId && email && address && file && mobileNo ) {
-    //     //         const payload = {
-    //     //             user_name: userName,
-    //     //             email_id: email,
-    //     //             mobile_no: mobileNo,
-    //     //             joining_date: joiningDate,
-    //     //             address: address,
-    //     //             file: file ? file.name : "",
-    //     //         };
-    //     //         const Editpayload = {
-    //     //             user_name: userName,
-    //     //             email_id: email,
-    //     //             mobile_no: mobileNo,
-    //     //             joining_date: joiningDate,
-    //     //             address: address,
-    //     //             file: file ? file.name : "",
-    //     //             Id : id
-    //     //         };
-    //     //         dispatch({
-    //     //             type: 'MEMBERINFO',
-    //     //             payload: memberData ? {  } : payload
-    //     //         });
-
-    //     //     }
-    //     // }
-    //     if (valid) {
-    //         if (userName && memberId && email && address && file && mobileNo) {
-    //             const payload = {
-    //                 user_name: userName,
-    //                 email_id: email,
-    //                 mobile_no: mobileNo,
-    //                 joining_date: joiningDate,
-    //                 address: address,
-    //                 file: file 
-    //             };
-    //             const Editpayload = {
-    //                 ...payload,
-    //                 Id: id
-    //             };
-
-    //             dispatch({
-    //                 type: 'MEMBERINFO',
-    //                 payload: memberData ? Editpayload : payload
-    //             });
-    //         }
-    //     }
-    //   onClose();
-    // };
-
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
