@@ -1,7 +1,7 @@
-const initialState = {
+export const initialState = {
     categoryname: "",
     subcategoryname: "",
-    id: 1,
+    id: 0,
     statusCodeSettingsAddExpenses: 0,
     getExpenseData:[],
   };
@@ -35,4 +35,3 @@ const initialState = {
   };
   
   export default SettingAddExpensesReducer;
-  

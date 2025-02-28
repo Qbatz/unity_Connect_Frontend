@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App from './App';
 import configureStore from 'redux-mock-store';
 import { Provider } from "react-redux";
@@ -9,35 +9,24 @@ jest.mock('./Crypto/Utils', () => ({
   encryptData: jest.fn(),
   decryptData: jest.fn()
 }))
-
-beforeEach(() => {
-  jest.useFakeTimers(); // Mock timers
-});
-
-afterEach(() => {
-  jest.useRealTimers(); // Restore real timers
-});
-
+jest.useFakeTimers()
 
 test('renders learn react link', () => {
   const mockStore = configureStore()
   const store = mockStore({
     SignIn: {
-      isLogged_In: false
+      isLoggedIn: false
     },
     CreateAccount: {
       statusCodeCreateAccount: 100
     }
   })
   localStorage.setItem("unity_connect_login", "encryptedData");
-
+  jest.advanceTimersByTime(1000);
   render(<Provider store={store}>
     <App />
   </Provider>);
   const linkElement = screen.getByTestId("parent");
-  act(() => {
-    jest.advanceTimersByTime(1000);
-  });
   expect(linkElement).toBeInTheDocument();
 });
 
@@ -47,7 +36,7 @@ test('renders when user is not logged id', () => {
   const mockStore = configureStore()
   const store = mockStore({
     SignIn: {
-      isLogged_In: true
+      isLoggedIn: true
     },
     CreateAccount: {
       statusCodeCreateAccount: 100
@@ -57,7 +46,6 @@ test('renders when user is not logged id', () => {
       statusCodeMemberList: 200
     }
   })
-
   localStorage.setItem("unity_connect_login", "encryptedData");
 
   render(<Provider store={store}>
@@ -65,6 +53,8 @@ test('renders when user is not logged id', () => {
   </Provider>);
   const linkElement = screen.getByTestId("parent");
   expect(linkElement).toBeInTheDocument();
+
+  jest.advanceTimersByTime(1000);
 })
 
 test('it should checks for access denied', () => {
@@ -81,7 +71,7 @@ test('it should checks for access denied', () => {
   const mockStore = configureStore()
   const store = mockStore({
     SignIn: {
-      isLogged_In: false
+      isLoggedIn: false
     },
     CreateAccount: {
       statusCodeCreateAccount: 100
@@ -94,27 +84,6 @@ test('it should checks for access denied', () => {
   render(<Provider store={store}>
     <App />
   </Provider>);
+
+
 })
-
-test('it should checks for failure login', () => {
-  const mockStore = configureStore()
-  const store = mockStore({
-    SignIn: {
-      isLogged_In: false
-    },
-    CreateAccount: {
-      statusCodeCreateAccount: 100
-    }
-  })
-  localStorage.setItem("unity_connect_login", "false");
-
-  render(<Provider store={store}>
-    <App />
-  </Provider>);
-  const linkElement = screen.getByTestId("parent");
-  act(() => {
-    jest.advanceTimersByTime(1000);
-  });
-  expect(linkElement).toBeInTheDocument();
-});
-

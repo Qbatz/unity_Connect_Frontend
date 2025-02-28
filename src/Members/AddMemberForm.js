@@ -32,12 +32,10 @@ function AddMemberModal({ state, memberData, onClose }) {
             setMobileNo(prev => memberData.Mobile_No || prev);
             setAddress(prev => memberData.Address || prev);
             setJoiningDate(prev => memberData.Joining_Date || prev);
-            setFile(prev => memberData.Document_Url || prev);
+            setFile(prev => memberData.file || prev);
         }
     }, [memberData]);
-
-
-
+  
     useEffect(() => {
         if (state.addMember.statusCodeForAddUser === 200) {
 
@@ -56,13 +54,14 @@ function AddMemberModal({ state, memberData, onClose }) {
             }
         }
     }, [state.addMember.statusCodeForAddUser]);
+
     useEffect(() => {
         setNoChanges("");
     }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
 
     const validate = () => {
         let tempErrors = {};
-        if (!memberId) tempErrors.memberId = "Member ID is required";
+        // if (!memberId) tempErrors.memberId = "Member ID is required";
         if (!userName) tempErrors.userName = "User Name is required";
         if (!email) tempErrors.email = "Email is required";
         if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
@@ -95,6 +94,9 @@ function AddMemberModal({ state, memberData, onClose }) {
             setFile(selectedFile);
         }
     };
+    const handleClose = () => {
+        onClose()
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -109,7 +111,7 @@ function AddMemberModal({ state, memberData, onClose }) {
                 mobileNo === memberData.Mobile_No &&
                 address === memberData.Address &&
                 joiningDate === memberData.Joining_Date &&
-                file === memberData.document_Url;
+                file === memberData.file;
 
             if (isUnchanged) {
                 setNoChanges("No Changes Detected");
@@ -130,12 +132,12 @@ function AddMemberModal({ state, memberData, onClose }) {
                 mobile_no: mobileNo,
                 joining_date: joiningDate,
                 address: address,
-                document_Url:file
+                file: file
             };
 
             const Editpayload = {
                 ...payload,
-                Id: id
+                id: id
             };
 
             dispatch({
@@ -154,7 +156,7 @@ function AddMemberModal({ state, memberData, onClose }) {
                     <h2 className="text-xl font-semibold">
                         {memberData ? "Edit Member" : "Add a Member"}
                     </h2>
-                    <button className="text-gray-600" onClick={() => onClose()}>
+                    <button data-testid='button-close' className="text-gray-600" onClick={handleClose}>
                         <MdClose size={24} />
                     </button>
                 </div>
@@ -164,12 +166,12 @@ function AddMemberModal({ state, memberData, onClose }) {
                     <div className="flex gap-4">
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">Member ID</label>
-                            <input type="text" className="w-full p-2 h-10 border rounded-lg text-xs" value={memberId} onChange={(e) => handleChange("memberId", e.target.value)} />
+                            <input data-testid='input-member-id' type="text" className="w-full p-2 h-10 border rounded-lg" value={memberId} onChange={(e) => handleChange("memberId", e.target.value)} />
                             {errors.memberId && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.memberId}</p>}
                         </div>
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">User Name</label>
-                            <input type="text" className="w-full p-2 h-10 border rounded-lg text-xs"
+                            <input data-testid='input-user-name' type="text" className="w-full p-2 h-10 border rounded-lg"
                                 value={userName}
                                 onChange={(e) => handleChange("userName", e.target.value)} />
                             {errors.userName && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.userName}</p>}
@@ -179,27 +181,27 @@ function AddMemberModal({ state, memberData, onClose }) {
                     <div className="flex gap-4">
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">Email</label>
-                            <input type="email" className="w-full p-2 h-10 border rounded-lg text-xs"
+                            <input data-testid='input-member-email' type="email" className="w-full p-2 h-10 border rounded-lg"
                                 value={email}
                                 onChange={(e) => handleChange("email", e.target.value)} />
                             {errors.email && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.email}</p>}
                         </div>
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">Mobile No.</label>
-                            <input type="text" className="w-full p-2 h-10 border rounded-lg text-xs" value={mobileNo} onChange={(e) => handleChange("mobileNo", e.target.value)} />
+                            <input data-testid='input-member-phone' type="text" className="w-full p-2 h-10 border rounded-lg" value={mobileNo} onChange={(e) => handleChange("mobileNo", e.target.value)} />
                             {errors.mobileNo && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.mobileNo}</p>}
                         </div>
                     </div>
 
                     <div>
                         <label className="block text-start text-sm font-medium mb-1">Joining Date</label>
-                        <input type="date" className=" w-56 p-2 h-10 border rounded-lg text-xs" value={joiningDate} onChange={(e) => handleChange("joiningDate", e.target.value)} />
+                        <input data-testid='input-joining-data' type="date" className=" w-56 p-2 h-10 border rounded-lg" value={joiningDate} onChange={(e) => handleChange("joiningDate", e.target.value)} />
                         {errors.joiningDate && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.joiningDate}</p>}
                     </div>
 
                     <div>
                         <label className="block text-start text-sm font-medium mb-1">Address</label>
-                        <textarea className="w-full p-2 border rounded-lg h-10 text-xs"
+                        <textarea data-testid='input-member-address' className="w-full p-2 border rounded-lg h-10"
                             value={address}
                             onChange={(e) => handleChange("address", e.target.value)} />
                         {errors.address && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.address}</p>}

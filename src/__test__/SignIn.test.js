@@ -1,21 +1,13 @@
 /* eslint-env jest */
-import { render, screen,act } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import SignIn from "../Pages/AccountManagement/SignIn";
 import configureStore from 'redux-mock-store';
 import { Provider } from "react-redux";
 import userEvent from '@testing-library/user-event'
-import { BrowserRouter, MemoryRouter } from "react-router-dom";
+import { MemoryRouter, BrowserRouter } from "react-router-dom";
 
 jest.useFakeTimers()
 describe('test signIn UI', () => {
-
-    beforeEach(() => {
-        jest.useFakeTimers(); // Mock timers
-      });
-    
-      afterEach(() => {
-        jest.useRealTimers(); // Restore real timers
-      });
 
     const mockStore = configureStore()
         const store = mockStore({
@@ -29,30 +21,25 @@ describe('test signIn UI', () => {
     it('it will check for UI renders', () => {
         render(
             <Provider store={store}>
-                <BrowserRouter>
+                <MemoryRouter>
                 <SignIn />
-                </BrowserRouter>
+                </MemoryRouter>
             </Provider>
         )
 
-        const inputEmail = screen.getByTestId('input-email');
-        const inputPassword = screen.getByTestId('input-password');
-        const showPassword = screen.getByTestId('button-show-password');
-        const buttonSubmit = screen.getByTestId('button-submit');
-        const createAccount = screen.getByTestId('link-create-account');
+        const inputEmail = screen.getByTestId('input-email')
+        const inputPassword = screen.getByTestId('input-password')
+        const showPassword = screen.getByTestId('button-show-password')
+        const buttonSubmit = screen.getByTestId('button-submit')
         expect(inputEmail).toBeInTheDocument();
         expect(inputPassword).toBeInTheDocument();
         expect(showPassword).toBeInTheDocument();
         expect(buttonSubmit).toBeInTheDocument()
-        expect(createAccount).toBeInTheDocument();
 
         userEvent.type(inputEmail, 'abcd@gmail.com')
         userEvent.type(inputPassword, 'abcdef')
         userEvent.click(showPassword)
         userEvent.click(buttonSubmit)
-        userEvent.click(createAccount);
-        expect(global.window.location.pathname).toBe('/create-account')
-
     })
 
     it('it should check for empty email id and password', () => {
@@ -128,21 +115,27 @@ describe('test signIn UI', () => {
         const store = mockStore({
             SignIn: {
                 isLoggedIn: true,
-                statusCode: 200,
-                signinsuccessstatuscode: 200
+                signinsuccessstatuscode: 200,
               },
     
         })
         render(
             <Provider store={store}>
-                <MemoryRouter>
+                <BrowserRouter>
                 <SignIn />
-                </MemoryRouter>
+                </BrowserRouter>
             </Provider>
         )
-        act(() => {
-            jest.advanceTimersByTime(100);
-          });
+        jest.advanceTimersByTime(100);
+
+        const imgLogoHome = screen.getByTestId('img-logo-home');
+        expect(imgLogoHome).toBeInTheDocument();
+        const createAccount = screen.getByTestId('href-create-account')
+        expect(createAccount).toBeInTheDocument();
+        userEvent.click(imgLogoHome);
+        expect(global.window.location.pathname).toBe('/LandingPage');
+        userEvent.click(createAccount);
+        expect(global.window.location.pathname).toBe('/create-account');
     })
 
     it('it should return invalid emailId and password from server', () => {
@@ -157,15 +150,10 @@ describe('test signIn UI', () => {
         })
         render(
             <Provider store={store}>
-                <BrowserRouter>
+                <MemoryRouter>
                 <SignIn />
-                </BrowserRouter>
+                </MemoryRouter>
             </Provider>
         )
-
-        expect(screen.getByTestId('img-logo')).toBeInTheDocument();
-        userEvent.click(screen.getByTestId('img-logo'))
-        expect(global.window.location.pathname).toBe('/LandingPage')
     })
-
 })

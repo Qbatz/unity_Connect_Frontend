@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import ActiveMember from "./Activemember";
 import NonActiveMember from "./NonActivemember";
 
+
+
 const Members = () => {
   const [activeTab, setActiveTab] = useState("Active members");
 
@@ -13,9 +15,10 @@ const Members = () => {
       >
         Members
       </h2>
-      <div className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
-        {["Active members", "Non active members"].map((tab) => (
+      <div data-testid='members-tab' className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
+        {["Active members", "In active members"].map((tab, index) => (
           <button
+          data-testid={`button-tab-${index}`}
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${activeTab === tab ? "text-black font-semibold" : "text-[#939393]"
@@ -34,7 +37,7 @@ const Members = () => {
 
       <div className="mt-8">
         {activeTab === "Active members" && <ActiveMember />}
-        {activeTab === "Non active members" && <NonActiveMember />}
+        {activeTab === "In active members" && <NonActiveMember />}
       </div>
     </div>
   );
