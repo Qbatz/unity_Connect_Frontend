@@ -103,25 +103,22 @@ useEffect(() => {
   }, [dispatch]);
 
 
-    useEffect(() => {
-      if (state.SettingGetLoan?.statusCodeLoans === 200) {
-       
-        dispatch({ type: "CLEARSETTINGADDLOAN" });
+  useEffect(() => {
+    if (state.SettingGetLoan?.statusCodeLoans === 200) {
+      dispatch({ type: "CLEARSETTINGADDLOAN" });
+    }
+  }, [state.SettingGetLoan?.statusCodeLoans, dispatch]);
   
-      }
-    }, [state.SettingLoan.statusCodeLoans, dispatch]);
-
-
    
         useEffect(()=>{
-            if(state.SettingLoan.statusCodeLoans == 200){
+            if(state.SettingLoan.statusCodeLoans === 200){
                 dispatch({ type: "SETTINGS_GET_LOAN" });
 
                 setTimeout(()=>{
 dispatch({type:"CLEARSETTINGLOAN"})
                 },500)
             }
-        },[state.SettingLoan.statusCodeLoans])
+        },[state.SettingLoan.statusCodeLoans,dispatch])
 
         
     return (
