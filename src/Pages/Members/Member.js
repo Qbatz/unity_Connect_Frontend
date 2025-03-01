@@ -11,7 +11,7 @@ const Members = () => {
     <div className="container mx-auto mt-4">
       <h2
         className="text-[24px] font-semibold font-Gilroy leading-[28.63px] text-black mb-4"
-        style={{ letterSpacing: "0%" }}
+        style={{ letterSpacing: "0%"  }}
       >
         Members
       </h2>
