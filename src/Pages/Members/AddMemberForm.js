@@ -20,7 +20,7 @@ function  MemberModal({ state, memberData, onClose }) {
     const [mobileNo, setMobileNo] = useState("");
     const [address, setAddress] = useState("");
     const [file, setFile] = useState("");
-    const [id, setId] = useState("");
+    const [ setId] = useState("");
     const [errors, setErrors] = useState({});
     const [noChanges, setNoChanges] = useState("");
 
