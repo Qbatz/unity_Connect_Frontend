@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 
-function AddMemberModal({ state, memberData, onClose }) {
+function  MemberModal({ state, memberData, onClose }) {
+
+ 
 
     const dispatch = useDispatch();
 
@@ -35,13 +37,14 @@ function AddMemberModal({ state, memberData, onClose }) {
             setFile(prev => memberData.file || prev);
         }
     }, [memberData]);
-  
+   
+
     useEffect(() => {
-        if (state.addMember.statusCodeForAddUser === 200) {
-                dispatch({ type: 'MEMBERLIST' });
-                dispatch({ type: 'CLEAR_STATUS_CODES' });
-            }
-    }, [state.addMember.statusCodeForAddUser]);
+        if (state.Member.statusCodeForAddUser === 200) {
+            dispatch({ type: 'MEMBERLIST' });
+            dispatch({ type: 'CLEAR_STATUS_CODES' });
+        }
+    }, [state.Member.statusCodeForAddUser]);
 
     useEffect(() => {
         setNoChanges("");
@@ -80,13 +83,13 @@ function AddMemberModal({ state, memberData, onClose }) {
         if (selectedFile) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFile(reader.result); 
+                setFile(reader.result);
             };
-            reader.readAsDataURL(selectedFile); 
+            reader.readAsDataURL(selectedFile);
         }
     };
-    
-   
+
+
     const handleClose = () => {
         onClose()
     }
@@ -105,7 +108,7 @@ function AddMemberModal({ state, memberData, onClose }) {
                 address === memberData.Address &&
                 joiningDate === memberData.Joining_date &&
                 (!file || file.name === memberData.file);
-                
+
 
             if (isUnchanged) {
                 setNoChanges("No Changes Detected");
@@ -126,17 +129,33 @@ function AddMemberModal({ state, memberData, onClose }) {
                 mobile_no: mobileNo,
                 joining_date: joiningDate,
                 address: address,
-                file: file ? file : memberData?.file,
+                file: file 
             };
 
             const Editpayload = {
-                ...payload,
-                id: id
+                
+                    user_name: userName,
+                    email_id: email,
+                    mobile_no: mobileNo,
+                    joining_date: joiningDate,
+                    address: address,
+                    file : file ? file : memberData?.file,
+                    id :memberData.Id
+                
             };
 
             dispatch({
                 type: 'MEMBERINFO',
-                payload: memberData ? Editpayload : payload
+                payload: memberData ? Editpayload : payload,
+                // payload :{
+                //     user_name: userName,
+                //     email_id: email,
+                //     mobile_no: mobileNo,
+                //     joining_date: joiningDate,
+                //     address: address,
+                //     file: file ? file : memberData?.file,
+                //     id :memberData.Id
+                // }
             });
         }
 
@@ -163,6 +182,11 @@ function AddMemberModal({ state, memberData, onClose }) {
                             <input data-testid='input-member-id' type="text" className="w-full p-2 h-10 border rounded-lg" value={memberId} onChange={(e) => handleChange("memberId", e.target.value)} />
                             {errors.memberId && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.memberId}</p>}
                         </div>
+                   
+                          
+                            <input type="hidden" value={memberData.Id}/>
+                           
+                        
                         <div className="w-1/2">
                             <label className="block text-start text-sm font-medium mb-1">User Name</label>
                             <input data-testid='input-user-name' type="text" className="w-full p-2 h-10 border rounded-lg"
@@ -229,11 +253,11 @@ const mapsToProps = (stateInfo) => {
         state: stateInfo
     }
 }
-AddMemberModal.propTypes = {
-    memberData: PropTypes.object, 
-    state: PropTypes.object, 
+ MemberModal.propTypes = {
+    memberData: PropTypes.object,
+    state: PropTypes.object,
     onClose: PropTypes.func
 };
 
-export default connect(mapsToProps)(AddMemberModal);
+export default connect(mapsToProps)( MemberModal);
 

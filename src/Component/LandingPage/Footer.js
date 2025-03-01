@@ -1,16 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import UnityConnectLetter from "../Icons/UnityConnectLetter.svg";
-import FB from "../Icons/Facebook.svg";
-import Twitter from "../Icons/Twitter.svg";
-import LinkedIn from "../Icons/LinkedIn.svg";
-import Instagram from "../Icons/Instagram.svg";
+import UnityConnectLetter from "../../Asset/Icons/UnityConnectLetter.svg";
+import FB from "../../Asset/Icons/Facebook.svg";
+import Twitter from "../../Asset/Icons/Twitter.svg";
+import LinkedIn from "../../Asset/Icons/LinkedIn.svg";
+import Instagram from "../../Asset/Icons/Instagram.svg";
 
 const Footer = () => {
   return (
     <footer className="bg-#FAF9FF py-10 px-5 lg:px-20 mt-20">
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12 gap-10">
-       
+
         <div className="sm:col-span-12 md:col-span-12 lg:col-span-6">
           <img src={UnityConnectLetter} alt="Unity Connect" className="w-36 mb-2" />
           <p className="text-gray-700 text-base font-Gilroy font-normal leading-[25.6px] mt-5">
@@ -51,7 +51,7 @@ const Footer = () => {
 
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-start md:items-center mt-20">
         <p className="text-gray-600 font-Raleway text-xs text-base">
-        © 2024 Unity Connect . All rights reserved
+          © 2024 Unity Connect . All rights reserved
         </p>
         <div className="flex space-x-6 mt-4 md:mt-0 lg:mr-80 justify-end">
           <a href="#" className="text-gray-600 hover:text-gray-900">

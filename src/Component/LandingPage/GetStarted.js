@@ -1,10 +1,10 @@
 import React from "react";
-import UnityConnectWhiteLetter from "../Icons/UnityConnectWHiteLeter.svg";
-import GetStartedBackgroundImage from "../Icons/GetStartedBG.svg";
-import VectorOne from "../Icons/Vector-1.svg";
-import VectorTwo from "../Icons/Vector-2.svg";
-import VectorThree from "../Icons/Vector-3.svg";
-import VectorFour from "../Icons/Vector-4.svg";
+import UnityConnectWhiteLetter from "../../Asset/Icons/UnityConnectWHiteLeter.svg";
+import GetStartedBackgroundImage from "../../Asset/Icons/GetStartedBG.svg";
+import VectorOne from "../../Asset/Icons/Vector-1.svg";
+import VectorTwo from "../../Asset/Icons/Vector-2.svg";
+import VectorThree from "../../Asset/Icons/Vector-3.svg";
+import VectorFour from "../../Asset/Icons/Vector-4.svg";
 
 function GetStarted() {
   return (

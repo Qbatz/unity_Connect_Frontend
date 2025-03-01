@@ -18,7 +18,7 @@ const Members = () => {
       <div data-testid='members-tab' className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
         {["Active members", "In active members"].map((tab, index) => (
           <button
-          data-testid={`button-tab-${index}`}
+            data-testid={`button-tab-${index}`}
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${activeTab === tab ? "text-black font-semibold" : "text-[#939393]"

@@ -1,11 +1,11 @@
 import React from "react";
-import paymenticon from '../Icons/PaymentIcon.svg';
-import Tick from '../Icons/tick.svg'
+import paymenticon from '../../Asset/Icons/PaymentIcon.svg';
+import Tick from '../../Asset/Icons/tick.svg';
 
 const Payment = () => {
   return (
     <div className="mt-6 grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6">
-     
+
       <div>
         <h2 className="text-[20px] font-semibold font-Gilroy text-black">Payment</h2>
         <p className="text-lightgray mt-4 font-Gilroy font-medium text-sm">
@@ -13,9 +13,9 @@ const Payment = () => {
         </p>
       </div>
 
-     
+
       <div>
-       
+
         <div className="border border-purple-600 rounded-2xl p-4 flex justify-between items-center shadow-md mt-4">
           <div className="flex items-center gap-4">
             <img src={paymenticon} className="mt-[-35px]" alt="Payment Icon" />
@@ -39,17 +39,17 @@ const Payment = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-1 mt-[-60px]">
-  <img src={Tick} alt="tick" className="w-4 h-4" />
-  <span className="text-green-600 font-semibold font-Gilroy text-base">
-    Primary account
-  </span>
-</div>
+            <img src={Tick} alt="tick" className="w-4 h-4" />
+            <span className="text-green-600 font-semibold font-Gilroy text-base">
+              Primary account
+            </span>
+          </div>
 
         </div>
 
-        
+
         <div className="border border-gray-300 rounded-2xl p-4 flex justify-between items-center shadow-md mt-12">
           <div className="flex items-center gap-4">
             <img src={paymenticon} className="mt-[-35px]" alt="Payment Icon" />
@@ -75,12 +75,12 @@ const Payment = () => {
           </div>
         </div>
 
-        
+
         <p className="text-black font-semibold text-base font-Gilroy cursor-pointer mt-8">
           + Add new payment
         </p>
 
-     
+
         <div className="mt-6 flex justify-end">
           <button className="bg-lightgray text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium">
             Save changes
