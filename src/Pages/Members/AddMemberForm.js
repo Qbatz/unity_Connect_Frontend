@@ -20,14 +20,12 @@ function  MemberModal({ state, memberData, onClose }) {
     const [mobileNo, setMobileNo] = useState("");
     const [address, setAddress] = useState("");
     const [file, setFile] = useState("");
-    // const [ setId] = useState("");
     const [errors, setErrors] = useState({});
     const [noChanges, setNoChanges] = useState("");
 
 
     useEffect(() => {
         if (memberData) {
-            // setId(prev => memberData.Id || prev);
             setMemberId(prev => memberData.Member_Id || prev);
             setUserName(prev => memberData.User_Name || prev);
             setEmail(prev => memberData.Email_Id || prev);
@@ -147,15 +145,6 @@ function  MemberModal({ state, memberData, onClose }) {
             dispatch({
                 type: 'MEMBERINFO',
                 payload: memberData ? Editpayload : payload,
-                // payload :{
-                //     user_name: userName,
-                //     email_id: email,
-                //     mobile_no: mobileNo,
-                //     joining_date: joiningDate,
-                //     address: address,
-                //     file: file ? file : memberData?.file,
-                //     id :memberData.Id
-                // }
             });
         }
 
