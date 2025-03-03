@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { FaEllipsisH } from "react-icons/fa";
-import img1 from "../Images/Memberone.svg";
-import call from "../Icons/call.svg";
-import sms from "../Icons/sms.svg";
-import building from "../Icons/buildings.svg";
-import editIcon from "../Icons/edit_blue.svg";
-import deleteIcon from "../Icons/Delete.svg";
+import img1 from "../../Asset/Images/Memberone.svg";
+import call from "../../Asset/Icons/call.svg";
+import sms from "../../Asset/Icons/sms.svg";
+import building from "../../Asset/Icons/buildings.svg";
+import editIcon from "../../Asset/Icons/edit_blue.svg";
+import deleteIcon from "../../Asset/Icons/Delete.svg";
 import { useDispatch, connect } from "react-redux";
-import PropTypes from 'prop-types';
-import changestatus from '../Icons/ChangeStatusicon.svg'
+import changestatus from '../../Asset/Icons/ChangeStatusicon.svg';
 import moment from "moment";
+import PropTypes from 'prop-types';
 import AddMemberForm from "./AddMemberForm";
 
 function ActiveMember({ state }) {

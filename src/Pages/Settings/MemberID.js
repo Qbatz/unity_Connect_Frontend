@@ -1,28 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 
-function MemberID ({state}) {
+function MemberID({ state }) {
 
-    const dispatch = useDispatch() 
+  const dispatch = useDispatch()
 
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
-   const [error, setError] = useState({ prefix: "", suffix: "" });
+  const [error, setError] = useState({ prefix: "", suffix: "" });
 
-useEffect(() => {
+  useEffect(() => {
     if (state.Settings.statusCodeMemberID === 200) {
-    
-        setPrefix('');
-        setSuffix('');
-        dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_ID' });
-       
-    }
-}, [state.Settings.statusCodeMemberID]);
 
-const handlePrefix = (e) => {
+      setPrefix('');
+      setSuffix('');
+      dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_ID' });
+
+    }
+  }, [state.Settings.statusCodeMemberID]);
+
+  const handlePrefix = (e) => {
     const value = e.target.value;
     if (/^[A-Za-z]*$/.test(value)) {
       setPrefix(value);
@@ -57,23 +57,23 @@ const handlePrefix = (e) => {
 
     setError(newError);
     if (!hasError) {
-    const payload = { 
-        prefix:prefix,
-        suffix:suffix,
-    };
+      const payload = {
+        prefix: prefix,
+        suffix: suffix,
+      };
 
-  
 
-    dispatch({
+
+      dispatch({
         type: 'SETTINGSMEMBERID',
         payload: payload
-    });
+      });
+    }
   }
-}
 
   return (
     <div className="container mx-auto mt-10">
-        <h1 className="text-xl font-semibold font-Gilroy">Member ID</h1>
+      <h1 className="text-xl font-semibold font-Gilroy">Member ID</h1>
       <p className="text-lightgray font-Gilroy text-sm font-normal mt-4">
         Set up the prefix and suffix for Member ID
       </p>
@@ -86,7 +86,7 @@ const handlePrefix = (e) => {
             value={prefix}
             onChange={handlePrefix}
           />
-           {error.prefix && (
+          {error.prefix && (
             <p className="text-red-500 text-sm mt-1">{error.prefix}</p>
           )}
         </div>
@@ -98,7 +98,7 @@ const handlePrefix = (e) => {
             value={suffix}
             onChange={handleSuffix}
           />
-           {error.suffix && (
+          {error.suffix && (
             <p className="text-red-500 text-sm mt-1">{error.suffix}</p>
           )}
         </div>
@@ -113,7 +113,7 @@ const handlePrefix = (e) => {
         </div>
       </div>
 
-     
+
       <div className="mt-6 flex justify-end">
         <button onClick={handleSave} className="bg-lightgray text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium">
           Save changes
@@ -121,20 +121,20 @@ const handlePrefix = (e) => {
 
       </div>
       {state.Settings.error === "Prefix and Suffix already Exist" && (
-    <p  className="text-red-500 text-sm text-center font-Gilroy">{state.Settings.error}</p>
-  )}
+        <p className="text-red-500 text-sm text-center font-Gilroy">{state.Settings.error}</p>
+      )}
     </div>
-    
+
   );
 };
 
 const mapsToProps = (stateInfo) => {
-    return {
-      state: stateInfo
-    }
+  return {
+    state: stateInfo
+  }
 }
 
 MemberID.propTypes = {
-  state: PropTypes.object, 
+  state: PropTypes.object,
 };
 export default connect(mapsToProps)(MemberID)

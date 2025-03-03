@@ -1,6 +1,6 @@
 import React from "react";
-import MoneyBag from "../Icons/CashBag.svg"; 
-import FlyingDollar from "../Icons/CashwithWings.svg"; 
+import MoneyBag from "../../Asset/Icons/MoneyBag.svg";
+import FlyingDollar from "../../Asset/Icons/CashwithWings.svg";
 
 const MeetUnityConnect = () => {
   return (
@@ -20,7 +20,7 @@ const MeetUnityConnect = () => {
           👋 MEET UNITY CONNECT
         </div>
 
-    
+
         <div className="text-[60px] sm:text-[50px] md:text-[70px] lg:text-[80px] leading-[1.1] text-center">
           <span className="text-purple-600 font-normal font-kalam">Invest</span>{" "}
           <span className="text-black font-bold font-Gilroy">Together</span>,
@@ -29,12 +29,12 @@ const MeetUnityConnect = () => {
           <span className="text-black font-light font-Gilroy">Together</span>
         </div>
 
-  
+
         <p className="text-black font-Gilroy text-base sm:text-lg leading-[24px] sm:leading-[28.8px] text-center font-normal mt-6">
           Join a community of investors who thrive on mutual support and collective growth.
         </p>
 
-    
+
         <button className="mt-5 font-Raleway rounded-2xl bg-[#7F00FF] text-white 
         px-5 py-3 md:px-6 md:py-3 lg:px-8 lg:py-4
         font-semibold text-base sm:text-lg hover:bg-[#7F00FF] transition">

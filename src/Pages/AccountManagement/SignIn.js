@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-import UnityConnectImg from '../../Icons/UnityConnectImg.svg';
-import SignInTop from "../../Icons/SignInTop.svg";
-import SignInBottom from "../../Icons/SignInBottom.svg";
+import UnityConnectImg from '../../Asset/Icons/UnityConnectImg.svg';
+import SignInTop from "../../Asset/Icons/SignInTop.svg";
+import SignInBottom from "../../Asset/Icons/SignInBottom.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { MdError } from "react-icons/md";
 import { useDispatch, connect } from 'react-redux';
-import {encryptData  } from "../../Crypto/Utils";
+import { encryptData } from "../../Crypto/Utils";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
@@ -22,7 +22,7 @@ const SignIn = ({ state }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
- 
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const SignIn = ({ state }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     validateForm()
-    
+
   };
 
   const LandingNavigates = useNavigate();
@@ -99,7 +99,7 @@ const SignIn = ({ state }) => {
   };
 
 
-  
+
 
 
 
@@ -108,7 +108,7 @@ const SignIn = ({ state }) => {
       <div className="flex flex-col justify-center md:w-1/2 p-6 md:p-16 container mx-auto">
         <div className="mb-3">
           <img data-testid='img-logo-home' src={UnityConnectImg}
-             onClick={handleLogoClicks}
+            onClick={handleLogoClicks}
             alt="Illustration" />
         </div>
         <h1 className="text-black font-Gilroy text-2xl font-semibold leading-normal mb-2">Welcome back!</h1>

@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import Create1 from '../../Images/Createtleft.svg';
-import Create2 from '../../Images/Createright.svg';
-import Unityicon from '../../Icons/Unityicon.svg'
+import Create1 from '../../Asset/Images/Createtleft.svg';
+import Create2 from '../../Asset/Images/Createright.svg';
+import Unityicon from '../../Asset/Icons/Unityicon.svg';
 import { Eye, EyeSlash } from "iconsax-react";
 import PropTypes from 'prop-types';
 import { useDispatch, connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
-function CreateAccount({state}) {
+function CreateAccount({ state }) {
 
 
   const dispatch = useDispatch()
   let navigate = useNavigate();
-  
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,14 +21,14 @@ function CreateAccount({state}) {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [firstNameError, setFirstNameError] = useState();
-  const [lastNameError,setLastNameError] = useState();
+  const [lastNameError, setLastNameError] = useState();
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('')
   const [passwordErrors, setPasswordErrors] = useState('');
@@ -38,14 +38,14 @@ function CreateAccount({state}) {
 
   const [errors, setErrors] = useState({
     firstName: '',
-    lastName :'',
+    lastName: '',
     email: '',
     phone: '',
     password: '',
     confirmPassword: '',
     bothPassword: '',
     all: ''
-});
+  });
 
 
 
@@ -55,30 +55,30 @@ function CreateAccount({state}) {
 
   useEffect(() => {
     if (state.CreateAccount.statusCodeCreateAccount === 200) {
-    
-        setFirstName('');
-        setLastName('');
-        setMobileNumber('');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
 
-        setErrors("");
+      setFirstName('');
+      setLastName('');
+      setMobileNumber('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
 
-       
-        dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT' });
-        dispatch({type: 'CLEAR_EMAIL_ERROR'})
+      setErrors("");
+
+
+      dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT' });
+      dispatch({ type: 'CLEAR_EMAIL_ERROR' })
     }
-}, [state.CreateAccount.statusCodeCreateAccount]);
+  }, [state.CreateAccount.statusCodeCreateAccount]);
 
-const handleLoginPage = () => {
-  navigate('/sign-in')
-}
-  
+  const handleLoginPage = () => {
+    navigate('/sign-in')
+  }
+
 
   const isFormValid = firstName && lastName && email && mobileNumber && password && confirmPassword && Object.keys(errors).length === 0;
 
- ;
+  ;
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
@@ -97,36 +97,36 @@ const handleLoginPage = () => {
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value.trim();
-  setPassword(newPassword);
+    setPassword(newPassword);
     setErrors((prev) => ({ ...prev, password: "" }));
     setPasswordErrors('')
 
     if (newPassword.length > 0) {
       const errors = validatePassword(newPassword);
       if (errors.length > 0) {
-          setPasswordErrors(errors.join(', '));
+        setPasswordErrors(errors.join(', '));
       }
-  }
+    }
   };
 
-const handleConfirmPasswordChange = (e) => {
-  const newConfirmPassword = e.target.value.trim();
-  setConfirmPassword(newConfirmPassword);
-  setErrors((prev) => ({ ...prev, confirmPassword: "" }));
+  const handleConfirmPasswordChange = (e) => {
+    const newConfirmPassword = e.target.value.trim();
+    setConfirmPassword(newConfirmPassword);
+    setErrors((prev) => ({ ...prev, confirmPassword: "" }));
 
-  setConfirmPasswordError('');
+    setConfirmPasswordError('');
     setBothPasswordError('');
 
     if (isSubmitted && !newConfirmPassword) {
       setConfirmPasswordError('Please enter confirm password');
-  }
+    }
 
-  if (password && newConfirmPassword && password !== newConfirmPassword) {
-    setBothPasswordError('Passwords do not match');
-}
+    if (password && newConfirmPassword && password !== newConfirmPassword) {
+      setBothPasswordError('Passwords do not match');
+    }
 
-  dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
-};
+    dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
+  };
 
 
   const validateForm = () => {
@@ -163,7 +163,7 @@ const handleConfirmPasswordChange = (e) => {
   };
   const validatePassword = (password) => {
     let errorMessages = [];
-  
+
     if (/\s/.test(password)) {
       errorMessages.push('Password cannot contain spaces.');
     }
@@ -176,94 +176,94 @@ const handleConfirmPasswordChange = (e) => {
     if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
       errorMessages.push('At least one numeric and one special symbol required');
     }
-  
+
     return errorMessages;
   };
 
 
-const handleSubmit =  (e) => {
-  e.preventDefault();
-  setIsSubmitted(true);
-  setFirstNameError('');
-  setLastNameError('')
-  setEmailError('');
-  setPhoneError('');
-  setPasswordErrors('');
-  setConfirmPasswordError('');
-  setBothPasswordError('');
-  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    setFirstNameError('');
+    setLastNameError('')
+    setEmailError('');
+    setPhoneError('');
+    setPasswordErrors('');
+    setConfirmPasswordError('');
+    setBothPasswordError('');
 
 
-  if (!firstName) {
+
+    if (!firstName) {
       setFirstNameError('Please enter first name');
-  }
-  if (!lastName) {
-    setLastNameError('Please enter last name');
-}
+    }
+    if (!lastName) {
+      setLastNameError('Please enter last name');
+    }
 
-  if (!email) {
-    setEmailError('Please enter email id');
-  } else if (!validateEmail(email)) {
-    setEmailError('Please enter a valid email address');
-  }
+    if (!email) {
+      setEmailError('Please enter email id');
+    } else if (!validateEmail(email)) {
+      setEmailError('Please enter a valid email address');
+    }
 
-  if (!mobileNumber) {
+    if (!mobileNumber) {
       setPhoneError('Please enter mobile no.');
-  }
+    }
 
-  const phonePattern = /^\d{10}$/;
-  const isValidMobileNo = phonePattern.test(mobileNumber);
+    const phonePattern = /^\d{10}$/;
+    const isValidMobileNo = phonePattern.test(mobileNumber);
 
-  if (!isValidMobileNo) {
+    if (!isValidMobileNo) {
       setPhoneError('Please enter a valid 10-digit mobile number');
-  }
-  if (!password) {
-    setPasswordErrors('Please enter a password');
-    return;
-}
-  
-  const passwordValidationErrors = validatePassword(password);
-  if (passwordValidationErrors.length > 0) {
-    setPasswordErrors(passwordValidationErrors.join(', '));
-    return; 
-  }
+    }
+    if (!password) {
+      setPasswordErrors('Please enter a password');
+      return;
+    }
 
-  if (!confirmPassword) {
-    setConfirmPasswordError('Please enter confirm password');
-    return;
-}
+    const passwordValidationErrors = validatePassword(password);
+    if (passwordValidationErrors.length > 0) {
+      setPasswordErrors(passwordValidationErrors.join(', '));
+      return;
+    }
+
+    if (!confirmPassword) {
+      setConfirmPasswordError('Please enter confirm password');
+      return;
+    }
 
 
-  if (password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setBothPasswordError('Passwords do not match');
-      return;  
-  }
+      return;
+    }
 
-  if (firstName && mobileNumber && lastName && email && password) {
-      const payload = { 
-          first_name: firstName, 
-          last_name: lastName, 
-          phone: mobileNumber, 
-          email_id: email, 
-          password: password 
+    if (firstName && mobileNumber && lastName && email && password) {
+      const payload = {
+        first_name: firstName,
+        last_name: lastName,
+        phone: mobileNumber,
+        email_id: email,
+        password: password
       };
 
-    
+
 
       dispatch({
-          type: 'CREATE_ACCOUNT',
-          payload: payload
+        type: 'CREATE_ACCOUNT',
+        payload: payload
       });
-  }
+    }
 
 
-};
+  };
 
 
   const handleMobileNumberChange = (e) => {
-  dispatch({ type: 'CLEAR_MOBILE_ERROR' });
-  dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
-  setPhoneError('');
+    dispatch({ type: 'CLEAR_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+    setPhoneError('');
     const value = e.target.value;
     if (/^\d*$/.test(value) && value.length <= 10) {
       setMobileNumber(value);
@@ -272,10 +272,10 @@ const handleSubmit =  (e) => {
   };
 
   const handleEmailChange = (e) => {
-  
-  dispatch({ type: 'CLEAR_EMAIL_ERROR' });
-  dispatch({ type: 'CLEAR_MOBILE_ERROR' });
-  setEmailError('');
+
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+    dispatch({ type: 'CLEAR_MOBILE_ERROR' });
+    setEmailError('');
     const value = e.target.value;
     setEmail(value);
 
@@ -289,7 +289,7 @@ const handleSubmit =  (e) => {
   return (
     <div data-testid='create-account' className="w-full font-gilroy bg-white px-4 md:px-16 mt-4 overflow-hidden h-auto">
       <div className="grid grid-cols-1 md:grid-cols-2  w-full">
-        
+
         <div className="space-y-5 w-full">
           <img src={Unityicon} alt="Unity Icon" />
           <h1 className="text-3xl font-semibold text-gray-900 font-Gilroy">Create your free account</h1>
@@ -301,7 +301,7 @@ const handleSubmit =  (e) => {
               <input type="text" data-testid='input-fname' placeholder="First name" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={firstName} onChange={handleFirstNameChange}
               />
-   
+
               {isSubmitted && firstNameError && <p data-testid='fname-error' className="text-red-500 text-sm">{firstNameError}</p>}
             </div>
 
@@ -318,9 +318,9 @@ const handleSubmit =  (e) => {
               <input data-testid='input-email' type="email" placeholder="Email address" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={email} onChange={handleEmailChange}
               />
-                         {state.CreateAccount.mobileError === "Email Id Already Exists" && (
-    <p data-testid='mobile-error' className="text-red-500 text-sm mt-1">{state.CreateAccount.mobileError}</p>
-  )}
+              {state.CreateAccount.mobileError === "Email Id Already Exists" && (
+                <p data-testid='mobile-error' className="text-red-500 text-sm mt-1">{state.CreateAccount.mobileError}</p>
+              )}
               {isSubmitted && emailError && <p data-testid='email-error' className="text-red-500 text-sm">{emailError}</p>}
             </div>
 
@@ -337,12 +337,12 @@ const handleSubmit =  (e) => {
                   placeholder="9876543210"
                   value={mobileNumber}
                   onChange={handleMobileNumberChange}
-                  disabled={false} 
+                  disabled={false}
                 />
               </div>
-                        {state.CreateAccount.email_mobile_Error === "Mobile Number Already Exists" && (
-    <p data-testid='mobile_error' className="text-red-500 text-sm mt-1">{state.CreateAccount.email_mobile_Error}</p>
-  )}
+              {state.CreateAccount.email_mobile_Error === "Mobile Number Already Exists" && (
+                <p data-testid='mobile_error' className="text-red-500 text-sm mt-1">{state.CreateAccount.email_mobile_Error}</p>
+              )}
               {isSubmitted && phoneError && <p className="text-red-500 text-sm">{phoneError}</p>}
             </div>
 
@@ -375,7 +375,7 @@ const handleSubmit =  (e) => {
           </div>
 
           <button
-          data-testid='button-submit'
+            data-testid='button-submit'
             className={`w-full text-white text-lg py-3 rounded-full transition-all duration-300 ${isFormValid ? 'bg-black' : 'bg-gray-400'}`}
             onClick={handleSubmit}
           >
@@ -387,7 +387,7 @@ const handleSubmit =  (e) => {
           </div>
         </div>
 
-       
+
         <div className="flex flex-col items-center  gap-0">
           <img src={Create1} className="w-full h-[330px] block" alt="Illustration 1" />
           <img
@@ -404,12 +404,12 @@ const handleSubmit =  (e) => {
 }
 
 const mapsToProps = (stateInfo) => {
-    return {
-      state: stateInfo
-    }
+  return {
+    state: stateInfo
+  }
 }
 
 CreateAccount.propTypes = {
-  state: PropTypes.object, 
+  state: PropTypes.object,
 };
 export default connect(mapsToProps)(CreateAccount)

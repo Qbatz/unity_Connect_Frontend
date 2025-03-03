@@ -20,7 +20,13 @@ describe('checks for Member Reducer', () => {
             deleteMemberStatusCode: 0,
             changestatus: '',
             changestausStatusCode: 0,
-            errormsg: ''
+            errormsg: '',
+            Users: [],
+            addUser: '',
+            statusCodeForAddUser: 0,
+            statusCodeClearForAddUser: 0,
+            phoneError: '',
+            emailError: '',
         })
     })
 
@@ -41,7 +47,13 @@ describe('checks for Member Reducer', () => {
             deleteMemberStatusCode: 0,
             changestatus: '',
             changestausStatusCode: 0,
-            errormsg: ''
+            errormsg: '',
+            Users: [],
+            addUser: '',
+            statusCodeForAddUser: 0,
+            statusCodeClearForAddUser: 0,
+            phoneError: '',
+            emailError: '',
         })
     })
 
@@ -59,7 +71,13 @@ describe('checks for Member Reducer', () => {
             deleteMemberStatusCode: 200,
             changestatus: '',
             changestausStatusCode: 0,
-            errormsg: ''
+            errormsg: '',
+            Users: [],
+            addUser: '',
+            statusCodeForAddUser: 0,
+            statusCodeClearForAddUser: 0,
+            phoneError: '',
+            emailError: '',
         })
     })
 
@@ -77,7 +95,13 @@ describe('checks for Member Reducer', () => {
             deleteMemberStatusCode: 0,
             changestatus: '',
             changestausStatusCode: 0,
-            errormsg: ''
+            errormsg: '',
+            Users: [],
+            addUser: '',
+            statusCodeForAddUser: 0,
+            statusCodeClearForAddUser: 0,
+            phoneError: '',
+            emailError: '',
         })
     })
 
@@ -93,9 +117,16 @@ describe('checks for Member Reducer', () => {
             Memberdata: [],
             statusCodeMemberList: 0,
             deleteMemberStatusCode: 0,
-            changestatus:'',
-            changestausStatusCode:0,
-            errormsg:''
+            changestatus: '',
+            errormsg: '',
+            changestausStatusCode: 0,
+            Users: [],
+            addUser: '',
+            statusCodeForAddUser: 0,
+            statusCodeClearForAddUser: 0,
+            phoneError: '',
+            emailError: ''
+
         })
     })
 

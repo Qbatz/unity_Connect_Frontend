@@ -27,7 +27,7 @@ function LoanID({ state }) {
     }
   };
 
-  
+
   const handleSuffix = (e) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
@@ -38,7 +38,7 @@ function LoanID({ state }) {
     }
   };
 
- 
+
   const handleSave = () => {
     let newError = { prefix: "", suffix: "" };
     let hasError = false;
@@ -55,10 +55,10 @@ function LoanID({ state }) {
     setError(newError);
 
     if (!hasError) {
-        const payload = { 
-            prefix:prefix,
-            suffix:suffix,
-        };
+      const payload = {
+        prefix: prefix,
+        suffix: suffix,
+      };
       dispatch({
         type: "SETTINGSLOANID",
         payload: payload,
@@ -73,7 +73,7 @@ function LoanID({ state }) {
         Set up the prefix and suffix for Loan ID
       </p>
       <div className="mt-4 grid grid-cols-3 gap-4">
-      
+
         <div>
           <label className="block text-sm font-Gilroy font-medium text-gray-700">
             Prefix
@@ -89,7 +89,7 @@ function LoanID({ state }) {
           )}
         </div>
 
-      
+
         <div>
           <label className="block text-sm font-Gilroy font-medium text-gray-700">
             Suffix
@@ -105,7 +105,7 @@ function LoanID({ state }) {
           )}
         </div>
 
-       
+
         <div>
           <label className="block text-sm font-Gilroy font-medium text-gray-700">
             Preview
@@ -119,7 +119,7 @@ function LoanID({ state }) {
         </div>
       </div>
 
-     
+
       <div className="mt-6 flex justify-end">
         <button
           onClick={handleSave}
@@ -129,8 +129,8 @@ function LoanID({ state }) {
         </button>
       </div>
       {state.Settings.error === "Prefix and Suffix already Exist" && (
-    <p  className="text-red-500 text-sm text-center font-Gilroy">{state.Settings.error}</p>
-  )}
+        <p className="text-red-500 text-sm text-center font-Gilroy">{state.Settings.error}</p>
+      )}
     </div>
   );
 }

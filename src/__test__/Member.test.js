@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Members from "../Members/Member";
+import Members from "../Pages/Members/Member";
 import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
 import userEvent from "@testing-library/user-event";
