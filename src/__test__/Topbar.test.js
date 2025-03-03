@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import TopBar from "../Component/TopBar";
+import TopBar from "../Component/LandingPage/TopBar";
 import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 

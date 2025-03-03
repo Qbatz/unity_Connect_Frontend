@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Activemember from "../Members/Activemember";
+import Activemember from "../Pages/Members/Activemember";
 import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
 import { MemoryRouter } from "react-router-dom";

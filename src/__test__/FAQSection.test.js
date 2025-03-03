@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import FAQSection from "../Component/FAQSection";
+import FAQSection from "../Component/LandingPage/FAQSection";
 import userEvent from "@testing-library/user-event";
 
 

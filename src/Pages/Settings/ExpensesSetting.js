@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
-import ExpensesIcon from "../Icons/ExpensesIcon.svg";
-import ThreeDotMore from "../Icons/ThreeDotMore.svg";
-import CloseCircleIcon from "../Icons/close-circle.svg";
+import ExpensesIcon from "../../Asset/Icons/ExpensesIcon.svg";
+import ThreeDotMore from "../../Asset/Icons/ThreeDotMore.svg";
+import CloseCircleIcon from "../../Asset/Icons/close-circle.svg";
 import PropTypes from "prop-types";
 
 function ExpensesSetting({ state }) {
@@ -11,7 +11,7 @@ function ExpensesSetting({ state }) {
   const dispatch = useDispatch();
 
   const expensesetting = useSelector((state) => state.SettingExpenses?.getExpenseData.data || []);
-  
+
 
   const statusCode = useSelector((state) => state.SettingExpenses.statusCodeSettingsAddExpenses);
 
@@ -63,7 +63,7 @@ function ExpensesSetting({ state }) {
         dispatch({ type: "CLEARSETTINGADDEXPENSES" })
       }, 500)
     }
-  }, [state.SettingExpenses,dispatch])
+  }, [state.SettingExpenses, dispatch])
 
 
 

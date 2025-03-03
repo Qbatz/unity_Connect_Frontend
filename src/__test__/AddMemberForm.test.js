@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import AddMemberForm from "../Members/AddMemberForm";
+import AddMemberForm from "../Pages/Members/AddMemberForm";
 import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
 import userEvent from '@testing-library/user-event'
@@ -9,7 +9,7 @@ describe('it should check for add member form UI', () => {
     const mockStore = configureStore()
     const store = mockStore({
 
-        addMember: {
+        Member: {
             statusCodeForAddUser: 200
         }
 
@@ -18,8 +18,11 @@ describe('it should check for add member form UI', () => {
     const onClose = jest.fn()
 
     it('it should render a basic UI', () => {
+        const memberData = {
+            id: 1
+        }
         render(<Provider store={store}>
-            <AddMemberForm onClose={onClose}/>
+            <AddMemberForm memberData={memberData} onClose={onClose}/>
         </Provider>)
 
         const buttonClose = screen.getByTestId('button-close')

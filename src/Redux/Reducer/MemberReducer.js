@@ -5,7 +5,13 @@ export const initialState = {
     deleteMemberStatusCode: 0,
     changestatus: '',
     changestausStatusCode: 0,
-    errormsg: ''
+    errormsg: '',
+    Users: [],
+    addUser: '',
+    statusCodeForAddUser: 0,
+    statusCodeClearForAddUser: 0,
+    phoneError: '',
+    emailError: '',
 
 }
 const MemberListReducer = (state = initialState, action) => {
@@ -25,13 +31,33 @@ const MemberListReducer = (state = initialState, action) => {
             return { ...state, deleteMemberStatusCode: 0 }
         case 'STATUS_MEMBER':
             return { ...state, changestatus: action.payload.response, changestausStatusCode: action.payload.statusCode }
-
         case 'CLEAR_STATUS_MEMBER':
             return { ...state, changestausStatusCode: 0 }
         case 'ERROR':
             return { ...state, errormsg: action.payload }
         case 'CLEAR_ERROR':
             return { ...state, errormsg: '' }
+
+
+        case 'ADD_USER_SUCCESS':
+            return { ...state, addUser: action.payload.response, statusCodeForAddUser: action.payload.statusCode }
+        case 'EDIT_USER_SUCCESS':
+            return { ...state, EditUser: action.payload.message, statusCodeForEditUser: action.payload.statusCode }
+        case 'CLEAR_STATUS_CODES':
+            return { ...state, statusCodeClearForAddUser: 0 }
+        case 'EDIT_CLEAR_STATUS_CODES':
+            return { ...state, statusCodeClearForEditUser: 0 }
+        case 'PHONE_ERROR':
+            return { ...state, phoneError: action.payload }
+
+        case 'CLEAR_PHONE_ERROR':
+            return { ...state, phoneError: '' }
+
+        case 'EMAIL_ERROR':
+            return { ...state, emailError: action.payload }
+
+
+
 
         default:
             return state;

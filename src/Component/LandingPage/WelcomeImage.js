@@ -1,7 +1,7 @@
 import React from "react";
-import WelcomeBackImage from '../Icons/WelcomeImage.svg';
-import SprilOne from '../Icons/SprilOne.svg';
-import SprilTwo from '../Icons/SprilTwo.svg';
+import WelcomeBackImage from '../../Asset/Icons/WelcomeImage.svg';
+import SprilOne from '../../Asset/Icons/SprilOne.svg';
+import SprilTwo from '../../Asset/Icons/SprilTwo.svg';
 
 const WelcomeImage = () => {
   return (

@@ -11,13 +11,13 @@ import { connect } from 'react-redux';
 import { decryptData } from './Crypto/Utils';
 import Cookies from 'universal-cookie';
 import { useDispatch } from 'react-redux';
-import LandingPage from './Component/LandingPage';
-import Settings from '../src/Settings/Settings';
+import LandingPage from './Component/LandingPage/LandingPage';
 import PropTypes from 'prop-types';
 
 
 
 function App({ isLogged_In }) {
+
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const [success, setSuccess] = useState(null)
@@ -76,7 +76,6 @@ function App({ isLogged_In }) {
           {success === true || isLogged_In === true ? (
             <>
               <Route path="/" element={<Sidebar />} />
-              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
