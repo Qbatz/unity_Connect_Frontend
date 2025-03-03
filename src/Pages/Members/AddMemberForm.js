@@ -40,8 +40,9 @@ function MemberModal({ state, memberData, onClose }) {
 
     useEffect(() => {
         if (state.Member.statusCodeForAddUser === 200) {
+
+            
             dispatch({ type: 'MEMBERLIST' });
-            dispatch({ type: 'CLEAR_STATUS_CODES' });
         }
     }, [state.Member.statusCodeForAddUser]);
 

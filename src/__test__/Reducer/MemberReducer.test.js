@@ -119,7 +119,6 @@ describe('checks for Member Reducer', () => {
             deleteMemberStatusCode: 0,
             changestatus: '',
             errormsg: '',
-            statusCodeMemberList: 0,
             changestausStatusCode: 0,
             Users: [],
             addUser: '',
