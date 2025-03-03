@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { MdClose, MdError } from "react-icons/md";
+import { MdError } from "react-icons/md";
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useDispatch } from "react-redux";
 import { connect } from 'react-redux';
