@@ -18,7 +18,7 @@ describe('it will check for add member reducer', () => {
         const action = {
             type: 'ADD_USER_SUCCESS',
             payload: {
-                message: 'Added User Successfully',
+                response: 'Added User Successfully',
                 statusCode: 200
             }
         }
@@ -43,7 +43,7 @@ describe('it will check for add member reducer', () => {
 
         expect(AddMemberReducer({...initialState, statusCodeForAddUser: 200}, action)).toStrictEqual({
             Users: [],
-            addUser: [],
+            addUser: '',
             statusCodeForAddUser: 200,
             statusCodeClearForAddUser: 0,
             phoneError: '',
@@ -60,7 +60,7 @@ describe('it will check for add member reducer', () => {
 
         expect(AddMemberReducer({...initialState, statusCodeForAddUser: 200}, action)).toStrictEqual({
             Users: [],
-            addUser: [],
+            addUser: '',
             statusCodeForAddUser: 200,
             statusCodeClearForAddUser: 0,
             phoneError: 'Invalid Phone Number',
@@ -77,7 +77,7 @@ describe('it will check for add member reducer', () => {
 
         expect(AddMemberReducer({...initialState, phoneError: 'Invalid Phone Number'}, action)).toStrictEqual({
             Users: [],
-            addUser: [],
+            addUser: '',
             statusCodeForAddUser: 0,
             statusCodeClearForAddUser: 0,
             phoneError: '',
@@ -94,7 +94,7 @@ describe('it will check for add member reducer', () => {
 
         expect(AddMemberReducer({...initialState, phoneError: 'Invalid Phone Number'}, action)).toStrictEqual({
             Users: [],
-            addUser: [],
+            addUser: '',
             statusCodeForAddUser: 0,
             statusCodeClearForAddUser: 0,
             phoneError: 'Invalid Phone Number',
@@ -111,7 +111,7 @@ describe('it will check for add member reducer', () => {
 
         expect(AddMemberReducer({...initialState, emailError: 'Invalid Email'}, action)).toStrictEqual({
             Users: [],
-            addUser: [],
+            addUser: '',
             statusCodeForAddUser: 0,
             statusCodeClearForAddUser: 0,
             phoneError: '',

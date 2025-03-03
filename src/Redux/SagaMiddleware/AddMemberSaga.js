@@ -10,7 +10,7 @@ export function* handleAddMember(datum) {
 
         yield put({
             type: 'ADD_USER_SUCCESS',
-            payload: { response: response.message, statusCode: response.statusCode || response.status },
+            payload: { response: response.data, statusCode: response.statusCode || response.status },
         });
 
         toast.success(response.message, {
