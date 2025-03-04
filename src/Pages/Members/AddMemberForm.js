@@ -11,8 +11,6 @@ import closecircle from '../../Asset/Icons/close-circle.svg';
 function MemberModal({ state, memberData, onClose }) {
 
 
-console.log("state",memberData);
-
     const dispatch = useDispatch();
 
     const [memberId, setMemberId] = useState("");
@@ -140,8 +138,8 @@ console.log("state",memberData);
                 mobile_no: mobileNo,
                 joining_date: joiningDate,
                 address: address,
-                // file: file ? file : memberData?.file,
-                document_url: memberData?.Document_Url,
+                file: file ? file : undefined,
+                document_url: !file ? memberData?.Document_Url : undefined,
                 id: memberData.Id
 
             };
