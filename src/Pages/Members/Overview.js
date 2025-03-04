@@ -10,7 +10,7 @@ import building from "../../Asset/Icons/buildings.svg";
 import calender from '../../Asset/Icons/calendar-tick.svg';
 import profile from '../../Asset/Icons/profile.svg';
 import PropTypes from 'prop-types';
-import { useDispatch, connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function Overview({ member }) {
     const dispatch = useDispatch();
@@ -102,14 +102,10 @@ function Overview({ member }) {
     );
 }
 
-const mapsToProps = (stateInfo) => {
-    return {
-        member: stateInfo
-    };
-};
+
 
 Overview.propTypes = {
     member: PropTypes.object,
 };
 
-export default connect(mapsToProps)(Overview);
+export default Overview;

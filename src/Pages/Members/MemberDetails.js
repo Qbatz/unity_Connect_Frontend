@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import img1 from "../../Asset/Images/Memberone.svg";
 import Overview from "./Overview";
 import PropTypes from 'prop-types';
-import {connect } from "react-redux";
+
 
 function MemberDetails  ({ member, onBack })  {
   const [activeTab, setActiveTab] = useState("Overview");
@@ -55,14 +55,9 @@ function MemberDetails  ({ member, onBack })  {
   );
 };
 
-const mapsToProps = (stateInfo) => {
-  return {
-    member: stateInfo,
-    onBack: stateInfo
-  }
-}
+
 MemberDetails.propTypes = {
   member: PropTypes.object,
-  onBack: PropTypes.object,
+  onBack: PropTypes.function,
 };
-export default connect(mapsToProps)(MemberDetails)
+export default MemberDetails;
