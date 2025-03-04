@@ -11,6 +11,8 @@ import closecircle from '../../Asset/Icons/close-circle.svg';
 function MemberModal({ state, memberData, onClose }) {
 
 
+console.log("state",memberData);
+
     const dispatch = useDispatch();
 
     const [memberId, setMemberId] = useState("");
@@ -138,6 +140,7 @@ function MemberModal({ state, memberData, onClose }) {
                 mobile_no: mobileNo,
                 joining_date: joiningDate,
                 address: address,
+                // file: file ? file : memberData?.file,
                 document_url: memberData?.Document_Url,
                 id: memberData.Id
 
@@ -176,13 +179,10 @@ function MemberModal({ state, memberData, onClose }) {
                     <div className="flex gap-4">
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID</label>
-                            <input data-testid='input-member-id' type="text" className="w-full p-2 h-10 border rounded-lg" value={memberId} onChange={(e) => handleChange("memberId", e.target.value)} />
+                            <input data-testid='input-member-id' type="text" className="w-full p-2 h-10 border rounded-lg" value={memberId} 
+                            onChange={(e) => handleChange("memberId", e.target.value)} />
                             {errors.memberId && <p className="text-red-500 flex items-center gap-1 mt-1 text-xs"><MdError size={14} /> {errors.memberId}</p>}
                         </div>
-
-
-                        <input type="hidden" value={memberData.Id} />
-
 
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">User Name</label>
