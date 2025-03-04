@@ -7,7 +7,7 @@ import Loan from "../Asset/Icons/Loan.svg";
 import LoanActive from "../Asset/Icons/LoanActive.svg";
 import Expenses from "../Asset/Icons/Expenses.svg";
 import ExpensesActive from "../Asset/Icons/ExpensesActive.svg";
-import Statements from "../Asset/Icons/Statements.svg";
+import Statement from "../Asset/Icons/Statement.svg";
 import StatementActive from "../Asset/Icons/StatementActive.svg";
 import Reports from "../Asset/Icons/Reports.svg";
 import ReportsActive from "../Asset/Icons/ReportsActive.svg";
@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 import Logout from "../Asset/Icons/turn-off.png";
 import Settings from "../Pages/Settings/Settings";
 import Members from "../Pages/Members/Member";
+import Statements from "../Pages/Statements/Statements";
 
 const Sidebar = () => {
 
@@ -81,7 +82,7 @@ const Sidebar = () => {
               { name: "Members", icon: Member, activeIcon: MemberActive },
               { name: "Loan", icon: Loan, activeIcon: LoanActive },
               { name: "Expenses", icon: Expenses, activeIcon: ExpensesActive },
-              { name: "Statements", icon: Statements, activeIcon: StatementActive },
+              { name: "Statements", icon: Statement, activeIcon: StatementActive },
               { name: "Reports", icon: Reports, activeIcon: ReportsActive },
               { name: "Settings", icon: settings, activeIcon: settingsActive }
             ].map((menu, i) => (
@@ -150,7 +151,7 @@ const Sidebar = () => {
 
           {activeMenu === "Statements" && (
             <div data-testid='div-statements' className="bg-white mt-2">
-              {/* <Statements /> */}
+              <Statements />
             </div>
           )}
 

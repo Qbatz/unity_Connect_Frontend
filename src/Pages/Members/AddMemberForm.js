@@ -11,6 +11,7 @@ import closecircle from '../../Asset/Icons/close-circle.svg';
 function MemberModal({ state, memberData, onClose }) {
 
 
+console.log("state",memberData);
 
     const dispatch = useDispatch();
 
@@ -21,6 +22,7 @@ function MemberModal({ state, memberData, onClose }) {
     const [mobileNo, setMobileNo] = useState("");
     const [address, setAddress] = useState("");
     const [file, setFile] = useState("");
+    const[showImage, setShowImage] = useState("");
     const [errors, setErrors] = useState({});
     const [noChanges, setNoChanges] = useState("");
 
@@ -40,8 +42,6 @@ function MemberModal({ state, memberData, onClose }) {
 
     useEffect(() => {
         if (state.Member.statusCodeForAddUser === 200) {
-
-            
             dispatch({ type: 'MEMBERLIST' });
         }
     }, [state.Member.statusCodeForAddUser]);
@@ -80,10 +80,11 @@ function MemberModal({ state, memberData, onClose }) {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
+        setFile(selectedFile)
         if (selectedFile) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFile(reader.result);
+                setShowImage(reader.result);
             };
             reader.readAsDataURL(selectedFile);
         }
@@ -139,7 +140,8 @@ function MemberModal({ state, memberData, onClose }) {
                 mobile_no: mobileNo,
                 joining_date: joiningDate,
                 address: address,
-                file: file ? file : memberData?.file,
+                // file: file ? file : memberData?.file,
+                document_url: memberData?.Document_Url,
                 id: memberData.Id
 
             };
@@ -148,7 +150,9 @@ function MemberModal({ state, memberData, onClose }) {
                 type: 'MEMBERINFO',
                 payload: memberData ? Editpayload : payload,
             });
+            setNoChanges("");
         }
+
 
         onClose();
     };
@@ -165,7 +169,12 @@ function MemberModal({ state, memberData, onClose }) {
                     </button>
                 </div>
 
-
+                {noChanges && (
+                        <div className="flex items-center justify-center mt-8 text-red-500 text-sm font-semibold">
+                            <MdError className="text-sm mr-2" />
+                            <p>{noChanges}</p>
+                        </div>
+                    )}
                 <div className="space-y-1 mt-2">
                     <div className="flex gap-4">
                         <div className="w-1/2">
@@ -220,17 +229,13 @@ function MemberModal({ state, memberData, onClose }) {
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Add Documents</label>
                         <div className="border rounded px-2 py-4 flex items-center justify-center relative w-28 mb-1">
                             <input type="file" className="absolute inset-0 opacity-0 w-full h-full" onChange={handleFileChange} />
-                            {file ? <img src={file} alt="Selected" /> : <AiOutlinePlus size={20} />}
+                             {memberData && <img src={memberData.Document_Url} alt="Selected" />}
+                            {showImage ? <img src={showImage} alt="Selected" /> : <AiOutlinePlus size={20} />}
                         </div>
                         <p className="font-medium text-xs font-Gilroy mb-3">Note: File should be .JPG, .PDF, .PNG (max 2MB)</p>
                     </div>
 
-                    {noChanges && (
-                        <div className="flex items-center justify-center mt-8 text-red-500 text-sm font-semibold">
-                            <MdError className="text-sm mr-2" />
-                            <p>{noChanges}</p>
-                        </div>
-                    )}
+                  
                     <div className="mt-2">
                         <button type="submit" className="w-full bg-black text-white p-2 rounded-lg"
                             onClick={handleSubmit}>{memberData ? "Save Changes" : "Add Member"}</button>
