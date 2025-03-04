@@ -24,8 +24,7 @@ export async function ActiveMemberStatusAction(user) {
 }
 
 export async function addMember(params) {
-    console.log("params",params);
-    
+ 
 
     const formData = new FormData();
    
