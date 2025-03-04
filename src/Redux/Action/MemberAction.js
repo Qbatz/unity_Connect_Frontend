@@ -51,3 +51,12 @@ export async function addMember(params) {
        
     }
 }
+
+
+export async function MemberOverviewAction(users) {
+   
+    return await AxiosConfig.post('/member/get_member_overview',users,{
+
+        data:users  
+    });
+}

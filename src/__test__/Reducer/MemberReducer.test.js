@@ -27,6 +27,8 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            overview:'',
+            statusCodeForOverview: 0,
         })
     })
 
@@ -54,6 +56,8 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            overview:'',
+            statusCodeForOverview: 0,
         })
     })
 
@@ -78,6 +82,8 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            overview:'',
+            statusCodeForOverview: 0,
         })
     })
 
@@ -102,6 +108,8 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            overview:'',
+            statusCodeForOverview: 0,
         })
     })
 
@@ -125,7 +133,9 @@ describe('checks for Member Reducer', () => {
             statusCodeForAddUser: 0,
             statusCodeClearForAddUser: 0,
             phoneError: '',
-            emailError: ''
+            emailError: '',
+            overview:'',
+            statusCodeForOverview: 0,
 
         })
     })
