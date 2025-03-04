@@ -12,7 +12,8 @@ export const initialState = {
     statusCodeClearForAddUser: 0,
     phoneError: '',
     emailError: '',
-
+    overview:'',
+    statusCodeForOverview: 0,
 }
 const MemberListReducer = (state = initialState, action) => {
 
@@ -56,7 +57,10 @@ const MemberListReducer = (state = initialState, action) => {
         case 'EMAIL_ERROR':
             return { ...state, emailError: action.payload }
 
-
+            case 'OVERVIEW_MEMBER':
+                return { ...state, overview: action.payload.response, statusCodeForOverview: action.payload.statusCode }
+            case 'CLEAR_OVERVIEW_MEMBER':
+                return { ...state, statusCodeForOverview: 0 }
 
 
         default:
