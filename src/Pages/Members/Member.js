@@ -6,19 +6,19 @@ import MemberDetails from "./MemberDetails";
 
 const Members = () => {
   const [activeTab, setActiveTab] = useState("Active members");
-  const [selectedMember, setSelectedMember] = useState(null);
+  const [selectedMemberdetails, setSelectedMemberdetails] = useState(null);
 
 
   return (
     <div className="container mx-auto mt-4">
 
-      {!selectedMember && (
+      {!selectedMemberdetails && (
         <h2 className="text-[24px] font-semibold font-Gilroy leading-[28.63px] text-black mb-4">
           Members
         </h2>
       )}
 
-      {!selectedMember && (
+      {!selectedMemberdetails && (
         <div data-testid='members-tab' className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
           {["Active members", "In active members"].map((tab,index) => (
             <button
@@ -39,14 +39,14 @@ const Members = () => {
       )}
 
       <div className="mt-8">
-        {!selectedMember ? (
+        {!selectedMemberdetails ? (
           activeTab === "Active members" ? (
-            <ActiveMember onSelectMember={setSelectedMember} />
+            <ActiveMember onSelectMember={setSelectedMemberdetails} />
           ) : (
-            <NonActiveMember onSelectMember={setSelectedMember} />
+            <NonActiveMember onSelectMember={setSelectedMemberdetails} />
           )
         ) : (
-          <MemberDetails member={selectedMember} onBack={() => setSelectedMember(null)} />
+          <MemberDetails member={selectedMemberdetails} onBack={() => setSelectedMemberdetails(null)} />
 
         )
 

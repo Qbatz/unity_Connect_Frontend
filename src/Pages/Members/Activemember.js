@@ -365,11 +365,11 @@ function ActiveMember({ state, onSelectMember }) {
 const mapsToProps = (stateInfo) => {
   return {
     state: stateInfo,
-    onSelectMember: stateInfo
+   
   }
 }
 ActiveMember.propTypes = {
   state: PropTypes.object,
-  onSelectMember: PropTypes.object,
+  onSelectMember: PropTypes.func,
 };
 export default connect(mapsToProps)(ActiveMember)

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect , useRef} from "react";
 import { BsThreeDots } from "react-icons/bs";
 import doublecoin from '../../Asset/Images/doubleicon.svg';
 import rupeecoin from '../../Asset/Images/ruppeeicon.svg';
@@ -14,15 +14,19 @@ import { useDispatch } from "react-redux";
 
 function Overview({ member }) {
     const dispatch = useDispatch();
+   
+    
+    const isApiCalled = useRef(false); 
 
     useEffect(() => {
-        if (member?.Id) {
+        if (member?.Id && !isApiCalled.current) {
             dispatch({
-                type: 'MEMBEROVERVIEW',
-                payload: { id: member.Id }
+                type: "MEMBEROVERVIEW",
+                payload: { id: member.Id },
             });
+            isApiCalled.current = true; 
         }
-    }, [member.Id]);
+    }, [member?.Id]); 
 
     return (
         <div className="mt-6 px-4 md:px-0">

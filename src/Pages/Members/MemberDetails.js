@@ -58,6 +58,6 @@ function MemberDetails  ({ member, onBack })  {
 
 MemberDetails.propTypes = {
   member: PropTypes.object,
-  onBack: PropTypes.function,
+  onBack: PropTypes.func,
 };
 export default MemberDetails;
