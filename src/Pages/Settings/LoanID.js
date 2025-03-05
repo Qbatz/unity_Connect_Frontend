@@ -72,9 +72,9 @@ function LoanID({ state }) {
       <p className="text-gray-500 font-Gilroy text-sm font-normal mt-4">
         Set up the prefix and suffix for Loan ID
       </p>
-      <div className="mt-4 grid grid-cols-3 gap-4">
+      <div className="mt-4 grid grid-cols-4 gap-[150px]">
 
-        <div>
+        <div className="w-[280px]">
           <label className="block text-sm font-Gilroy font-medium text-gray-700">
             Prefix
           </label>
@@ -90,7 +90,7 @@ function LoanID({ state }) {
         </div>
 
 
-        <div>
+        <div className="w-[280px]">
           <label className="block text-sm font-Gilroy font-medium text-gray-700">
             Suffix
           </label>
@@ -106,7 +106,7 @@ function LoanID({ state }) {
         </div>
 
 
-        <div>
+        <div className="w-[280px]">
           <label className="block text-sm font-Gilroy font-medium text-gray-700">
             Preview
           </label>

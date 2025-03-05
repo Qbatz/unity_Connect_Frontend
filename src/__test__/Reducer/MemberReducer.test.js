@@ -30,6 +30,12 @@ describe('checks for Member Reducer', () => {
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
         })
     })
 
@@ -60,6 +66,12 @@ describe('checks for Member Reducer', () => {
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
         })
     })
 
@@ -87,6 +99,12 @@ describe('checks for Member Reducer', () => {
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
         })
     })
 
@@ -114,6 +132,12 @@ describe('checks for Member Reducer', () => {
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
         })
     })
 
@@ -138,10 +162,15 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
-            
 
         })
     })

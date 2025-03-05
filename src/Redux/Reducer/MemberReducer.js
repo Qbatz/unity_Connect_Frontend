@@ -12,7 +12,12 @@ export const initialState = {
     statusCodeClearForAddUser: 0,
     phoneError: '',
     emailError: '',
-
+    overview: '',
+    statusCodeForOverview: 0,
+    getComment: [],
+    statusCodeForComment: 0,
+    addComment: '',
+    statusCodeForAddComment: 0,
     GetMemberId: [],
     statusCodeForMemberId: 0,
     MemberIdErrorMsg: '',
@@ -62,8 +67,21 @@ const MemberListReducer = (state = initialState, action) => {
         case 'GET_MEMBER_ID_SUCCESSS':
             return { ...state, GetMemberId: action.payload.response, statusCodeForMemberId: action.payload.response }
         case 'GET_MEMBER_ID_ERROR':
-            return { ...state, MemberIdErrorMsg: action.payload.message }
+            return { ...state, MemberIdErrorMsg: action.payload.message }         
+        case 'OVERVIEW_MEMBER':
+            return { ...state, overview: action.payload.response, statusCodeForOverview: action.payload.statusCode }
+        case 'CLEAR_OVERVIEW_MEMBER':
+            return { ...state, statusCodeForOverview: 0 }
 
+        case 'GET_COMMENTS':
+            return { ...state, getComment: action.payload.response.data, statusCodeForComment: action.payload.statusCode }
+        case 'CLEAR_STATUS_CODE_GET_COMMENTS':
+            return { ...state, statusCodeForComment: 0 }
+
+        case 'ADD_COMMENTS':
+            return { ...state, addComment: action.payload.response, statusCodeForAddComment: action.payload.statusCode }
+        case 'CLEAR_STATUS_CODE_ADD_COMMENTS':
+            return { ...state, statusCodeForAddComment: 0 }
 
         default:
             return state;
