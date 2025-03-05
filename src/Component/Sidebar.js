@@ -7,7 +7,7 @@ import Loan from "../Asset/Icons/Loan.svg";
 import LoanActive from "../Asset/Icons/LoanActive.svg";
 import Expenses from "../Asset/Icons/Expenses.svg";
 import ExpensesActive from "../Asset/Icons/ExpensesActive.svg";
-import Statements from "../Asset/Icons/Statements.svg";
+import Statement from "../Asset/Icons/Statement.svg";
 import StatementActive from "../Asset/Icons/StatementActive.svg";
 import Reports from "../Asset/Icons/Reports.svg";
 import ReportsActive from "../Asset/Icons/ReportsActive.svg";
@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 import Logout from "../Asset/Icons/turn-off.png";
 import Settings from "../Pages/Settings/Settings";
 import Members from "../Pages/Members/Member";
+import Statements from "../Pages/Statements/Statements";
 
 const Sidebar = () => {
 
@@ -61,19 +62,23 @@ const Sidebar = () => {
       <div className="flex h-screen" data-testid='container-main'>
         <button
           data-testid='button-toggle'
-          className={`md:hidden fixed left-4 mt-1 z-50 bg-gray-800 text-white p-2 rounded transition-transform duration-300 ${isSidebarOpen ? 'translate-x-44 ' : 'mt-7'}`}
+          className={`md:hidden fixed left-4 mt-1 z-50 bg-gray-800 text-white p-2 rounded transition-transform duration-300 ${isSidebarOpen ? 'mx-36' : 'mt-7'}`}
           onClick={toggleSidebar}
         >
           {isSidebarOpen ? <FaTimes size={10} /> : <FaBars size={10} />}
         </button>
+       
+
 
         <div
-          className={`md:w-56 bg-white text-[#939393] flex flex-col border-r border-gray-100 fixed md:relative h-full z-40 transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+          className={`md:w-64 bg-white text-[#939393] flex flex-col border-r border-gray-300 fixed md:relative h-full z-40 transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
         >
-          <div className="p-4 text-xl font-bold text-black flex items-center gap-2 mt-3 mb-3 ml-2">
+
+          <div className="p-4 text-xl font-bold text-black flex md:flex-wrap lg:flex-nowrap items-center gap-2 mt-3 mb-3 ml-2 md:justify-center lg:justify-start">
             <img src={UnityConnectImg} alt="Unity Connect" className="w-5 h-5" />
-            Unity Connect
+            <span className="font-Gilroy text-base md:text-sm lg:text-base whitespace-nowrap">Unity Connect</span>
           </div>
+
 
           <ul className="flex-1">
             {[
@@ -81,41 +86,46 @@ const Sidebar = () => {
               { name: "Members", icon: Member, activeIcon: MemberActive },
               { name: "Loan", icon: Loan, activeIcon: LoanActive },
               { name: "Expenses", icon: Expenses, activeIcon: ExpensesActive },
-              { name: "Statements", icon: Statements, activeIcon: StatementActive },
+              { name: "Statements", icon: Statement, activeIcon: StatementActive },
               { name: "Reports", icon: Reports, activeIcon: ReportsActive },
               { name: "Settings", icon: settings, activeIcon: settingsActive }
             ].map((menu, i) => (
               <li
                 data-testid={`menu-item-${i}`}
                 key={menu.name}
-                className={`flex justify-between items-center px-4 py-2 ml-2 font-normal text-base leading-tight cursor-pointer ${activeMenu === menu.name ? "text-[#7F00FF]" : "text-black"}`}
+                className={`flex justify-between items-center px-4 py-2 ml-2 font-Gilroy md:text-sm lg:text-lg font-normal text-base leading-tight cursor-pointer ${activeMenu === menu.name ? "text-[#7F00FF]" : "text-gray-500"}`}
                 onClick={() => handleMenuClick(menu.name)}
               >
                 <div className="flex items-center gap-3">
                   <img src={activeMenu === menu.name ? menu.activeIcon : menu.icon} alt={menu.name} className="w-4 h-4 mt-0.5" />
                   <span>{menu.name}</span>
                 </div>
-                {activeMenu === menu.name && <img src={Star} alt="Active" className="w-4 h-4" />}
+                {activeMenu === menu.name && <img src={Star} alt="Active" className="w-4 h-4 block lg:block md:hidden"/>}
+
               </li>
             ))}
           </ul>
 
-          <div className="p-4 flex items-center justify-between w-full">
-            <div className="flex items-center gap-1">
-              <img src={ProfileIcon} alt="Profile" className="w-14 h-14 rounded-full" />
-              <div className="text-start">
-                <p className="text-black font-semibold text-base leading-snug">John Doe</p>
-                <p className="text-neutral-400 font-normal text-xs leading-tight">vikram@gmail.com</p>
+
+
+          <div className="p-2 flex items-center justify-between w-full md:flex-wrap lg:flex-nowrap ">
+            <div className="flex items-center md:flex-wrap lg:flex-nowrap">
+              <img src={ProfileIcon} alt="Profile" className="w-12 h-12 rounded-full lg:ml-0 sm:ml-0 md:ml-7" />
+              <div className="md:text-center lg:text-start md:ml-2">
+                <p className="text-black font-semibold text-base leading-snug font-Gilroy">John Doe</p>
+                <p className="text-neutral-400 font-normal text-xs leading-tight font-Gilroy">vikram@gmail.com</p>
               </div>
             </div>
             <img
               onClick={handleLogout}
               src={Logout}
               alt="Logout Icon"
-              className="w-5 h-5 cursor-pointer ml-2"
+              className="w-5 h-5 cursor-pointer ml-2 md:ml-12 md:mt-1"
               data-testid="img-logout"
             />
           </div>
+
+
 
         </div>
 
@@ -150,7 +160,7 @@ const Sidebar = () => {
 
           {activeMenu === "Statements" && (
             <div data-testid='div-statements' className="bg-white mt-2">
-              {/* <Statements /> */}
+              <Statements />
             </div>
           )}
 
@@ -226,3 +236,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+
+

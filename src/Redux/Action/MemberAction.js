@@ -24,6 +24,7 @@ export async function ActiveMemberStatusAction(user) {
 }
 
 export async function addMember(params) {
+ 
 
     const formData = new FormData();
    
@@ -33,9 +34,10 @@ export async function addMember(params) {
     if (params.mobile_no) formData.append("mobile_no", params.mobile_no)
     if (params.joining_date) formData.append("joining_date", params.joining_date)
     if (params.file) formData.append("file", params.file)
+    if (params.document_url) formData.append("document_url", params.document_url)
     if (params.id ) formData.append("id", params.id || "")
 
-
+      
     try {
         const response = await AxiosConfig.post('/member/add_new_member', formData, {
             headers: {
