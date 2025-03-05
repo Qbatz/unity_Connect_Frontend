@@ -29,6 +29,10 @@ describe('checks for Member Reducer', () => {
             emailError: '',
             overview:'',
             statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
         })
     })
 
@@ -58,6 +62,10 @@ describe('checks for Member Reducer', () => {
             emailError: '',
             overview:'',
             statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
         })
     })
 
@@ -84,6 +92,10 @@ describe('checks for Member Reducer', () => {
             emailError: '',
             overview:'',
             statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
         })
     })
 
@@ -110,6 +122,10 @@ describe('checks for Member Reducer', () => {
             emailError: '',
             overview:'',
             statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
         })
     })
 
@@ -136,6 +152,10 @@ describe('checks for Member Reducer', () => {
             emailError: '',
             overview:'',
             statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
 
         })
     })

@@ -62,3 +62,18 @@ export async function MemberOverviewAction(users) {
         data:users  
     });
 }
+
+export async function GetCommentAction(comment) {
+   
+    return await AxiosConfig.post('/member/get_comment',comment,{
+        data:comment  
+    });
+}
+
+export async function AddCommentAction(users) {
+   
+    return await AxiosConfig.post('/member/add_comment',users,{
+
+        data:users  
+    });
+}

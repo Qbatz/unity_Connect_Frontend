@@ -14,6 +14,10 @@ export const initialState = {
     emailError: '',
     overview:'',
     statusCodeForOverview: 0,
+    getComment : [],
+    statusCodeForComment: 0,
+    addComment : '',
+    statusCodeForAddComment: 0,
 }
 const MemberListReducer = (state = initialState, action) => {
 
@@ -62,6 +66,15 @@ const MemberListReducer = (state = initialState, action) => {
             case 'CLEAR_OVERVIEW_MEMBER':
                 return { ...state, statusCodeForOverview: 0 }
 
+                case 'GET_COMMENTS':
+                    return { ...state, getComment: action.payload.response.data, statusCodeForComment: action.payload.statusCode }
+                case 'CLEAR_STATUS_CODE_GET_COMMENTS':
+                    return { ...state, statusCodeForComment: 0 }     
+
+                    case 'ADD_COMMENTS':
+                        return { ...state, addComment: action.payload.response, statusCodeForAddComment: action.payload.statusCode }
+                    case 'CLEAR_STATUS_CODE_ADD_COMMENTS':
+                        return { ...state, statusCodeForAddComment: 0 }
 
         default:
             return state;
