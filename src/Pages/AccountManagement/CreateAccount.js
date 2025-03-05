@@ -287,7 +287,7 @@ function CreateAccount({ state }) {
   };
 
   return (
-    <div data-testid='create-account' className="w-full font-gilroy bg-white px-4 md:px-16 mt-4 overflow-hidden h-auto">
+    <div data-testid='create-account' className="w-full font-gilroy bg-white px-4 py-2 lg:px-14 md:px-16 mt-4 overflow-hidden h-auto">
       <div className="grid grid-cols-1 md:grid-cols-2  w-full">
 
         <div className="space-y-5 w-full">

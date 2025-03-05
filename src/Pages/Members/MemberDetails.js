@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import img1 from "../../Asset/Images/Memberone.svg";
 import Overview from "./Overview";
 import PropTypes from 'prop-types';
+import CommentSection from "./Comments";
 
 
 function MemberDetails  ({ member, onBack })  {
@@ -49,7 +50,7 @@ function MemberDetails  ({ member, onBack })  {
       </div>
       <div className="">
         {activeTab === "Overview" && <Overview member={member} />}
-
+        {activeTab === "Comments" && <CommentSection member={member} />}
       </div>
     </>
   );
