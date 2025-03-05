@@ -15,6 +15,7 @@ import AddMemberForm from "./AddMemberForm";
 
 function ActiveMember({ state }) {
 
+
   const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -45,6 +46,7 @@ function ActiveMember({ state }) {
 
 
   const formattedDate = moment(members.Joining_Date).format("DD-MM-YYYY");
+
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
@@ -117,10 +119,12 @@ function ActiveMember({ state }) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  const handleClickAddMember = () => {
+  
+  const handleClickAddMember = (memberId) => {
+    
     setShowModal(true);
     setSelectedMember("");
+    // dispatch ({ type : 'GET_MEMBER_ID', payload: { id: memberId, }  })
   }
 
 

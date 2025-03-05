@@ -27,6 +27,9 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
         })
     })
 
@@ -54,6 +57,9 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
         })
     })
 
@@ -78,6 +84,9 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
         })
     })
 
@@ -102,6 +111,9 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
         })
     })
 
@@ -125,7 +137,11 @@ describe('checks for Member Reducer', () => {
             statusCodeForAddUser: 0,
             statusCodeClearForAddUser: 0,
             phoneError: '',
-            emailError: ''
+            emailError: '',
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
+            
 
         })
     })
