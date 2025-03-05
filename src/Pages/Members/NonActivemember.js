@@ -306,8 +306,8 @@ function NonActiveMember({ state }) {
                         Select a status
                       </option>
                       <option value="active">Active</option>
-                      <option value="in-progress">In progress</option>
-                      <option value="open">open</option>
+                      <option value="in-progress">In Active</option>
+                  
                     </select>
 
                     {statusError.trim() !== "" && (

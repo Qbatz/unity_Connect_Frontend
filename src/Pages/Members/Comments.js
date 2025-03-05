@@ -47,7 +47,7 @@ function CommentSection ({ state,member }) {
     }
 
   return (
-    <div className="p-6 mt-2">
+    <div className="pl-4 mt-2">
     
       <div className="space-y-6">
        
@@ -61,20 +61,16 @@ function CommentSection ({ state,member }) {
             <div>
            
               <h3 className="font-semibold text-gray-900 font-Gilroy">{member.User_Name}</h3>
-              <p className="text-sm text-gray-500 font-Gilroy">
+              <p className="text-sm text-gray-500 font-Gilroy mt-2">
               {formattedDate}. 9.30AM
               </p>
             
-              <div className="mt-2 bg-white shadow-md rounded-lg p-4 h-[130px] w-[400px] overflow-y-auto border border-gray-200">
-  {Comments && Comments.length > 0 ? (
-    Comments.map((item, index) => (
-      <div key={index} className="p-3 bg-gray-100 rounded-md mb-2">
-        <p className="text-gray-700 font-Gilroy">{item.Comment}</p>
-      </div>
-    ))
-  ) : (
-    <p className="text-center text-gray-500">No comments yet</p>
-  )}
+              <div className="mt-4 h-[150px] overflow-y-auto pr-2">
+  {
+    Comments && Comments.length > 0 && Comments.map((item, index) => (
+      <p key={index} className="mt-2 text-gray-700 font-Gilroy  p-2 rounded-md">{item.Comment}</p>
+    ))  
+  }
 </div>
 
 

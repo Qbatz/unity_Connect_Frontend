@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import img1 from "../../Asset/Images/Memberone.svg";
 import call from "../../Asset/Icons/call.svg";
@@ -14,10 +14,13 @@ import PropTypes from 'prop-types';
 import AddMemberForm from "./AddMemberForm";
 import MemberDetails from './MemberDetails';
 import closecircle from '../../Asset/Icons/close-circle.svg';
+import { useNavigate } from "react-router-dom";
 
-function ActiveMember({ state, onSelectMember }) {
-
+function ActiveMember({ state }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
   const [openMenu, setOpenMenu] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -29,7 +32,7 @@ function ActiveMember({ state, onSelectMember }) {
   const [showMembers, setShowMembers] = useState(true);
 
 
-
+ 
 
   const handleStatusChange = (e) => setStatus(e.target.value);
   const handleChangeStatusClick = (memberId) => {
@@ -48,6 +51,8 @@ function ActiveMember({ state, onSelectMember }) {
 
   const popupRef = useRef(null);
   const members = state.Member.Memberdata;
+  
+  // const activeMembers = members?.filter(member => member.Status === "active");
 
 
  const formattedDate = moment(members.Joining_Date).format("DD-MM-YYYY");
@@ -152,6 +157,31 @@ function ActiveMember({ state, onSelectMember }) {
   }
 
 
+
+  const handleCardClick = (member) => {
+
+    
+    if (member?.Id) {
+      navigate(`/member-details/${member.Id}`,{ state: { member } });
+    } 
+  };
+
+  const [uploadedFiles, setUploadedFiles] = useState({});
+
+  const handleUploadClick = (index) => {
+    document.getElementById(`fileUpload-${index}`).click();
+  };
+  
+  const handleFileChange = (event, index) => {
+    const file = event.target.files[0];
+    if (file) {
+      setUploadedFiles((prevFiles) => ({
+        ...prevFiles,
+        [index]: file.name, 
+      }));
+    }
+  };
+
   return (
     <>
       <div>
@@ -217,7 +247,7 @@ function ActiveMember({ state, onSelectMember }) {
               )}
 
 
-              <div onClick={() => onSelectMember(member)} className="flex items-center gap-4">
+              <div onClick={() => handleCardClick(member)} className="flex items-center gap-4">
                 <img src={img1} alt='Member' className="rounded-full" />
                 <div>
                   <h3 className="font-semibold text-base font-Gilroy">{member.User_Name}</h3>
@@ -236,7 +266,7 @@ function ActiveMember({ state, onSelectMember }) {
               </div>
 
 
-              <div onClick={() => onSelectMember(member)} className="mt-3 text-sm text-gray-700">
+              <div onClick={() => handleCardClick(member)} className="mt-3 text-sm text-gray-700">
                 <div className="flex justify-stretch items-center">
                   <p className="flex items-center gap-2 font-Gilroy">
                     <img src={sms} className="text-gray-500" alt="sms" />
@@ -254,15 +284,33 @@ function ActiveMember({ state, onSelectMember }) {
                 </p>
               </div>
 
+        <div className="flex justify-between items-center mt-3">
+      {uploadedFiles[index] ? (
+        <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
+          {uploadedFiles[index]}
+        </span>
+      ) : (
+        <p
+          className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
+          onClick={() => handleUploadClick(index)}
+        >
+          View attached documents
+        </p>
+      )}
 
-              <div className="flex justify-between items-center mt-3">
-                <p className="text-purple-600 font-medium text-sm font-Gilroy">
-                  View attached documents
-                </p>
-                <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
+<span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
                   {formattedDate}
                 </span>
-              </div>
+    </div>
+
+    
+    <input
+      type="file"
+      id={`fileUpload-${index}`}
+      className="hidden"
+      onChange={(event) => handleFileChange(event, index)}
+    />
+  
 
 
               {deletePopup === index && (

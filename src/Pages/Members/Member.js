@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ActiveMember from "./Activemember";
 import NonActiveMember from "./NonActivemember";
-import MemberDetails from "./MemberDetails";
+
 
 
 const Members = () => {
@@ -38,20 +38,14 @@ const Members = () => {
         </div>
       )}
 
-      <div className="mt-8">
-        {!selectedMemberdetails ? (
-          activeTab === "Active members" ? (
-            <ActiveMember onSelectMember={setSelectedMemberdetails} />
-          ) : (
-            <NonActiveMember onSelectMember={setSelectedMemberdetails} />
-          )
-        ) : (
-          <MemberDetails member={selectedMemberdetails} onBack={() => setSelectedMemberdetails(null)} />
+<div className="mt-8">
+  {activeTab === "Active members" ? (
+    <ActiveMember onSelectMember={setSelectedMemberdetails} />
+  ) : (
+    <NonActiveMember onSelectMember={setSelectedMemberdetails} />
+  )}
+</div>
 
-        )
-
-        }
-      </div>
     </div>
   );
 };

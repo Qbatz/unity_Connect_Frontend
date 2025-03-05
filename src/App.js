@@ -13,6 +13,7 @@ import Cookies from 'universal-cookie';
 import { useDispatch } from 'react-redux';
 import LandingPage from './Component/LandingPage/LandingPage';
 import PropTypes from 'prop-types';
+import MemberDetails from './Pages/Members/MemberDetails';
 
 
 
@@ -77,6 +78,7 @@ function App({ isLogged_In }) {
             <>
               <Route path="/" element={<Sidebar />} />
               <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="/member-details/:id" element={<MemberDetails />} />
 
             </>
           ) : (
@@ -85,7 +87,8 @@ function App({ isLogged_In }) {
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="*" element={<Navigate to="/" replace />} />
-
+            
+             
             </>
           )}
         </Routes>
