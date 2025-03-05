@@ -119,12 +119,12 @@ function ActiveMember({ state }) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  
-  const handleClickAddMember = (memberId) => {
-    
+
+  const handleClickAddMember = () => {
+
     setShowModal(true);
     setSelectedMember("");
-    // dispatch ({ type : 'GET_MEMBER_ID', payload: { id: memberId, }  })
+
   }
 
 
