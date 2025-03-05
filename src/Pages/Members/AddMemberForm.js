@@ -11,8 +11,6 @@ import closecircle from '../../Asset/Icons/close-circle.svg';
 function MemberModal({ state, memberData, onClose }) {
 
 
-console.log("state",memberData);
-
     const dispatch = useDispatch();
 
     const [memberId, setMemberId] = useState("");
