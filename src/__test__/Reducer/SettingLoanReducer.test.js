@@ -9,7 +9,8 @@ describe('it will check for settings loan reducers', () => {
                 due_on: '28-02-25',
                 due_type: 'Daily',
                 due_count: 1,
-                statusCode: 200
+                statusCode: 200,
+                interest: '6.5'
             }
         }
         expect(SettingLoanReducer(initialState, action)).toStrictEqual({
@@ -18,6 +19,7 @@ describe('it will check for settings loan reducers', () => {
             duetype: "Daily",
             dueamount: 1,
             statusCodeLoans: 200,
+            interest:"6.5",
             getLoan: [],
         })
     })
@@ -37,6 +39,7 @@ describe('it will check for settings loan reducers', () => {
             dueamount: '',
             statusCodeLoans: 200,
             getLoan: [],
+            interest: ''
         })
     })
 
@@ -52,6 +55,7 @@ describe('it will check for settings loan reducers', () => {
             dueamount: '',
             statusCodeLoans: 0,
             getLoan: [],
+            interest: ''
         })
     })
 })

@@ -45,6 +45,7 @@ function ActiveMember({ state }) {
 
 
   const formattedDate = moment(members.Joining_Date).format("DD-MM-YYYY");
+  
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });

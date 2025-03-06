@@ -15,9 +15,12 @@ describe('render and check sidebar functionalities', () => {
                     statusCodeMemberID : 200
                   },
                 Member: {
-                    Memberdata:[],
+                    Memberdata: [],
                     statusCodeMemberList:200
                 },  
+                Loan: {
+                    statusCodeLoans: 200
+                }
         
             })
 
