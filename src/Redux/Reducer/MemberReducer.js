@@ -34,7 +34,7 @@ const MemberListReducer = (state = initialState, action) => {
 
         case 'GET_MEMBER':
             return {
-                ...state, ActiveMemberdata: action.payload.response.ActiveMembers, NonActiveMemberdata: action.payload.response.NonActiveMembers
+                ...state, ActiveMemberdata: action.payload.response.ActiveMembers || [], NonActiveMemberdata: action.payload.response.NonActiveMembers || []
 
                 , statusCodeMemberList: action.payload.statusCode
             }

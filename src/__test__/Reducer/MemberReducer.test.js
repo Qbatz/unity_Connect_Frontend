@@ -8,7 +8,7 @@ describe('checks for Member Reducer', () => {
             type: 'GET_MEMBER',
             payload: {
                 response: {
-                    data: []
+                   Activemembers: []
                 },
                 statusCode: 200
             }
@@ -47,7 +47,8 @@ describe('checks for Member Reducer', () => {
             type: 'CLEAR_STATUS_CODE_MEMBER_LIST',
             payload: {
                 response: {
-                    data: []
+                    ActiveMembers: [],  
+                NonActiveMembers: [] 
                 },
                 statusCode: 200
             }

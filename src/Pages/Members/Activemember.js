@@ -50,7 +50,7 @@ function ActiveMember({ state }) {
   };
 
   const popupRef = useRef(null);
-  const members = state.Member.ActiveMemberdata;
+  const members = state.Member?.ActiveMemberdata;
 
   const formattedDate = moment(members?.Joining_Date).format("DD-MM-YYYY");
   useEffect(() => {
@@ -201,7 +201,7 @@ function ActiveMember({ state }) {
           )}
         </div>
         <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          {members.map((member, index) => (
+          {members?.map((member, index) => (
             <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
 
 
