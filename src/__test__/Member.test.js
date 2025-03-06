@@ -8,12 +8,12 @@ import userEvent from "@testing-library/user-event";
 describe('it should load the member UI', () => {
 
     const mockStore = configureStore()
-            const store = mockStore({
-                Member: {
-                    Memberdata: [],
-                    statusCodeMemberList: 200
-                }
-            })
+    const store = mockStore({
+        Member: {
+            Memberdata: [],
+            statusCodeMemberList: 200
+        }
+    })
 
     it('it should render member UI', () => {
         render(<Provider store={store}>
@@ -24,7 +24,7 @@ describe('it should load the member UI', () => {
         expect(membersTab).toBeInTheDocument();
         expect(membersTab.children).toHaveLength(2);
         const activeTab = screen.getByTestId('button-tab-0');
-        
+
         userEvent.click(activeTab);
         const activeMemberDiv = screen.getByTestId('active-member-div')
         expect(activeMemberDiv).toBeInTheDocument();

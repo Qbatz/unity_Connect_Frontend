@@ -191,6 +191,7 @@ function ActiveMember({ state, onSelectMember }) {
                   className="absolute right-4 top-10 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
                 >
                   <button
+                    data-testid='button-change-status'
                     className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy rounded-lg"
                     onClick={() => handleChangeStatus(index)}
                   >
@@ -300,7 +301,7 @@ function ActiveMember({ state, onSelectMember }) {
               )}
 
               {changePopup === index && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div data-testid='div-status-confirmation' className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                   <div className="bg-white max-w-[550px] w-full p-6 rounded-[30px] shadow-lg relative">
 
                     <div className="flex justify-between items-center">

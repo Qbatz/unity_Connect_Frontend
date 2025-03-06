@@ -11,7 +11,7 @@ function MemberDetails  ({ member, onBack })  {
       <button onClick={onBack} className="mb-4 text-blue-500 font-Gilroy text-xl">
         ← Back
       </button>
-      <div className=" member-card bg-blue-50 p-6 rounded-xl">
+      <div data-testid='userinfo-div' className=" member-card bg-blue-50 p-6 rounded-xl">
 
         <div className="flex items-center gap-4">
           <img src={img1} alt='Member' className="rounded-full" />
@@ -30,9 +30,10 @@ function MemberDetails  ({ member, onBack })  {
 
       </div>
 
-      <div className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide mt-8">
-        {["Overview", "Comments", "Transactions", "Statements"].map((tab) => (
+      <div data-testid='div-tabs' className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide mt-8">
+        {["Overview", "Comments", "Transactions", "Statements"].map((tab, index) => (
           <button
+          data-testid={`button-tab-${index}`}
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${activeTab === tab ? "text-black font-semibold" : "text-[#939393]"

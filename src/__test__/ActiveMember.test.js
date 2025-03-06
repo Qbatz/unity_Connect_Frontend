@@ -69,7 +69,8 @@ describe('checks for active members', () => {
         const buttonToggleMenu = screen.getByTestId('button-toggle-menu0');
         userEvent.click(buttonToggleMenu)
         const editContainer = screen.getByTestId('edit-container')
-        expect(editContainer).toBeInTheDocument()
+        expect(editContainer).toBeInTheDocument();
+        
 
         const buttonEditMember = screen.getByTestId('button-edit-member-0')
         expect(buttonEditMember).toBeInTheDocument()
@@ -79,5 +80,64 @@ describe('checks for active members', () => {
         userEvent.click(buttonToggleMenu);
         userEvent.click(buttonToggleMenu)
         userEvent.click(buttonAddMember)
+
+    })
+
+    it('it will check for non active members and changes the status', () => {
+        const store = mockStore({
+
+            Member: {
+                Memberdata: [{
+                    User_Name: 'ABCD',
+                    Member_Id: 100,
+                    subscription: 'Subscribed',
+                    Status: 'Active',
+                    Email_Id: 'abcd@gmail.com',
+                    Mobile_No: '98766543728',
+                    Address: 'Test address',
+                    Joining_Date: '26-Feb-2025'
+                },
+                {
+                    User_Name: 'XYZ',
+                    Member_Id: 101,
+                    subscription: 'Subscribed',
+                    Status: 'Inactive',
+                    Email_Id: 'abcd@gmail.com',
+                    Mobile_No: '98766543728',
+                    Address: 'Test address',
+                    Joining_Date: '26-Feb-2025'
+                }],
+                statusCodeMemberList: 200
+            },
+            addMember: {
+                statusCodeForAddUser: 100
+            }
+    
+        })
+
+        render(<Provider store={store}>
+            <MemoryRouter>
+                <Activemember />
+            </MemoryRouter>
+    
+        </Provider>)
+
+        const buttonAddMember = screen.getByTestId('button-add-member')
+        expect(buttonAddMember).toBeInTheDocument();
+        const buttonToggleMenu = screen.getByTestId('button-toggle-menu0');
+        userEvent.click(buttonToggleMenu)
+        const editContainer = screen.getByTestId('edit-container')
+        expect(editContainer).toBeInTheDocument();
+        const buttonChangeStatus = screen.getByTestId('button-change-status')
+        expect(buttonChangeStatus).toBeInTheDocument();
+        userEvent.click(buttonChangeStatus)
+
+        const divStatusConfirmation = screen.getByTestId('div-status-confirmation');
+        expect(divStatusConfirmation).toBeInTheDocument();
+        const closeButton = screen.getByTestId('button-close');
+        expect(closeButton).toBeInTheDocument();
+        userEvent.click(closeButton);
+        expect(divStatusConfirmation).not.toBeInTheDocument();
+
     })
 })
