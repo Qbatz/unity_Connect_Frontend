@@ -27,13 +27,13 @@ const Payment = () => {
                 IFSC code: SBIN004578945
               </p>
               <div className="flex gap-4 text-purple-600 text-sm mt-4">
-                <span className="cursor-pointer font-Gilroy font-medium text-base">
+                <span className="cursor-pointer font-Gilroy font-medium text-sm">
                   Set as default
                 </span>
-                <span className="cursor-pointer font-Gilroy text-base font-semibold">
+                <span className="cursor-pointer font-Gilroy text-sm font-semibold">
                   Edit
                 </span>
-                <span className="cursor-pointer font-Gilroy font-medium text-base">
+                <span className="cursor-pointer font-Gilroy font-medium text-sm">
                   Remove
                 </span>
               </div>
@@ -61,13 +61,13 @@ const Payment = () => {
                 IFSC code: SBIN004578748
               </p>
               <div className="flex gap-4 text-purple-600 text-sm mt-4">
-                <span className="cursor-pointer font-Gilroy font-semibold text-base">
+                <span className="cursor-pointer font-Gilroy font-semibold text-sm">
                   Set as default
                 </span>
-                <span className="cursor-pointer font-Gilroy text-base font-semibold">
+                <span className="cursor-pointer font-Gilroy text-sm font-semibold">
                   Edit
                 </span>
-                <span className="cursor-pointer font-Gilroy font-semibold text-base">
+                <span className="cursor-pointer font-Gilroy font-semibold text-sm">
                   Remove
                 </span>
               </div>

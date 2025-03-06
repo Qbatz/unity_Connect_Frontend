@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { ActiveMemberGetAction, ActiveMemberDeleteAction, ActiveMemberStatusAction, addMember, GetMemberId,MemberOverviewAction,GetCommentAction,AddCommentAction } from '../Action/MemberAction';
+import { ActiveMemberGetAction, ActiveMemberDeleteAction, ActiveMemberStatusAction, addMember,  GetMemberId,MemberOverviewAction, GetCommentAction, AddCommentAction, GetStatementAction } from '../Action/MemberAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -7,6 +7,8 @@ import Cookies from 'universal-cookie';
 function* handleMemberList() {
 
     const response = yield call(ActiveMemberGetAction);
+
+
 
     if (response.statusCode === 200 || response.status === 200) {
         yield put({
@@ -199,9 +201,9 @@ function* handleOverview(action) {
 
 function* handleGetComment(action) {
 
-    const response = yield call(GetCommentAction,action.payload);
-   
-    
+    const response = yield call(GetCommentAction, action.payload);
+
+
 
     if (response.statusCode === 200 || response.status === 200) {
         yield put({
@@ -209,7 +211,7 @@ function* handleGetComment(action) {
             payload: { response: response.data, statusCode: response.statusCode || response.status },
         });
 
-    
+
 
     } else if (response.status === 201 || response.statusCode === 201) {
 
@@ -264,6 +266,30 @@ function* handleAddComment(action) {
     }
 }
 
+
+function* handleGetStatement(action) {
+
+    const response = yield call(GetStatementAction, action.payload);
+
+
+
+    if (response.statusCode === 200 || response.status === 200) {
+        yield put({
+            type: 'GET_STATEMENT',
+            payload: { response: response.data, statusCode: response.statusCode || response.status },
+        });
+
+
+
+    } else if (response.status === 201 || response.statusCode === 201) {
+
+        yield put({ type: 'ERROR', payload: response.data.message });
+    }
+    if (response) {
+        refreshToken(response);
+    }
+}
+
 function refreshToken(response) {
 
 
@@ -310,9 +336,10 @@ function* MemberSaga() {
     yield takeEvery('CHANGE_STATUS', handleStatusMember);
     yield takeEvery('MEMBERINFO', handleAddMember);
     yield takeEvery('GET_MEMBER_ID', handleGet_Member_Id)
-    yield takeEvery('MEMBEROVERVIEW',handleOverview);
-    yield takeEvery('GETCOMMENTS',handleGetComment);
-    yield takeEvery('ADDCOMMENTS',handleAddComment)
+    yield takeEvery('MEMBEROVERVIEW', handleOverview);
+    yield takeEvery('GETCOMMENTS', handleGetComment);
+    yield takeEvery('ADDCOMMENTS', handleAddComment);
+    yield takeEvery('GETSTATEMENT', handleGetStatement)
 }
 
 export default MemberSaga;

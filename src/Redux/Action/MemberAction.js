@@ -1,17 +1,24 @@
 import AxiosConfig from '../../WebService/AxiosConfig';
 
 export async function ActiveMemberGetAction() {
-    return await AxiosConfig.get('/member/get_members');
+
+    return await AxiosConfig.get('/member/get_members', {
+
+    });
 }
 
 export async function ActiveMemberDeleteAction(user) {
+
     return await AxiosConfig.post('/member/delete_member', user, {
+
         data: user
     });
 }
 
 export async function ActiveMemberStatusAction(user) {
+
     return await AxiosConfig.post('/member/change_status', user, {
+
         data: user
     });
 }
@@ -34,7 +41,7 @@ export async function addMember(params) {
                 "Content-type": "multipart/form-data",
             },
             timeout: 100000000,
-            onUploadProgress: () => {}
+            onUploadProgress: () => { }
         });
         return response.data;
     } catch (error) {
@@ -49,19 +56,31 @@ export async function GetMemberId(params) {
 }
 
 export async function MemberOverviewAction(users) {
+
     return await AxiosConfig.post('/member/get_member_overview', users, {
+
         data: users
     });
 }
 
 export async function GetCommentAction(comment) {
+
     return await AxiosConfig.post('/member/get_comment', comment, {
         data: comment
     });
 }
 
 export async function AddCommentAction(users) {
+
     return await AxiosConfig.post('/member/add_comment', users, {
+
         data: users
+    });
+}
+
+export async function GetStatementAction(statement) {
+
+    return await AxiosConfig.post('/member/get_member_statement', statement, {
+        data: statement
     });
 }

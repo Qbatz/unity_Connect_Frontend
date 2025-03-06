@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import img1 from "../../Asset/Images/Memberone.svg";
 import call from "../../Asset/Icons/call.svg";
@@ -14,11 +14,13 @@ import PropTypes from 'prop-types';
 import AddMemberForm from "./AddMemberForm";
 import MemberDetails from './MemberDetails';
 import closecircle from '../../Asset/Icons/close-circle.svg';
+import { useNavigate } from "react-router-dom";
 
-function ActiveMember({ state, onSelectMember }) {
-
-
+function ActiveMember({ state }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
   const [openMenu, setOpenMenu] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -28,7 +30,7 @@ function ActiveMember({ state, onSelectMember }) {
   const [statusError, setStatusError] = useState("");
   const [memberdetail, setMemberdetails] = useState(null);
   const [showMembers, setShowMembers] = useState(true);
-
+  const [uploadedFiles, setUploadedFiles] = useState({});
 
 
 
@@ -48,11 +50,11 @@ function ActiveMember({ state, onSelectMember }) {
   };
 
   const popupRef = useRef(null);
-  const members = state.Member.Memberdata;
+  const members = state.Member?.ActiveMemberdata;
+ 
+  
 
-
- const formattedDate = moment(members.Joining_Date).format("DD-MM-YYYY");
-
+  const formattedDate = moment(members?.Joining_Date).format("DD-MM-YYYY");
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
@@ -153,8 +155,34 @@ function ActiveMember({ state, onSelectMember }) {
   const handleCloseStatus = () => {
     setChangePopup(false)
     setStatusError("")
+    setStatus("")
   }
 
+
+
+  const handleCardClick = (member) => {
+
+
+    if (member?.Id) {
+      navigate(`/member-details/${member.Id}`, { state: { member } });
+    }
+  };
+
+
+
+  const handleUploadClick = (index) => {
+    document.getElementById(`fileUpload-${index}`).click();
+  };
+
+  const handleFileChange = (event, index) => {
+    const file = event.target.files[0];
+    if (file) {
+      setUploadedFiles((prevFiles) => ({
+        ...prevFiles,
+        [index]: file.name,
+      }));
+    }
+  };
 
   return (
     <>
@@ -175,7 +203,7 @@ function ActiveMember({ state, onSelectMember }) {
           )}
         </div>
         <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          {members.map((member, index) => (
+          {members?.map((member, index) => (
             <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
 
 
@@ -221,7 +249,7 @@ function ActiveMember({ state, onSelectMember }) {
               )}
 
 
-              <div onClick={() => onSelectMember(member)} className="flex items-center gap-4">
+              <div onClick={() => handleCardClick(member)} className="flex items-center gap-4">
                 <img src={img1} alt='Member' className="rounded-full" />
                 <div>
                   <h3 className="font-semibold text-base font-Gilroy">{member.User_Name}</h3>
@@ -231,7 +259,7 @@ function ActiveMember({ state, onSelectMember }) {
                       }
                     </span>
 
-                    <span className={`px-2 py-1 rounded-xl text-sm font-medium font-Gilroy ${member.Status === "Active" ? "bg-green-200" : "bg-pink-200"
+                    <span className={`px-2 py-1 rounded-xl text-sm font-medium font-Gilroy ${member.Status.toLowerCase() === "Active" ? "bg-pink-200" : "bg-green-200"
                       }`}>
                       {member.Status}
                     </span>
@@ -240,7 +268,7 @@ function ActiveMember({ state, onSelectMember }) {
               </div>
 
 
-              <div onClick={() => onSelectMember(member)} className="mt-3 text-sm text-gray-700">
+              <div onClick={() => handleCardClick(member)} className="mt-3 text-sm text-gray-700">
                 <div className="flex justify-stretch items-center">
                   <p className="flex items-center gap-2 font-Gilroy">
                     <img src={sms} className="text-gray-500" alt="sms" />
@@ -258,15 +286,33 @@ function ActiveMember({ state, onSelectMember }) {
                 </p>
               </div>
 
-
               <div className="flex justify-between items-center mt-3">
-                <p className="text-purple-600 font-medium text-sm font-Gilroy">
-                  View attached documents
-                </p>
+                {uploadedFiles[index] ? (
+                  <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
+                    {uploadedFiles[index]}
+                  </span>
+                ) : (
+                  <p
+                    className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
+                    onClick={() => handleUploadClick(index)}
+                  >
+                    View attached documents
+                  </p>
+                )}
+
                 <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
                   {formattedDate}
                 </span>
               </div>
+
+
+              <input
+                type="file"
+                id={`fileUpload-${index}`}
+                className="hidden"
+                onChange={(event) => handleFileChange(event, index)}
+              />
+
 
 
               {deletePopup === index && (
@@ -309,10 +355,10 @@ function ActiveMember({ state, onSelectMember }) {
 
                     <div className="flex justify-between items-center">
                       <h2 className="text-[20px] font-semibold font-Gilroy">Change Status</h2>
-                  
-                       <button data-testid='button-close' className="text-gray-600" onClick={handleCloseStatus}>
+
+                      <button data-testid='button-close' className="text-gray-600" onClick={handleCloseStatus}>
                         <img src={closecircle} alt="Close" className="" />
-                    </button>
+                      </button>
                     </div>
 
 
@@ -328,14 +374,16 @@ function ActiveMember({ state, onSelectMember }) {
                         <option value="" disabled selected>
                           Select a status
                         </option>
-                        <option value="active">Active</option>
+                        <option value="Active">Active</option>
 
-                        <option value="in-active">In active</option>
+                        <option value="Inactive">In active</option>
                       </select>
+
+
 
                       {statusError.trim() !== "" && (
                         <div className="mt-2 text-center text-red-500 text-[12px] font-medium font-gilroy">
-                          <span className="inline-block text-red-500 mb-1"></span> {statusError}
+                          <span className="inline-block text-red-500 mb-1">{statusError}</span>
                         </div>
                       )}
                     </div>
@@ -369,7 +417,7 @@ function ActiveMember({ state, onSelectMember }) {
 const mapsToProps = (stateInfo) => {
   return {
     state: stateInfo,
-   
+
   }
 }
 ActiveMember.propTypes = {
