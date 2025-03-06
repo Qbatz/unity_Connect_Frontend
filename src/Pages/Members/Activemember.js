@@ -127,8 +127,10 @@ function ActiveMember({ state }) {
   }, []);
 
   const handleClickAddMember = () => {
+
     setShowModal(true);
     setSelectedMember("");
+
   }
 
 

@@ -21,10 +21,13 @@ export const initialState = {
     statusCodeForAddComment: 0,
     getStatement: [],
     statusCodeForStatement: 0,
+    GetMemberId: [],
+    statusCodeForMemberId: 0,
+    MemberIdErrorMsg: '',
+
+
 }
 const MemberListReducer = (state = initialState, action) => {
-
-
 
 
     switch (action.type) {
@@ -69,6 +72,10 @@ const MemberListReducer = (state = initialState, action) => {
         case 'EMAIL_ERROR':
             return { ...state, emailError: action.payload }
 
+        case 'GET_MEMBER_ID_SUCCESSS':
+            return { ...state, GetMemberId: action.payload.response, statusCodeForMemberId: action.payload.response }
+        case 'GET_MEMBER_ID_ERROR':
+            return { ...state, MemberIdErrorMsg: action.payload.message }         
         case 'OVERVIEW_MEMBER':
             return { ...state, overview: action.payload.response, statusCodeForOverview: action.payload.statusCode }
         case 'CLEAR_OVERVIEW_MEMBER':
