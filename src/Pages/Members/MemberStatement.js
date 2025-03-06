@@ -22,17 +22,6 @@ function LoanStatements({ state, member }) {
 
   }, [member?.Id]);
 
-  useEffect(() => {
-    if (state.Member.statusCodeForStatement === 200) {
-
-      dispatch({ type: 'GETCOMMENTS', payload: { id: member.Id } })
-      dispatch({ type: 'CLEAR_STATUS_CODE_GET_STATEMENT' })
-    }
-  }, [state.Member.statusCodeForStatement])
-
-
-
-
 
   return (
     <div className="p-4">

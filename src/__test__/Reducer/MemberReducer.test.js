@@ -8,7 +8,7 @@ describe('checks for Member Reducer', () => {
             type: 'GET_MEMBER',
             payload: {
                 response: {
-                   Activemembers: []
+                    ActiveMemberdata: []
                 },
                 statusCode: 200
             }

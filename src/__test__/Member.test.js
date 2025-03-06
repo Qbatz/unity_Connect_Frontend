@@ -10,8 +10,8 @@ describe('it should load the member UI', () => {
     const mockStore = configureStore()
             const store = mockStore({
                 Member: {
-                    ActiveMembers: [],  
-                    NonActiveMembers: [] ,
+                    ActiveMemberdata: [],  
+                    NonActiveMemberdata: [] ,
                     statusCodeMemberList: 200
                 }
             })
