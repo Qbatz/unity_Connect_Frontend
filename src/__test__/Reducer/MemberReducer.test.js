@@ -15,7 +15,8 @@ describe('checks for Member Reducer', () => {
         }
         expect(MemberListReducer(INITIAL_STATE, action)).toStrictEqual({
             id: 0,
-            Memberdata: [],
+            ActiveMemberdata: [],
+            NonActiveMemberdata: [],
             statusCodeMemberList: 200,
             deleteMemberStatusCode: 0,
             changestatus: '',
@@ -33,6 +34,8 @@ describe('checks for Member Reducer', () => {
             statusCodeForComment: 0,
             addComment : '',
             statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
         })
     })
 
@@ -48,7 +51,8 @@ describe('checks for Member Reducer', () => {
         }
         expect(MemberListReducer({ ...INITIAL_STATE, statusCodeMemberList: 200 }, action)).toStrictEqual({
             id: 0,
-            Memberdata: [],
+            ActiveMemberdata: [],
+            NonActiveMemberdata: [],
             statusCodeMemberList: 0,
             deleteMemberStatusCode: 0,
             changestatus: '',
@@ -66,6 +70,8 @@ describe('checks for Member Reducer', () => {
             statusCodeForComment: 0,
             addComment : '',
             statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
         })
     })
 
@@ -78,7 +84,8 @@ describe('checks for Member Reducer', () => {
         }
         expect(MemberListReducer({ ...INITIAL_STATE, statusCodeMemberList: 200 }, action)).toStrictEqual({
             id: 0,
-            Memberdata: [],
+            ActiveMemberdata: [],
+            NonActiveMemberdata: [],
             statusCodeMemberList: 200,
             deleteMemberStatusCode: 200,
             changestatus: '',
@@ -96,6 +103,8 @@ describe('checks for Member Reducer', () => {
             statusCodeForComment: 0,
             addComment : '',
             statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
         })
     })
 
@@ -108,7 +117,8 @@ describe('checks for Member Reducer', () => {
         }
         expect(MemberListReducer({ ...INITIAL_STATE, deleteMemberStatusCode: 200 }, action)).toStrictEqual({
             id: 0,
-            Memberdata: [],
+            ActiveMemberdata: [],
+            NonActiveMemberdata: [],
             statusCodeMemberList: 0,
             deleteMemberStatusCode: 0,
             changestatus: '',
@@ -126,6 +136,8 @@ describe('checks for Member Reducer', () => {
             statusCodeForComment: 0,
             addComment : '',
             statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
         })
     })
 
@@ -138,7 +150,8 @@ describe('checks for Member Reducer', () => {
         }
         expect(MemberListReducer({ ...INITIAL_STATE }, action)).toStrictEqual({
             id: 0,
-            Memberdata: [],
+            ActiveMemberdata: [],
+            NonActiveMemberdata: [],
             statusCodeMemberList: 0,
             deleteMemberStatusCode: 0,
             changestatus: '',
@@ -156,6 +169,8 @@ describe('checks for Member Reducer', () => {
             statusCodeForComment: 0,
             addComment : '',
             statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
 
         })
     })

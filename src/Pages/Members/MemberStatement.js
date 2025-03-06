@@ -1,15 +1,38 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
+import { useDispatch, connect } from "react-redux";
+import PropTypes from 'prop-types';
 
-const LoanStatements = () => {
-  const statements = [
-    { month: "Apr 2024", dueDate: "16 Apr 2024", loan: "₹5,000", pending: "₹500", paid: "₹3,000", status: "Paid" },
-    { month: "May 2024", dueDate: "16 May 2024", loan: "₹4,000", pending: "₹400", paid: "₹2,500", status: "Paid" },
-    { month: "Jun 2024", dueDate: "16 Jun 2024", loan: "₹3,000", pending: "₹300", paid: "₹2,000", status: "Paid" },
-    { month: "Jul 2024", dueDate: "16 Jul 2024", loan: "₹2,000", pending: "₹200", paid: "₹1,500", status: "Unpaid" },
-    { month: "Aug 2024", dueDate: "16 Aug 2024", loan: "₹1,000", pending: "₹100", paid: "₹1,000", status: "Unpaid" },
-    { month: "Sept 2024", dueDate: "16 Sept 2024", loan: "₹0", pending: "₹0", paid: "₹500", status: "Unpaid" },
-    { month: "Oct 2024", dueDate: "16 Oct 2024", loan: "₹0", pending: "₹0", paid: "₹0", status: "Unpaid" },
-  ];
+function LoanStatements({ state, member }) {
+
+  const dispatch = useDispatch();
+
+  const Statement = state.Member.getStatement;
+
+
+
+  useEffect(() => {
+    if (member?.Id) {
+
+      dispatch({
+        type: "GETSTATEMENT",
+        payload: { id: member.Id },
+      });
+    }
+
+  }, [member?.Id]);
+
+  useEffect(() => {
+    if (state.Member.statusCodeForStatement === 200) {
+
+      dispatch({ type: 'GETCOMMENTS', payload: { id: member.Id } })
+      dispatch({ type: 'CLEAR_STATUS_CODE_GET_STATEMENT' })
+    }
+  }, [state.Member.statusCodeForStatement])
+
+
+
+
 
   return (
     <div className="p-4">
@@ -20,7 +43,7 @@ const LoanStatements = () => {
         </button>
       </div>
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
-        {/* Make table scrollable on small screens */}
+
         <div className="overflow-y-auto h-[300px]">
           <table className="w-full text-left border-collapse min-w-max">
             <thead>
@@ -41,7 +64,7 @@ const LoanStatements = () => {
               </tr>
             </thead>
             <tbody>
-              {statements.map((item, index) => (
+              {Statement.map((item, index) => (
                 <tr key={index} className="">
                   <td className="p-4">
                     <input
@@ -49,23 +72,23 @@ const LoanStatements = () => {
                       className="w-[18px] h-[18px] appearance-none bg-blue-50 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-transparent focus:ring-2 focus:ring-blue-300"
                     />
                   </td>
-                  <td className="p-4 font-Gilroy">{`Repayment ${item.month}`}</td>
+                  <td className="p-4 font-Gilroy">{`Repayment ${item.Due_Date}`}</td>
                   <td className="p-4">
                     <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
-                      {item.dueDate}
+                      {item.Due_Date}
                     </span>
                   </td>
-                  <td className="p-4 font-Gilroy">{item.loan}</td>
-                  <td className="p-4 font-Gilroy">{item.pending}</td>
-                  <td className="p-4 font-Gilroy">{item.paid}</td>
+                  <td className="p-4 font-Gilroy">{item.Loan_Amount}</td>
+                  <td className="p-4 font-Gilroy">{item.Pending_Amount}</td>
+                  <td className="p-4 font-Gilroy">{item.Paid_Amount}</td>
                   <td className="p-4 font-Gilroy">
                     <span
-                      className={`px-3 py-1 text-sm rounded-full font-Gilroy ${item.status === "Paid"
-                          ? "bg-green-200 text-green-700"
-                          : "bg-red-200 text-red-700"
+                      className={`px-3 py-1 text-sm rounded-full font-Gilroy ${item.Status === "Paid"
+                        ? "bg-green-200 text-green-700"
+                        : "bg-red-200 text-red-700"
                         }`}
                     >
-                      {item.status}
+                      {item.Status}
                     </span>
                   </td>
                   <td className="p-4">
@@ -81,4 +104,15 @@ const LoanStatements = () => {
   );
 };
 
-export default LoanStatements;
+const mapsToProps = (stateInfo) => {
+  return {
+    state: stateInfo,
+
+  }
+}
+LoanStatements.propTypes = {
+  state: PropTypes.object,
+  member: PropTypes.object
+};
+
+export default connect(mapsToProps)(LoanStatements);

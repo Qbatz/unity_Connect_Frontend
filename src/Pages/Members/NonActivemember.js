@@ -11,6 +11,7 @@ import { useDispatch, connect } from "react-redux";
 import changestatus from '../../Asset/Icons/ChangeStatusicon.svg';
 import PropTypes from 'prop-types';
 import moment from "moment";
+import closecircle from '../../Asset/Icons/close-circle.svg';
 
 function NonActiveMember({ state }) {
 
@@ -20,7 +21,7 @@ function NonActiveMember({ state }) {
   const [changePopup, setChangePopup] = useState(null)
   const [status, setStatus] = useState("");
   const [statusError, setStatusError] = useState("");
-
+  const [uploadedFiles, setUploadedFiles] = useState({});
 
   const handleStatusChange = (e) => setStatus(e.target.value);
   const handleChangeStatusClick = (memberId) => {
@@ -41,8 +42,8 @@ function NonActiveMember({ state }) {
 
 
   const popupRef = useRef(null);
-  const members = state.Member.Memberdata;
-  const inactiveMembers = members?.filter(member => member.Status === "in-active");
+  const members = state.Member.NonActiveMemberdata;
+
 
   const formattedDate = moment(members.Joining_Date).format("DD-MM-YYYY");
   useEffect(() => {
@@ -132,6 +133,22 @@ function NonActiveMember({ state }) {
 
   };
 
+
+
+  const handleUploadClick = (index) => {
+    document.getElementById(`fileUpload-${index}`).click();
+  };
+
+  const handleFileChange = (event, index) => {
+    const file = event.target.files[0];
+    if (file) {
+      setUploadedFiles((prevFiles) => ({
+        ...prevFiles,
+        [index]: file.name,
+      }));
+    }
+  };
+
   return (
     <>
       <div data-testid='inactive-member-div' className="flex justify-end">
@@ -150,7 +167,7 @@ function NonActiveMember({ state }) {
         )}
       </div>
       <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        {inactiveMembers.map((member, index) => (
+        {members.map((member, index) => (
           <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
 
 
@@ -206,7 +223,7 @@ function NonActiveMember({ state }) {
                     }
                   </span>
 
-                  <span className={`px-2 py-1 rounded-xl text-sm font-medium font-Gilroy ${member.Status === "Active" ? "bg-green-200" : "bg-pink-200"
+                  <span className={`px-2 py-1 rounded-xl text-sm font-medium font-Gilroy ${member.Status === "active" ? "bg-green-200" : "bg-pink-200"
                     }`}>
                     {member.Status}
                   </span>
@@ -235,13 +252,31 @@ function NonActiveMember({ state }) {
 
 
             <div className="flex justify-between items-center mt-3">
-              <p className="text-purple-600 font-medium text-sm font-Gilroy">
-                View attached documents
-              </p>
+              {uploadedFiles[index] ? (
+                <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
+                  {uploadedFiles[index]}
+                </span>
+              ) : (
+                <p
+                  className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
+                  onClick={() => handleUploadClick(index)}
+                >
+                  View attached documents
+                </p>
+              )}
+
               <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
                 {formattedDate}
               </span>
             </div>
+
+
+            <input
+              type="file"
+              id={`fileUpload-${index}`}
+              className="hidden"
+              onChange={(event) => handleFileChange(event, index)}
+            />
 
 
             {deletePopup === index && (
@@ -286,9 +321,9 @@ function NonActiveMember({ state }) {
                     <h2 className="text-[20px] font-semibold font-Gilroy">Change Status</h2>
                     <button
                       onClick={() => setChangePopup(false)}
-                      className="w-8 h-8 flex items-center justify-center border border-black rounded-full bg-transparent cursor-pointer"
+                      className=""
                     >
-                      <span className="text-[30px]">&times;</span>
+                      <img src={closecircle} alt="Close" className="" />
                     </button>
                   </div>
 
@@ -307,12 +342,12 @@ function NonActiveMember({ state }) {
                       </option>
                       <option value="active">Active</option>
                       <option value="in-progress">In Active</option>
-                  
+
                     </select>
 
                     {statusError.trim() !== "" && (
                       <div className="mt-2 text-center text-red-500 text-[12px] font-medium font-gilroy">
-                        <span className="inline-block text-red-500 mb-1">⚠️</span> {statusError}
+                        <span className="inline-block text-red-500 mb-1"></span> {statusError}
                       </div>
                     )}
                   </div>
