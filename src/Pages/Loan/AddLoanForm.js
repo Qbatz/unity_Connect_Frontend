@@ -417,7 +417,7 @@ function AddLoanForm({ state }) {
                 )}
               </div>
 
-              {/* Confirm Button */}
+      
               <button
                 className="mt-10 bg-black text-white border font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-full h-[51px] pt-4 pr-5 pb-4 pl-5"
                 onClick={handleAddWitness}
