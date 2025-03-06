@@ -8,9 +8,7 @@ describe('checks for Member Reducer', () => {
             type: 'GET_MEMBER',
             payload: {
                 response: {
-                    data: [],
-                    ActiveMembers: [],
-                    NonActiveMembers: []
+                    ActiveMemberdata: []
                 },
                 statusCode: 200
             }
@@ -30,6 +28,17 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
         })
     })
 
@@ -38,7 +47,8 @@ describe('checks for Member Reducer', () => {
             type: 'CLEAR_STATUS_CODE_MEMBER_LIST',
             payload: {
                 response: {
-                    data: []
+                    ActiveMembers: [],  
+                NonActiveMembers: [] 
                 },
                 statusCode: 200
             }
@@ -58,6 +68,17 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
         })
     })
 
@@ -83,6 +104,17 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
         })
     })
 
@@ -108,6 +140,17 @@ describe('checks for Member Reducer', () => {
             statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
         })
     })
 
@@ -132,7 +175,18 @@ describe('checks for Member Reducer', () => {
             statusCodeForAddUser: 0,
             statusCodeClearForAddUser: 0,
             phoneError: '',
-            emailError: ''
+            emailError: '',
+            overview:'',
+            statusCodeForOverview: 0,
+            getComment : [],
+            statusCodeForComment: 0,
+            addComment : '',
+            statusCodeForAddComment: 0,
+            getStatement: [],
+            statusCodeForStatement: 0,
+            GetMemberId: [],
+            statusCodeForMemberId: 0,
+            MemberIdErrorMsg: '',
 
         })
     })

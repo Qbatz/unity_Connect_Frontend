@@ -3,21 +3,24 @@ import Members from "../Pages/Members/Member";
 import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
 import userEvent from "@testing-library/user-event";
-
+import { MemoryRouter } from "react-router-dom";
 
 describe('it should load the member UI', () => {
 
     const mockStore = configureStore()
             const store = mockStore({
                 Member: {
-                    Memberdata: [],
+                    ActiveMemberdata: [],  
+                    NonActiveMemberdata: [] ,
                     statusCodeMemberList: 200
                 }
             })
 
     it('it should render member UI', () => {
         render(<Provider store={store}>
+             <MemoryRouter>
             <Members />
+            </MemoryRouter>
         </Provider>)
 
         const membersTab = screen.getByTestId('members-tab')

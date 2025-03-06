@@ -3,7 +3,7 @@ import Sidebar from "../Component/Sidebar";
 import configureStore from 'redux-mock-store';
 import { Provider } from "react-redux";
 import userEvent from "@testing-library/user-event";
-
+import { MemoryRouter } from "react-router-dom";
 describe('render and check sidebar functionalities', () => {
     
     const mockStore = configureStore()
@@ -15,7 +15,8 @@ describe('render and check sidebar functionalities', () => {
                     statusCodeMemberID : 200
                   },
                 Member: {
-                    Memberdata: [],
+                    ActiveMemberdata: [],  
+                    NonActiveMemberdata: [] ,
                     statusCodeMemberList:200
                 },  
                 Loan: {
@@ -57,7 +58,9 @@ describe('render and check sidebar functionalities', () => {
 
     it('it should UI and select member', () => {
         render(<Provider store={store}>
+               <MemoryRouter>
             <Sidebar />
+            </MemoryRouter>
         </Provider>)
 
         expect(screen.getByTestId('container-main')).toBeInTheDocument();
@@ -130,7 +133,9 @@ describe('render and check sidebar functionalities', () => {
           });
 
         render(<Provider store={store}>
+            <MemoryRouter>
             <Sidebar />
+            </MemoryRouter>
         </Provider>)
 
         expect(screen.getByTestId('container-main')).toBeInTheDocument();

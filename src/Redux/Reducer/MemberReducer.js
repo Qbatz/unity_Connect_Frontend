@@ -13,18 +13,31 @@ export const initialState = {
     statusCodeClearForAddUser: 0,
     phoneError: '',
     emailError: '',
+    overview: '',
+    statusCodeForOverview: 0,
+    getComment: [],
+    statusCodeForComment: 0,
+    addComment: '',
+    statusCodeForAddComment: 0,
+    getStatement: [],
+    statusCodeForStatement: 0,
+    GetMemberId: [],
+    statusCodeForMemberId: 0,
+    MemberIdErrorMsg: '',
+
 
 }
 const MemberListReducer = (state = initialState, action) => {
 
 
-
     switch (action.type) {
 
         case 'GET_MEMBER':
-return { ...state, ActiveMemberdata: action.payload.response.ActiveMembers, NonActiveMemberdata: action.payload.response.NonActiveMembers
- 
-, statusCodeMemberList: action.payload.statusCode }
+            return {
+                ...state, ActiveMemberdata: action.payload.response.ActiveMembers || [], NonActiveMemberdata: action.payload.response.NonActiveMembers || []
+
+                , statusCodeMemberList: action.payload.statusCode
+            }
         case 'CLEAR_STATUS_CODE_MEMBER_LIST':
             return { ...state, statusCodeMemberList: 0 }
 
@@ -59,8 +72,30 @@ return { ...state, ActiveMemberdata: action.payload.response.ActiveMembers, NonA
         case 'EMAIL_ERROR':
             return { ...state, emailError: action.payload }
 
+        case 'GET_MEMBER_ID_SUCCESSS':
+            return { ...state, GetMemberId: action.payload.response, statusCodeForMemberId: action.payload.response }
+        case 'GET_MEMBER_ID_ERROR':
+            return { ...state, MemberIdErrorMsg: action.payload.message }         
+        case 'OVERVIEW_MEMBER':
+            return { ...state, overview: action.payload.response, statusCodeForOverview: action.payload.statusCode }
+        case 'CLEAR_OVERVIEW_MEMBER':
+            return { ...state, statusCodeForOverview: 0 }
 
+        case 'GET_COMMENTS':
+            return { ...state, getComment: action.payload.response.data, statusCodeForComment: action.payload.statusCode }
+        case 'CLEAR_STATUS_CODE_GET_COMMENTS':
+            return { ...state, statusCodeForComment: 0 }
 
+        case 'ADD_COMMENTS':
+            return { ...state, addComment: action.payload.response, statusCodeForAddComment: action.payload.statusCode }
+        case 'CLEAR_STATUS_CODE_ADD_COMMENTS':
+            return { ...state, statusCodeForAddComment: 0 }
+
+        case 'GET_STATEMENT':
+            return { ...state, getStatement: action.payload.response.data, statusCodeForStatement: action.payload.statusCode }
+
+        case 'CLEAR_STATUS_CODE_GET_STATEMENT':
+            return { ...state, statusCodeForStatement: 0 }
 
         default:
             return state;
