@@ -1,13 +1,13 @@
 import React from "react";
-import HowItWorksImage from "../../Asset/Icons/HowItWorksTw.svg";
+import HowItWorksImage from "../../Asset/Icons/howitworkstw.svg";
 import PurpleDot from "../../Asset/Icons/PurpleDot.svg";
 
 const HowItWorks = () => {
   return (
-    <div className="relative container mx-auto px-6 mt-20 flex flex-col lg:flex-row items-center gap-10">
+    <div className="relative container mx-auto px-4 mt-20 flex flex-col lg:flex-row items-center gap-10">
       <div className="lg:w-1/2">
         <h2 className="text-4xl text-5xl  font-bold text-black mb-6 leading-67.2
-         tracking-[0%] font-Gilroy">
+         tracking-[0%] font-Gilroy pt-20">
           How It Works
         </h2>
 
@@ -54,7 +54,7 @@ const HowItWorks = () => {
         <img
           src={HowItWorksImage}
           alt="How It Works UI"
-          className="w-500 max-w-full h-auto rounded-lg shadow-lg"
+          className="w-500 max-w-full h-auto rounded-lg"
         />
       </div>
     </div>

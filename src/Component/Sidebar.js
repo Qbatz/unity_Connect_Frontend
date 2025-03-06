@@ -22,7 +22,7 @@ import { useDispatch } from 'react-redux';
 import Logout from "../Asset/Icons/turn-off.png";
 import Settings from "../Pages/Settings/Settings";
 import Members from "../Pages/Members/Member";
-
+import AddLoanForm from "../Pages/Loan/AddLoanForm";
 const Sidebar = () => {
 
   const dispatch = useDispatch();
@@ -138,7 +138,7 @@ const Sidebar = () => {
 
           {activeMenu === "Loan" && (
             <div data-testid='div-loan' className="bg-white mt-2">
-              {/* <Loan /> */}
+             <AddLoanForm/>
             </div>
           )}
 

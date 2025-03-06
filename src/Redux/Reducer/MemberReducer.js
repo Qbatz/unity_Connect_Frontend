@@ -1,7 +1,8 @@
 export const initialState = {
     id: 0,
     statusCodeMemberList: 0,
-    Memberdata: [],
+    ActiveMemberdata: [],
+    NonActiveMemberdata: [],
     deleteMemberStatusCode: 0,
     changestatus: '',
     changestausStatusCode: 0,
@@ -21,7 +22,9 @@ const MemberListReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case 'GET_MEMBER':
-            return { ...state, Memberdata: action.payload.response.data, statusCodeMemberList: action.payload.statusCode }
+return { ...state, ActiveMemberdata: action.payload.response.ActiveMembers, NonActiveMemberdata: action.payload.response.NonActiveMembers
+ 
+, statusCodeMemberList: action.payload.statusCode }
         case 'CLEAR_STATUS_CODE_MEMBER_LIST':
             return { ...state, statusCodeMemberList: 0 }
 

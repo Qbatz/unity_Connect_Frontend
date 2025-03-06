@@ -20,8 +20,7 @@ function ExpensesSetting({ state }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubCategory, setIsSubCategory] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,11 +64,6 @@ function ExpensesSetting({ state }) {
     }
   }, [state.SettingExpenses, dispatch])
 
-
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentExpenses = expensesetting.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="container mx-auto mt-5">
@@ -152,8 +146,8 @@ function ExpensesSetting({ state }) {
       )}
 
 
-      <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {currentExpenses.map((category, index) => (
+      <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {expensesetting.map((category, index) => (
           <div key={index} className="w-350 h-170 border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
@@ -176,26 +170,6 @@ function ExpensesSetting({ state }) {
         ))}
       </div>
 
-
-      <div className="fixed bottom-0 left-0 w-full  p-4  flex justify-end">
-        <button
-          className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
-          onClick={() => setCurrentPage(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          &lt;
-
-        </button>
-        <span className="px-4 py-2 border rounded">{currentPage}</span>
-        <button
-          className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= expensesetting.length ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
-          onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={indexOfLastItem >= expensesetting.length}
-        >
-          &gt;
-
-        </button>
-      </div>
     </div>
   );
 }
