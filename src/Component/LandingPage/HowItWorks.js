@@ -1,5 +1,5 @@
 import React from "react";
-import HowItWorksImage from "../../Asset/Icons/howitworkstw.svg";
+import HowItWorksImage from "../../Asset/Icons/HowItWorksTW.svg";
 import PurpleDot from "../../Asset/Icons/PurpleDot.svg";
 
 const HowItWorks = () => {
