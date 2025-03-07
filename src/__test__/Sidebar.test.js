@@ -21,6 +21,12 @@ describe('render and check sidebar functionalities', () => {
                 },  
                 Loan: {
                     statusCodeLoans: 200
+                },
+                Statement: {
+                    id: 0,
+                    StatementList: [],
+                    statusCodeForStatement:0,
+                    StatementErrorMsg: '',
                 }
         
             })
