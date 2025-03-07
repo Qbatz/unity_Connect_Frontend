@@ -126,6 +126,7 @@ const Sidebar = () => {
             <p className="text-center text-[14px] text-[#646464] font-medium mb-4">Are you sure you want to Logout?</p>
             <div className="flex justify-center space-x-4">
               <button
+              data-testid="button-close-logout"
                 className="w-[160px] h-[52px] rounded-lg border border-[#7F00FF] text-[#7F00FF] font-semibold"
                 onClick={handleCloseLogout}
               >
