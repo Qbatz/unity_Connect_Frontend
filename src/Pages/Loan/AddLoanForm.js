@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import CloseCircleIcon from '../../Asset/Icons/close-circle.svg';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import img1 from "../../Asset/Images/Memberone.svg";
 
 function AddLoanForm({ state }) {
@@ -22,7 +22,6 @@ function AddLoanForm({ state }) {
   const [activeTab, setActiveTab] = useState("Active members");
 
   const handleSelectWitness = (id) => {
-    debugger
     setSelectedWitnesses((prevSelected) =>
       prevSelected.includes(id)
         ? prevSelected.filter((witnessId) => witnessId !== id)
@@ -83,8 +82,6 @@ const loans = state.Loan.getLoanTab || [];
 
 
   const handleAddWitness = () => {
-    debugger
-    
     const witnessPayload = {
       id: vitDetails.Loan_Id,
       member_id:vitDetails.Member_Id,
@@ -115,7 +112,6 @@ const loans = state.Loan.getLoanTab || [];
   const [memberLoanType, setMemberLoanType] = useState("");
   const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
 
-  console.log("Loans Data:", loans);
 
   return (
     <>
