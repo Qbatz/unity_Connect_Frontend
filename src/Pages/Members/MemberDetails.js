@@ -17,7 +17,7 @@ function MemberDetails  ()  {
   
   return (
     <>
-    <div className="p-10">
+    <div data-testid='userinfo-div' className="p-10">
     
      
       <div className=" member-card bg-blue-50 p-6 rounded-xl">
@@ -39,8 +39,8 @@ function MemberDetails  ()  {
 
       </div>
 
-      <div className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide mt-8 pl-2">
-        {["Overview", "Comments", "Transactions", "Statements"].map((tab) => (
+      <div data-testid='div-tabs' className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide mt-8 pl-2">
+        {["Overview", "Comments", "Transactions", "Statements"].map((tab, index) => (
           <button
           data-testid={`button-tab-${index}`}
             key={tab}

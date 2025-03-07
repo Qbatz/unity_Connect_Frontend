@@ -3,6 +3,7 @@ import MemberDetails from "../Pages/Members/MemberDetails";
 import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
 import userEvent from "@testing-library/user-event";
+import { BrowserRouter } from "react-router-dom";
 
 describe('it should check the member details', () => {
 
@@ -21,7 +22,9 @@ describe('it should check the member details', () => {
         }
         render(
         <Provider store={store}>
-             <MemberDetails member={props}/>
+            <BrowserRouter>
+                <MemberDetails member={props}/>
+            </BrowserRouter>
         </Provider>)
 
         const userInfoDiv = screen.getByTestId('userinfo-div');

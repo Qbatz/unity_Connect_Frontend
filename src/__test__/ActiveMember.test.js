@@ -90,7 +90,7 @@ describe('checks for active members', () => {
         const store = mockStore({
 
             Member: {
-                Memberdata: [{
+                ActiveMemberdata: [{
                     User_Name: 'ABCD',
                     Member_Id: 100,
                     subscription: 'Subscribed',
