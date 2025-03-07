@@ -1,9 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect , useRef} from "react";
 import { BsThreeDots } from "react-icons/bs";
-import doublecoin from '../../Asset/Images/Rectangle 34625018.svg';
-import rupeecoin from '../../Asset/Images/Rectangle 34625020.svg';
-import scoin from '../../Asset/Images/Rectangle 34625019.svg';
 import call from "../../Asset/Icons/call.svg";
 import sms from "../../Asset/Icons/sms.svg";
 import building from "../../Asset/Icons/buildings.svg";
@@ -13,6 +10,8 @@ import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 
 function Overview({ member }) {
+    console.log("member",member);
+    
     const dispatch = useDispatch();
    
     
@@ -95,10 +94,10 @@ function Overview({ member }) {
                         <BsThreeDots className="text-gray-500 cursor-pointer" />
                     </div>
 
-                    <div className="flex justify-center md:justify-start gap-3 flex-wrap">
-                        <img src={doublecoin} alt="Document 1" className="lg:w-[150px] lg:h-[150px] md:w-20 md:h-20 rounded-lg object-cover" />
-                        <img src={rupeecoin} alt="Document 2" className="lg:w-[150px] lg:h-[150px] md:w-20 md:h-20 rounded-lg  object-cover" />
-                        <img src={scoin} alt="Document 3" className=" lg:w-[150px] lg:h-[150px] md:w-20 md:h-20  rounded-lg  object-cover" />
+                    <div className="flex justify-center md:justify-start gap-3 flex-wrap ">
+                        <img src={member?.Document_Url} alt="Document 1" className=" w-[180px] h-[170px] rounded-lg object-cover" />
+                        <img src={member?.Document_Url} alt="Document 2" className="w-[180px] h-[170px] rounded-lg  object-cover" />
+                        <img src={member?.Document_Url} alt="Document 3" className="w-[180px] h-[170px] rounded-lg  object-cover" />
                     </div>
                 </div>
             </div>

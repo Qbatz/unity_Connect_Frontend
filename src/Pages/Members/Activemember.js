@@ -170,19 +170,6 @@ function ActiveMember({ state }) {
 
 
 
-  const handleUploadClick = (index) => {
-    document.getElementById(`fileUpload-${index}`).click();
-  };
-
-  const handleFileChange = (event, index) => {
-    const file = event.target.files[0];
-    if (file) {
-      setUploadedFiles((prevFiles) => ({
-        ...prevFiles,
-        [index]: file.name,
-      }));
-    }
-  };
 
   return (
     <>
@@ -287,18 +274,14 @@ function ActiveMember({ state }) {
               </div>
 
               <div className="flex justify-between items-center mt-3">
-                {uploadedFiles[index] ? (
-                  <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-                    {uploadedFiles[index]}
-                  </span>
-                ) : (
+               
                   <p
                     className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
-                    onClick={() => handleUploadClick(index)}
+                    onClick={() => handleCardClick(member)}
                   >
                     View attached documents
                   </p>
-                )}
+                
 
                 <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
                   {formattedDate}
@@ -306,16 +289,7 @@ function ActiveMember({ state }) {
               </div>
 
 
-              <input
-                type="file"
-                id={`fileUpload-${index}`}
-                className="hidden"
-                onChange={(event) => handleFileChange(event, index)}
-              />
-
-
-
-              {deletePopup === index && (
+               {deletePopup === index && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
                   <div className="bg-white w-[388px] h-[200px] mx-auto rounded-2xl shadow-lg">
 
