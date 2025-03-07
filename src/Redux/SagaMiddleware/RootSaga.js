@@ -5,6 +5,7 @@ import SettingSaga from './SettingSaga';
 import SettingAddExpensesSaga from './SettingExpensesSaga';
 import MemberSaga from './MemberSaga';
 import LoanSaga from './LoanSaga';
+import StatementSaga from './StatementSaga';
 
 function* RootSaga() {
 
@@ -15,6 +16,7 @@ function* RootSaga() {
         SettingAddExpensesSaga(),
         MemberSaga(),
         LoanSaga(),
+        StatementSaga(),
 
     ])
 }
