@@ -3,6 +3,7 @@ import img1 from "../../Asset/Images/Memberone.svg";
 import Overview from "./Overview";
 import PropTypes from 'prop-types';
 import CommentSection from "./Comments";
+import Transactions from "../Members/Transactions";
 import { useLocation } from "react-router-dom";
 import LoanStatements from "./MemberStatement"
 
@@ -58,6 +59,7 @@ function MemberDetails  ()  {
       <div className="">
         {activeTab === "Overview" && <Overview member={member} />}
         {activeTab === "Comments" && <CommentSection member={member} />}
+        {activeTab === "Transactions" && <Transactions member={member} />}
         {activeTab === "Statements" && <LoanStatements member={member} />}
       </div>
       </div>

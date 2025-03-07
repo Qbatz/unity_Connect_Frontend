@@ -47,7 +47,6 @@ const Statement = () => {
     <div className="w-full p-4 bg-white rounded-xl">
       <h2 className="font-Gilroy font-semibold text-xl md:text-2xl mb-4 mt-1 ml-12 lg:ml-3 ">Statements</h2>
 
-
       <div className="flex gap-2 md:gap-4 mb-4">
         <button
           onClick={() => setActiveTab("Loan statement")}
@@ -63,83 +62,83 @@ const Statement = () => {
         </button>
       </div>
 
-      <div className="relative overflow-y-scroll rounded-3xl overflow-hidden">
-        <table className="w-full min-w-[800px] bg-[#f4f7ff] shadow-md text-xs md:text-sm">
-          <thead className="p-3 font-Gilroy font-medium text-gray-600 text-left border-b border-gray-300 sticky top-0 bg-[#f4f7ff] z-10">
-            <tr>
-              <th className="p-3 min-w-[120px] pl-5">Member Name</th>
-              <th className="p-3 min-w-[80px] text-center">Member ID</th>
-              <th className="p-3 min-w-[100px] text-center">Date</th>
-              <th className="p-3 min-w-[100px] text-center">Amount</th>
-              <th className="p-3 min-w-[100px] text-center">Due Date</th>
-              <th className="p-3 min-w-[80px] text-center">Due</th>
-              <th className="p-3 min-w-[80px] text-center">Status</th>
-              <th className="p-3 min-w-[40px] text-center"> </th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item, index) => (
-              <tr key={index} className="p-3 hover:bg-gray-100 border-b font-Gilroy">
-
-                <td className="p-3 flex items-center gap-2 truncate">
-                  <img src={ProfileIcon} alt="avatar" className="w-6 h-6 rounded-full" />
-                  <span className="truncate">{item.name}</span>
-                </td>
-
-                <td className="p-2 text-center bg-orange-100 rounded-2xl">{item.id}</td>
-                <td className="p-2 text-center bg-gray-200 rounded-2xl">{item.date}</td>
-                <td className="p-2 text-center">{item.amount}</td>
-                <td className="p-2 text-center bg-gray-200  rounded-2xl">{item.dueDate}</td>
-                <td className="p-2 text-center">{item.due}</td>
-
-                <td className="p-2 text-center">
-                  <span className={`px-3 py-2 rounded-full text-black ${item.status === "Paid" ? "bg-green-200" : "bg-red-200"}`}>
-                    {item.status}
-                  </span>
-                </td>
-                <td className="p-2 relative">
-                  <button onClick={() => toggleMenu(index)} className="text-gray-600 bg-white rounded-full p-2 shadow">
-                    <FiMoreVertical size={16} />
-                  </button>
-
-                  {menuOpen === index && (
-                    <div ref={popupRef}
-                      className="absolute right-4 top-10 bg-white border-t border-b border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
-                    >
-                      <div>
-                        <button
-                          className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200"
-                        >
-                          <img src={RecordPayment} alt="Record Payment" className="h-4 w-4" />
-                          Record Payment
-                        </button>
-
-                        <button
-                          className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200"
-                        >
-                          <img src={editIcon} alt="Edit" className="h-4 w-4" />
-                          Edit
-                        </button>
-
-                        <button
-                          className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy"
-                        >
-                          <img src={trashRed} alt="Delete" className="h-4 w-4" />
-                          Delete
-                        </button>
-                      </div>
-
-                    </div>
-                  )}
-
-
-
-                </td>
+      <div className="relative overflow-hidden overflow-x-hidden rounded-3xl">
+        <div className="overflow-x-auto overflow-y-scroll max-h-[400px] rounded-3xl">
+          <table className="w-full bg-[#f4f7ff] shadow-md text-xs md:text-sm min-w-[800px]">
+            <thead className="p-3 font-Gilroy font-medium text-gray-600 text-left border-b border-gray-300 sticky top-0 bg-[#f4f7ff] z-10">
+              <tr>
+                <th className="p-3 pl-5">Member Name</th>
+                <th className="pl-5">Member ID</th>
+                <th className="pl-10 min-w-[120px] md:min-w-[150px]">Date</th>
+                <th className="pl-1">Amount</th>
+                <th className="pl-8 min-w-[120px] md:min-w-[150px]">Due Date</th>
+                <th className="pl-6">Due</th>
+                <th className="pl-8">Status</th>
+                <th className=""> </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map((item, index) => (
+                <tr key={index} className="p-3 hover:bg-gray-100 border-b font-Gilroy">
+                  <td className="p-3 flex items-center gap-2 truncate">
+                    <img src={ProfileIcon} alt="avatar" className="w-6 h-6 rounded-full" />
+                    <span className="truncate">{item.name}</span>
+                  </td>
+                  <td className="p-4">
+                    <span className="bg-orange-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                      {item.id}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                      {item.date}
+                    </span>
+                  </td>
+                  <td className="p-2">{item.amount}</td>
+                  <td className="p-4">
+                    <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                      {item.dueDate}
+                    </span>
+                  </td>
+                  <td className="p-2 text-center">{item.due}</td>
+                  <td className="p-2 text-center">
+                    <span className={`px-3 py-2 rounded-full text-black ${item.status === "Paid" ? "bg-green-200" : "bg-red-200"}`}>
+                      {item.status}
+                    </span>
+                  </td>
+                  <td className="p-2 relative">
+                    <button onClick={() => toggleMenu(index)} className="text-gray-600 bg-white rounded-full p-2 shadow">
+                      <FiMoreVertical size={16} />
+                    </button>
+                    {menuOpen === index && (
+                      <div
+                        ref={popupRef}
+                        className="absolute right-4 top-10 bg-white border-t border-b border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
+                      >
+                        <div>
+                          <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
+                            <img src={RecordPayment} alt="Record Payment" className="h-4 w-4" />
+                            Record Payment
+                          </button>
+                          <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
+                            <img src={editIcon} alt="Edit" className="h-4 w-4" />
+                            Edit
+                          </button>
+                          <button className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy">
+                            <img src={trashRed} alt="Delete" className="h-4 w-4" />
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+
     </div>
 
 
@@ -147,6 +146,8 @@ const Statement = () => {
 };
 
 export default Statement;
+
+
 
 
 
