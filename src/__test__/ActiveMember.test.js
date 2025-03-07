@@ -20,7 +20,9 @@ describe('checks for active members', () => {
     it('checks UI for active members', () => {
         render(
             <Provider store={store}>
+                  <MemoryRouter>
                 <Activemember />
+                </MemoryRouter>
             </Provider>
         )
     })
@@ -29,7 +31,7 @@ describe('checks for active members', () => {
         const store = mockStore({
 
             Member: {
-                Memberdata: [{
+                ActiveMemberdata: [{
                     User_Name: 'ABCD',
                     Member_Id: 100,
                     subscription: 'Subscribed',
@@ -38,7 +40,8 @@ describe('checks for active members', () => {
                     Mobile_No: '98766543728',
                     Address: 'Test address',
                     Joining_Date: '26-Feb-2025'
-                },
+                },],
+                NonActiveMemberdata : [
                 {
                     User_Name: 'XYZ',
                     Member_Id: 101,
