@@ -29,6 +29,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const [logoutformshow, setLogoutFormShow] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -40,14 +41,21 @@ const Sidebar = () => {
     }
   };
 
-  const handleLogout = () => setLogoutFormShow(true);
+
+  const handleLogout = () => {
+    setLogoutFormShow(true);
+  }
+
+
   const handleCloseLogout = () => setLogoutFormShow(false);
 
   const handleConfirmLogout = () => {
-    dispatch({ type: 'LOGOUT' });
+    dispatch({ type: 'LOGOUT' })
+
     const encryptDataLogin = encryptData(JSON.stringify(false));
     localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
-  };
+  }
+
 
   return (
     <>
@@ -59,14 +67,18 @@ const Sidebar = () => {
         >
           {isSidebarOpen ? <FaTimes size={10} /> : <FaBars size={10} />}
         </button>
+       
+
 
         <div
           className={`md:w-64 bg-white text-[#939393] flex flex-col border-r border-gray-300 fixed md:relative h-full z-40 transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
         >
+
           <div className="p-4 text-xl font-bold text-black flex md:flex-wrap lg:flex-nowrap items-center gap-2 mt-3 mb-3 ml-2 md:justify-center lg:justify-start">
             <img src={UnityConnectImg} alt="Unity Connect" className="w-5 h-5" />
             <span className="font-Gilroy text-base md:text-sm lg:text-base whitespace-nowrap">Unity Connect</span>
           </div>
+
 
           <ul className="flex-1">
             {[
@@ -88,12 +100,15 @@ const Sidebar = () => {
                   <img src={activeMenu === menu.name ? menu.activeIcon : menu.icon} alt={menu.name} className="w-4 h-4 mt-0.5" />
                   <span>{menu.name}</span>
                 </div>
-                {activeMenu === menu.name && <img src={Star} alt="Active" className="w-4 h-4 block lg:block md:hidden" />}
+                {activeMenu === menu.name && <img src={Star} alt="Active" className="w-4 h-4 block lg:block md:hidden"/>}
+
               </li>
             ))}
           </ul>
 
-          <div className="p-2 flex items-center justify-between w-full md:flex-wrap lg:flex-nowrap">
+
+
+          <div className="p-2 flex items-center justify-between w-full md:flex-wrap lg:flex-nowrap ">
             <div className="flex items-center md:flex-wrap lg:flex-nowrap">
               <img src={ProfileIcon} alt="Profile" className="w-12 h-12 rounded-full lg:ml-0 sm:ml-0 md:ml-7" />
               <div className="md:text-center lg:text-start md:ml-2">
@@ -109,38 +124,113 @@ const Sidebar = () => {
               data-testid="img-logout"
             />
           </div>
+
+
+
         </div>
 
-        <div className="flex-1 bg-white mt-2">
-          {activeMenu === "Dashboard" && <div data-testid='div-dashboard'></div>}
-          {activeMenu === "Members" && <div data-testid='div-members' className="p-6"><Members /></div>}
-          {activeMenu === "Statements" && <div data-testid='div-statements' className="p-6"><Statements /></div>}
-          {activeMenu === "Settings" && <div data-testid='div-settings' className="p-6"><Settings /></div>}
+        <div className="flex-1">
+          <div className="text-center">
+
+          </div>
+
+          {activeMenu === "Dashboard" && (
+            <div data-testid='div-dashboard' className="bg-white mt-2">
+              {/* <Dashboard /> */}
+            </div>
+          )}
+
+          {activeMenu === "Members" && (
+            <div data-testid='div-members' className="bg-white mt-2 p-6">
+              <Members />
+            </div>
+          )}
+
+          {activeMenu === "Loan" && (
+            <div data-testid='div-loan' className="bg-white mt-2">
+              {/* <Loan /> */}
+            </div>
+          )}
+
+          {activeMenu === "Expenses" && (
+            <div data-testid='div-expenses' className="bg-white mt-2">
+              {/* <Expenses /> */}
+            </div>
+          )}
+
+          {activeMenu === "Statements" && (
+            <div data-testid='div-statements' className="bg-white mt-2">
+              <Statements />
+            </div>
+          )}
+
+          {activeMenu === "Reports" && (
+            <div data-testid='div-reports' className="bg-white mt-2">
+              {/* <Reports /> */}
+            </div>
+          )}
+
+          {activeMenu === "Settings" && (
+            <div data-testid='div-settings' className="bg-white mt-2 p-6">
+              <Settings />
+            </div>
+          )}
+
         </div>
       </div>
 
-      {logoutformshow && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg w-[388px] h-[200px] p-6">
-            <h2 className="text-[18px] font-semibold text-[#222222] text-center mb-4">Logout?</h2>
-            <p className="text-center text-[14px] text-[#646464] font-medium mb-4">Are you sure you want to Logout?</p>
-            <div className="flex justify-center space-x-4">
-              <button
-                className="w-[160px] h-[52px] rounded-lg border border-[#7F00FF] text-[#7F00FF] font-semibold"
-                onClick={handleCloseLogout}
-              >
-                Cancel
-              </button>
-              <button
-                className="w-[160px] h-[52px] rounded-lg bg-[#7F00FF] text-white font-semibold"
-                onClick={handleConfirmLogout}
-              >
-                Logout
-              </button>
-            </div>
+
+
+
+      <div
+        className={`fixed inset-0 flex items-center justify-center ${logoutformshow ? "visible" : "hidden"
+          } bg-black bg-opacity-50`}
+      >
+        <div className="bg-white rounded-lg shadow-lg w-[388px] h-[200px] p-6">
+
+          <div className="flex justify-center border-b-0">
+            <h2 className="text-[18px] font-semibold text-[#222222] text-center flex-1">
+              Logout?
+            </h2>
+          </div>
+
+
+          <div className="text-center text-[14px] text-[#646464] font-medium mt-[20px]">
+            Are you sure you want to Logout?
+          </div>
+
+
+          <div className="flex justify-center border-t-0 mt-[10px] space-x-4">
+            <button
+              data-testid='button-close-logout'
+              className="w-[160px] h-[52px] rounded-lg border border-[#7F00FF] text-[#7F00FF] font-semibold text-[14px] bg-white"
+              onClick={handleCloseLogout}
+            >
+              Cancel
+            </button>
+            <button
+              data-testid='button-logout'
+              className="w-[160px] h-[52px] rounded-lg bg-[#7F00FF] text-white font-semibold text-[14px]"
+              onClick={handleConfirmLogout}
+            >
+              Logout
+            </button>
           </div>
         </div>
-      )}
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
     </>
   );
 };
