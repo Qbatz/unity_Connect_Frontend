@@ -10,7 +10,6 @@ const HowItWorks = () => {
          tracking-[0%] font-Gilroy pt-20">
           How It Works
         </h2>
-
         <div className="space-y-8">
           {[
             {

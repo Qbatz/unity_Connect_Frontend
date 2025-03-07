@@ -7,20 +7,22 @@ import img1 from "../../Asset/Images/Memberone.svg";
 
 function AddLoanForm({ state }) {
   const dispatch = useDispatch();
-  const statusCode = useSelector((state) => state.Loan.statusCodeLoans);
-  const members = useSelector((state) => state.Member?.ActiveMemberdata || []);
+  const statusCode =state.Loan.statusCodeLoans;
+  const members = state.Member?.ActiveMemberdata || [];
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [vitDetails, setVitDetails] = useState({});
   const [memberId, setMemberId] = useState("");
   const [witnessId, setWitnessId] = useState("");
   const [loanAmount, setLoanAmount] = useState("");
   const [selectedWitnesses, setSelectedWitnesses] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isWitnessModalOpen, setIsWitnessModalOpen] = useState(false);
-  const [witnessIdsState, setWitnessIdsState] = useState([{}]);
   const [activeTab, setActiveTab] = useState("Active members");
 
   const handleSelectWitness = (id) => {
+    debugger
     setSelectedWitnesses((prevSelected) =>
       prevSelected.includes(id)
         ? prevSelected.filter((witnessId) => witnessId !== id)
@@ -55,9 +57,7 @@ function AddLoanForm({ state }) {
     setIsModalOpen(false);
   }, [statusCode, dispatch]);
 
-
-  const loans = useSelector((state) => state.Loan.getLoanTab || []);
-
+const loans = state.Loan.getLoanTab || [];
 
   useEffect(() => {
     if (state.Loan?.statusCodeLoans === 200) {
@@ -83,18 +83,39 @@ function AddLoanForm({ state }) {
 
 
   const handleAddWitness = () => {
+    debugger
+    
     const witnessPayload = {
-      id: 1,
-      member_id: parseInt(memberId),
+      id: vitDetails.Loan_Id,
+      member_id:vitDetails.Member_Id,
       widness_ids: selectedWitnesses.length > 0 ? selectedWitnesses : [],
     };
-    setWitnessIdsState(witnessPayload.widness_ids);
+ 
 
     dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
     dispatch({ type: "GET_LOAN" });
 
     setIsWitnessModalOpen(false);
+    setVitDetails({});
+    setSelectedWitnesses([]);
+    
   };
+
+  const handleAddNewWitness = (loan) => {
+  
+    setIsWitnessModalOpen(true);
+    setVitDetails({...loan});
+    setSelectedWitnesses([...loan.Widness_Id.split(",").map(Number)])
+  }
+  
+
+
+  const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
+  const [memberLoanId, setMemberLoanId] = useState("");
+  const [memberLoanType, setMemberLoanType] = useState("");
+  const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
+
+  console.log("Loans Data:", loans);
 
   return (
     <>
@@ -117,7 +138,7 @@ function AddLoanForm({ state }) {
           </div>
         </div>
 
-        <div data-testid='members-tab' className="pl-5 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
+        <div data-testid='Loans-tab' className="pl-5 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
           {["Active Loan", "Approved Loan"].map((tab, index) => (
             <button
               data-testid={`button-tab-${index}`}
@@ -239,7 +260,7 @@ function AddLoanForm({ state }) {
 
             <div className="active-loan max-h-[500px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
-              {loans.length > 0 ? (
+              {loans?.length > 0 ? (
                 loans.map((loan) => {
                   const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
 
@@ -306,29 +327,6 @@ function AddLoanForm({ state }) {
                           )}
 
 
-
-                          {witnessIdsState.length > 0 && (
-                            <div className="flex flex-wrap gap-4 mt-2">
-                              {witnessIdsState.map((witnessId) => {
-                                const witnessData = members.find((member) => String(member.Id) === String(witnessId));
-
-                                return witnessData ? (
-                                  <div key={witnessData.Id} className="flex items-center px-3 py-2 rounded-lg">
-                                    <img src={img1} alt="Witness Profile" className="w-10 h-10 rounded-full" />
-                                    <div className="ml-2">
-                                      <p className="text-black font-semibold text-sm font-Gilroy">{witnessData.User_Name}</p>
-                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Member_Id}</p>
-                                    </div>
-                                  </div>
-                                ) : null;
-                              })}
-                            </div>
-                          )}
-
-
-
-
-
                         </div>
 
                       </div>
@@ -337,15 +335,18 @@ function AddLoanForm({ state }) {
 
                       <div className="mt-10 flex items-center justify-between">
                         <div className="font-Gilroy font-medium text-base text-[#222222] cursor-pointer"
-                          onClick={() => setIsWitnessModalOpen(true)}
+                          onClick={()=>handleAddNewWitness(loan)}
                         >+ Add witness</div>
 
 
                         <div className="flex gap-3">
-                          <button className="border text-[#222222] font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-[150px] h-[51px] pt-4 pr-5 pb-4 pl-5">
+                          <button className="border text-[#222222] font-Gilroy font-medium text-base cursor-pointer 
+                          rounded-[60px] w-[150px] h-[51px] pt-4 pr-5 pb-4 pl-5">
                             Reject
                           </button>
-                          <button className="bg-black text-white border font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-[150px] h-[51px] pt-4 pr-5 pb-4 pl-5">
+                          <button className="bg-black text-white border font-Gilroy font-medium text-base 
+                          cursor-pointer rounded-[60px] w-[150px] h-[51px] pt-4 pr-5 pb-4 pl-5"
+                          onClick={() => setIsApprovePopupOpen(true)}>
                             Approve
                           </button>
                         </div>
@@ -427,6 +428,68 @@ function AddLoanForm({ state }) {
             </div>
           </div>
         )}
+
+
+{isApprovePopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white w-[400px] rounded-2xl p-6 shadow-lg">
+          <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold font-Gilroy">Approve Loan Details</h2>
+                <button
+                  className="text-gray-600 text-xl"
+                  onClick={() => setIsApprovePopupOpen(false)}
+                >
+                  <img src={CloseCircleIcon} alt="Close" />
+                </button>
+
+              </div>
+
+            <div className="mt-4">
+              <label className="text-black text-sm font-medium font-Gilroy">ID</label>
+              <input
+                value={memberLoanId}
+                onChange={(e) => setMemberLoanId(e.target.value)}
+                type="text"
+                placeholder="Enter Loan ID"
+                className="w-full h-10 border border-[#D9D9D9] rounded-2xl p-3 mt-2"
+              />
+            </div>
+            <div className="mt-4">
+              <label className="text-black text-sm font-medium font-Gilroy">Loan Type</label>
+              <input
+                value={memberLoanType}
+                onChange={(e) => setMemberLoanType(e.target.value)}
+                type="text"
+                placeholder="Enter Loan Type"
+                className="w-full h-10 border border-[#D9D9D9] rounded-2xl p-3 mt-2"
+              />
+            </div>
+
+            <div className="mt-4">
+              <label className="text-black text-sm font-medium font-Gilroy">Loan Amount</label>
+              <input
+                value={eligibleLoanAmount}
+                onChange={(e) => setEligibleLoanAmount(e.target.value)}
+                type="text"
+                placeholder="Enter Approved Loan Amount"
+                className="w-full h-10 border border-[#D9D9D9] rounded-2xl p-3 mt-2"
+              />
+            </div>
+
+            <button className="mt-5 bg-black text-white border font-Gilroy font-medium text-base 
+                          cursor-pointer rounded-[60px] w-full h-[51px] pt-4 pr-5 pb-4 pl-5"
+                        >
+                            Approve Loan
+                          </button>
+          </div>
+        </div>
+      )}
+
+
+
+
+
+
 
         {activeTab === "Approved Loan" && (
           <div>
@@ -519,8 +582,13 @@ function AddLoanForm({ state }) {
   );
 }
 
+const mapsToProps = (stateInfo) => {
+  return {
+      state: stateInfo
+  }
+}
 AddLoanForm.propTypes = {
   state: PropTypes.object,
 };
 
-export default connect((stateInfo) => ({ state: stateInfo }))(AddLoanForm);
+export default connect(mapsToProps)(AddLoanForm);

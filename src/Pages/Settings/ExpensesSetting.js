@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch,  connect } from "react-redux";
 import ExpensesIcon from "../../Asset/Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../../Asset/Icons/ThreeDotMore.svg";
 import CloseCircleIcon from "../../Asset/Icons/close-circle.svg";
@@ -10,10 +10,11 @@ function ExpensesSetting({ state }) {
 
   const dispatch = useDispatch();
 
-  const expensesetting = useSelector((state) => state.SettingExpenses?.getExpenseData.data || []);
+
+  const expensesetting = state.SettingExpenses?.getExpenseData.data || [];
 
 
-  const statusCode = useSelector((state) => state.SettingExpenses.statusCodeSettingsAddExpenses);
+  const statusCode = state.SettingExpenses.statusCodeSettingsAddExpenses;
 
   const [categoryName, setCategoryName] = useState("");
   const [subCategoryName, setSubCategoryName] = useState("");
@@ -174,8 +175,13 @@ function ExpensesSetting({ state }) {
   );
 }
 
+const mapsToProps = (stateInfo) => {
+  return {
+      state: stateInfo
+  }
+}
 ExpensesSetting.propTypes = {
   state: PropTypes.object,
 };
 
-export default connect((stateInfo) => ({ state: stateInfo }))(ExpensesSetting);
+export default connect(mapsToProps)(ExpensesSetting);

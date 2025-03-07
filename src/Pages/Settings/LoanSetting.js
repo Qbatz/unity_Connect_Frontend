@@ -4,7 +4,7 @@ import ExpensesIcon from "../../Asset/Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../../Asset/Icons/ThreeDotMore.svg";
 import PropTypes from "prop-types";
 import { ChevronDown } from "lucide-react";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch,connect } from "react-redux";
 
 
 
@@ -13,10 +13,14 @@ import { useDispatch, useSelector, connect } from "react-redux";
 function LoanSetting({ state }) {
 
   const dispatch = useDispatch();
-  const loanGetSetting = useSelector((state) => state);
 
+  // const loanGetSetting = useSelector((state) => state);
+  // const statusCode = useSelector((state) => state.SettingLoan.statusCodeLoans);
 
-  const statusCode = useSelector((state) => state.SettingLoan.statusCodeLoans);
+  const loanGetSetting =state;
+  const statusCode = state.SettingLoan.statusCodeLoans;
+
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Select a due type");
@@ -423,9 +427,15 @@ function LoanSetting({ state }) {
   );
 }
 
+
+const mapsToProps = (stateInfo) => {
+  return {
+      state: stateInfo
+  }
+}
 LoanSetting.propTypes = {
   state: PropTypes.object,
 };
 
-export default connect((stateInfo) => ({ state: stateInfo }))(LoanSetting);
 
+export default connect(mapsToProps)(LoanSetting);
