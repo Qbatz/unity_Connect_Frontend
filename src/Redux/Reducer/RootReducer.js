@@ -5,6 +5,7 @@ import SettingReducer from "./SettingReducer";
 import SettingAddExpensesReducer from "./SettingsExpensesReducer";
 import MemberListReducer from "./MemberReducer";
 import SettingLoanReducer from "./SettingLoanReducer";
+import LoanReducer from "./LoanReducer";
 
 const RootReducer = combineReducers({
     SignIn: SignInReducer,
@@ -13,6 +14,6 @@ const RootReducer = combineReducers({
     SettingExpenses: SettingAddExpensesReducer,
     Member: MemberListReducer,
     SettingLoan: SettingLoanReducer,
-
+    Loan:LoanReducer,
 })
 export default RootReducer;

@@ -12,7 +12,7 @@ const Footer = () => {
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12 gap-10">
 
         <div className="sm:col-span-12 md:col-span-12 lg:col-span-6">
-          <img src={UnityConnectLetter} alt="Unity Connect" className="w-36 mb-2" />
+          <img src={UnityConnectLetter} alt="Unity Connect" className="lg:w-[231px] lg:h-[33px] mb-2" />
           <p className="text-gray-700 text-base font-Gilroy font-normal leading-[25.6px] mt-5">
             Invest as a community, withdraw with
             <span className="block font-Gilroy">trust, and repay with growth.</span>

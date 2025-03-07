@@ -19,6 +19,9 @@ describe('render and check sidebar functionalities', () => {
                     NonActiveMemberdata: [] ,
                     statusCodeMemberList:200
                 },  
+                Loan: {
+                    statusCodeLoans: 200
+                }
         
             })
 

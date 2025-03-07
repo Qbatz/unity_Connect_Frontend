@@ -50,7 +50,8 @@ function ActiveMember({ state }) {
   };
 
   const popupRef = useRef(null);
-  const members = state.Member?.ActiveMemberdata;
+  const members = state?.Member?.ActiveMemberdata || [];
+
  
   
 

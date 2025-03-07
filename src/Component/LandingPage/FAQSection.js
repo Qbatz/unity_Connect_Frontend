@@ -59,7 +59,7 @@ const FAQSection = () => {
         <img
           src={Diamond}
           alt="Pink Spiral"
-          className="hidden lg:block absolute right-[0px] top-[-200px] w-218 h-217 "
+          className="hidden lg:block absolute right-[-40px] top-[-200px] w-218 h-217 "
         />
       </div>
 

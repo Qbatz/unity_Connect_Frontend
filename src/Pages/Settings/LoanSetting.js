@@ -4,7 +4,7 @@ import ExpensesIcon from "../../Asset/Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../../Asset/Icons/ThreeDotMore.svg";
 import PropTypes from "prop-types";
 import { ChevronDown } from "lucide-react";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch,connect } from "react-redux";
 
 
 
@@ -13,16 +13,14 @@ import { useDispatch, useSelector, connect } from "react-redux";
 function LoanSetting({ state }) {
 
   const dispatch = useDispatch();
-  const loanGetSetting = useSelector((state) => state);
 
+  // const loanGetSetting = useSelector((state) => state);
+  // const statusCode = useSelector((state) => state.SettingLoan.statusCodeLoans);
 
-  const statusCode = useSelector((state) => state.SettingLoan.statusCodeLoans);
+  const loanGetSetting =state;
+  const statusCode = state.SettingLoan.statusCodeLoans;
 
-
-
-
-
-
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Select a due type");
@@ -41,6 +39,7 @@ function LoanSetting({ state }) {
   const [selectedDueDate, setSelectedDueDate] = useState("");
   const [selectedDueCount, setSelectedDueCount] = useState("");
   const [selectedDay, setSelectedDay] = useState("Select a day");
+  const [selectedInterest, setSelectedInterest] = useState("Select a day");
   const [isDayDropdownOpen, setIsDayDropdownOpen] = useState(false);
 
 
@@ -63,6 +62,7 @@ function LoanSetting({ state }) {
       due_type: selectedOption,
       due_count: selectedDueCount,
       Id: loanGetSetting,
+      interest:selectedInterest,
     };
 
     dispatch({
@@ -84,7 +84,7 @@ function LoanSetting({ state }) {
     setSelectedLoanName("");
     setSelectedDueDate("");
     setSelectedDueCount("");
-
+    setSelectedInterest("");
     setSelectedLoanName("");
     setSelectedOption("Select a due type");
     setSelectedWeekDay("Select a due type");
@@ -370,6 +370,16 @@ function LoanSetting({ state }) {
                   className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                 />
               </div>
+
+              
+              <div className="mt-5">
+                <label className="text-black font-Gilroy text-sm font-medium text-lg">Interest</label>
+                <input
+                  type="text" value={selectedInterest}
+                  placeholder="Enter due count" onChange={(e) => setSelectedInterest(e.target.value)}
+                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
+                />
+              </div>
             </div>
 
 
@@ -387,7 +397,7 @@ function LoanSetting({ state }) {
 
 
 
-      <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mt-5 max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {loanGetSetting?.SettingLoan?.getLoan.loans?.map((loan, index) => (
           <div key={index} className="w-350 h-170 border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
@@ -417,9 +427,15 @@ function LoanSetting({ state }) {
   );
 }
 
+
+const mapsToProps = (stateInfo) => {
+  return {
+      state: stateInfo
+  }
+}
 LoanSetting.propTypes = {
   state: PropTypes.object,
 };
 
-export default connect((stateInfo) => ({ state: stateInfo }))(LoanSetting);
 
+export default connect(mapsToProps)(LoanSetting);
