@@ -39,6 +39,7 @@ function MemberModal({ state, memberData, onClose }) {
 
 
     useEffect(() => {
+      
         if (state.Member.statusCodeForAddUser === 200) {
             dispatch({ type: 'MEMBERLIST' });
             dispatch({ type: 'CLEAR_STATUS_CODES' })
@@ -57,7 +58,8 @@ function MemberModal({ state, memberData, onClose }) {
 
     const formattedDate = moment(memberData.Joining_Date).format("YYYY-MM-DD");
 
-   
+    // const members = state.Member.ActiveMemberdata; 
+
     const validate = () => {
         let tempErrors = {};
         if (!userName) tempErrors.userName = "User Name is required";
@@ -180,9 +182,6 @@ function MemberModal({ state, memberData, onClose }) {
 
                 <div className="space-y-1 mt-2">
                     <div className="flex gap-4">
-
-
-
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID</label>
                             <input

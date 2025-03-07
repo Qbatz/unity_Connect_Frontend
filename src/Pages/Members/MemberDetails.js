@@ -3,6 +3,7 @@ import img1 from "../../Asset/Images/Memberone.svg";
 import Overview from "./Overview";
 import PropTypes from 'prop-types';
 import CommentSection from "./Comments";
+import Transactions from "../Members/Transactions";
 
 
 function MemberDetails  ({ member, onBack })  {
@@ -51,6 +52,7 @@ function MemberDetails  ({ member, onBack })  {
       <div className="">
         {activeTab === "Overview" && <Overview member={member} />}
         {activeTab === "Comments" && <CommentSection member={member} />}
+        {activeTab === "Transactions" && <Transactions member={member} />}
       </div>
     </>
   );
