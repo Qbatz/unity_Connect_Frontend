@@ -58,7 +58,6 @@ function MemberModal({ state, memberData, onClose }) {
 
     const formattedDate = moment(memberData.Joining_Date).format("YYYY-MM-DD");
 
-    // const members = state.Member.ActiveMemberdata; 
 
     const validate = () => {
         let tempErrors = {};
