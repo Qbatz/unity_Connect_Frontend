@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import Create1 from '../../Asset/Images/Createtleft.svg';
 import Create2 from '../../Asset/Images/Createright.svg';
 import Unityicon from '../../Asset/Icons/Unityicon.svg';
-import { Eye, EyeSlash } from "iconsax-react";
 import PropTypes from 'prop-types';
 import { useDispatch, connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import { HiOutlineEye } from "react-icons/hi2";
+import { RiEyeOffLine } from "react-icons/ri";
 
 function CreateAccount({ state }) {
 
@@ -297,7 +298,7 @@ function CreateAccount({ state }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="w-full">
-              <label className="block text-sm font-medium mb-2">First Name</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">First Name</label>
               <input type="text" data-testid='input-fname' placeholder="First name" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={firstName} onChange={handleFirstNameChange}
               />
@@ -306,7 +307,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block text-sm font-medium mb-2">Last Name</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Last Name</label>
               <input type="text" data-testid='input-lname' placeholder="Last name" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={lastName} onChange={handleLastNameChange}
               />
@@ -314,7 +315,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block text-sm font-medium mb-2">Email ID</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Email ID</label>
               <input data-testid='input-email' type="email" placeholder="Email address" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={email} onChange={handleEmailChange}
               />
@@ -325,7 +326,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block text-sm font-medium mb-2">Mobile number</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Mobile number</label>
               <div className="flex items-center border border-gray-300 rounded-xl bg-white p-3 w-full">
                 <select className="outline-none bg-transparent mr-2">
                   <option>+91</option>
@@ -346,27 +347,51 @@ function CreateAccount({ state }) {
               {isSubmitted && phoneError && <p className="text-red-500 text-sm">{phoneError}</p>}
             </div>
 
-            <div className="w-full">
-              <label className="block text-sm font-medium mb-2">Password</label>
-              <div className="flex items-center border border-gray-300 rounded-xl bg-white p-3 w-full">
-                <input data-testid='input-password' type={showPassword ? "text" : "password"} className="flex-1 w-full outline-none bg-transparent text-gray-900 pr-1"
-                  placeholder="Enter your password" value={password} onChange={handlePasswordChange}
+          
+            <div>
+              <label className="font-Gilroy font-medium text-sm leading-4 mt-2">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  data-testid='input-password'
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  className="border py-3 px-3 w-full mt-1  border-gray-300 rounded-xl  font-Gilroy font-medium text-base leading-6 tracking-normal pr-10"
+                  value={password}
+                  onChange={handlePasswordChange}
                 />
-                <button data-testid='button-show-password' type="button" className="ml-2 focus:outline-none" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <Eye size="20" color="#292D32" /> : <EyeSlash size="20" color="#292D32" />}
+                <button
+                  data-testid='button-show-password'
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+
+                  {showPassword ? (
+                    <HiOutlineEye size="20" color="#292D32" />
+                  ) : (
+                    <RiEyeOffLine size="20" color="#292D32" />
+                  )}
                 </button>
               </div>
-              {isSubmitted && passwordErrors && <p className="text-red-500 text-sm">{passwordErrors}</p>}
+              <div >
+                {isSubmitted && passwordErrors && <p className="text-red-500 text-sm">{passwordErrors}</p>}
+              </div>
+              <div>
+
+              </div>
+
             </div>
 
             <div className="w-full">
-              <label className="block text-sm font-medium mb-2">Confirm Password</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Confirm Password</label>
               <div className="flex items-center border border-gray-300 rounded-xl p-3 bg-white">
                 <input data-testid='con-password' type={showConfirmPassword ? "text" : "password"} className="flex-1 w-full pr-1  outline-none bg-transparent text-gray-900"
                   placeholder="Confirm your password" value={confirmPassword} onChange={handleConfirmPasswordChange}
                 />
                 <button data-testid='show-confirm-password' type="button" className="ml-2 focus:outline-none" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                  {showConfirmPassword ? <Eye size="20" color="#292D32" /> : <EyeSlash size="20" color="#292D32" />}
+                  {showConfirmPassword ? <HiOutlineEye size="20" color="#292D32" /> : <RiEyeOffLine size="20" color="#292D32" />}
                 </button>
               </div>
               {isSubmitted && confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
@@ -376,7 +401,7 @@ function CreateAccount({ state }) {
 
           <button
             data-testid='button-submit'
-            className={`w-full text-white text-lg py-3 rounded-full transition-all duration-300 ${isFormValid ? 'bg-black' : 'bg-gray-400'}`}
+            className={`w-full font-Gilroy text-white text-lg py-3 rounded-full transition-all duration-300 ${isFormValid ? 'bg-black' : 'bg-gray-400'}`}
             onClick={handleSubmit}
           >
             Create account

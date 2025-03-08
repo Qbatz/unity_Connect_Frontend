@@ -30,7 +30,7 @@ function ActiveMember({ state }) {
   const [statusError, setStatusError] = useState("");
   const [memberdetail, setMemberdetails] = useState(null);
   const [showMembers, setShowMembers] = useState(true);
-  const [uploadedFiles, setUploadedFiles] = useState({});
+  
 
 
 
