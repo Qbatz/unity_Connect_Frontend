@@ -39,7 +39,7 @@ function MemberModal({ state, memberData, onClose }) {
 
 
     useEffect(() => {
-      
+
         if (state.Member.statusCodeForAddUser === 200) {
             dispatch({ type: 'MEMBERLIST' });
             dispatch({ type: 'CLEAR_STATUS_CODES' })
@@ -88,18 +88,28 @@ function MemberModal({ state, memberData, onClose }) {
         setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     };
 
-
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-        setFile(selectedFile)
+        const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+
         if (selectedFile) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setShowImage(reader.result);
-            };
-            reader.readAsDataURL(selectedFile);
+            if (allowedTypes.includes(selectedFile.type)) {
+                setFile(selectedFile);
+                if (selectedFile.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        setShowImage(reader.result);
+                    };
+                    reader.readAsDataURL(selectedFile);
+                } else {
+                    setShowImage(null);
+                }
+            } else {
+                alert("Only PDF, PNG, and JPG files are allowed.");
+            }
         }
     };
+
 
 
     const handleClose = () => {

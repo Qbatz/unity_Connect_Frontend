@@ -21,12 +21,7 @@ const Transactions = () => {
           <table className="w-full text-left border-collapse min-w-max">
             <thead>
               <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
-                <th className="p-4">
-                  <input
-                    type="checkbox"
-                    className="w-[18px] h-[18px] appearance-none bg-blue-50 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-transparent focus:ring-2 focus:ring-blue-300"
-                  />
-                </th>
+                
                 <th className="p-4 font-Gilroy">Transactions</th>
                 <th className="p-4 font-Gilroy">Date & Time</th>
                 <th className="p-4 font-Gilroy">Transaction Id</th>
@@ -38,12 +33,7 @@ const Transactions = () => {
             <tbody>
               {statements.map((item, index) => (
                 <tr key={index} className="">
-                  <td className="p-4">
-                    <input
-                      type="checkbox"
-                      className="w-[18px] h-[18px] appearance-none bg-blue-50 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-transparent focus:ring-2 focus:ring-blue-300"
-                    />
-                  </td>
+                 
                   <td className="p-4 font-Gilroy">{item.transactions}</td>
                   <td className="p-4">
                     <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
