@@ -11,7 +11,7 @@ describe('checks for active members', () => {
         const store = mockStore({
     
             Member: {
-                Memberdata: [],
+                ActiveMemberdata: [],  
                 statusCodeMemberList: 200
             }
     
