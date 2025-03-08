@@ -11,7 +11,7 @@ const MeetUnityConnect = () => {
         <img
           src={MoneyBag}
           alt="Money Bag"
-          className="hidden md:hidden sm:hidden lg:block absolute w-[150px] h-auto 
+          className="hidden md:hidden sm:hidden lg:block absolute w-[150px] h-[171px] 
           top-[210px] left-[120px] transform rotate-[0.16deg]"
         />
 
@@ -36,7 +36,7 @@ const MeetUnityConnect = () => {
 
 
         <button className="mt-5 font-Raleway rounded-2xl bg-[#7F00FF] text-white 
-        px-5 py-3 md:px-6 md:py-3 lg:px-8 lg:py-4
+        px-5 py-3 md:px-6 md:py-3 lg:px-8 lg:py-6
         font-semibold text-base sm:text-lg hover:bg-[#7F00FF] transition">
           Join a community
         </button>

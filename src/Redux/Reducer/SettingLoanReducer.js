@@ -4,6 +4,7 @@ export const initialState = {
   duetype: "",
   dueamount: "",
   statusCodeLoans: 0,
+  interest:"",
   getLoan:[],
 };
 
@@ -18,6 +19,7 @@ const SettingLoanReducer = (state = initialState, action) => {
         duetype: action.payload.due_type,
         dueamount: action.payload.due_count,
         statusCodeLoans: action.payload.statusCode,
+        interest:action.payload.interest,
       };
 
       case "SETTINGSGETLOAN":

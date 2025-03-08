@@ -1,22 +1,37 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, connect } from "react-redux";
 import { FiMoreVertical } from "react-icons/fi";
+import PropTypes from 'prop-types';
 import ProfileIcon from '../../Asset/Icons/ProfileIcon.svg';
 import editIcon from "../../Asset/Icons/edit_blue.svg";
 import trashRed from "../../Asset/Icons/trashRed.svg";
 import RecordPayment from "../../Asset/Icons/RecordPayment.svg";
+import moment from "moment";
 
-const Statement = () => {
+
+function Statement({ state }) {
+
+  const dispatch = useDispatch();
+  const popupRef = useRef(null);
+
+  const statementList = state.Statement.StatementList;
+
+  const formattingDate = moment(statementList?.loan_date).format("DD-MM-YYYY");
+  const formattingDueDate = moment(statementList?.Due_Date).format("DD-MM-YYYY");
 
   const [menuOpen, setMenuOpen] = useState(null);
   const [activeTab, setActiveTab] = useState("Loan statement");
-
-  const popupRef = useRef(null);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, []);
+
+  useEffect(() => {
+    dispatch({ type: 'STATEMENTLIST' });
   }, []);
 
   const handleClickOutside = (event) => {
@@ -29,24 +44,9 @@ const Statement = () => {
     setMenuOpen(menuOpen === index ? null : index);
   };
 
-
-  const data = [
-    { name: "Kellie Turcotte", id: "ABC001", date: "23 Nov 2024", dueDate: "30 Nov 2024", amount: "₹2,500", due: "₹2,500", status: "Paid" },
-    { name: "Tatiana Rosser", id: "ABC002", date: "23 Nov 2024", dueDate: "30 Nov 2024", amount: "₹1,500", due: "₹1,500", status: "Unpaid" },
-    { name: "Esther Williamson", id: "ABC003", date: "23 Nov 2024", dueDate: "30 Nov 2024", amount: "₹500", due: "₹500", status: "Paid" },
-    { name: "Kaylynn Kenter", id: "ABC004", date: "23 Nov 2024", dueDate: "30 Nov 2024", amount: "₹1,000", due: "₹1,000", status: "Paid" },
-    { name: "Sabrina Gleason", id: "ABC005", date: "23 Nov 2024", dueDate: "30 Nov 2024", amount: "₹2,000", due: "₹2,000", status: "Unpaid" },
-    { name: "Marissa Collins", id: "ABC006", date: "24 Nov 2024", dueDate: "01 Dec 2024", amount: "₹3,000", due: "₹3,000", status: "Paid" },
-    { name: "George Reed", id: "ABC007", date: "24 Nov 2024", dueDate: "01 Dec 2024", amount: "₹750", due: "₹750", status: "Unpaid" },
-  ];
-
   return (
-
-
-
     <div className="w-full p-4 bg-white rounded-xl">
       <h2 className="font-Gilroy font-semibold text-xl md:text-2xl mb-4 mt-1 ml-12 lg:ml-3 ">Statements</h2>
-
 
       <div className="flex gap-2 md:gap-4 mb-4">
         <button
@@ -63,82 +63,87 @@ const Statement = () => {
         </button>
       </div>
 
-      <div className="relative overflow-y-scroll rounded-3xl overflow-hidden">
-        <table className="w-full min-w-[800px] bg-[#f4f7ff] shadow-md text-xs md:text-sm">
-          <thead className="p-3 font-Gilroy font-medium text-gray-600 text-left border-b border-gray-300 sticky top-0 bg-[#f4f7ff] z-10">
-            <tr>
-              <th className="p-3 min-w-[120px] pl-5">Member Name</th>
-              <th className="p-3 min-w-[80px] text-center">Member ID</th>
-              <th className="p-3 min-w-[100px] text-center">Date</th>
-              <th className="p-3 min-w-[100px] text-center">Amount</th>
-              <th className="p-3 min-w-[100px] text-center">Due Date</th>
-              <th className="p-3 min-w-[80px] text-center">Due</th>
-              <th className="p-3 min-w-[80px] text-center">Status</th>
-              <th className="p-3 min-w-[40px] text-center"> </th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item, index) => (
-              <tr key={index} className="p-3 hover:bg-gray-100 border-b font-Gilroy">
-
-                <td className="p-3 flex items-center gap-2 truncate">
-                  <img src={ProfileIcon} alt="avatar" className="w-6 h-6 rounded-full" />
-                  <span className="truncate">{item.name}</span>
-                </td>
-
-                <td className="p-2 text-center bg-orange-100 rounded-2xl">{item.id}</td>
-                <td className="p-2 text-center bg-gray-200 rounded-2xl">{item.date}</td>
-                <td className="p-2 text-center">{item.amount}</td>
-                <td className="p-2 text-center bg-gray-200  rounded-2xl">{item.dueDate}</td>
-                <td className="p-2 text-center">{item.due}</td>
-
-                <td className="p-2 text-center">
-                  <span className={`px-3 py-2 rounded-full text-black ${item.status === "Paid" ? "bg-green-200" : "bg-red-200"}`}>
-                    {item.status}
-                  </span>
-                </td>
-                <td className="p-2 relative">
-                  <button onClick={() => toggleMenu(index)} className="text-gray-600 bg-white rounded-full p-2 shadow">
-                    <FiMoreVertical size={16} />
-                  </button>
-
-                  {menuOpen === index && (
-                    <div ref={popupRef}
-                      className="absolute right-4 top-10 bg-white border-t border-b border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
-                    >
-                      <div>
-                        <button
-                          className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200"
-                        >
-                          <img src={RecordPayment} alt="Record Payment" className="h-4 w-4" />
-                          Record Payment
-                        </button>
-
-                        <button
-                          className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200"
-                        >
-                          <img src={editIcon} alt="Edit" className="h-4 w-4" />
-                          Edit
-                        </button>
-
-                        <button
-                          className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy"
-                        >
-                          <img src={trashRed} alt="Delete" className="h-4 w-4" />
-                          Delete
-                        </button>
-                      </div>
-
-                    </div>
-                  )}
-
-
-
-                </td>
+      <div className="relative overflow-hidden overflow-x-hidden rounded-3xl">
+        <div className="overflow-x-auto overflow-y-scroll max-h-[400px] rounded-3xl">
+          <table className="w-full bg-[#f4f7ff] shadow-md text-xs md:text-sm min-w-[800px]">
+            <thead className="p-3 font-Gilroy font-medium text-gray-600 text-left border-b border-gray-300 sticky top-0 bg-[#f4f7ff] z-10">
+              <tr>
+                <th className="p-3 pl-5">Member Name</th>
+                <th className="pl-5">Loan ID</th>
+                <th className="pl-10 min-w-[120px] md:min-w-[150px]">Loan Date</th>
+                <th className="pl-1">Loan Amount</th>
+                <th className="pl-8 min-w-[120px] md:min-w-[150px]">Due Date</th>
+                <th className="pl-6">Due</th>
+                <th className="pl-8">Status</th>
+                <th className=""> </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+
+            <tbody>
+              {statementList.map((item, index) => (
+                <tr key={index} className="p-3 hover:bg-gray-100 border-b font-Gilroy">
+                  <td className="p-3 flex items-center gap-2 truncate">
+                    <img src={ProfileIcon} alt="avatar" className="w-6 h-6 rounded-full" />
+                    <span className="truncate">{item.User_Name}</span>
+                  </td>
+                  <td className="p-4">
+                    <span className="bg-orange-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                      {item.Loan_id}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                      {formattingDate}
+                    </span>
+
+
+                  </td>
+
+                  <td className="p-2">{item.Loan_Amount}</td>
+                  <td className="p-4">
+                    <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                      {formattingDueDate}
+                    </span>
+                  </td>
+                  <td className="p-2 text-center">{item.Due}</td>
+                  <td className="p-2 text-center">
+                    <span className={`px-3 py-2 rounded-full text-black ${item.Status === "Paid" ? "bg-green-200" : "bg-red-200"}`}>
+                      {item.Status}
+                    </span>
+                  </td>
+                  <td className="p-2 relative">
+                    <button onClick={() => toggleMenu(index)} className="text-gray-600 bg-white rounded-full p-2 shadow">
+                      <FiMoreVertical size={16} />
+                    </button>
+                    {menuOpen === index && (
+                      <div
+                        ref={popupRef}
+                        className="absolute right-4 top-10 bg-white border-t border-b border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
+                      >
+                        <div>
+                          <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
+                            <img src={RecordPayment} alt="Record Payment" className="h-4 w-4" />
+                            Record Payment
+                          </button>
+                          <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
+                            <img src={editIcon} alt="Edit" className="h-4 w-4" />
+                            Edit
+                          </button>
+                          <button className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy">
+                            <img src={trashRed} alt="Delete" className="h-4 w-4" />
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+
+          </table>
+        </div>
       </div>
     </div>
 
@@ -146,7 +151,18 @@ const Statement = () => {
   );
 };
 
-export default Statement;
+const mapsToProps = (stateInfo) => {
+  return {
+    state: stateInfo,
+  };
+};
+
+Statement.propTypes = {
+  state: PropTypes.object,
+};
+
+export default connect(mapsToProps)(Statement);
+
 
 
 

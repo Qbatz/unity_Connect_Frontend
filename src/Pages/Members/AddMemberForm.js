@@ -39,6 +39,7 @@ function MemberModal({ state, memberData, onClose }) {
 
 
     useEffect(() => {
+
         if (state.Member.statusCodeForAddUser === 200) {
             dispatch({ type: 'MEMBERLIST' });
             dispatch({ type: 'CLEAR_STATUS_CODES' })
@@ -57,7 +58,7 @@ function MemberModal({ state, memberData, onClose }) {
 
     const formattedDate = moment(memberData.Joining_Date).format("YYYY-MM-DD");
 
-   
+
     const validate = () => {
         let tempErrors = {};
         if (!userName) tempErrors.userName = "User Name is required";
@@ -87,18 +88,28 @@ function MemberModal({ state, memberData, onClose }) {
         setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     };
 
-
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-        setFile(selectedFile)
+        const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+
         if (selectedFile) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setShowImage(reader.result);
-            };
-            reader.readAsDataURL(selectedFile);
+            if (allowedTypes.includes(selectedFile.type)) {
+                setFile(selectedFile);
+                if (selectedFile.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        setShowImage(reader.result);
+                    };
+                    reader.readAsDataURL(selectedFile);
+                } else {
+                    setShowImage(null);
+                }
+            } else {
+                alert("Only PDF, PNG, and JPG files are allowed.");
+            }
         }
     };
+
 
 
     const handleClose = () => {
@@ -180,9 +191,6 @@ function MemberModal({ state, memberData, onClose }) {
 
                 <div className="space-y-1 mt-2">
                     <div className="flex gap-4">
-
-
-
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID</label>
                             <input

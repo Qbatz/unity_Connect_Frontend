@@ -19,6 +19,15 @@ describe('render and check sidebar functionalities', () => {
                     NonActiveMemberdata: [] ,
                     statusCodeMemberList:200
                 },  
+                Loan: {
+                    statusCodeLoans: 200
+                },
+                Statement: {
+                    id: 0,
+                    StatementList: [],
+                    statusCodeForStatement:0,
+                    StatementErrorMsg: '',
+                }
         
             })
 
@@ -31,15 +40,12 @@ describe('render and check sidebar functionalities', () => {
         const toggleButton = screen.getByTestId('button-toggle')
         const menuItem = screen.getByTestId('menu-item-0')
         const logoutImage = screen.getByTestId('img-logout')
-        const buttonLogout = screen.getByTestId('button-logout')
         expect(toggleButton).toBeInTheDocument();
         expect(menuItem).toBeInTheDocument()
         expect(logoutImage).toBeInTheDocument();
-        expect(buttonLogout).toBeInTheDocument()
         userEvent.click(toggleButton)
         userEvent.click(menuItem)
         userEvent.click(logoutImage)
-        userEvent.click(buttonLogout)
     })
 
     it('it should check for collapse the sidebar', () => {
@@ -48,6 +54,9 @@ describe('render and check sidebar functionalities', () => {
         </Provider>)
 
         expect(screen.getByTestId('container-main')).toBeInTheDocument();
+        const logoutImage = screen.getByTestId('img-logout')
+        expect(logoutImage).toBeInTheDocument();
+        userEvent.click(logoutImage);
         const logoutButton = screen.getByTestId('button-close-logout')
         expect(logoutButton).toBeInTheDocument();
         userEvent.click(logoutButton)

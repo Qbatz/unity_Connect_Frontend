@@ -1,27 +1,83 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
+import RecordPaymentIcon from "../../Asset/Icons/RecordPayment.svg";
+import CloseCircle from "../../Asset/Icons/close-circle.svg";
+import { MdError } from "react-icons/md";
 
 function LoanStatements({ state, member }) {
 
   const dispatch = useDispatch();
+  const popupRef = useRef(null);
 
   const Statement = state.Member.getStatement;
 
+  const [showOptions, setShowOptions] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [loanAmount, setLoanAmount] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  const [paidAmount, setPaidAmount] = useState('');
+  const [pendingAmount, setPendingAmount] = useState('');
+  const [status, setStatus] = useState('');
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (member?.Id) {
-
       dispatch({
         type: "GETSTATEMENT",
         payload: { id: member.Id },
       });
     }
-
   }, [member?.Id]);
 
+  const handleInputChange = (field, value) => {
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+
+    if (field === "loanAmount") {
+      setLoanAmount(value);
+    } else if (field === "dueDate") {
+      setDueDate(value);
+    } else if (field === "paidAmount") {
+      setPaidAmount(value);
+    } else if (field === "pendingAmount") {
+      setPendingAmount(value);
+    } else if (field === "status") {
+      setStatus(value);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newErrors = {};
+    if (!loanAmount) newErrors.loanAmount = "Loan amount is required";
+    if (!dueDate) newErrors.dueDate = "Due date is required";
+    if (!paidAmount) newErrors.paidAmount = "Paid amount is required";
+    if (!pendingAmount) newErrors.pendingAmount = "Pending amount is required";
+    if (!status) newErrors.status = "Status is required";
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+
+      setLoanAmount("");
+      setDueDate("");
+      setPaidAmount("");
+      setPendingAmount("");
+      setStatus("");
+
+      setIsModalOpen(false);
+    }
+  };
+
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="p-4">
@@ -30,7 +86,6 @@ function LoanStatements({ state, member }) {
 
       </div>
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
-
         <div className="overflow-y-auto h-[300px]">
           <table className="w-full text-left border-collapse min-w-max">
             <thead>
@@ -52,7 +107,7 @@ function LoanStatements({ state, member }) {
             </thead>
             <tbody>
               {Statement.map((item, index) => (
-                <tr key={index} className="">
+                <tr key={index}>
                   <td className="p-4">
                     <input
                       type="checkbox"
@@ -78,8 +133,27 @@ function LoanStatements({ state, member }) {
                       {item.Status}
                     </span>
                   </td>
-                  <td className="p-4">
-                    <button className="text-gray-600 text-xl">⋮</button>
+                  <td className="p-4 relative">
+                    <button
+                      className="text-gray-600 text-xl"
+                      onClick={() => setShowOptions(!showOptions)}
+                    >
+                      ⋮
+                    </button>
+
+                    {showOptions && (
+                      <div
+                        ref={popupRef}
+                        className="absolute mt-2 bg-white shadow-lg rounded w-40 z-10">
+                        <button
+                          className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200"
+                          onClick={() => setIsModalOpen(true)}
+                        >
+                          <img src={RecordPaymentIcon} alt="Record Payment" className="h-4 w-4" />
+                          Record Payment
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -87,19 +161,135 @@ function LoanStatements({ state, member }) {
           </table>
         </div>
       </div>
+
+      {isModalOpen && (
+
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50 font-[Gilroy]">
+          <div className="bg-white rounded-lg w-[90%] max-w-md p-6 shadow-lg rounded-3xl">
+            <div className="flex justify-between items-center mb-4 border-b border-gray-300 pb-2">
+              <h2 className="text-xl font-semibold text-center text-black">
+                Record payment
+              </h2>
+              <button onClick={handleClose} className="text-gray-500 hover:text-black">
+                <img src={CloseCircle} className="w-6 h-6" alt="CloseIcon" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="font-[Gilroy]">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="text-sm font-semibold">Loan Amount</label>
+                  <input
+                    type="text"
+                    value={loanAmount}
+                    onChange={(e) => handleInputChange("loanAmount", e.target.value)}
+                    placeholder="Enter amount"
+                    className={`w-full border ${errors.loanAmount ? "border-red-500" : "border-gray-300"
+                      } rounded-lg px-3 py-2 mt-1 focus:outline-none placeholder-gray-500`}
+                  />
+                  {errors.loanAmount && (
+                    <div className="flex items-center text-red-500 text-xs mt-1 font-[Gilroy]">
+                      <MdError className="mr-1 text-sm" />
+                      {errors.loanAmount}
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold">Due Date</label>
+                  <input
+                    type="date"
+                    value={dueDate}
+                    onChange={(e) => handleInputChange("dueDate", e.target.value)}
+                    className={`w-full border ${errors.dueDate ? "border-red-500" : "border-gray-300"
+                      } rounded-lg px-3 py-2 mt-1 focus:outline-none`}
+                  />
+                  {errors.dueDate && (
+                    <div className="flex items-center text-red-500 text-xs mt-1 font-[Gilroy]">
+                      <MdError className="mr-1 text-sm" />
+                      {errors.dueDate}
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold">Paid Amount</label>
+                  <input
+                    type="text"
+                    value={paidAmount}
+                    onChange={(e) => handleInputChange("paidAmount", e.target.value)}
+                    placeholder="Enter amount"
+                    className={`w-full border ${errors.paidAmount ? "border-red-500" : "border-gray-300"
+                      } rounded-lg px-3 py-2 mt-1 focus:outline-none placeholder-gray-500`}
+                  />
+                  {errors.paidAmount && (
+                    <div className="flex items-center text-red-500 text-xs mt-1 font-[Gilroy]">
+                      <MdError className="mr-1 text-sm" />
+                      {errors.paidAmount}
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold">Pending</label>
+                  <input
+                    type="text"
+                    value={pendingAmount}
+                    onChange={(e) => handleInputChange("pendingAmount", e.target.value)}
+                    placeholder="Enter pending amount"
+                    className={`w-full border ${errors.pendingAmount ? "border-red-500" : "border-gray-300"
+                      } rounded-lg px-3 py-2 mt-1 focus:outline-none placeholder-gray-500`}
+                  />
+                  {errors.pendingAmount && (
+                    <div className="flex items-center text-red-500 text-xs mt-1 font-[Gilroy]">
+                      <MdError className="mr-1 text-sm" />
+                      {errors.pendingAmount}
+                    </div>
+                  )}
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="text-sm font-semibold">Status</label>
+                  <select
+                    value={status}
+                    onChange={(e) => handleInputChange("status", e.target.value)}
+                    className={`w-full border ${errors.status ? "border-red-500" : "border-gray-300"
+                      } rounded-lg px-3 py-2 mt-1 focus:outline-none pl-4 placeholder-gray-500`}
+                  >
+                    <option value="">Select status</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Unpaid">Unpaid</option>
+                  </select>
+                  {errors.status && (
+                    <div className="flex items-center text-red-500 text-xs mt-1 font-[Gilroy]">
+                      <MdError className="mr-1 text-sm" />
+                      {errors.status}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition-colors"
+              >
+                Record payment
+              </button>
+            </form>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 const mapsToProps = (stateInfo) => {
-  return {
-    state: stateInfo,
-
-  }
-}
+  return { state: stateInfo };
+};
 LoanStatements.propTypes = {
   state: PropTypes.object,
   member: PropTypes.object
 };
 
 export default connect(mapsToProps)(LoanStatements);
+
