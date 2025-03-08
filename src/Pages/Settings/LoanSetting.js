@@ -14,9 +14,6 @@ function LoanSetting({ state }) {
 
   const dispatch = useDispatch();
 
-  // const loanGetSetting = useSelector((state) => state);
-  // const statusCode = useSelector((state) => state.SettingLoan.statusCodeLoans);
-
   const loanGetSetting =state;
   const statusCode = state.SettingLoan.statusCodeLoans;
 

@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { AddLoan, GetLoan, AddWitness } from '../Action/LoanAction';
+import { AddLoan, GetLoan, AddWitness,AddApproval } from '../Action/LoanAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -76,6 +76,33 @@ function* AddWitnessSaga(action) {
 }
 
 
+function* LoanApproval(action) {
+   
+
+    try {
+        const response = yield call(AddApproval, action.payload);
+     
+        if (response?.status === 200 || response?.statusCode === 200) {
+            yield put({
+                type: "APPROVALLOAN",
+                payload: response.data,
+            });
+
+            toast.success("Loan Approved successfully!", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
+        } else {
+            console.error("Error Response:", response);
+            toast.error("Failed to approve loan");
+        }
+    } catch (error) {
+        console.error("Saga API Error:", error.response || error);
+        toast.error("API Error: Failed to approve loan");
+    }
+}
+
 
 function refreshToken(response) {
     const cookies = new Cookies();
@@ -90,6 +117,7 @@ function* LoanSaga() {
     yield takeEvery('LOAN_ADD', LoanAddRequest);
     yield takeEvery("GET_LOAN", GetLoanSaga);
     yield takeEvery('ADD_WITNESS', AddWitnessSaga);
+    yield takeEvery('ADD_APPROVAL',LoanApproval);
 }
 
 export default LoanSaga;

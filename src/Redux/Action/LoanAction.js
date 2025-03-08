@@ -15,3 +15,7 @@ export async function GetLoan(datum) {
 export async function AddWitness(datumWitness) {
     return await AxiosConfig.post("/add/add_widness", datumWitness);
 }
+
+export async function AddApproval(dataApprove) {
+    return await AxiosConfig.post("/loan/approve_loan", dataApprove);
+}
