@@ -6,12 +6,16 @@ export async function AddLoan(user) {
 
 
 export async function GetLoan(datum) {
-        
+
     return await AxiosConfig.get("/loan/all_member_loans", {
-        data: datum, 
+        data: datum,
     });
 }
 
 export async function AddWitness(datumWitness) {
     return await AxiosConfig.post("/add/add_widness", datumWitness);
+}
+
+export async function AddApproval(dataApprove) {
+    return await AxiosConfig.post("/loan/approve_loan", dataApprove);
 }
