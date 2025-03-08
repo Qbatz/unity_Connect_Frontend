@@ -30,7 +30,7 @@ function ActiveMember({ state }) {
   const [statusError, setStatusError] = useState("");
   const [memberdetail, setMemberdetails] = useState(null);
   const [showMembers, setShowMembers] = useState(true);
-  
+
 
 
 
@@ -51,8 +51,7 @@ function ActiveMember({ state }) {
 
   const popupRef = useRef(null);
   const members = state.Member?.ActiveMemberdata;
- 
-  
+
 
   const formattedDate = moment(members?.Joining_Date).format("DD-MM-YYYY");
   useEffect(() => {
@@ -274,14 +273,14 @@ function ActiveMember({ state }) {
               </div>
 
               <div className="flex justify-between items-center mt-3">
-               
-                  <p
-                    className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
-                    onClick={() => handleCardClick(member)}
-                  >
-                    View attached documents
-                  </p>
-                
+
+                <p
+                  className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
+                  onClick={() => handleCardClick(member)}
+                >
+                  View attached documents
+                </p>
+
 
                 <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
                   {formattedDate}
@@ -289,7 +288,7 @@ function ActiveMember({ state }) {
               </div>
 
 
-               {deletePopup === index && (
+              {deletePopup === index && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
                   <div className="bg-white w-[388px] h-[200px] mx-auto rounded-2xl shadow-lg">
 

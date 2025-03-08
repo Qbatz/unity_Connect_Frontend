@@ -347,7 +347,7 @@ function CreateAccount({ state }) {
               {isSubmitted && phoneError && <p className="text-red-500 text-sm">{phoneError}</p>}
             </div>
 
-          
+
             <div>
               <label className="font-Gilroy font-medium text-sm leading-4 mt-2">
                 Password

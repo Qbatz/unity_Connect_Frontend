@@ -21,7 +21,7 @@ function NonActiveMember({ state }) {
   const [changePopup, setChangePopup] = useState(null)
   const [status, setStatus] = useState("");
   const [statusError, setStatusError] = useState("");
-  const [uploadedFiles, setUploadedFiles] = useState({});
+
 
   const handleStatusChange = (e) => setStatus(e.target.value);
   const handleChangeStatusClick = (memberId) => {
@@ -135,19 +135,7 @@ function NonActiveMember({ state }) {
 
 
 
-  const handleUploadClick = (index) => {
-    document.getElementById(`fileUpload-${index}`).click();
-  };
 
-  const handleFileChange = (event, index) => {
-    const file = event.target.files[0];
-    if (file) {
-      setUploadedFiles((prevFiles) => ({
-        ...prevFiles,
-        [index]: file.name,
-      }));
-    }
-  };
 
   return (
     <>
@@ -252,32 +240,19 @@ function NonActiveMember({ state }) {
 
 
             <div className="flex justify-between items-center mt-3">
-              {uploadedFiles[index] ? (
-                <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-                  {uploadedFiles[index]}
-                </span>
-              ) : (
-                <p
-                  className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
-                  onClick={() => handleUploadClick(index)}
-                >
-                  View attached documents
-                </p>
-              )}
+
+              <p
+                className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
+
+              >
+                View attached documents
+              </p>
+
 
               <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
                 {formattedDate}
               </span>
             </div>
-
-
-            <input
-              type="file"
-              id={`fileUpload-${index}`}
-              className="hidden"
-              onChange={(event) => handleFileChange(event, index)}
-            />
-
 
             {deletePopup === index && (
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
