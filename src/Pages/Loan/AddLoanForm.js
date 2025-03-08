@@ -136,7 +136,7 @@ function AddLoanForm({ state }) {
       console.error("No loan found for the selected member");
       return;
     }
-   
+
     const payload = {
       id: approve.Loan_Id,
       loan_type: memberLoanType,
@@ -480,7 +480,7 @@ function AddLoanForm({ state }) {
 
               </div>
 
-    
+
               <div className="mt-4">
                 <label className="text-black font-Gilroy text-sm font-medium text-lg">Member Name</label>
                 <input
@@ -493,7 +493,7 @@ function AddLoanForm({ state }) {
                 <select
                   value={memberLoanType}
                   onChange={(e) => {
-                  
+
                     setMemberLoanType(e.target.value)
                   }
                   }

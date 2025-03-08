@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { AddLoan, GetLoan, AddWitness,AddApproval } from '../Action/LoanAction';
+import { AddLoan, GetLoan, AddWitness, AddApproval } from '../Action/LoanAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -77,11 +77,11 @@ function* AddWitnessSaga(action) {
 
 
 function* LoanApproval(action) {
-   
+
 
     try {
         const response = yield call(AddApproval, action.payload);
-     
+
         if (response?.status === 200 || response?.statusCode === 200) {
             yield put({
                 type: "APPROVALLOAN",
@@ -117,7 +117,7 @@ function* LoanSaga() {
     yield takeEvery('LOAN_ADD', LoanAddRequest);
     yield takeEvery("GET_LOAN", GetLoanSaga);
     yield takeEvery('ADD_WITNESS', AddWitnessSaga);
-    yield takeEvery('ADD_APPROVAL',LoanApproval);
+    yield takeEvery('ADD_APPROVAL', LoanApproval);
 }
 
 export default LoanSaga;

@@ -6,9 +6,9 @@ export async function AddLoan(user) {
 
 
 export async function GetLoan(datum) {
-        
+
     return await AxiosConfig.get("/loan/all_member_loans", {
-        data: datum, 
+        data: datum,
     });
 }
 

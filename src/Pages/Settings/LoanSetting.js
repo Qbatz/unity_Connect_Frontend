@@ -4,7 +4,7 @@ import ExpensesIcon from "../../Asset/Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../../Asset/Icons/ThreeDotMore.svg";
 import PropTypes from "prop-types";
 import { ChevronDown } from "lucide-react";
-import { useDispatch,connect } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 
 
 
@@ -14,10 +14,10 @@ function LoanSetting({ state }) {
 
   const dispatch = useDispatch();
 
-  const loanGetSetting =state;
+  const loanGetSetting = state;
   const statusCode = state.SettingLoan.statusCodeLoans;
 
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Select a due type");
@@ -59,7 +59,7 @@ function LoanSetting({ state }) {
       due_type: selectedOption,
       due_count: selectedDueCount,
       Id: loanGetSetting,
-      interest:selectedInterest,
+      interest: selectedInterest,
     };
 
     dispatch({
@@ -368,7 +368,7 @@ function LoanSetting({ state }) {
                 />
               </div>
 
-              
+
               <div className="mt-5">
                 <label className="text-black font-Gilroy text-sm font-medium text-lg">Interest</label>
                 <input
@@ -427,7 +427,7 @@ function LoanSetting({ state }) {
 
 const mapsToProps = (stateInfo) => {
   return {
-      state: stateInfo
+    state: stateInfo
   }
 }
 LoanSetting.propTypes = {
