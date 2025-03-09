@@ -25,7 +25,6 @@ describe('checks for Member Reducer', () => {
             Users: [],
             addUser: '',
             statusCodeForAddUser: 0,
-            statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
             GetMemberId: [],
@@ -39,6 +38,13 @@ describe('checks for Member Reducer', () => {
             statusCodeForAddComment: 0,
             getStatement: [],
             statusCodeForStatement: 0,
+            GetTransactionsList: [],
+            statusCodeTransactions: 0,
+            TransactionsErrorMsg:'',
+            addRecordPayment:[],
+            statusCodeForRecordPayment: 0,
+            recordPaymentErrorMessage:'',
+        
         })
     })
 
@@ -65,7 +71,6 @@ describe('checks for Member Reducer', () => {
             Users: [],
             addUser: '',
             statusCodeForAddUser: 0,
-            statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
             GetMemberId: [],
@@ -79,6 +84,13 @@ describe('checks for Member Reducer', () => {
             statusCodeForAddComment: 0,
             getStatement: [],
             statusCodeForStatement: 0,
+            GetTransactionsList: [],
+            statusCodeTransactions: 0,
+            TransactionsErrorMsg:'',
+            addRecordPayment:[],
+            statusCodeForRecordPayment: 0,
+            recordPaymentErrorMessage:'',
+        
         })
     })
 
@@ -101,7 +113,6 @@ describe('checks for Member Reducer', () => {
             Users: [],
             addUser: '',
             statusCodeForAddUser: 0,
-            statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
             GetMemberId: [],
@@ -115,6 +126,13 @@ describe('checks for Member Reducer', () => {
             statusCodeForAddComment: 0,
             getStatement: [],
             statusCodeForStatement: 0,
+            GetTransactionsList: [],
+            statusCodeTransactions: 0,
+            TransactionsErrorMsg:'',
+            addRecordPayment:[],
+            statusCodeForRecordPayment: 0,
+            recordPaymentErrorMessage:'',
+        
         })
     })
 
@@ -137,7 +155,6 @@ describe('checks for Member Reducer', () => {
             Users: [],
             addUser: '',
             statusCodeForAddUser: 0,
-            statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
             GetMemberId: [],
@@ -151,6 +168,13 @@ describe('checks for Member Reducer', () => {
             statusCodeForAddComment: 0,
             getStatement: [],
             statusCodeForStatement: 0,
+            GetTransactionsList: [],
+            statusCodeTransactions: 0,
+            TransactionsErrorMsg:'',
+            addRecordPayment:[],
+            statusCodeForRecordPayment: 0,
+            recordPaymentErrorMessage:'',
+        
         })
     })
 
@@ -173,7 +197,6 @@ describe('checks for Member Reducer', () => {
             Users: [],
             addUser: '',
             statusCodeForAddUser: 0,
-            statusCodeClearForAddUser: 0,
             phoneError: '',
             emailError: '',
             overview:'',
@@ -187,6 +210,13 @@ describe('checks for Member Reducer', () => {
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
+            GetTransactionsList: [],
+            statusCodeTransactions: 0,
+            TransactionsErrorMsg:'',
+            addRecordPayment:[],
+            statusCodeForRecordPayment: 0,
+            recordPaymentErrorMessage:'',
+        
 
         })
     })
