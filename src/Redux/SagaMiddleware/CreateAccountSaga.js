@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function* CreateAccountPage(action) {
     
       const response = yield call(CreateAccountAction, action.payload);
-      console.log("response",response);
+     
       
   
        var toastStyle = {

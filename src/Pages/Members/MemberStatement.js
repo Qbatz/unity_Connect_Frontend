@@ -106,9 +106,7 @@ function MemberStatements({ state, member }) {
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold font-Gilroy">Loan Statements</h2>
-        <button className="bg-black text-white px-6 py-3 rounded-2xl font-Gilroy">
-          + Record Payment
-        </button>
+
       </div>
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
         <div className="overflow-y-auto h-[300px]">

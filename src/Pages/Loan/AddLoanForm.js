@@ -2,13 +2,18 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import CloseCircleIcon from '../../Asset/Icons/close-circle.svg';
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import img1 from "../../Asset/Images/Memberone.svg";
+import tick from '../../Asset/Icons/tick-circle.svg';
+
 
 function AddLoanForm({ state }) {
   const dispatch = useDispatch();
-  const statusCode =state.Loan.statusCodeLoans;
+
+  const statusCode = state.Loan.statusCodeLoans;
   const members = state.Member?.ActiveMemberdata || [];
+  const loans = state.Loan.getLoanTab || [];
+  const loanGetSetting = state;
 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +24,14 @@ function AddLoanForm({ state }) {
   const [selectedWitnesses, setSelectedWitnesses] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isWitnessModalOpen, setIsWitnessModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Active members");
+  const [activeTab, setActiveTab] = useState("Active Loan");
+
+  const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
+  const [memberLoanType, setMemberLoanType] = useState("");
+  const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
+
+  const [approve, setApprove] = useState("");
+
 
   const handleSelectWitness = (id) => {
     setSelectedWitnesses((prevSelected) =>
@@ -43,6 +55,7 @@ function AddLoanForm({ state }) {
     });
   };
 
+
   useEffect(() => {
     if (statusCode === 200) {
       dispatch({ type: "CLEARLOAN" });
@@ -54,9 +67,12 @@ function AddLoanForm({ state }) {
     setWitnessId("");
     setLoanAmount("");
     setIsModalOpen(false);
+    setMemberLoanType("");
+    setEligibleLoanAmount("");
+    setIsApprovePopupOpen(false);
   }, [statusCode, dispatch]);
 
-const loans = state.Loan.getLoanTab || [];
+
 
   useEffect(() => {
     if (state.Loan?.statusCodeLoans === 200) {
@@ -84,10 +100,10 @@ const loans = state.Loan.getLoanTab || [];
   const handleAddWitness = () => {
     const witnessPayload = {
       id: vitDetails.Loan_Id,
-      member_id:vitDetails.Member_Id,
+      member_id: vitDetails.Member_Id,
       widness_ids: selectedWitnesses.length > 0 ? selectedWitnesses : [],
     };
- 
+
 
     dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
     dispatch({ type: "GET_LOAN" });
@@ -95,22 +111,45 @@ const loans = state.Loan.getLoanTab || [];
     setIsWitnessModalOpen(false);
     setVitDetails({});
     setSelectedWitnesses([]);
-    
+
   };
 
   const handleAddNewWitness = (loan) => {
-  
+
     setIsWitnessModalOpen(true);
-    setVitDetails({...loan});
+    setVitDetails({ ...loan });
     setSelectedWitnesses([...loan.Widness_Id.split(",").map(Number)])
   }
-  
 
 
-  const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
-  const [memberLoanId, setMemberLoanId] = useState("");
-  const [memberLoanType, setMemberLoanType] = useState("");
-  const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
+  const handleApproval = (loan, selectedMember) => {
+
+    setApprove({ ...loan, ...selectedMember });
+    setIsApprovePopupOpen(true);
+
+  }
+  const approvalSubmit = async (e) => {
+    e.preventDefault();
+
+
+    if (!memberLoanType) {
+      console.error("No loan found for the selected member");
+      return;
+    }
+
+    const payload = {
+      id: approve.Loan_Id,
+      loan_type: memberLoanType,
+      loan_amount: Number(eligibleLoanAmount),
+    };
+
+    dispatch({
+      type: "ADD_APPROVAL",
+      payload,
+    });
+
+  };
+
 
 
   return (
@@ -134,7 +173,7 @@ const loans = state.Loan.getLoanTab || [];
           </div>
         </div>
 
-        <div data-testid='Loans-tab' className="pl-5 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
+        <div data-testid='Loans-tab' className="mt-5 pl-5 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
           {["Active Loan", "Approved Loan"].map((tab, index) => (
             <button
               data-testid={`button-tab-${index}`}
@@ -257,10 +296,10 @@ const loans = state.Loan.getLoanTab || [];
             <div className="active-loan max-h-[500px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
               {loans?.length > 0 ? (
-                loans.map((loan) => {
+                loans?.map((loan) => {
                   const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
 
-                  return (
+                  return !loan.Loan_Type && (
                     <div
                       key={loan.Loan_Id}
                       className="w-full  bg-[#F4F7FF] flex flex-col rounded-2xl p-4 shadow-md"
@@ -276,11 +315,11 @@ const loans = state.Loan.getLoanTab || [];
                           <div className="ml-3">
 
                             <p className="text-black font-semibold text-base font-Gilroy font-semibold">
-                              {selectedMember?.User_Name || "No Member"}
+                              {selectedMember?.User_Name}
                             </p>
 
                             <p className="text-[#000000] text-sm bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">
-                              {selectedMember?.Member_Id || "N/A"}
+                              {selectedMember?.Member_Id}
                             </p>
                           </div>
                         </div>
@@ -318,9 +357,7 @@ const loans = state.Loan.getLoanTab || [];
 
 
                             </div>
-                          ) : (
-                            <p className="text-gray-500">No Witnesses</p>
-                          )}
+                          ) : null}
 
 
                         </div>
@@ -331,7 +368,7 @@ const loans = state.Loan.getLoanTab || [];
 
                       <div className="mt-10 flex items-center justify-between">
                         <div className="font-Gilroy font-medium text-base text-[#222222] cursor-pointer"
-                          onClick={()=>handleAddNewWitness(loan)}
+                          onClick={() => handleAddNewWitness(loan)}
                         >+ Add witness</div>
 
 
@@ -342,7 +379,9 @@ const loans = state.Loan.getLoanTab || [];
                           </button>
                           <button className="bg-black text-white border font-Gilroy font-medium text-base 
                           cursor-pointer rounded-[60px] w-[150px] h-[51px] pt-4 pr-5 pb-4 pl-5"
-                          onClick={() => setIsApprovePopupOpen(true)}>
+
+                            onClick={() => handleApproval(loan, selectedMember)}
+                          >
                             Approve
                           </button>
                         </div>
@@ -359,6 +398,7 @@ const loans = state.Loan.getLoanTab || [];
 
           </div>
         )}
+
 
 
         {isWitnessModalOpen && (
@@ -414,7 +454,7 @@ const loans = state.Loan.getLoanTab || [];
                 )}
               </div>
 
-      
+
               <button
                 className="mt-10 bg-black text-white border font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-full h-[51px] pt-4 pr-5 pb-4 pl-5"
                 onClick={handleAddWitness}
@@ -426,10 +466,10 @@ const loans = state.Loan.getLoanTab || [];
         )}
 
 
-{isApprovePopupOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white w-[400px] rounded-2xl p-6 shadow-lg">
-          <div className="flex justify-between items-center mb-4">
+        {isApprovePopupOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white w-[400px] rounded-2xl p-6 shadow-lg">
+              <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold font-Gilroy">Approve Loan Details</h2>
                 <button
                   className="text-gray-600 text-xl"
@@ -440,46 +480,54 @@ const loans = state.Loan.getLoanTab || [];
 
               </div>
 
-            <div className="mt-4">
-              <label className="text-black text-sm font-medium font-Gilroy">ID</label>
-              <input
-                value={memberLoanId}
-                onChange={(e) => setMemberLoanId(e.target.value)}
-                type="text"
-                placeholder="Enter Loan ID"
-                className="w-full h-10 border border-[#D9D9D9] rounded-2xl p-3 mt-2"
-              />
-            </div>
-            <div className="mt-4">
-              <label className="text-black text-sm font-medium font-Gilroy">Loan Type</label>
-              <input
-                value={memberLoanType}
-                onChange={(e) => setMemberLoanType(e.target.value)}
-                type="text"
-                placeholder="Enter Loan Type"
-                className="w-full h-10 border border-[#D9D9D9] rounded-2xl p-3 mt-2"
-              />
-            </div>
 
-            <div className="mt-4">
-              <label className="text-black text-sm font-medium font-Gilroy">Loan Amount</label>
-              <input
-                value={eligibleLoanAmount}
-                onChange={(e) => setEligibleLoanAmount(e.target.value)}
-                type="text"
-                placeholder="Enter Approved Loan Amount"
-                className="w-full h-10 border border-[#D9D9D9] rounded-2xl p-3 mt-2"
-              />
-            </div>
+              <div className="mt-4">
+                <label className="text-black font-Gilroy text-sm font-medium text-lg">Member Name</label>
+                <input
+                  type="text" value={approve?.User_Name}
+                  className="w-full h-[51px] border border-[#D9D9D9] rounded-2xl p-4 mt-3"
+                />
+              </div>
+              <div className="mt-4">
+                <label className="text-black text-sm font-medium font-Gilroy">Loan Type</label>
+                <select
+                  value={memberLoanType}
+                  onChange={(e) => {
 
-            <button className="mt-5 bg-black text-white border font-Gilroy font-medium text-base 
-                          cursor-pointer rounded-[60px] w-full h-[51px] pt-4 pr-5 pb-4 pl-5"
-                        >
-                            Approve Loan
-                          </button>
+                    setMemberLoanType(e.target.value)
+                  }
+                  }
+                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
+                >
+                  <option value="">Select a Loan Type</option>
+                  {loanGetSetting?.SettingLoan?.getLoan.loans?.map((loan, index) => (
+                    <option key={index} value={loan.Id}>
+                      {loan.Loan_Name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mt-4">
+                <label className="text-black text-sm font-medium font-Gilroy">Loan Amount</label>
+                <input
+                  value={eligibleLoanAmount}
+                  onChange={(e) => setEligibleLoanAmount(e.target.value)}
+                  type="text"
+                  placeholder="Enter Approved Loan Amount"
+                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-3 mt-2"
+                />
+              </div>
+
+              <button className="mt-5 bg-black text-white border font-Gilroy font-medium text-base 
+                          cursor-pointer rounded-[60px] w-full h-[60px] pt-4 pr-5 pb-4 pl-5"
+                onClick={approvalSubmit}
+              >
+                Approve Loan
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
 
 
@@ -494,9 +542,10 @@ const loans = state.Loan.getLoanTab || [];
 
               {loans.length > 0 ? (
                 loans.map((loan) => {
+
                   const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
 
-                  return (
+                  return loan.Loan_Type && (
                     <div
                       key={loan.Loan_Id}
                       className="w-full  bg-[#F4F7FF] flex flex-col rounded-2xl p-4 shadow-md"
@@ -512,18 +561,18 @@ const loans = state.Loan.getLoanTab || [];
                           <div className="ml-3">
 
                             <p className="text-black font-semibold text-base font-Gilroy font-semibold">
-                              {selectedMember?.User_Name || "No Member"}
+                              {selectedMember?.User_Name}
                             </p>
 
                             <p className="text-[#000000] text-sm bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">
-                              {selectedMember?.Member_Id || "N/A"}
+                              {selectedMember?.Member_Id}
                             </p>
                           </div>
                         </div>
 
 
                         <p className="text-black font-semibold text-base font-Gilroy font-semibold">
-                          Loan amount: ₹{loan.Loan_Amount}
+                          Loan amount: ₹{loan.Approved_Amount}
                         </p>
                       </div>
 
@@ -548,7 +597,10 @@ const loans = state.Loan.getLoanTab || [];
                                       <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Member_Id}</p>
                                     </div>
                                   </div>
+
+
                                 ) : null;
+
                               })}
 
 
@@ -559,6 +611,22 @@ const loans = state.Loan.getLoanTab || [];
                           )}
 
                         </div>
+
+                      </div>
+
+                      <div>
+
+                        {loan?.Approvel_Date && (
+                          <div className="flex items-center gap-2 mt-5 mb-5">
+                            <img src={tick} alt="Approved" className="w-5 h-5" />
+                            <p className="text-black text-base font-Gilroy font-medium">
+                              Loan approved on {new Date(loan.Approvel_Date).toLocaleDateString()}
+                              with interest of {loan.Interest}%
+                            </p>
+                          </div>
+                        )}
+
+
 
                       </div>
                     </div>
@@ -573,6 +641,9 @@ const loans = state.Loan.getLoanTab || [];
           </div>
         )}
 
+
+
+
       </div>
     </>
   );
@@ -580,7 +651,7 @@ const loans = state.Loan.getLoanTab || [];
 
 const mapsToProps = (stateInfo) => {
   return {
-      state: stateInfo
+    state: stateInfo
   }
 }
 AddLoanForm.propTypes = {

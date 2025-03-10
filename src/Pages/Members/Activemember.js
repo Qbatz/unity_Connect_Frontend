@@ -30,7 +30,7 @@ function ActiveMember({ state }) {
   const [statusError, setStatusError] = useState("");
   const [memberdetail, setMemberdetails] = useState(null);
   const [showMembers, setShowMembers] = useState(true);
-  const [uploadedFiles, setUploadedFiles] = useState({});
+
 
 
 
@@ -50,6 +50,7 @@ function ActiveMember({ state }) {
   };
 
   const popupRef = useRef(null);
+
   const members = state?.Member?.ActiveMemberdata || [];
 
  
@@ -176,19 +177,6 @@ function ActiveMember({ state }) {
 
 
 
-  const handleUploadClick = (index) => {
-    document.getElementById(`fileUpload-${index}`).click();
-  };
-
-  const handleFileChange = (event, index) => {
-    const file = event.target.files[0];
-    if (file) {
-      setUploadedFiles((prevFiles) => ({
-        ...prevFiles,
-        [index]: file.name,
-      }));
-    }
-  };
 
   return (
     <>
@@ -293,33 +281,20 @@ function ActiveMember({ state }) {
               </div>
 
               <div className="flex justify-between items-center mt-3">
-                {uploadedFiles[index] ? (
-                  <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-                    {uploadedFiles[index]}
-                  </span>
-                ) : (
-                  <p
-                    className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
-                    onClick={() => handleUploadClick(index)}
-                  >
-                    View attached documents
-                  </p>
-                )}
+
+                <p
+                  className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
+                  onClick={() => handleCardClick(member)}
+                >
+                  View attached documents
+                </p>
+
 
                 <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
                   {formattedDate}
                 </span>
                 
               </div>
-
-
-              <input
-                type="file"
-                id={`fileUpload-${index}`}
-                className="hidden"
-                onChange={(event) => handleFileChange(event, index)}
-              />
-
 
 
               {deletePopup === index && (
