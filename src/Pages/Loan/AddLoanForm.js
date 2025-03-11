@@ -522,21 +522,6 @@ function AddLoanForm({ state }) {
                 <label className="text-black text-sm font-medium font-Gilroy">Loan Type</label>
                 <select
                   value={memberLoanType}
-                  // onChange={(e) => {
-                  //   {
-                  //     setMemberLoanType(e.target.value);
-                  //     setInterestType("");
-                  //   };
-
-
-                  //   const selectedLoan = loanGetSetting?.SettingLoan?.getLoan.loans?.find(
-                  //     (loan) => String(loan.Id) === String(e.target.value)
-                  //   );
-
-
-                  //   setInterestType(selectedLoan?.Interest || "");
-
-                  // }}
                   onChange={(e) => {
                     setMemberLoanType(e.target.value);
                     setInterestType("");
