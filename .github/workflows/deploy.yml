@@ -1,0 +1,28 @@
+name: Deploy to AWS S3
+
+on:
+  push:
+    branches:
+      - main  # Change this if your deployment branch is different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Required for OIDC authentication
+      contents: read
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::211125359030:role/unityconnectdev-git
+          role-session-name: GitHubActions
+          aws-region: ap-south-1  # ✅ Your S3 region (Mumbai)
+
+      - name: Deploy files to S3
+        run: |
+          aws s3 sync ./your-local-folder s3://unityconnectdev.s3remotica.com --delete
