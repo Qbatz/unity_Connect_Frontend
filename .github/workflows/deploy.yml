@@ -37,6 +37,11 @@ jobs:
     if: github.ref == 'refs/heads/main'  # Deploy only on main branch
     runs-on: ubuntu-latest
 
+    # ✅ Correct placement of permissions
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
