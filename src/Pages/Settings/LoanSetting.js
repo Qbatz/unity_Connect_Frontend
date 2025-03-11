@@ -47,11 +47,25 @@ function LoanSetting({ state }) {
   const ordinalOptions = ["1st", "2nd", "3rd", "4th", "5th"];
   const [selectedDate, setSelectedDate] = useState(null);
 
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
 
+    if (
+      !selectedLoanName &&
+      selectedOption === "Select a due type" &&
+      !selectedDueDate &&
+      !selectedDueCount &&
+      !selectedInterest
+    ) {
+      setErrorMessage("Please do some changes before adding a loan.");
+      return;
+    }
+
+
+    setErrorMessage("");
 
     const payload = {
       loan_name: selectedLoanName,
@@ -137,7 +151,7 @@ function LoanSetting({ state }) {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center  justify-center bg-black bg-opacity-50">
           <div className="bg-white w-464 rounded-40 p-6 shadow-lg ">
 
             <div className="flex justify-between items-center mb-4">
@@ -152,12 +166,16 @@ function LoanSetting({ state }) {
 
             <div className="w-full border border-[#E7E7E7]"></div>
 
-            <div className="mt-7">
+            <div className="mt-7 max-h-[450px] overflow-y-auto">
 
               <label className="text-black text-sm font-medium font-Gilroy text-lg">Name</label>
               <input value={selectedLoanName}
                 type="text"
-                placeholder="Enter Name" onChange={(e) => setSelectedLoanName(e.target.value)}
+                placeholder="Enter Name" 
+                onChange={(e) => {
+                  setSelectedLoanName(e.target.value);
+                  setErrorMessage("");
+                }}
                 className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 
                                         placeholder:text-base placeholder:font-medium placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"/>
 
@@ -166,7 +184,7 @@ function LoanSetting({ state }) {
                 <label className="text-black text-sm font-Gilroy font-medium text-lg">Due on</label>
                 <div
                   className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
-                  onClick={() => setIsOpen(!isOpen)}
+                  onClick={() => {setIsOpen(!isOpen);setErrorMessage("");}}
 
                 >
                   <span className={`text-base font-Gilroy font-medium ${selectedOption === "Select a due type" ? "text-gray-400" : "text-black"}`}>
@@ -379,6 +397,9 @@ function LoanSetting({ state }) {
               </div>
             </div>
 
+            {errorMessage && (
+              <p className="text-[red] text-sm font-medium mt-3">!{errorMessage}</p>
+            )}
 
             <button onClick={handleSubmit}
               className="mt-10 w-full h-60 font-Gilroy bg-black text-white rounded-60 pt-[20px] pr-[40px] pb-[20px] pl-[40px]
@@ -396,7 +417,7 @@ function LoanSetting({ state }) {
 
       <div className="mt-5 max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {loanGetSetting?.SettingLoan?.getLoan.loans?.map((loan, index) => (
-          <div key={index} className="w-350 h-170 border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
+          <div key={index} className="w-[350px] h-[200px] border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
               <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
@@ -415,6 +436,13 @@ function LoanSetting({ state }) {
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
               <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
+            </div>
+
+
+
+            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+              <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
+              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
             </div>
           </div>
         ))}
