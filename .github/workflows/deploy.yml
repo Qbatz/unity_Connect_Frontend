@@ -1,28 +1,57 @@
-name: Deploy React App to S3
+name: Node.js CI and Deploy
 
 on:
+  pull_request:
+    branches: [ "test", "master", "main" ]
   push:
-    branches:
-      - main  # Change if needed
+    branches: [ "main" ]  # Deploy only on push to main
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install --force
+
+      - name: Build React App
+        run: npm run build --if-present
+
+      - name: Run Tests
+        run: npm test
+
   deploy:
+    needs: build  # Run deploy only after build is successful
+    if: github.ref == 'refs/heads/main'  # Deploy only on main branch
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
         with:
-          node-version: 18  # Adjust Node.js version if needed
+          node-version: 18
+          cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --force
 
       - name: Build React App
-        run: npm run build  # Generates the 'build' folder
+        run: npm run build --if-present
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
