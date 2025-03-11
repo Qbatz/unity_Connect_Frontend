@@ -522,22 +522,32 @@ function AddLoanForm({ state }) {
                 <label className="text-black text-sm font-medium font-Gilroy">Loan Type</label>
                 <select
                   value={memberLoanType}
+                  // onChange={(e) => {
+                  //   {
+                  //     setMemberLoanType(e.target.value);
+                  //     setInterestType("");
+                  //   };
+
+
+                  //   const selectedLoan = loanGetSetting?.SettingLoan?.getLoan.loans?.find(
+                  //     (loan) => String(loan.Id) === String(e.target.value)
+                  //   );
+
+
+                  //   setInterestType(selectedLoan?.Interest || "");
+
+                  // }}
                   onChange={(e) => {
-                    {
-                      setMemberLoanType(e.target.value);
-                      setInterestType("");
-                    };
-
-
+                    setMemberLoanType(e.target.value);
+                    setInterestType("");
+                  
                     const selectedLoan = loanGetSetting?.SettingLoan?.getLoan.loans?.find(
                       (loan) => String(loan.Id) === String(e.target.value)
                     );
-
-
+                  
                     setInterestType(selectedLoan?.Interest || "");
-
                   }}
-
+                  
 
 
                   className="w-full h-60 font-Gilroy border border-[#D9D9D9] rounded-2xl p-4 mt-3"
