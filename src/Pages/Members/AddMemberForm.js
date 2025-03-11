@@ -43,6 +43,10 @@ function MemberModal({ state, memberData, onClose }) {
     }, []);
 
     useEffect(() => {
+       setMemberId(state?.Member?.GetMemberId?.memberId || '');
+    }, [state.Member.GetMemberId]);
+ 
+    useEffect(() => {
         setNoChanges("");
     }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
 
@@ -54,11 +58,6 @@ function MemberModal({ state, memberData, onClose }) {
         if (!userName) tempErrors.userName = "User Name is required";
         if (!email) tempErrors.email = "Email is required";
         if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
-        // if (!mobileNo) {
-        //     tempErrors.mobileNo = "Mobile number is required";
-        // } else if (!/^\d{10}$/.test(mobileNo)) {
-        //     tempErrors.mobileNo = "Mobile number must be exactly 10 digits";
-        // }
         if (!mobileNo) {
             tempErrors.mobileNo = "Mobile number is required";
         } else if (!/^\d{10}$/.test(mobileNo)) {
@@ -271,7 +270,7 @@ function MemberModal({ state, memberData, onClose }) {
                         <input
                             data-testid='input-joining-data'
                             type="date"
-                            className="w-56 p-2 h-10 border rounded-lg text-sm"
+                            className="w-56 p-2 h-10 border rounded-lg text-sm cursor-pointer"
                             placeholder="Select Joining Date"
                             value={formattedDate}
                             onChange={(e) => handleChange("joiningDate", e.target.value)}
