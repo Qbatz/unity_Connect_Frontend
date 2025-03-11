@@ -1,28 +1,35 @@
-name: Deploy to AWS S3
+name: Deploy React App to S3
 
 on:
   push:
     branches:
-      - main  # Change this if your deployment branch is different
+      - main  # Change this if you're using a different branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write  # Required for OIDC authentication
-      contents: read
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Use the correct Node.js version for your project
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build React App
+        run: npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::211125359030:role/unityconnectdev-git
           role-session-name: GitHubActions
-          aws-region: ap-south-1  # ✅ Your S3 region (Mumbai)
+          aws-region: ap-south-1
 
-      - name: Deploy files to S3
-        run: |
-          aws s3 sync ./your-local-folder s3://unityconnectdev.s3remotica.com --delete
+      - name: Deploy to S3
+        run: aws s3 sync ./build s3://unityconnectdev.s3remotica.com --delete
