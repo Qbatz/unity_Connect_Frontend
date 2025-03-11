@@ -12,6 +12,7 @@ import moment from "moment";
 
 function Statement({ state }) {
 
+  console.log("state",state);
   
   const dispatch = useDispatch();
   const popupRef = useRef(null);
