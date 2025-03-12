@@ -234,9 +234,7 @@ const ProfileDetails = ({ state }) => {
                             <input
                                 type="email"
                                 name="email"
-                                value={state.
-                                    Email_Id
-                                }
+                                value={state.Email_Id}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
