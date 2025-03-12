@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import Logout from "../Asset/Icons/turn-off.png";
-import ProfileIcon from '../Asset/Icons/ProfileIcon.svg';
 import PropTypes from 'prop-types';
 import { encryptData } from "../Crypto/Utils";
 import { useDispatch, connect } from 'react-redux';
 import { MdError } from 'react-icons/md';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
-import { Satellite } from 'lucide-react';
+
 
 
 const ProfileDetails = ({ state }) => {
