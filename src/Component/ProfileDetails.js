@@ -194,7 +194,7 @@ const ProfileDetails = ({ state }) => {
 
             {activeTab === "editProfile" && (
                 <>
-                    <h3 className="font-Gilroy font-semibold text-lg mb-4">Profile details</h3> 
+                    <h3 className="font-Gilroy font-semibold text-lg mb-4">Profile details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">First Name</label>
