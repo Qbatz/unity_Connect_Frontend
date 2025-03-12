@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import Logout from "../Asset/Icons/turn-off.png";
 import ProfileIcon from '../Asset/Icons/ProfileIcon.svg';
+import PropTypes from 'prop-types';
 import { encryptData } from "../Crypto/Utils";
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import { MdError } from 'react-icons/md';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { Satellite } from 'lucide-react';
 
 
-const ProfileDetails = () => {
+const ProfileDetails = ({ state }) => {
+
+
     const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState("editProfile");
     const [logoutFormShow, setLogoutFormShow] = useState(false);
@@ -28,6 +33,11 @@ const ProfileDetails = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+
+
+    useEffect(() => {
+        dispatch({ type: 'PROFILEDETAILS' });
+    }, []);
 
     const validate = () => {
         let tempErrors = { ...errors };
@@ -83,7 +93,8 @@ const ProfileDetails = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
-            alert('Form submitted successfully');
+            dispatch({ type: 'PROFILE_DETAILS_LIST' });
+
         }
     };
 
@@ -133,14 +144,14 @@ const ProfileDetails = () => {
 
             <div className="flex items-center gap-6">
                 <img
-                    src={selectedImage || ProfileIcon}
+                    src={selectedImage || state.Profile}
                     alt="Profile"
                     className="w-[120px] h-[120px] rounded-full"
                 />
 
                 <div className="flex flex-col text-start">
                     <p className="font-Gilroy font-semibold text-xl tracking-normal mb-2">
-                        Profile picture
+                        {state.First_Name + " " + state.Last_Name}
                     </p>
                     <p className="font-Gilroy font-medium text-xs tracking-normal text-gray-500">
                         JPG or PNG up to 5MB
@@ -191,7 +202,8 @@ const ProfileDetails = () => {
                             <input
                                 type="text"
                                 name="firstName"
-                                value={formData.firstName}
+                                value={state.First_Name}
+
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -207,7 +219,7 @@ const ProfileDetails = () => {
                             <input
                                 type="text"
                                 name="lastName"
-                                value={formData.lastName}
+                                value={state.Last_Name}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -223,7 +235,9 @@ const ProfileDetails = () => {
                             <input
                                 type="email"
                                 name="email"
-                                value={formData.email}
+                                value={state.
+                                    Email_Id
+                                }
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -239,7 +253,7 @@ const ProfileDetails = () => {
                             <input
                                 type="text"
                                 name="mobile"
-                                value={formData.mobile}
+                                value={state.Mobile_No}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-sm"
                             />
@@ -362,6 +376,17 @@ const ProfileDetails = () => {
         </div>
     );
 };
+const mapsToProps = (stateInfo) => {
+    return {
+        state: stateInfo.SignIn.profileDetailsList
 
-export default ProfileDetails;
+    }
+}
+ProfileDetails.propTypes = {
+    state: PropTypes.object,
+};
+export default connect(mapsToProps)(ProfileDetails)
+
+
+// export default ProfileDetails;
 
