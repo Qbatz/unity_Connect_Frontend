@@ -31,7 +31,10 @@ describe('check for sign in reducer', () => {
             signinsuccessstatuscode: 200,
             JWTtoken: 'ABCD1234',
             statusCode: 0,
-            isLoggedIn: false
+            isLoggedIn: false,
+            profileDetailsList: [],
+            profileDetailsErrorMessage: '',
+            profileDetailsStatusCode: 0,
         })
     })
 
@@ -49,7 +52,10 @@ describe('check for sign in reducer', () => {
             signinsuccessstatuscode: 0,
             JWTtoken: '',
             statusCode: 0,
-            isLoggedIn: false
+            isLoggedIn: false,
+            profileDetailsList: [],
+            profileDetailsErrorMessage: '',
+            profileDetailsStatusCode: 0,
         })
     })
 
@@ -69,7 +75,10 @@ describe('check for sign in reducer', () => {
             signinsuccessstatuscode: 0,
             JWTtoken: 'ABCD123',
             statusCode: 0,
-            isLoggedIn: false
+            isLoggedIn: false,
+            profileDetailsList: [],
+            profileDetailsErrorMessage: '',
+            profileDetailsStatusCode: 0,
         })
     })
 
@@ -89,7 +98,10 @@ describe('check for sign in reducer', () => {
             signinsuccessstatuscode: 0,
             JWTtoken: 'ABCD123',
             statusCode: 0,
-            isLoggedIn: false
+            isLoggedIn: false,
+            profileDetailsList: [],
+            profileDetailsErrorMessage: '',
+            profileDetailsStatusCode: 0,
         })
     })
 
@@ -109,7 +121,10 @@ describe('check for sign in reducer', () => {
             signinsuccessstatuscode: 0,
             JWTtoken: 'ABCD123',
             statusCode: 0,
-            isLoggedIn: true
+            isLoggedIn: true,
+            profileDetailsList: [],
+            profileDetailsErrorMessage: '',
+            profileDetailsStatusCode: 0,
         })
     })
 
@@ -129,7 +144,10 @@ describe('check for sign in reducer', () => {
             signinsuccessstatuscode: 0,
             JWTtoken: '',
             statusCode: 0,
-            isLoggedIn: false
+            isLoggedIn: false,
+            profileDetailsList: [],
+            profileDetailsErrorMessage: '',
+            profileDetailsStatusCode: 0,
         })
     })
 
@@ -149,7 +167,10 @@ describe('check for sign in reducer', () => {
             signinsuccessstatuscode: 0,
             JWTtoken: '',
             statusCode: 0,
-            isLoggedIn: false
+            isLoggedIn: false,
+            profileDetailsList: [],
+            profileDetailsErrorMessage: '',
+            profileDetailsStatusCode: 0,
         })
     })
 
@@ -169,7 +190,10 @@ describe('check for sign in reducer', () => {
             signinsuccessstatuscode: 0,
             JWTtoken: '',
             statusCode: 0,
-            isLoggedIn: false
+            isLoggedIn: false,
+            profileDetailsList: [],
+            profileDetailsErrorMessage: '',
+            profileDetailsStatusCode: 0,
         })
     })
 })

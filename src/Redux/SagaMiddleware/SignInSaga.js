@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { SignIncall } from '../Action/SignInAction';
+import { SignIncall, ProfileDetails } from '../Action/SignInAction';
 import { toast } from 'react-toastify';
 
 
@@ -10,7 +10,7 @@ export function* SignIn(action) {
         var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
-            width : "300px",
+            width: "300px",
             borderRadius: "60px",
             height: "20px",
             fontFamily: "Gilroy",
@@ -26,8 +26,8 @@ export function* SignIn(action) {
             yield put({
                 type: 'SIGNIN-INFO',
                 payload: {
-                   token: response.data.token,
-                   message: response.data.message,
+                    token: response.data.token,
+                    message: response.data.message,
                     statusCode: response.status
                 }
             });
@@ -42,11 +42,11 @@ export function* SignIn(action) {
                 progress: undefined,
                 style: toastStyle,
             });
-           
+
         }
-        else if (response.status === 203 ) {
+        else if (response.status === 203) {
             yield put({ type: 'ERROR_EMAIL', payload: response.data.message });
-        } else if (response.status === 202 ) {
+        } else if (response.status === 202) {
             yield put({ type: 'ERROR_PASSWORD', payload: response.data.message });
         }
 
@@ -54,13 +54,33 @@ export function* SignIn(action) {
         console.error("Sign-in failed", error);
         yield put({ type: 'ERROR_EMAIL', payload: 'Error' });
     }
-   
+
 }
 
+export function* handleProfileDetails() {
 
+    try {
+        const response = yield call(ProfileDetails);
+
+        if (response.status === 200 && response.data.statusCode === 200) {
+            yield put({
+                type: 'PROFILE_DETAILS_LIST',
+                payload: { data: response.data.user_details, statusCode: response.status }
+            });
+        } else if (response.status === 203) {
+            yield put({ type: 'PROFILE_DETAILS_ERROR', payload: response.data.message });
+        }
+
+    } catch (error) {
+        console.error("failed", error);
+
+    }
+
+}
 
 function* SignInSaga() {
     yield takeEvery('SIGNININFO', SignIn);
+    yield takeEvery('PROFILEDETAILS', handleProfileDetails);
 }
 
 export default SignInSaga;

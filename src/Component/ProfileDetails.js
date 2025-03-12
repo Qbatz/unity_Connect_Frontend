@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import Logout from "../Asset/Icons/turn-off.png";
-import ProfileIcon from '../Asset/Icons/ProfileIcon.svg';
+import PropTypes from 'prop-types';
 import { encryptData } from "../Crypto/Utils";
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import { MdError } from 'react-icons/md';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 
-const ProfileDetails = () => {
+
+const ProfileDetails = ({ state }) => {
+
+
     const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState("editProfile");
     const [logoutFormShow, setLogoutFormShow] = useState(false);
@@ -28,6 +32,11 @@ const ProfileDetails = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+
+
+    useEffect(() => {
+        dispatch({ type: 'PROFILEDETAILS' });
+    }, []);
 
     const validate = () => {
         let tempErrors = { ...errors };
@@ -83,7 +92,8 @@ const ProfileDetails = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
-            alert('Form submitted successfully');
+            dispatch({ type: 'PROFILE_DETAILS_LIST' });
+
         }
     };
 
@@ -129,18 +139,18 @@ const ProfileDetails = () => {
 
     return (
         <div className="min-h-screen bg-white p-4 flex flex-col items-start">
-            <p className="font-Gilroy font-semibold text-2xl leading-none tracking-normal mb-6">Account settings</p>
+            <p className="font-Gilroy font-semibold text-2xl leading-none tracking-normal mb-6 -mt-5 ml-5">Account settings</p>
 
             <div className="flex items-center gap-6">
                 <img
-                    src={selectedImage || ProfileIcon}
+                    src={selectedImage || state.Profile}
                     alt="Profile"
                     className="w-[120px] h-[120px] rounded-full"
                 />
 
                 <div className="flex flex-col text-start">
                     <p className="font-Gilroy font-semibold text-xl tracking-normal mb-2">
-                        Profile picture
+                        {state.First_Name + " " + state.Last_Name}
                     </p>
                     <p className="font-Gilroy font-medium text-xs tracking-normal text-gray-500">
                         JPG or PNG up to 5MB
@@ -185,13 +195,14 @@ const ProfileDetails = () => {
             {activeTab === "editProfile" && (
                 <>
                     <h3 className="font-Gilroy font-semibold text-lg mb-4">Profile details</h3>
-                    <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">First Name</label>
                             <input
                                 type="text"
                                 name="firstName"
-                                value={formData.firstName}
+                                value={state.First_Name}
+
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -207,7 +218,7 @@ const ProfileDetails = () => {
                             <input
                                 type="text"
                                 name="lastName"
-                                value={formData.lastName}
+                                value={state.Last_Name}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -223,7 +234,7 @@ const ProfileDetails = () => {
                             <input
                                 type="email"
                                 name="email"
-                                value={formData.email}
+                                value={state.Email_Id}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -239,7 +250,7 @@ const ProfileDetails = () => {
                             <input
                                 type="text"
                                 name="mobile"
-                                value={formData.mobile}
+                                value={state.Mobile_No}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-sm"
                             />
@@ -250,7 +261,7 @@ const ProfileDetails = () => {
                                 </p>
                             )}
                         </div>
-                    </form>
+                    </div>
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"
                         onClick={handleSubmit}
                     >Save changes</button>
@@ -260,7 +271,7 @@ const ProfileDetails = () => {
             {activeTab === "accountSettings" && (
                 <>
                     <h3 className="font-Gilroy font-semibold text-lg mb-5">Account Settings</h3>
-                    <form className="grid grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">Current Password</label>
                             <div className="relative">
@@ -308,7 +319,7 @@ const ProfileDetails = () => {
                                 </span>
                             </div>
                         </div>
-                    </form>
+                    </div>
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"
                         onClick={handleSubmit}
                     >Save changes</button>
@@ -328,7 +339,6 @@ const ProfileDetails = () => {
                 <span className="text-rose-500">Logout</span>
             </button>
 
-            {/* Logout confirmation modal */}
             <div className={`fixed inset-0 flex items-center justify-center ${logoutFormShow ? "visible" : "hidden"} bg-black bg-opacity-50`}>
                 <div className="bg-white rounded-lg shadow-lg w-[388px] h-[200px] p-6">
                     <div className="flex justify-center border-b-0">
@@ -362,6 +372,16 @@ const ProfileDetails = () => {
         </div>
     );
 };
+const mapsToProps = (stateInfo) => {
+    return {
+        state: stateInfo.SignIn.profileDetailsList
 
-export default ProfileDetails;
+    }
+}
+ProfileDetails.propTypes = {
+    state: PropTypes.object,
+};
+export default connect(mapsToProps)(ProfileDetails)
+
+
 
