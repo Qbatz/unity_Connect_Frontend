@@ -2,7 +2,7 @@ name: Node.js CI and Deploy
 
 on:
   pull_request:
-    branches: [ "test", "master", "main" ]
+    branches: [ "test", "master"]
   push:
     branches: [ "main" ]  # Deploy only on push to main
 
