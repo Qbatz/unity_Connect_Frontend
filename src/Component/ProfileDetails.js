@@ -139,7 +139,7 @@ const ProfileDetails = ({ state }) => {
 
     return (
         <div className="min-h-screen bg-white p-4 flex flex-col items-start">
-            <p className="font-Gilroy font-semibold text-2xl leading-none tracking-normal mb-6">Account settings</p>
+            <p className="font-Gilroy font-semibold text-2xl leading-none tracking-normal mb-6 -mt-5 ml-5">Account settings</p>
 
             <div className="flex items-center gap-6">
                 <img
@@ -194,8 +194,8 @@ const ProfileDetails = ({ state }) => {
 
             {activeTab === "editProfile" && (
                 <>
-                    <h3 className="font-Gilroy font-semibold text-lg mb-4">Profile details</h3>
-                    <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
+                    <h3 className="font-Gilroy font-semibold text-lg mb-4">Profile details</h3> 
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">First Name</label>
                             <input
@@ -263,7 +263,7 @@ const ProfileDetails = ({ state }) => {
                                 </p>
                             )}
                         </div>
-                    </form>
+                    </div>
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"
                         onClick={handleSubmit}
                     >Save changes</button>
@@ -273,7 +273,7 @@ const ProfileDetails = ({ state }) => {
             {activeTab === "accountSettings" && (
                 <>
                     <h3 className="font-Gilroy font-semibold text-lg mb-5">Account Settings</h3>
-                    <form className="grid grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">Current Password</label>
                             <div className="relative">
@@ -321,7 +321,7 @@ const ProfileDetails = ({ state }) => {
                                 </span>
                             </div>
                         </div>
-                    </form>
+                    </div>
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"
                         onClick={handleSubmit}
                     >Save changes</button>
@@ -341,7 +341,6 @@ const ProfileDetails = ({ state }) => {
                 <span className="text-rose-500">Logout</span>
             </button>
 
-            {/* Logout confirmation modal */}
             <div className={`fixed inset-0 flex items-center justify-center ${logoutFormShow ? "visible" : "hidden"} bg-black bg-opacity-50`}>
                 <div className="bg-white rounded-lg shadow-lg w-[388px] h-[200px] p-6">
                     <div className="flex justify-center border-b-0">
@@ -387,5 +386,4 @@ ProfileDetails.propTypes = {
 export default connect(mapsToProps)(ProfileDetails)
 
 
-// export default ProfileDetails;
 
