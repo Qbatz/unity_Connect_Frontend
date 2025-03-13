@@ -8,36 +8,41 @@ import { MdError } from 'react-icons/md';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 
-
 const ProfileDetails = ({ state }) => {
-
 
     const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState("editProfile");
     const [logoutFormShow, setLogoutFormShow] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [formData, setFormData] = useState({
-        firstName: 'Vikram',
-        lastName: 'Kumar',
-        email: 'vikramkumar@gmail.com',
-        mobile: '+91 9876543210',
+        firstName: '',
+        lastName: '',
+        email: '',
+        mobileNo: '',
+        id: 0
     });
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',
         email: '',
-        mobile: '',
+        mobileNo: '',
     });
 
     const [showPassword, setShowPassword] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [noChangesMessage, setNoChangesMessage] = useState('');
+    const [passwordErrors, setPasswordErrors] = useState({
+        currentPassword: '',
+        newPassword: '',
+        bothPassword: '',
+    });
 
 
     useEffect(() => {
         dispatch({ type: 'PROFILEDETAILS' });
     }, []);
-
+  
     const validate = () => {
         let tempErrors = { ...errors };
         let isValid = true;
@@ -64,17 +69,51 @@ const ProfileDetails = ({ state }) => {
             tempErrors.email = '';
         }
 
-        const mobilePattern = /^[+]{1}[0-9]{1,3}[ ]{1}[0-9]{10}$/;
-        if (!formData.mobile || !mobilePattern.test(formData.mobile)) {
-            tempErrors.mobile = 'Please enter a valid mobile number.';
+        const mobileNoPattern = /^[+]{1}[0-9]{1,3}[ ]{1}[0-9]{10}$/;
+        if (!formData.mobileNo || !mobileNoPattern.test(formData.mobileNo)) {
+            tempErrors.mobileNo = 'Please enter a valid mobileNo number.';
             isValid = false;
         } else {
-            tempErrors.mobile = '';
+            tempErrors.mobileNo = '';
         }
 
         setErrors(tempErrors);
         return isValid;
     };
+
+    const validatePasswords = () => {
+        let tempErrors = { ...passwordErrors };
+        let isValid = true;
+
+        if (!currentPassword) {
+            tempErrors.currentPassword = 'Current password is required.';
+            isValid = false;
+        } else if (currentPassword.length < 8 || !/[a-z]/.test(currentPassword) || !/[A-Z]/.test(currentPassword) || !/[0-9]/.test(currentPassword) || !/[!@#$%^&*(),.?":{}|<>]/.test(currentPassword)) {
+            tempErrors.currentPassword = 'Password must be at least 8 characters long, contain at least one uppercase and one lowercase letter, one number, and one special character.';
+            isValid = false;
+        } else {
+            tempErrors.currentPassword = '';
+        }
+
+        if (!newPassword) {
+            tempErrors.newPassword = 'New password is required.';
+            isValid = false;
+        } else {
+            tempErrors.newPassword = '';
+        }
+
+        if (newPassword === currentPassword) {
+            tempErrors.bothPassword = 'New password cannot be the same as the current password.';
+            isValid = false;
+        } else {
+            tempErrors.bothPassword = '';
+        }
+
+        setPasswordErrors(tempErrors);
+        return isValid;
+    };
+
+
 
     const handleChange = (e) => {
         setFormData({
@@ -91,9 +130,42 @@ const ProfileDetails = ({ state }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (validate()) {
-            dispatch({ type: 'PROFILE_DETAILS_LIST' });
 
+        const EditPayload = {
+            id: state.Id,
+            first_name: formData.firstName || state.First_Name,
+            last_name: formData.lastName || state.Last_Name,
+            email_id: formData.email || state.Email_Id,
+            mobile_no: formData.mobileNo || state.Mobile_No,
+            file: selectedImage || state.Profile,
+        };
+
+        if (
+            EditPayload.first_name === state.First_Name &&
+            EditPayload.last_name === state.Last_Name &&
+            EditPayload.email_id === state.Email_Id &&
+            EditPayload.mobile_no === state.Mobile_No &&
+            !selectedImage
+        ) {
+            setNoChangesMessage("No changes detected.");
+            return;
+        }
+
+        if (
+            (formData.firstName && formData.firstName !== state.First_Name) ||
+            (formData.lastName && formData.lastName !== state.Last_Name) ||
+            (formData.email && formData.email !== state.Email_Id) ||
+            (formData.mobileNo && formData.mobileNo !== state.Mobile_No) ||
+            selectedImage
+        ) {
+            dispatch({ type: 'PROFILEDETAILSUPDATE', payload: EditPayload });
+            setNoChangesMessage('');
+            return;
+        }
+
+        if (validate()) {
+            dispatch({ type: 'PROFILEDETAILSUPDATE', payload: EditPayload });
+            setNoChangesMessage('');
         }
     };
 
@@ -112,13 +184,42 @@ const ProfileDetails = ({ state }) => {
         setShowPassword(!showPassword);
     };
 
+    const handlePasswordSubmit = (e) => {
+        e.preventDefault();
+
+        if (validatePasswords()) {
+            const PasswordPayload = {
+                old_password: currentPassword,
+                new_password: newPassword,
+            };
+            dispatch({ type: 'UPDATEPASSWORD', payload: PasswordPayload });
+        }
+    };
+
     const handleCurrentPasswordChange = (e) => {
-        setCurrentPassword(e.target.value);
+        const newCurrentPassword = e.target.value.trim();
+        setCurrentPassword(newCurrentPassword);
+        setPasswordErrors((prev) => ({ ...prev, currentPassword: "", bothPassword: "" }));
+
+        if (newCurrentPassword.length > 0) {
+            let error = '';
+            if (newCurrentPassword.length < 8 || !/[a-z]/.test(newCurrentPassword) || !/[A-Z]/.test(newCurrentPassword) || !/[0-9]/.test(newCurrentPassword) || !/[!@#$%^&*(),.?":{}|<>]/.test(newCurrentPassword)) {
+                error = 'Password must be at least 8 characters long, contain at least one uppercase and one lowercase letter, one number, and one special character.';
+            }
+            setPasswordErrors((prev) => ({ ...prev, currentPassword: error }));
+        }
     };
 
     const handleNewPasswordChange = (e) => {
-        setNewPassword(e.target.value);
+        const newPasswordValue = e.target.value.trim();
+        setNewPassword(newPasswordValue);
+        setPasswordErrors((prev) => ({ ...prev, newPassword: "", bothPassword: "" }));
+
+        if (!newPasswordValue) {
+            setPasswordErrors((prev) => ({ ...prev, newPassword: 'New password is required.' }));
+        }
     };
+
 
     const handleUpdateClick = () => {
         document.getElementById('image-upload').click();
@@ -136,6 +237,7 @@ const ProfileDetails = ({ state }) => {
         localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
         setLogoutFormShow(false);
     }
+
 
     return (
         <div className="min-h-screen bg-white p-4 flex flex-col items-start">
@@ -195,15 +297,19 @@ const ProfileDetails = ({ state }) => {
             {activeTab === "editProfile" && (
                 <>
                     <h3 className="font-Gilroy font-semibold text-lg mb-4">Profile details</h3>
+                    {noChangesMessage && (
+                        <div className="flex items-center text-red-500 text-xs mb-4 font-Gilroy">
+                            <MdError className="mr-1" />
+                            {noChangesMessage}
+                        </div>
+                    )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">First Name</label>
                             <input
                                 type="text"
                                 name="firstName"
-                                value={state.First_Name}
-
-                                onChange={handleChange}
+                                value={formData.firstName || state.First_Name} onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
                             {errors.firstName && (
@@ -218,7 +324,7 @@ const ProfileDetails = ({ state }) => {
                             <input
                                 type="text"
                                 name="lastName"
-                                value={state.Last_Name}
+                                value={formData.lastName || state.Last_Name}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -234,7 +340,7 @@ const ProfileDetails = ({ state }) => {
                             <input
                                 type="email"
                                 name="email"
-                                value={state.Email_Id}
+                                value={formData.email || state.Email_Id}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -249,15 +355,15 @@ const ProfileDetails = ({ state }) => {
                             <label className="block font-Gilroy text-sm mb-2">Mobile number</label>
                             <input
                                 type="text"
-                                name="mobile"
-                                value={state.Mobile_No}
+                                name="mobileNo"
+                                value={formData.mobileNo || state.Mobile_No}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-sm"
                             />
-                            {errors.mobile && (
+                            {errors.mobileNo && (
                                 <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
-                                    {errors.mobile}
+                                    {errors.mobileNo}
                                 </p>
                             )}
                         </div>
@@ -294,6 +400,12 @@ const ProfileDetails = ({ state }) => {
                                     )}
                                 </span>
                             </div>
+                            {passwordErrors.currentPassword && (
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                    <MdError className="mr-1" />
+                                    {passwordErrors.currentPassword}
+                                </p>
+                            )}
                         </div>
 
                         <div>
@@ -318,10 +430,22 @@ const ProfileDetails = ({ state }) => {
                                     )}
                                 </span>
                             </div>
+                            {passwordErrors.newPassword && (
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                    <MdError className="mr-1" />
+                                    {passwordErrors.newPassword}
+                                </p>
+                            )}
+                            {passwordErrors.bothPassword && (
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                    <MdError className="mr-1" />
+                                    {passwordErrors.bothPassword}
+                                </p>
+                            )}
                         </div>
                     </div>
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"
-                        onClick={handleSubmit}
+                        onClick={handlePasswordSubmit}
                     >Save changes</button>
                 </>
             )}

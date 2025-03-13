@@ -12,6 +12,12 @@ export const initialState = {
     profileDetailsList: [],
     profileDetailsErrorMessage: '',
     profileDetailsStatusCode: 0,
+    profileDetailsUpdateList: [],
+    profileDetailsUpdateStatusCode: 0,
+    profileDetailsUpdateErrorMessage: '',
+    updatePassword: '',
+    updatePasswordError: '',
+    updatePasswordStatusCode: 0,
 };
 const SignInReducer = (state = initialState, action) => {
 
@@ -40,6 +46,20 @@ const SignInReducer = (state = initialState, action) => {
             return { ...state, profileDetailsErrorMessage: '', }
         case 'CLEAR_PROFILE_DETAILS_ERROR':
             return { ...state, profileDetailsStatusCode: 0 }
+
+        case 'PROFILE_DETAILS_UPDATE_LIST':
+            return { ...state, profileDetailsUpdateList: action.payload.data[0], profileDetailsUpdateStatusCode: action.payload.statusCode }
+        case 'PROFILE_DETAILS_UPDATE_ERROR':
+            return { ...state, profileDetailsUpdateErrorMessage: '', }
+        case 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR':
+            return { ...state, profileDetailsUpdateStatusCode: 0 }
+
+        case 'UPDATE_PASSWORD':
+            return { ...state, updatePassword: action.payload.message, updatePasswordStatusCode: action.payload.statusCode }
+        case 'UPDATE_PASSWORD_ERROR':
+            return { ...state, updatePasswordError: action.payload.message }
+        case 'CLEAR_UPDATE_PASSWORD':
+            return { ...state, updatePasswordStatusCode: 0 }
         default:
             return state;
     }
