@@ -183,7 +183,7 @@ const Sidebar = () => {
 
 
 
-      <div
+      <div data-testid='div-logout-confirmation'
         className={`fixed inset-0 flex items-center justify-center ${logoutformshow ? "visible" : "hidden"
           } bg-black bg-opacity-50`}
       >

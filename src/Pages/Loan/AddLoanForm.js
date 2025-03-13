@@ -57,6 +57,7 @@ function AddLoanForm({ state }) {
   }, [statusCode, dispatch]);
 
 const loans = state.Loan.getLoanTab || [];
+console.log("---->", loans)
 
   useEffect(() => {
     if (state.Loan?.statusCodeLoans === 200) {
@@ -115,11 +116,12 @@ const loans = state.Loan.getLoanTab || [];
 
   return (
     <>
-      <div className="container mx-auto mt-5 ">
+      <div data-testid='div-container' className="container mx-auto mt-5 ">
         <div>
           <div className="flex items-center  justify-between w-full pl-5 pr-5">
             <p className="font-Gilroy font-semibold text-xl text-black">Loan Request</p>
             <button
+              data-testid='button-request-loan'
               className="bg-black text-white rounded-[60px] font-Gilroy text-base font-medium pt-[16px] pr-[20px] pb-[16px]
                pl-[20px]"
               onClick={() => {
@@ -153,11 +155,12 @@ const loans = state.Loan.getLoanTab || [];
         </div>
 
         {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div data-testid='div-model' className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold font-Gilroy">Add a loan request</h2>
                 <img
+                  data-testid='img-close'
                   src={CloseCircleIcon}
                   alt="Close"
                   onClick={() => setIsModalOpen(false)}
@@ -257,7 +260,7 @@ const loans = state.Loan.getLoanTab || [];
             <div className="active-loan max-h-[500px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
               {loans?.length > 0 ? (
-                loans.map((loan) => {
+                loans.map((loan, index) => {
                   const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
 
                   return (
@@ -329,7 +332,7 @@ const loans = state.Loan.getLoanTab || [];
 
 
 
-                      <div className="mt-10 flex items-center justify-between">
+                      <div data-testid={`div-add-witness-${index}`} className="mt-10 flex items-center justify-between">
                         <div className="font-Gilroy font-medium text-base text-[#222222] cursor-pointer"
                           onClick={()=>handleAddNewWitness(loan)}
                         >+ Add witness</div>

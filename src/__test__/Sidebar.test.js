@@ -40,6 +40,13 @@ describe('render and check sidebar functionalities', () => {
         userEvent.click(toggleButton)
         userEvent.click(menuItem)
         userEvent.click(logoutImage)
+
+        const confirmationDiv = screen.getByTestId('div-logout-confirmation');
+        expect(confirmationDiv).toBeInTheDocument();
+        const logoutConfirmButton = screen.getByTestId('button-logout');
+        expect(logoutConfirmButton).toBeInTheDocument();
+        userEvent.click(logoutConfirmButton)
+
     })
 
     it('it should check for collapse the sidebar', () => {
