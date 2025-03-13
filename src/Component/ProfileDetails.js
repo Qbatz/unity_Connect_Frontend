@@ -42,12 +42,7 @@ const ProfileDetails = ({ state }) => {
     useEffect(() => {
         dispatch({ type: 'PROFILEDETAILS' });
     }, []);
-    useEffect(() => {
-        dispatch({ type: 'UPDATEPASSWORD' });
-    }, []);
-
-
-
+  
     const validate = () => {
         let tempErrors = { ...errors };
         let isValid = true;

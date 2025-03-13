@@ -101,8 +101,7 @@ const Sidebar = ({ state }) => {
           <div className="p-2 flex items-center justify-between w-full md:flex-wrap lg:flex-nowrap">
             <div className="flex items-center md:flex-wrap lg:flex-nowrap">
               <img
-                src={state.Profile
-                }
+                src={state.Profile}
                 alt="Profile"
                 className="w-12 h-12 rounded-full lg:ml-0 sm:ml-0 md:ml-7 cursor-pointer"
                 onClick={() => handleMenuClick("Profile")}
