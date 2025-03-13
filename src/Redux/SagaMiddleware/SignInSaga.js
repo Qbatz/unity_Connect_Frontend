@@ -52,6 +52,7 @@ export function* SignIn(action) {
 
     } catch (error) {
         console.error("Sign-in failed", error);
+        yield put({ type: 'ERROR_EMAIL', payload: 'Error' });
     }
 
 }

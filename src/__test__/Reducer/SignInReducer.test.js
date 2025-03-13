@@ -38,6 +38,9 @@ describe('check for sign in reducer', () => {
             updatePassword: '',
             updatePasswordError: '',
             updatePasswordStatusCode: 0,
+            profileDetailsUpdateErrorMessage: '',
+            profileDetailsUpdateList: [],
+            profileDetailsUpdateStatusCode: 0
         })
     })
 
@@ -62,6 +65,9 @@ describe('check for sign in reducer', () => {
             updatePassword: '',
             updatePasswordError: '',
             updatePasswordStatusCode: 0,
+            profileDetailsUpdateErrorMessage: '',
+            profileDetailsUpdateList: [],
+            profileDetailsUpdateStatusCode: 0
         })
     })
 
@@ -88,6 +94,9 @@ describe('check for sign in reducer', () => {
             updatePassword: '',
             updatePasswordError: '',
             updatePasswordStatusCode: 0,
+            profileDetailsUpdateErrorMessage: '',
+            profileDetailsUpdateList: [],
+            profileDetailsUpdateStatusCode: 0
         })
     })
 
@@ -114,6 +123,9 @@ describe('check for sign in reducer', () => {
             updatePassword: '',
             updatePasswordError: '',
             updatePasswordStatusCode: 0,
+            profileDetailsUpdateErrorMessage: '',
+            profileDetailsUpdateList: [],
+            profileDetailsUpdateStatusCode: 0
         })
     })
 
@@ -140,6 +152,9 @@ describe('check for sign in reducer', () => {
             updatePassword: '',
             updatePasswordError: '',
             updatePasswordStatusCode: 0,
+            profileDetailsUpdateErrorMessage: '',
+            profileDetailsUpdateList: [],
+            profileDetailsUpdateStatusCode: 0
         })
     })
 
@@ -166,6 +181,9 @@ describe('check for sign in reducer', () => {
             updatePassword: '',
             updatePasswordError: '',
             updatePasswordStatusCode: 0,
+            profileDetailsUpdateErrorMessage: '',
+            profileDetailsUpdateList: [],
+            profileDetailsUpdateStatusCode: 0
         })
     })
 
@@ -192,6 +210,9 @@ describe('check for sign in reducer', () => {
             updatePassword: '',
             updatePasswordError: '',
             updatePasswordStatusCode: 0,
+            profileDetailsUpdateErrorMessage: '',
+            profileDetailsUpdateList: [],
+            profileDetailsUpdateStatusCode: 0
         })
     })
 
@@ -218,6 +239,9 @@ describe('check for sign in reducer', () => {
             updatePassword: '',
             updatePasswordError: '',
             updatePasswordStatusCode: 0,
+            profileDetailsUpdateErrorMessage: '',
+            profileDetailsUpdateList: [],
+            profileDetailsUpdateStatusCode: 0
         })
     })
 })
