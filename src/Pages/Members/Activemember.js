@@ -70,6 +70,7 @@ function ActiveMember({ state }) {
 
         if (state.Member.statusCodeForAddUser === 200) {
             dispatch({ type: 'MEMBERLIST' });
+            dispatch({ type: 'GET_MEMBER_ID' });
             dispatch({ type: 'CLEAR_STATUS_CODES' })
         }
     }, [state.Member.statusCodeForAddUser]);
