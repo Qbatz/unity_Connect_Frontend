@@ -68,12 +68,14 @@ function ActiveMember({ state }) {
 
   useEffect(() => {
 
-    if (state.Member.statusCodeForAddUser === 200) {
-      dispatch({ type: 'MEMBERLIST' });
-      dispatch({ type: 'GET_MEMBER_ID' });
-      dispatch({ type: 'CLEAR_STATUS_CODES' })
-    }
-  }, [state.Member.statusCodeForAddUser]);
+
+        if (state.Member.statusCodeForAddUser === 200) {
+            dispatch({ type: 'MEMBERLIST' });
+            dispatch({ type: 'GET_MEMBER_ID' });
+            dispatch({ type: 'CLEAR_STATUS_CODES' })
+        }
+    }, [state.Member.statusCodeForAddUser]);
+
 
   useEffect(() => {
     if (state.Member.deleteMemberStatusCode === 200) {
