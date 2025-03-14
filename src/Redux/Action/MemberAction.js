@@ -26,6 +26,7 @@ export async function ActiveMemberStatusAction(user) {
 export async function addMember(params) {
     const formData = new FormData();
 
+    if (params.Member_Id) formData.append("member_id", params.Member_Id);
     if (params.user_name) formData.append("user_name", params.user_name);
     if (params.address) formData.append("address", params.address);
     if (params.email_id) formData.append("email_id", params.email_id);

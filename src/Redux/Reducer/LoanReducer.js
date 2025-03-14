@@ -8,6 +8,7 @@ export const initialState = {
     approveid: "",
     loantype: "",
     eligibleloanamount: "",
+    interest:"",
 };
 
 const LoanReducer = (state = initialState, action) => {
@@ -44,6 +45,7 @@ const LoanReducer = (state = initialState, action) => {
                 loantype: action.payload.loan_type,
                 eligibleloanamount: action.payload.loan_amount,
                 statusCodeLoans: 200,
+                interest:action.payload.interest,
 
             };
 

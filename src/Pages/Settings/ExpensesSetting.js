@@ -20,11 +20,23 @@ function ExpensesSetting({ state }) {
   const [subCategoryName, setSubCategoryName] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubCategory, setIsSubCategory] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState("");
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!categoryName && !isSubCategory) {
+      setErrorMessage("!Please do some changes before adding a category.");
+      return;
+    }
+  
+    if (isSubCategory && !subCategoryName) {
+      setErrorMessage("!Please enter a sub-category name.");
+      return;
+    }
+  
+
+    setErrorMessage("");
     const payload = {
       category_Name: categoryName,
       sub_Category: isSubCategory ? subCategoryName : "",
@@ -99,8 +111,10 @@ function ExpensesSetting({ state }) {
             <div className="mt-7">
               <label className="text-black text-sm font-medium font-Gilroy text-lg">Category name</label>
               <input
-                onChange={handlecategoryName}
-                value={categoryName}
+                onChange={(e) => {
+                  handlecategoryName(e);
+                  setErrorMessage("");
+                }}                value={categoryName}
                 type="text"
                 placeholder="Enter category name"
                 className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
@@ -112,7 +126,10 @@ function ExpensesSetting({ state }) {
                   id="makeSubCategory"
                   className="w-5 h-5"
                   checked={isSubCategory}
-                  onChange={() => setIsSubCategory(!isSubCategory)}
+                  onChange={() => {
+                    setIsSubCategory(!isSubCategory);
+                    setErrorMessage("");
+                  }}
                 />
                 <label
                   htmlFor="makeSubCategory"
@@ -128,12 +145,19 @@ function ExpensesSetting({ state }) {
                   <input
                     type="text"
                     placeholder="Select a category"
-                    onChange={handleSubCategoryName}
+                    onChange={(e) => {
+                      handleSubCategoryName(e);
+                      setErrorMessage("");
+                    }}
                     className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
                   />
                 </div>
               )}
             </div>
+
+            {errorMessage && (
+  <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
+)}
 
             <button
               onClick={handleSubmit}
