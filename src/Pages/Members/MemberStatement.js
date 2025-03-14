@@ -47,8 +47,13 @@ function MemberStatements({ state, member }) {
   const handleInputChange = (field, value) => {
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
+    }   
+    if (field === "loanAmount" || field === "paidAmount") {
+      const loan = parseFloat(field === "loanAmount" ? value : loanAmount) || 0;
+      const paid = parseFloat(field === "paidAmount" ? value : paidAmount) || 0;
+      setPendingAmount((loan - paid).toString());
     }
-
+    
     if (field === "loanAmount") {
       setLoanAmount(value);
     } else if (field === "dueDate") {
@@ -181,6 +186,7 @@ function MemberStatements({ state, member }) {
                 </tr>
               ))}
             </tbody>
+          
           </table>
 
         </div>
@@ -224,7 +230,7 @@ function MemberStatements({ state, member }) {
                     type="date"
                     value={dueDate}
                     onChange={(e) => handleInputChange("dueDate", e.target.value)}
-                    className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none"
+                    className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
                   />
                   {errors.dueDate && (
                     <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">
@@ -258,7 +264,8 @@ function MemberStatements({ state, member }) {
                     value={pendingAmount}
                     onChange={(e) => handleInputChange("pendingAmount", e.target.value)}
                     placeholder="Enter pending amount"
-                    className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none"
+                    className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none text-gray-500"
+                    readOnly
                   />
                   {errors.pendingAmount && (
                     <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">

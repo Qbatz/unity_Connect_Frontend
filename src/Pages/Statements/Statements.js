@@ -11,7 +11,6 @@ import moment from "moment";
 
 
 function Statement({ state }) {
-
   
   const dispatch = useDispatch();
   const popupRef = useRef(null);

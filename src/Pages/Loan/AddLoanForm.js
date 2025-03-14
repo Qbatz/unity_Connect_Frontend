@@ -31,6 +31,9 @@ function AddLoanForm({ state }) {
   const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
 
   const [approve, setApprove] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [interesttype, setInterestType] = useState("");
 
 
   const handleSelectWitness = (id) => {
@@ -42,6 +45,23 @@ function AddLoanForm({ state }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!memberId) {
+      setErrorMessage("Please select a member.");
+      return;
+    }
+
+    if (selectedWitnesses.length === 0) {
+      setErrorMessage("Please select at least one witness.");
+      return;
+    }
+
+    if (!loanAmount) {
+      setErrorMessage("Please enter the loan amount.");
+      return;
+    }
+
+    setErrorMessage("");
 
     const payload = {
       member_id: parseInt(memberId),
@@ -120,13 +140,13 @@ function AddLoanForm({ state }) {
     setVitDetails({ ...loan });
     setSelectedWitnesses([...loan.Widness_Id.split(",").map(Number)])
   }
-
+  const [selectedLoan, setSelectedLoan] = useState(null);
 
   const handleApproval = (loan, selectedMember) => {
-
     setApprove({ ...loan, ...selectedMember });
-    setIsApprovePopupOpen(true);
 
+    setIsApprovePopupOpen(true);
+    setSelectedLoan(loan);
   }
   const approvalSubmit = async (e) => {
     e.preventDefault();
@@ -137,10 +157,13 @@ function AddLoanForm({ state }) {
       return;
     }
 
+
+
     const payload = {
       id: approve.Loan_Id,
-      loan_type: memberLoanType,
+      loan_type: Number(memberLoanType),
       loan_amount: Number(eligibleLoanAmount),
+      interest: Number(interesttype)
     };
 
     dispatch({
@@ -149,6 +172,8 @@ function AddLoanForm({ state }) {
     });
 
   };
+
+
 
 
 
@@ -200,7 +225,7 @@ function AddLoanForm({ state }) {
                   src={CloseCircleIcon}
                   alt="Close"
                   onClick={() => setIsModalOpen(false)}
-                  className="w-6 h-6 cursor-pointer"
+                  className="w-[24] h-[24] cursor-pointer"
                 />
               </div>
               <div className="w-full border border-[#E7E7E7] mx-auto"></div>
@@ -210,8 +235,8 @@ function AddLoanForm({ state }) {
                 <label className="text-black text-sm font-medium font-Gilroy text-lg">Member</label>
                 <select
                   value={memberId}
-                  onChange={(e) => setMemberId(e.target.value)}
-                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
+                  onChange={(e) => { setMemberId(e.target.value); setErrorMessage(""); }}
+                  className="w-full font-Gilroy h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                 >
                   <option value="">Select a member</option>
                   {members.map((member) => (
@@ -232,7 +257,7 @@ function AddLoanForm({ state }) {
 
 
                 <div
-                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 cursor-pointer" value={witnessId}
+                  className="w-full h-60 font-Gilroy border border-[#D9D9D9] rounded-2xl p-4 mt-3 cursor-pointer" value={witnessId}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   {selectedWitnesses.length > 0
@@ -279,7 +304,9 @@ function AddLoanForm({ state }) {
                   className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                 />
               </div>
-
+              {errorMessage && (
+                <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
+              )}
               <button
                 onClick={handleSubmit}
                 className="mt-10 pt-[20px] pr-[40px] pb-[20px] pl-[40px] w-full h-59 bg-black text-white rounded-60 text-base font-Gilroy font-medium"
@@ -319,7 +346,7 @@ function AddLoanForm({ state }) {
                             </p>
 
                             <p className="text-[#000000] text-sm bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">
-                              {selectedMember?.Member_Id}
+                              {selectedMember?.Id}
                             </p>
                           </div>
                         </div>
@@ -348,7 +375,7 @@ function AddLoanForm({ state }) {
                                     <img src={img1} alt="Witness Profile" className="w-10 h-10 rounded-full" />
                                     <div className="ml-2">
                                       <p className="text-black font-semibold text-sm font-Gilroy font-semibold">{witnessData.User_Name}</p>
-                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Member_Id}</p>
+                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Id}</p>
                                     </div>
                                   </div>
                                 ) : null;
@@ -467,10 +494,10 @@ function AddLoanForm({ state }) {
 
 
         {isApprovePopupOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white w-[400px] rounded-2xl p-6 shadow-lg">
+          <div className="fixed  inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white w-[465px] rounded-2xl p-6 rounded-[40px] shadow-lg">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold font-Gilroy">Approve Loan Details</h2>
+                <h2 className="text-xl font-semibold font-Gilroy">Approve Loan?</h2>
                 <button
                   className="text-gray-600 text-xl"
                   onClick={() => setIsApprovePopupOpen(false)}
@@ -480,24 +507,35 @@ function AddLoanForm({ state }) {
 
               </div>
 
+              <div className="w-full border border-[#E7E7E7] mx-auto my-3"></div>
 
-              <div className="mt-4">
-                <label className="text-black font-Gilroy text-sm font-medium text-lg">Member Name</label>
-                <input
-                  type="text" value={approve?.User_Name}
-                  className="w-full h-[51px] border border-[#D9D9D9] rounded-2xl p-4 mt-3"
-                />
-              </div>
+              <div>
+                {selectedLoan && (
+                  <div>
+                    <p className="font-Gilroy text-sm font-medium text-[#939393]">Are you sure you want to approve a loan of amount
+                      <span className="text-black font-semibold"> ₹ {selectedLoan.Loan_Amount}? </span>
+                      Select a loan type to approve the loan amount!</p>
+                  </div>
+                )}</div>
+
               <div className="mt-4">
                 <label className="text-black text-sm font-medium font-Gilroy">Loan Type</label>
                 <select
                   value={memberLoanType}
                   onChange={(e) => {
+                    setMemberLoanType(e.target.value);
+                    setInterestType("");
 
-                    setMemberLoanType(e.target.value)
-                  }
-                  }
-                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
+                    const selectedLoan = loanGetSetting?.SettingLoan?.getLoan.loans?.find(
+                      (loan) => String(loan.Id) === String(e.target.value)
+                    );
+
+                    setInterestType(selectedLoan?.Interest || "");
+                  }}
+
+
+
+                  className="w-full h-60 font-Gilroy border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                 >
                   <option value="">Select a Loan Type</option>
                   {loanGetSetting?.SettingLoan?.getLoan.loans?.map((loan, index) => (
@@ -506,6 +544,16 @@ function AddLoanForm({ state }) {
                     </option>
                   ))}
                 </select>
+              </div>
+
+              <div className="mt-4">
+                <label className="text-black font-Gilroy text-sm font-medium text-lg mt-10">Interest Type</label>
+                <input
+                  type="text"
+                  value={interesttype}
+                  readOnly
+                  className="w-full h-60 font-Gilroy border border-[#D9D9D9] rounded-2xl p-4 mt-3"
+                />
               </div>
 
               <div className="mt-4">
@@ -519,6 +567,9 @@ function AddLoanForm({ state }) {
                 />
               </div>
 
+              <div className="mt-5">
+                <p className="font-Gilroy text-sm font-medium text-[#939393]">Note: Once loan approved cannot be canceled!</p>
+              </div>
               <button className="mt-5 bg-black text-white border font-Gilroy font-medium text-base 
                           cursor-pointer rounded-[60px] w-full h-[60px] pt-4 pr-5 pb-4 pl-5"
                 onClick={approvalSubmit}
@@ -565,7 +616,7 @@ function AddLoanForm({ state }) {
                             </p>
 
                             <p className="text-[#000000] text-sm bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">
-                              {selectedMember?.Member_Id}
+                              {selectedMember?.Id}
                             </p>
                           </div>
                         </div>
@@ -594,7 +645,7 @@ function AddLoanForm({ state }) {
                                     <img src={img1} alt="Witness Profile" className="w-10 h-10 rounded-full" />
                                     <div className="ml-2">
                                       <p className="text-black font-semibold text-sm font-Gilroy font-semibold">{witnessData.User_Name}</p>
-                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Member_Id}</p>
+                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Id}</p>
                                     </div>
                                   </div>
 
@@ -620,11 +671,16 @@ function AddLoanForm({ state }) {
                           <div className="flex items-center gap-2 mt-5 mb-5">
                             <img src={tick} alt="Approved" className="w-5 h-5" />
                             <p className="text-black text-base font-Gilroy font-medium">
-                              Loan approved on {new Date(loan.Approvel_Date).toLocaleDateString()}
-                              with interest of {loan.Interest}%
+                              Loan approved on {new Date(loan.Approvel_Date).toLocaleDateString()}{" "}
+                              with interest of
+                              {loan?.interest} {" "}%
+
                             </p>
+
                           </div>
                         )}
+
+
 
 
 
@@ -640,7 +696,6 @@ function AddLoanForm({ state }) {
 
           </div>
         )}
-
 
 
 

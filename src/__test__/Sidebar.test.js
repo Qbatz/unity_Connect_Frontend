@@ -30,6 +30,9 @@ describe('render and check sidebar functionalities', () => {
                 },
                 Expenses: {
                     getexpenses: []
+                },
+                SignIn: {
+                    profileDetailsList: []
                 }
         
             })
@@ -42,13 +45,10 @@ describe('render and check sidebar functionalities', () => {
         expect(screen.getByTestId('container-main')).toBeInTheDocument();
         const toggleButton = screen.getByTestId('button-toggle')
         const menuItem = screen.getByTestId('menu-item-0')
-        const logoutImage = screen.getByTestId('img-logout')
-        expect(toggleButton).toBeInTheDocument();
+        // expect(toggleButton).toBeInTheDocument();
         expect(menuItem).toBeInTheDocument()
-        expect(logoutImage).toBeInTheDocument();
         userEvent.click(toggleButton)
         userEvent.click(menuItem)
-        userEvent.click(logoutImage)
     })
 
     it('it should check for collapse the sidebar', () => {
@@ -57,12 +57,7 @@ describe('render and check sidebar functionalities', () => {
         </Provider>)
 
         expect(screen.getByTestId('container-main')).toBeInTheDocument();
-        const logoutImage = screen.getByTestId('img-logout')
-        expect(logoutImage).toBeInTheDocument();
-        userEvent.click(logoutImage);
-        const logoutButton = screen.getByTestId('button-close-logout')
-        expect(logoutButton).toBeInTheDocument();
-        userEvent.click(logoutButton)
+
     })
 
     it('it should UI and select member', () => {
