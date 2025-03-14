@@ -20,6 +20,7 @@ import Settings from "../Pages/Settings/Settings";
 import Members from "../Pages/Members/Member";
 import AddLoanForm from "../Pages/Loan/AddLoanForm";
 import Statements from "../Pages/Statements/Statements";
+import ExpensesList from "../Pages/Expenses/Expenses";
 import ProfileDetails from "../Component/ProfileDetails";
 import PropTypes from 'prop-types';
 import { useDispatch, connect } from 'react-redux';
@@ -143,7 +144,7 @@ const Sidebar = ({ state }) => {
 
           {activeMenu === "Expenses" && (
             <div data-testid='div-expenses' className="bg-white mt-2">
-              {/* <Expenses /> */}
+              <ExpensesList />
             </div>
           )}
 

@@ -7,7 +7,10 @@ module.exports = {
     extend: {
       backgroundColor:{
         'lightgray':'#22222280',
-         'lightblue':'#D9E9FF'
+         'lightblue':'#D9E9FF',
+         '#7F00FF': '#7F00FF', 
+         '#FAF9FF':'#FAF9FF',
+         '#F4F7FF':'#F4F7FF'
 
          
       },
@@ -18,11 +21,7 @@ module.exports = {
         'Raleway': ["Raleway", "sans-serif"],
         'kalam': ['Kalam', 'cursive'],
       },
-      backgroundColor: {
-        '#7F00FF': '#7F00FF', 
-        '#FAF9FF':'#FAF9FF',
-        '#F4F7FF':'#F4F7FF'
-      },
+     
       colors: {
         darkGray: "#222222",
         grayCustom: "#939393",
