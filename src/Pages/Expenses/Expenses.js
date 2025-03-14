@@ -15,7 +15,7 @@ function ExpensesList({ state }) {
     const [selectedData, setSelectedData] = useState(null);
     const [openIndex, setOpenIndex] = useState(null);
     const [deletePopup, setDeletePopup] = useState(null);
-
+    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
     const dispatch = useDispatch();
     const popupRef = useRef(null);
 
@@ -55,6 +55,12 @@ function ExpensesList({ state }) {
     const handledots = (event, index) => {
         event.stopPropagation();
         setOpenMenu(openMenu === index ? null : index);
+
+        const rect = event.target.getBoundingClientRect();
+        setPopupPosition({
+            top: rect.top + window.scrollY + rect.height - 25,
+            left: rect.left + window.scrollX - 170,
+        });
     };
 
     const handleClickExpenses = () => {
@@ -111,7 +117,7 @@ function ExpensesList({ state }) {
 
 
                 <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden">
-                    <div className="overflow-y-auto h-[500px]">
+                    <div className="overflow-y-auto">
                         <table className="w-full text-left border-collapse min-w-max">
                             <thead className="sticky">
                                 <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
@@ -181,7 +187,15 @@ function ExpensesList({ state }) {
                                             </div>
 
                                             {openMenu === index && (
-                                                <div className="absolute right-4 top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[150px]">
+                                                <div
+                                                    style={{
+                                                        position: 'fixed',
+                                                        top: `${popupPosition.top}px`,
+                                                        left: `${popupPosition.left}px`,
+                                                        right: '90px',
+
+                                                    }}
+                                                    className="absolute  top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[150px]">
                                                     <button
                                                         onClick={() => handleEditclick(item)}
                                                         className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy rounded-lg"

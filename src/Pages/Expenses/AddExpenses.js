@@ -17,11 +17,15 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     const [expenseDate, setExpenseDate] = useState("");
     const [expenseAmount, setExpenseAmount] = useState("");
     const [description, setDescription] = useState("");
-
+    const [formError, setFormError] = useState("");
 
     const [errors, setErrors] = useState({});
 
     const name = state.SettingExpenses.getExpenseData.data
+
+    const categoryId = name?.[0]?.category_Id || null;
+
+
 
 
     useEffect(() => {
@@ -48,7 +52,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
 
-    // Validation logic
+   
     const validateForm = () => {
         const newErrors = {};
 
@@ -64,11 +68,12 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             newErrors.paymentMode = "Please select a payment mode.";
         }
 
+
         if (!expenseDate) {
             newErrors.expenseDate = "Please select a valid date.";
-        } else if (new Date(expenseDate) > new Date()) {
-            newErrors.expenseDate = "Expense date cannot be in the future.";
         }
+
+
 
         if (!expenseAmount || isNaN(expenseAmount) || Number(expenseAmount) <= 0) {
             newErrors.expenseAmount = "Enter a valid expense amount.";
@@ -77,6 +82,8 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         if (description.length > 200) {
             newErrors.description = "Description cannot exceed 200 characters.";
         }
+
+
 
         setErrors(newErrors);
 
@@ -90,7 +97,18 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
     };
 
+    const hasChanges = () => {
+        if (!expensesdata) return true;
 
+        return (
+            merchantName !== expensesdata.Name ||
+            category !== expensesdata.Category_Name ||
+            paymentMode !== expensesdata.Mode_of_Payment ||
+            expenseDate !== expensesdata.Expense_Date ||
+            expenseAmount !== expensesdata.Expense_Amount ||
+            description !== expensesdata.Description
+        );
+    };
 
 
 
@@ -99,12 +117,17 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
         e.preventDefault();
 
+        if (!hasChanges()) {
+            setFormError("No changes detected");
+            return;
+        }
+
         if (validateForm()) {
 
 
             const payload = {
                 name: merchantName,
-                category_id: name?.category_Id,
+                category_id: categoryId,
                 mode_of_payment: paymentMode,
                 expense_date: expenseDate,
                 expense_amount: expenseAmount,
@@ -115,7 +138,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             const Editpayload =
             {
                 name: merchantName,
-                category_id: name?.category_Id,
+                category_id: categoryId,
                 mode_of_payment: paymentMode,
                 expense_date: expenseDate,
                 expense_amount: expenseAmount,
@@ -274,6 +297,12 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                     >
                         {expensesdata ? "Save Changes" : "Add expense"}
                     </button>
+
+                    {formError && (
+                        <p className="text-red-500 text-sm mt-2 text-center">
+                            {formError}
+                        </p>
+                    )}
                 </div>
             </div>
         </div>
