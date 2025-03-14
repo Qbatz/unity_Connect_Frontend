@@ -8,7 +8,7 @@ export const initialState = {
 }
 
 const ExpensesReducer = (state = initialState, action) => {
-    console.log("action", action.payload);
+
 
 
     switch (action.type) {

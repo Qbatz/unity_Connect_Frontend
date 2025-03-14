@@ -52,7 +52,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
 
-   
+
     const validateForm = () => {
         const newErrors = {};
 

@@ -33,7 +33,7 @@ function* handleAddExpenses(action) {
 
 
     const response = yield call(AddExpensesAction, action.payload);
-   
+
 
 
     if (response.statusCode === 200 || response.status === 200) {
@@ -43,7 +43,7 @@ function* handleAddExpenses(action) {
             payload: { response: response.data, statusCode: response.statusCode || response.status },
         });
 
-        toast.success(response.message, {
+        toast.success(response.data.message, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -76,6 +76,8 @@ function* handleAddExpenses(action) {
 function* handledeleteExpenses(action) {
 
     const response = yield call(DeleteExpensesAction, action.payload);
+
+
     var toastStyle = {
         backgroundColor: "#E6F6E6",
         color: "black",
