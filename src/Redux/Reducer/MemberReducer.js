@@ -23,17 +23,19 @@ export const initialState = {
     GetMemberId: [],
     statusCodeForMemberId: 0,
     MemberIdErrorMsg: '',
-    GetTransactionsList: [],
-    statusCodeTransactions: 0,
     TransactionsErrorMsg: '',
     addRecordPayment: [],
     statusCodeForRecordPayment: 0,
     recordPaymentErrorMessage: '',
-
-
-
+    addTransactionsList: [],
+    statusCodeAddTransactions: 0,
+    addTransactionsErrorMsg: '',
+    GetTransactionsList: [],
+    statusCodeForGetTransactions: 0,
+    GetTransactionsErrorMsg: '',
 
 }
+
 const MemberListReducer = (state = initialState, action) => {
 
     switch (action.type) {
@@ -99,12 +101,6 @@ const MemberListReducer = (state = initialState, action) => {
         case 'CLEAR_STATUS_CODE_GET_STATEMENT':
             return { ...state, statusCodeForStatement: 0 }
 
-        case 'GET_TRANSACTIONS_LIST':
-            return { ...state, GetTransactionsList: action.payload.response, statusCodeTransactions: action.payload.response }
-        case 'GET_TRANSACTIONS_ERROR':
-            return { ...state, TransactionsErrorMsg: action.payload.message }
-        case 'CLEAR_STATUS_CODE_TRANSACTIONS':
-            return { ...state, statusCodeTransactions: 0 }
 
         case 'ADD_RECORD_PAYMENT':
             return { ...state, addRecordPayment: action.payload.response, statusCodeForRecordPayment: action.payload.statusCode }
@@ -112,6 +108,23 @@ const MemberListReducer = (state = initialState, action) => {
             return { ...state, statusCodeForRecordPayment: 0 }
         case 'RECORD_PAYMENT_ERROR_MSG':
             return { ...state, recordPaymentErrorMessage: '' }
+
+        case 'ADD_TRANSACTIONS_LIST':
+            return { ...state, addTransactionsList: action.payload.response, statusCodeAddTransactions: action.payload.response }
+        case 'ADD_TRANSACTIONS_ERROR_MESSAGE':
+            return { ...state, addTransactionsErrorMsg: action.payload.message }
+        case 'CLEAR_STATUS_CODE_TRANSACTIONS':
+            return { ...state, statusCodeAddTransactions: 0 }
+
+        case 'GET_TRANSACTIONS_LIST':
+            return {
+                ...state, GetTransactionsList: action.payload.response.data, statusCodeForGetTransactions: action.payload.statusCode
+            }
+        case 'GET_TRANSACTIONS_ERROR_MESSAGE':
+            return { ...state, GetTransactionsErrorMsg: action.payload.message }
+        case 'CLEAR_STATUS_CODE_GET_TRANSACTIONS':
+            return { ...state, statusCodeForGetTransactions: 0 }
+
         default:
             return state;
 

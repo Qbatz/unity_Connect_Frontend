@@ -46,6 +46,12 @@ describe('checks for Member Reducer', () => {
             addRecordPayment:[],
             statusCodeForRecordPayment: 0,
             recordPaymentErrorMessage:'',
+            addTransactionsList: [],
+            statusCodeAddTransactions: 0,
+            addTransactionsErrorMsg: '',
+            GetTransactionsList: [],
+            statusCodeForGetTransactions: 0,
+            GetTransactionsErrorMsg: '',
         
         })
     })
@@ -92,6 +98,12 @@ describe('checks for Member Reducer', () => {
             addRecordPayment:[],
             statusCodeForRecordPayment: 0,
             recordPaymentErrorMessage:'',
+            addTransactionsList: [],
+            statusCodeAddTransactions: 0,
+            addTransactionsErrorMsg: '',
+            GetTransactionsList: [],
+            statusCodeForGetTransactions: 0,
+            GetTransactionsErrorMsg: '',
         
         })
     })
@@ -134,6 +146,12 @@ describe('checks for Member Reducer', () => {
             addRecordPayment:[],
             statusCodeForRecordPayment: 0,
             recordPaymentErrorMessage:'',
+            addTransactionsList: [],
+            statusCodeAddTransactions: 0,
+            addTransactionsErrorMsg: '',
+            GetTransactionsList: [],
+            statusCodeForGetTransactions: 0,
+            GetTransactionsErrorMsg: '',
         
         })
     })
@@ -176,6 +194,12 @@ describe('checks for Member Reducer', () => {
             addRecordPayment:[],
             statusCodeForRecordPayment: 0,
             recordPaymentErrorMessage:'',
+            addTransactionsList: [],
+            statusCodeAddTransactions: 0,
+            addTransactionsErrorMsg: '',
+            GetTransactionsList: [],
+            statusCodeForGetTransactions: 0,
+            GetTransactionsErrorMsg: '',
         
         })
     })
@@ -218,6 +242,12 @@ describe('checks for Member Reducer', () => {
             addRecordPayment:[],
             statusCodeForRecordPayment: 0,
             recordPaymentErrorMessage:'',
+            addTransactionsList: [],
+            statusCodeAddTransactions: 0,
+            addTransactionsErrorMsg: '',
+            GetTransactionsList: [],
+            statusCodeForGetTransactions: 0,
+            GetTransactionsErrorMsg: '',
         
 
         })

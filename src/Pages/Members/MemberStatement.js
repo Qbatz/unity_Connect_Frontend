@@ -10,7 +10,6 @@ function MemberStatements({ state, member }) {
 
 
 
-
   const dispatch = useDispatch();
   const popupRef = useRef(null);
 
@@ -24,7 +23,7 @@ function MemberStatements({ state, member }) {
   const [dueDate, setDueDate] = useState('');
   const [paidAmount, setPaidAmount] = useState('');
   const [pendingAmount, setPendingAmount] = useState('');
-  const [loanId] = useState('');
+  const [loanId, setLoanId] = useState('');
   const [status, setStatus] = useState('');
   const [errors, setErrors] = useState({});
 
@@ -47,13 +46,13 @@ function MemberStatements({ state, member }) {
   const handleInputChange = (field, value) => {
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
-    }   
+    }
     if (field === "loanAmount" || field === "paidAmount") {
       const loan = parseFloat(field === "loanAmount" ? value : loanAmount) || 0;
       const paid = parseFloat(field === "paidAmount" ? value : paidAmount) || 0;
       setPendingAmount((loan - paid).toString());
     }
-    
+
     if (field === "loanAmount") {
       setLoanAmount(value);
     } else if (field === "dueDate") {
@@ -64,6 +63,8 @@ function MemberStatements({ state, member }) {
       setPendingAmount(value);
     } else if (field === "status") {
       setStatus(value);
+    } else if (field === "loanId") {
+      setLoanId(value);
     }
   };
 
@@ -74,14 +75,13 @@ function MemberStatements({ state, member }) {
     if (!loanAmount) newErrors.loanAmount = "Loan amount is required";
     if (!dueDate) newErrors.dueDate = "Due date is required";
     if (!paidAmount) newErrors.paidAmount = "Paid amount is required";
-    if (!pendingAmount) newErrors.pendingAmount = "Pending amount is required";
     if (!status) newErrors.status = "Status is required";
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       const payload = {
-        loan_amount: loanAmount,
+        loan_amount: member.loanAmount,
         due_date: dueDate,
         pending_amount: pendingAmount,
         status: status,
@@ -92,6 +92,18 @@ function MemberStatements({ state, member }) {
         type: 'ADDRECORDPAYMENT',
         payload: payload,
       });
+   
+      const TransactionPayload = {
+        Member_Id: member.Id,
+        Amount: paidAmount,
+        Status: status,
+        Loan_Id: Statement.loanId,
+        Transaction_Date: dueDate
+      };
+      dispatch({
+        type: 'ADDTRANSACTIONS',
+        payload: TransactionPayload,
+      });
 
       setLoanAmount("");
       setDueDate("");
@@ -99,6 +111,7 @@ function MemberStatements({ state, member }) {
       setPendingAmount("");
       setStatus("");
       setIsModalOpen(false);
+      setLoanId();
     }
   };
 
@@ -186,7 +199,8 @@ function MemberStatements({ state, member }) {
                 </tr>
               ))}
             </tbody>
-          
+
+
           </table>
 
         </div>
@@ -211,7 +225,7 @@ function MemberStatements({ state, member }) {
                   <label className="text-sm font-semibold">Loan Amount</label>
                   <input
                     type="text"
-                    value={loanAmount}
+                    value={Statement.loanAmount}
                     onChange={(e) => handleInputChange("loanAmount", e.target.value)}
                     placeholder="Enter amount"
                     className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none"
@@ -228,7 +242,7 @@ function MemberStatements({ state, member }) {
                   <label className="text-sm font-semibold">Due Date</label>
                   <input
                     type="date"
-                    value={dueDate}
+                    value={Statement.dueDate}
                     onChange={(e) => handleInputChange("dueDate", e.target.value)}
                     className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
                   />

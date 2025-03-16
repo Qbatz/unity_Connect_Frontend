@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import Logout from "../Asset/Icons/turn-off.png";
+import logoutIcon from "../Asset/Icons/logoutIcon.svg";
 import PropTypes from 'prop-types';
 import { encryptData } from "../Crypto/Utils";
 import { useDispatch, connect } from 'react-redux';
@@ -42,7 +42,20 @@ const ProfileDetails = ({ state }) => {
     useEffect(() => {
         dispatch({ type: 'PROFILEDETAILS' });
     }, []);
-  
+
+    useEffect(() => {
+        setFormData((prev) => ({
+            ...prev,
+            firstName: state.First_Name || "",
+            lastName: state.Last_Name || "",
+            email: state.Email_Id || "",
+            mobileNo: state.Mobile_No || "",
+
+
+        }));
+    }, [state]);
+
+
     const validate = () => {
         let tempErrors = { ...errors };
         let isValid = true;
@@ -68,7 +81,7 @@ const ProfileDetails = ({ state }) => {
         } else {
             tempErrors.email = '';
         }
-
+                       
         const mobileNoPattern = /^[+]{1}[0-9]{1,3}[ ]{1}[0-9]{10}$/;
         if (!formData.mobileNo || !mobileNoPattern.test(formData.mobileNo)) {
             tempErrors.mobileNo = 'Please enter a valid mobileNo number.';
@@ -76,7 +89,7 @@ const ProfileDetails = ({ state }) => {
         } else {
             tempErrors.mobileNo = '';
         }
-
+    
         setErrors(tempErrors);
         return isValid;
     };
@@ -87,9 +100,6 @@ const ProfileDetails = ({ state }) => {
 
         if (!currentPassword) {
             tempErrors.currentPassword = 'Current password is required.';
-            isValid = false;
-        } else if (currentPassword.length < 8 || !/[a-z]/.test(currentPassword) || !/[A-Z]/.test(currentPassword) || !/[0-9]/.test(currentPassword) || !/[!@#$%^&*(),.?":{}|<>]/.test(currentPassword)) {
-            tempErrors.currentPassword = 'Password must be at least 8 characters long, contain at least one uppercase and one lowercase letter, one number, and one special character.';
             isValid = false;
         } else {
             tempErrors.currentPassword = '';
@@ -120,6 +130,7 @@ const ProfileDetails = ({ state }) => {
             ...formData,
             [e.target.name]: e.target.value,
         });
+
         if (errors[e.target.name]) {
             setErrors({
                 ...errors,
@@ -201,13 +212,6 @@ const ProfileDetails = ({ state }) => {
         setCurrentPassword(newCurrentPassword);
         setPasswordErrors((prev) => ({ ...prev, currentPassword: "", bothPassword: "" }));
 
-        if (newCurrentPassword.length > 0) {
-            let error = '';
-            if (newCurrentPassword.length < 8 || !/[a-z]/.test(newCurrentPassword) || !/[A-Z]/.test(newCurrentPassword) || !/[0-9]/.test(newCurrentPassword) || !/[!@#$%^&*(),.?":{}|<>]/.test(newCurrentPassword)) {
-                error = 'Password must be at least 8 characters long, contain at least one uppercase and one lowercase letter, one number, and one special character.';
-            }
-            setPasswordErrors((prev) => ({ ...prev, currentPassword: error }));
-        }
     };
 
     const handleNewPasswordChange = (e) => {
@@ -309,7 +313,8 @@ const ProfileDetails = ({ state }) => {
                             <input
                                 type="text"
                                 name="firstName"
-                                value={formData.firstName || state.First_Name} onChange={handleChange}
+                                value={formData.firstName}
+                                onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
                             {errors.firstName && (
@@ -324,7 +329,7 @@ const ProfileDetails = ({ state }) => {
                             <input
                                 type="text"
                                 name="lastName"
-                                value={formData.lastName || state.Last_Name}
+                                value={formData.lastName}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -340,7 +345,7 @@ const ProfileDetails = ({ state }) => {
                             <input
                                 type="email"
                                 name="email"
-                                value={formData.email || state.Email_Id}
+                                value={formData.email}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
@@ -356,7 +361,7 @@ const ProfileDetails = ({ state }) => {
                             <input
                                 type="text"
                                 name="mobileNo"
-                                value={formData.mobileNo || state.Mobile_No}
+                                value={formData.mobileNo}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-sm"
                             />
@@ -438,7 +443,8 @@ const ProfileDetails = ({ state }) => {
                             )}
                             {passwordErrors.bothPassword && (
                                 <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
-                                    <MdError className="mr-1" />
+                                    <MdError className="mr-1 text-sm mb-4i]'
+                                    " />
                                     {passwordErrors.bothPassword}
                                 </p>
                             )}
@@ -452,15 +458,11 @@ const ProfileDetails = ({ state }) => {
 
             <button onClick={handleLogout} className="flex items-center text-rose-500 w-5 h-6 gap-2">
                 <img
-                    src={Logout}
+                    src={logoutIcon}
                     alt="Logout Icon"
                     data-testid="img-logout"
-                    className="text-rose-500"
-                    style={{
-                        filter: 'invert(10%) sepia(100%) saturate(500%) hue-rotate(-50deg)',
-                    }}
                 />
-                <span className="text-rose-500">Logout</span>
+                <span className="text-[#EC202A] font-medium text-base font-Gilroy">Logout</span>
             </button>
 
             <div className={`fixed inset-0 flex items-center justify-center ${logoutFormShow ? "visible" : "hidden"} bg-black bg-opacity-50`}>

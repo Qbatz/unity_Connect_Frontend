@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { ActiveMemberGetAction, ActiveMemberDeleteAction, ActiveMemberStatusAction, addMember, GetMemberId, MemberOverviewAction, GetCommentAction, AddCommentAction, GetStatementAction, TransactionsAction, RecordPaymentAction } from '../Action/MemberAction';
+import { ActiveMemberGetAction, ActiveMemberDeleteAction, ActiveMemberStatusAction, addMember, GetMemberId, MemberOverviewAction, GetCommentAction, AddCommentAction, GetStatementAction, RecordPaymentAction, AddTransaction, GetTransactionsAction } from '../Action/MemberAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -313,34 +313,25 @@ function* handleGet_Member_Id(action) {
 
 }
 
-function* handleGet_Transactions(action) {
-
-
-    const response = yield call(TransactionsAction, action.payload);
-
-
-    if (response.status === 200 || response.data.statusCode === 200) {
-        yield put({
-            type: 'GET_TRANSACTIONS_LIST',
-            payload: { response: response.data, statusCode: response.status || response.data.statusCode },
-        });
-
-    } else if (response.status === 201 || response.statusCode === 201) {
-
-        yield put({ type: 'GET_TRANSACTIONS_ERROR', payload: response.data.message });
-    }
-    if (response) {
-        refreshToken(response);
-    }
-
-
-}
-
 function* handleRecordPayment(payload) {
 
 
 
     const response = yield call(RecordPaymentAction, payload);
+    var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "300px",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "13px",
+    };
 
     if (response.statusCode === 200 || response.status === 200) {
 
@@ -348,8 +339,7 @@ function* handleRecordPayment(payload) {
             type: 'ADD_RECORD_PAYMENT',
             payload: { response: response.message, statusCode: response.statusCode || response.status },
         });
-
-        toast.success(response.message, {
+        toast.success(response.message || "Payment added successfully!", {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -358,22 +348,57 @@ function* handleRecordPayment(payload) {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            style: {
-                backgroundColor: "#E6F6E6",
-                color: "black",
-                borderRadius: "60px",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                fontSize: 14,
-                textAlign: "start",
-                display: "flex",
-                alignItems: "center",
-                padding: "10px",
-            },
+            style: toastStyle,
         });
+
+
 
     } else if (response.statusCode === 201) {
         yield put({ type: 'RECORD_PAYMENT_ERROR_MSG', payload: response.message });
+    }
+    if (response) {
+        refreshToken(response);
+    }
+}
+
+function* handleAddTransactions(action) {
+
+
+    const response = yield call(AddTransaction, action.payload);
+
+
+    if (response.status === 200 || response.data.statusCode === 200) {
+        yield put({
+            type: 'ADD_TRANSACTIONS_LIST',
+            payload: { response: response.data, statusCode: response.status || response.data.statusCode },
+        });
+
+    } else if (response.status === 201 || response.statusCode === 201) {
+
+        yield put({ type: 'ADD_TRANSACTIONS_ERROR', payload: response.data.message });
+    }
+    if (response) {
+        refreshToken(response);
+    }
+
+
+}
+
+function* handleGetTransactions() {
+
+
+    const response = yield call(GetTransactionsAction);
+
+    if (response.statusCode === 200 || response.status === 200) {
+
+        yield put({
+            type: 'GET_TRANSACTIONS_LIST',
+            payload: { response: response.data, statusCode: response.statusCode || response.status },
+        });
+
+    } else if (response.status === 201 || response.statusCode === 201) {
+
+        yield put({ type: 'GET_TRANSACTIONS_ERROR_MESSAGE', payload: response.data.message });
     }
     if (response) {
         refreshToken(response);
@@ -408,8 +433,10 @@ function* MemberSaga() {
     yield takeEvery('GETCOMMENTS', handleGetComment);
     yield takeEvery('ADDCOMMENTS', handleAddComment);
     yield takeEvery('GETSTATEMENT', handleGetStatement);
-    yield takeEvery('GETTRANSACTIONS', handleGet_Transactions)
     yield takeEvery('ADDRECORDPAYMENT', handleRecordPayment)
+    yield takeEvery('ADDTRANSACTIONS', handleAddTransactions);
+    yield takeEvery('GETTRANSACTIONSLIST', handleGetTransactions)
+
 }
 
 export default MemberSaga;
