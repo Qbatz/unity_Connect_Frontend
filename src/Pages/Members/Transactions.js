@@ -12,9 +12,7 @@ function Transactions({ state }) {
   useEffect(() => {
     dispatch({ type: "GETTRANSACTIONSLIST" });
   }, []);
-  useEffect(() => {
-    dispatch({ type: '' });
-  }, []);
+
 
   return (
     <div className="p-4">

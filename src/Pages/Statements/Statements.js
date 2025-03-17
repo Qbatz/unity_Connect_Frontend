@@ -84,66 +84,6 @@ function Statement({ state }) {
               </tr>
             </thead>
 
-            {/* <tbody>
-              {statementList.map((item, index) => (
-                <tr key={index} className="p-3 hover:bg-gray-100 border-b font-Gilroy">
-                  <td className="p-3 flex items-center gap-2 truncate">
-                    <img src={ProfileIcon} alt="avatar" className="w-6 h-6 rounded-full" />
-                    <span className="truncate">{item.User_Name}</span>
-                  </td>
-                  <td className="p-4">
-                    <span className="bg-orange-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
-                      {item.Loan_id}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
-                      {formattingDate}
-                    </span>
-                  </td>
-
-                  <td className="p-2">{item.Loan_Amount}</td>
-                  <td className="p-4">
-                    <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
-                      {formattingDueDate}
-                    </span>
-                  </td>
-                  <td className="p-2 text-center">{item.Due}</td>
-                  <td className="p-2 text-center">
-                    <span className={`px-3 py-2 rounded-full text-black ${item.Status === "Paid" ? "bg-green-200" : "bg-red-200"}`}>
-                      {item.Status}
-                    </span>
-                  </td>
-                  <td className="p-2 relative">
-                    <button onClick={() => toggleMenu(index)} className="text-gray-600 bg-white rounded-full p-2 shadow">
-                      <FiMoreVertical size={16} />
-                    </button>
-                    {menuOpen === index && (
-                      <div
-                        ref={popupRef}
-                        className="absolute right-4 top-10 bg-white border-t border-b border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
-                      >
-                        <div>
-                          <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
-                            <img src={RecordPayment} alt="Record Payment" className="h-4 w-4" />
-                            Record Payment
-                          </button>
-                          <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
-                            <img src={editIcon} alt="Edit" className="h-4 w-4" />
-                            Edit
-                          </button>
-                          <button className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy">
-                            <img src={trashRed} alt="Delete" className="h-4 w-4" />
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody> */}
-             
              <tbody>
   {statementList.length === 0 ? (
     <tr>
