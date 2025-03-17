@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Dashboard from "../Asset/Icons/Dashboard.svg";
 import DashboardActive from "../Asset/Icons/DashboardActive.svg";
@@ -179,7 +180,7 @@ const Sidebar = ({ state }) => {
 
 const mapsToProps = (stateInfo) => {
   return {
-    state: stateInfo.SignIn,
+    state: stateInfo.SignIn
   }
 }
 

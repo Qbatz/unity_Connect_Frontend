@@ -23,7 +23,6 @@ export const initialState = {
     GetMemberId: [],
     statusCodeForMemberId: 0,
     MemberIdErrorMsg: '',
-    TransactionsErrorMsg: '',
     addRecordPayment: [],
     statusCodeForRecordPayment: 0,
     recordPaymentErrorMessage: '',
