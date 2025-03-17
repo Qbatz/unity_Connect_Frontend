@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Dashboard from "../Asset/Icons/Dashboard.svg";
 import DashboardActive from "../Asset/Icons/DashboardActive.svg";
@@ -35,11 +36,12 @@ const Sidebar = ({ state }) => {
   const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  useEffect(() => {
+  useEffect(() =>{
+   if(state.profileDetailsUpdateStatusCode === 200){
     dispatch({ type: 'PROFILEDETAILS' });
-  }, [dispatch]);
-
-
+   }
+  },[state.profileDetailsUpdateStatusCode]);
+  
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const handleMenuClick = (menu) => {
@@ -102,14 +104,14 @@ const Sidebar = ({ state }) => {
           <div className="p-2 flex items-center justify-between w-full md:flex-wrap lg:flex-nowrap">
             <div className="flex items-center md:flex-wrap lg:flex-nowrap">
               <img
-                src={state.Profile}
+                src={state.profileDetailsList.Profile}
                 alt="Profile"
                 className="w-12 h-12 rounded-full lg:ml-0 sm:ml-0 md:ml-7 cursor-pointer"
                 onClick={() => handleMenuClick("Profile")}
               />
               <div className="md:text-center lg:text-start md:ml-2">
-                <p className="text-black font-semibold text-base leading-snug font-Gilroy">{state.First_Name + " " + state.Last_Name}</p>
-                <p className="text-neutral-400 font-normal text-xs leading-tight font-Gilroy">{state.Email_Id}</p>
+                <p className="text-black font-semibold text-base leading-snug font-Gilroy">{state.profileDetailsList.First_Name + " " + state.profileDetailsList.Last_Name}</p>
+                <p className="text-neutral-400 font-normal text-xs leading-tight font-Gilroy">{state.profileDetailsList.Email_Id}</p>
               </div>
             </div>
 
@@ -179,7 +181,7 @@ const Sidebar = ({ state }) => {
 
 const mapsToProps = (stateInfo) => {
   return {
-    state: stateInfo.SignIn.profileDetailsList
+    state: stateInfo.SignIn
   }
 }
 

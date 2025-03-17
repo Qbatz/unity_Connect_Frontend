@@ -43,9 +43,15 @@ function MemberModal({ state, memberData, onClose }) {
     }, []);
 
     useEffect(() => {
-       setMemberId(state?.Member?.GetMemberId?.memberId || '');
+        if (state.Member.statusCodeForAddUser === 200) {
+            dispatch({ type: 'MEMBERLIST' });
+        }
+    }, [state.Member.statusCodeForAddUser]);
+
+    useEffect(() => {
+        setMemberId(state?.Member?.GetMemberId?.memberId || '');
     }, [state.Member.GetMemberId]);
- 
+
     useEffect(() => {
         setNoChanges("");
     }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
@@ -66,7 +72,7 @@ function MemberModal({ state, memberData, onClose }) {
         if (mobileNo.length > 10) {
             tempErrors.mobileNo = "Mobile number cannot exceed 10 digits";
         }
-        
+
 
         if (!address) tempErrors.address = "Address is required";
         setErrors(tempErrors);
@@ -114,7 +120,6 @@ function MemberModal({ state, memberData, onClose }) {
         onClose()
     }
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         setNoChanges("");
@@ -123,16 +128,18 @@ function MemberModal({ state, memberData, onClose }) {
             setNoChanges("Please fill in all the required fields.");
             return;
         }
+        const formatDate = (date) => date ? new Date(date).toISOString().split("T")[0] : "";
+
+        const isFileChanged = file && file.name !== (memberData?.Document_Url || "");
 
         const isChanged = memberData && (
-            userName.trim() !== (memberData.User_Name || '').trim() ||
-            email.trim() !== (memberData.Email_Id || '').trim() ||
-            String(mobileNo).trim() !== String((memberData.Mobile_No || '')).trim() ||
-            joiningDate.trim() !== (memberData.joining_date || '').trim() ||
-            address.trim() !== (memberData.Address || '').trim() ||
-            (file && file.name !== memberData.file)
+            (userName?.trim() || "") !== (memberData?.User_Name?.trim() || "") ||
+            (email?.trim() || "") !== (memberData?.Email_Id?.trim() || "") ||
+            (String(mobileNo)?.trim() || "") !== (String(memberData?.Mobile_No)?.trim() || "") ||
+            formatDate(joiningDate) !== formatDate(memberData?.Joining_Date) ||
+            (address?.trim() || "") !== (memberData?.Address?.trim() || "") ||
+            isFileChanged
         );
-
 
 
         if (memberData && !isChanged) {
@@ -151,7 +158,6 @@ function MemberModal({ state, memberData, onClose }) {
             mobile_no: mobileNo,
             joining_date: joiningDate,
             address: address,
-            file: file,
         };
 
         const Editpayload = {
@@ -161,18 +167,25 @@ function MemberModal({ state, memberData, onClose }) {
             mobile_no: mobileNo,
             joining_date: joiningDate,
             address: address,
-            document_url: memberData?.Document_Url,
             id: memberData.Id,
         };
+
+        if (isFileChanged) {
+            Editpayload.file = file;
+            Editpayload.document_url = null;
+        } else {
+            Editpayload.document_url = memberData?.Document_Url || null;
+        }
 
         dispatch({
             type: 'MEMBERINFO',
             payload: memberData ? Editpayload : payload,
         });
-
+        dispatch({ type: 'MEMBERLIST' });
+        setFile(null);
         setNoChanges("");
         onClose();
-        dispatch({ type: 'MEMBERLIST' });
+
     };
 
 
@@ -218,7 +231,7 @@ function MemberModal({ state, memberData, onClose }) {
                             />
                             {errors.userName && (
                                 <p className="text-red-500 flex items-center gap-1 text-xs">
-                                    <MdError  /> {errors.userName}
+                                    <MdError /> {errors.userName}
                                 </p>
                             )}
                         </div>
