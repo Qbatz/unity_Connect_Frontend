@@ -28,7 +28,7 @@ function MemberID({ state }) {
       setPrefix(value);
       setError((prev) => ({ ...prev, prefix: "" }));
     } else {
-      setError((prev) => ({ ...prev, prefix: "Prefix should contain only letters." }));
+      setError((prev) => ({ ...prev, prefix: "Prefix should contain only letters" }));
     }
   };
   const handleSuffix = (e) => {
@@ -37,7 +37,7 @@ function MemberID({ state }) {
       setSuffix(value);
       setError((prev) => ({ ...prev, suffix: "" }));
     } else {
-      setError((prev) => ({ ...prev, suffix: "Suffix should contain only numbers." }));
+      setError((prev) => ({ ...prev, suffix: "Suffix should contain only numbers" }));
     }
   };
 
@@ -47,11 +47,11 @@ function MemberID({ state }) {
     let hasError = false;
 
     if (!prefix) {
-      newError.prefix = "Prefix is required.";
+      newError.prefix = "Prefix is required";
       hasError = true;
     }
     if (!suffix) {
-      newError.suffix = "Suffix is required.";
+      newError.suffix = "Suffix is required";
       hasError = true;
     }
 

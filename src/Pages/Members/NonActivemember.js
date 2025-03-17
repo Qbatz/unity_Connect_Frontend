@@ -221,7 +221,7 @@ function NonActiveMember({ state }) {
 
 
             <div className="mt-3 text-sm text-gray-700">
-              <div className="flex justify-stretch items-center">
+              <div className="flex justify-between">
                 <p className="flex items-center gap-2 font-Gilroy">
                   <img src={sms} className="text-gray-500" alt="sms" />
                   {member.Email_Id}
@@ -231,13 +231,14 @@ function NonActiveMember({ state }) {
                   {member.Mobile_No
                   }
                 </p>
+                <p></p>
               </div>
               <p className="flex items-center gap-2 mt-2 font-Gilroy">
                 <img src={building} className="text-gray-500" alt="building" />
                 {member.Address}
               </p>
             </div>
-
+            <div className="border-b mt-4"></div>
 
             <div className="flex justify-between items-center mt-3">
 
