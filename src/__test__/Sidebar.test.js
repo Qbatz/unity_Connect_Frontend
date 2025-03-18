@@ -33,6 +33,12 @@ describe('render and check sidebar functionalities', () => {
                 },
                 SignIn: {
                     profileDetailsList: []
+                },
+                Report: {
+                    statusCodeLoans: 200,
+                    getReport: {
+                        unsuccessfullPayment: []
+                    }
                 }
         
             })
