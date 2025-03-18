@@ -110,10 +110,9 @@ function* handleProfileDetailsUpdate(datum) {
             style: toastStyle,
         });
 
-
         yield put({
             type: 'PROFILE_DETAILS_UPDATE_LIST',
-            payload: { response: response.data, statusCode: response.statusCode || response.status },
+            payload: { statusCode: response.statusCode || response.status },
         });
 
 

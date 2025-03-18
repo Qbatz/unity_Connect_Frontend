@@ -121,6 +121,7 @@ function* handleAddMember(datum) {
             type: 'ADD_USER_SUCCESS',
             payload: { response: response.data, statusCode: response.statusCode || response.status },
         });
+        yield put({ type: 'MEMBERLIST' })
 
         toast.success(response.message, {
             position: "bottom-center",
@@ -375,7 +376,7 @@ function* handleAddTransactions(action) {
 
     } else if (response.status === 201 || response.statusCode === 201) {
 
-        yield put({ type: 'ADD_TRANSACTIONS_ERROR', payload: response.data.message });
+        yield put({ type: 'ADD_TRANSACTIONS_ERROR_MESSAGE', payload: response.data.message });
     }
     if (response) {
         refreshToken(response);

@@ -5,6 +5,7 @@ import CloseCircleIcon from '../../Asset/Icons/close-circle.svg';
 import { useDispatch } from "react-redux";
 import img1 from "../../Asset/Images/Memberone.svg";
 import tick from '../../Asset/Icons/tick-circle.svg';
+import { MdError } from "react-icons/md";
 
 
 function AddLoanForm({ state }) {
@@ -47,17 +48,17 @@ function AddLoanForm({ state }) {
     e.preventDefault();
 
     if (!memberId) {
-      setErrorMessage("Please select a member.");
+      setErrorMessage("Please select a member");
       return;
     }
 
     if (selectedWitnesses.length === 0) {
-      setErrorMessage("Please select at least one witness.");
+      setErrorMessage("Please select at least one witness");
       return;
     }
 
     if (!loanAmount) {
-      setErrorMessage("Please enter the loan amount.");
+      setErrorMessage("Please enter the loan amount");
       return;
     }
 
@@ -236,7 +237,8 @@ function AddLoanForm({ state }) {
                 <select
                   value={memberId}
                   onChange={(e) => { setMemberId(e.target.value); setErrorMessage(""); }}
-                  className="w-full font-Gilroy h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
+                  className="w-full font-Gilroy h-60 border border-[#D9D9D9] rounded-2xl p-2 mt-3"
+
                 >
                   <option value="">Select a member</option>
                   {members.map((member) => (
@@ -304,8 +306,11 @@ function AddLoanForm({ state }) {
                   className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                 />
               </div>
+
               {errorMessage && (
-                <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
+                <p className="flex items-center gap-2 text-[red] text-sm font-medium mt-3">
+                  <MdError className="text-sm" /> {errorMessage}
+                </p>
               )}
               <button
                 onClick={handleSubmit}

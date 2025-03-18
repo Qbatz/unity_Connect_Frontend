@@ -62,7 +62,11 @@ function MemberModal({ state, memberData, onClose }) {
     const validate = () => {
         let tempErrors = {};
         if (!userName) tempErrors.userName = "User Name is required";
-        if (!email) tempErrors.email = "Email is required";
+        if (!email) {
+            tempErrors.email = "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            tempErrors.email = "Enter a valid email address";
+        }
         if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
         if (!mobileNo) {
             tempErrors.mobileNo = "Mobile number is required";
@@ -125,7 +129,7 @@ function MemberModal({ state, memberData, onClose }) {
         setNoChanges("");
 
         if (!userName && !email && !mobileNo && !joiningDate && !address) {
-            setNoChanges("Please fill in all the required fields.");
+            setNoChanges("Please fill in all the required fields");
             return;
         }
         const formatDate = (date) => date ? new Date(date).toISOString().split("T")[0] : "";
@@ -202,13 +206,13 @@ function MemberModal({ state, memberData, onClose }) {
                 </div>
 
                 <div className="space-y-1 mt-2">
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 ">
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID</label>
                             <input
                                 data-testid='input-member-id'
                                 type="text"
-                                className="w-full p-2 h-10 border rounded-lg text-sm"
+                                className="w-full p-2 h-10 border rounded-lg text-sm mb-3"
                                 value={state?.Member?.GetMemberId?.memberId || ''}
                                 readOnly
                             />
@@ -239,11 +243,11 @@ function MemberModal({ state, memberData, onClose }) {
 
                     <div className="flex gap-4">
                         <div className="w-1/2">
-                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email</label>
+                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email address</label>
                             <input
                                 data-testid='input-member-email'
                                 type="email"
-                                className="w-full p-2 h-10 border rounded-lg text-sm"
+                                className="w-full p-2 h-10 border rounded-lg text-sm mb-3"
                                 placeholder="Enter Email"
                                 value={email}
                                 onChange={(e) => handleChange("email", e.target.value)}
@@ -256,7 +260,7 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
 
                         <div className="w-1/2">
-                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Mobile No.</label>
+                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Mobile No</label>
                             <input
                                 data-testid='input-member-phone'
                                 type="text"
@@ -283,7 +287,7 @@ function MemberModal({ state, memberData, onClose }) {
                         <input
                             data-testid='input-joining-data'
                             type="date"
-                            className="w-56 p-2 h-10 border rounded-lg text-sm cursor-pointer"
+                            className="w-56 p-2 h-10 border rounded-lg text-sm cursor-pointer mb-3"
                             placeholder="Select Joining Date"
                             value={formattedDate}
                             onChange={(e) => handleChange("joiningDate", e.target.value)}
@@ -295,11 +299,11 @@ function MemberModal({ state, memberData, onClose }) {
                         )}
                     </div>
 
-                    <div>
+                    <div className="mb-3">
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Address</label>
                         <textarea
                             data-testid='input-member-address'
-                            className="w-full p-2 border rounded-lg h-10 text-sm"
+                            className="w-full p-2 border rounded-lg h-10 text-sm mb-3"
                             placeholder="Enter Address"
                             value={address}
                             onChange={(e) => handleChange("address", e.target.value)}
