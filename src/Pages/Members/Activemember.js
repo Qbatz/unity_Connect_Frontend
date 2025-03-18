@@ -409,44 +409,46 @@ function ActiveMember({ state }) {
 
         </div>
 
-        <div className="flex justify-end items-center gap-4 mt-5">
+        {members.length > 5 && (
+          <div className="flex justify-end items-center gap-4 mt-5">
 
-          <select
-            value={pageSize}
-            onChange={handlePageSizeChange}
-            className="border border-gray-300 px-4 py-2 rounded-lg"
-          >
-            {[5, 10, 50, 100].map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-
-
-
-
-
-          <div className="flex gap-2">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="px-4 py-2 border rounded-lg"
+            <select
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              className="border border-gray-300 px-4 py-2 rounded-lg"
             >
-              &lt;
-            </button>
-            <p className="text-gray-600 font-medium px-4 py-2">
-              {currentPage} of {totalPages}
-            </p>
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 border rounded-lg"
-            >
-              &gt;
-            </button>
+              {[5, 10, 50, 100].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+
+
+
+
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 border rounded-lg"
+              >
+                &lt;
+              </button>
+              <p className="text-gray-600 font-medium px-4 py-2">
+                {currentPage} of {totalPages}
+              </p>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 border rounded-lg"
+              >
+                &gt;
+              </button>
+            </div>
           </div>
-        </div>
+        )}
         {showModal && <AddMemberForm memberData={selectedMember} onClose={handleOnClose} />}
         {!showMembers && <MemberDetails member={memberdetail} onClick={() => closeDetails} />}
 

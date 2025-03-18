@@ -166,8 +166,8 @@ describe('checks for Create account', () => {
        
             CreateAccount: {
                 statusCodeCreateAccount: 201,
-                mobileError: 'Email Id Already Exists',
-                email_mobile_Error: 'Mobile Number Already Exists'
+                emailError: 'Email Id Already Exists',
+               
             }
 
     })

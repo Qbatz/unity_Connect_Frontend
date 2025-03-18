@@ -140,29 +140,29 @@ function ExpensesList({ state }) {
                 <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <div className="min-w-max overflow-y-auto max-h-[400px]">
-                            <table className="w-full text-left border-collapse min-w-max ">
+                            <table className="w-full text-left border-collapse">
                                 <thead className="sticky top-0 bg-blue-50 z-10">
                                     <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
                                         <th className="p-4 font-Gilroy">Merchant</th>
-                                        <th className="p-4 font-Gilroy">Category</th>
-                                        <th className="p-4 font-Gilroy">Sub-Category</th>
+                                        <th className="p-4 font-Gilroy ">Category</th>
+                                        <th className="p-4 font-Gilroy ">Sub-Category</th>
                                         <th className="p-4 font-Gilroy">Expenses date</th>
-                                        <th className="p-4 font-Gilroy">Amount</th>
+                                        <th className="p-4 font-Gilroy ">Amount</th>
                                         <th className="p-4 font-Gilroy">Mode of payment</th>
-                                        <th className="p-4 font-Gilroy"></th>
+                                        <th className="p-4 font-Gilroy "></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {paginatedData?.map((item, index) => (
                                         <tr key={index}>
 
-                                            <td className="p-3 flex items-center gap-2 truncate">
+                                            <td className="p-3  flex items-center gap-2 truncate">
                                                 <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
                                                 <span className="truncate">{item.Name}</span>
                                             </td>
 
 
-                                            <td className="p-4">
+                                            <td className="p-4 ">
                                                 <div className="bg-orange-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy flex items-center justify-center whitespace-nowrap">
                                                     {item.Category_Name}
                                                 </div>
@@ -170,7 +170,7 @@ function ExpensesList({ state }) {
 
 
 
-                                            <td className="p-4 font-Gilroy relative">
+                                            <td className="p-4  font-Gilroy relative">
                                                 {item.sub_cat?.length > 0 ? (
                                                     <div className="relative" ref={popupRef}>
 
@@ -183,7 +183,7 @@ function ExpensesList({ state }) {
 
 
                                                         {item.sub_cat.length > 1 && openIndex === index && (
-                                                            <div className="absolute left-0 top-full mt-1 w-48 bg-white border border-gray-300 shadow-md rounded-md z-10 max-h-[150px] overflow-y-auto">
+                                                            <div className="absolute left-0 top-full mt-1 w-48 bg-white border border-gray-300 shadow-md rounded-md z-[50] max-h-[150px] overflow-y-auto">
                                                                 {item.sub_cat.slice(1).map((sub, i) => (
                                                                     <div key={i} className="p-2 hover:bg-gray-100 truncate">
                                                                         {sub.Subcategory_Name}
@@ -197,10 +197,10 @@ function ExpensesList({ state }) {
 
                                             <td className="p-4 font-Gilroy">{item.Expense_Date}</td>
                                             <td className="p-4 font-Gilroy">{item.Expense_Amount}</td>
-                                            <td className="p-4 font-Gilroy">{item.Mode_of_Payment}</td>
+                                            <td className="p-4  font-Gilroy">{item.Mode_of_Payment}</td>
 
 
-                                            <td className="p-4 relative">
+                                            <td className="p-4  relative">
                                                 <div
                                                     className="cursor-pointer h-10 w-10 border border-gray-300 rounded-full flex justify-center items-center bg-white"
                                                     onClick={(event) => handledots(event, index)}
@@ -215,6 +215,7 @@ function ExpensesList({ state }) {
                                                             top: `${popupPosition.top}px`,
                                                             left: `${popupPosition.left}px`,
                                                             right: '90px',
+                                                            zIndex: 50,
 
                                                         }}
                                                         className="absolute  top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[150px]">
@@ -242,41 +243,47 @@ function ExpensesList({ state }) {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-end items-center gap-4 mt-5">
 
-                    <select
-                        value={pageSize}
-                        onChange={handlePageSizeChange}
-                        className="border border-gray-300 px-4 py-2 rounded-lg"
-                    >
-                        {[5, 10, 50, 100].map((size) => (
-                            <option key={size} value={size}>
-                                {size}
-                            </option>
-                        ))}
-                    </select>
 
-                    <div className="flex gap-2">
-                        <button
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            className="px-4 py-2 border rounded-lg"
+
+
+
+                {ExpensesList.length > 5 && (
+                    <div className="flex justify-end items-center gap-4 mt-5">
+
+                        <select
+                            value={pageSize}
+                            onChange={handlePageSizeChange}
+                            className="border border-gray-300 px-4 py-2 rounded-lg"
                         >
-                            &lt;
-                        </button>
-                        <p className="text-gray-600 font-medium px-4 py-2">
-                            {currentPage} of {totalPages}
-                        </p>
-                        <button
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                            className="px-4 py-2 border rounded-lg"
-                        >
-                            &gt;
-                        </button>
+                            {[5, 10, 50, 100].map((size) => (
+                                <option key={size} value={size}>
+                                    {size}
+                                </option>
+                            ))}
+                        </select>
+
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="px-4 py-2 border rounded-lg"
+                            >
+                                &lt;
+                            </button>
+                            <p className="text-gray-600 font-medium px-4 py-2">
+                                {currentPage} of {totalPages}
+                            </p>
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="px-4 py-2 border rounded-lg"
+                            >
+                                &gt;
+                            </button>
+                        </div>
                     </div>
-                </div>
-
+                )}
 
             </div>
 

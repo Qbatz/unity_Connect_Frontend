@@ -21,7 +21,10 @@ describe('it checks on settings reducer', () => {
             LoanIDprefix: '',
             LoanIDsuffix: '',
             statusCodeLoanID: 0,
-            error: ''
+            error: '',
+            TransactionIDprefix: '',
+            TransactionIDsuffix: '',
+            statusCodeTransactionID: 0,
         })
     })
 
@@ -43,7 +46,10 @@ describe('it checks on settings reducer', () => {
             LoanIDprefix: '',
             LoanIDsuffix: '',
             statusCodeLoanID: 0,
-            error: ''
+            error: '',
+            TransactionIDprefix: '',
+            TransactionIDsuffix: '',
+            statusCodeTransactionID: 0,
         })
     })
 
@@ -64,7 +70,10 @@ describe('it checks on settings reducer', () => {
             LoanIDprefix: 'A',
             LoanIDsuffix: 'A',
             statusCodeLoanID: 200,
-            error: ''
+            error: '',
+            TransactionIDprefix: '',
+            TransactionIDsuffix: '',
+            statusCodeTransactionID: 0,
         })
     })
 
@@ -85,7 +94,10 @@ describe('it checks on settings reducer', () => {
             LoanIDprefix: 'A',
             LoanIDsuffix: 'A',
             statusCodeLoanID: 0,
-            error: ''
+            error: '',
+            TransactionIDprefix: '',
+            TransactionIDsuffix: '',
+            statusCodeTransactionID: 0,
         })
     })
 
@@ -102,7 +114,10 @@ describe('it checks on settings reducer', () => {
             LoanIDprefix: 'A',
             LoanIDsuffix: 'A',
             statusCodeLoanID: 0,
-            error: 'Invalid Request'
+            error: 'Invalid Request',
+            TransactionIDprefix: '',
+            TransactionIDsuffix: '',
+            statusCodeTransactionID: 0,
         })
     })
 
@@ -119,7 +134,10 @@ describe('it checks on settings reducer', () => {
             LoanIDprefix: '',
             LoanIDsuffix: '',
             statusCodeLoanID: 0,
-            error: ''
+            error: '',
+            TransactionIDprefix: '',
+            TransactionIDsuffix: '',
+            statusCodeTransactionID: 0,
         })
     })
 
@@ -136,7 +154,10 @@ describe('it checks on settings reducer', () => {
             LoanIDprefix: '',
             LoanIDsuffix: '',
             statusCodeLoanID: 0,
-            error: ''
+            error: '',
+            TransactionIDprefix: '',
+            TransactionIDsuffix: '',
+            statusCodeTransactionID: 0,
         })
     })
 })
