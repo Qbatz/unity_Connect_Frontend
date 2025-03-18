@@ -112,7 +112,7 @@ const MemberListReducer = (state = initialState, action) => {
             return { ...state, addTransactionsList: action.payload.response, statusCodeAddTransactions: action.payload.response }
         case 'ADD_TRANSACTIONS_ERROR_MESSAGE':
             return { ...state, addTransactionsErrorMsg: action.payload.message }
-        case 'CLEAR_STATUS_CODE_TRANSACTIONS':
+        case 'CLEAR_STATUS_CODE_ADD_TRANSACTIONS':
             return { ...state, statusCodeAddTransactions: 0 }
 
         case 'GET_TRANSACTIONS_LIST':

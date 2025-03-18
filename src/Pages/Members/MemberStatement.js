@@ -54,9 +54,16 @@ function MemberStatements({ state, member }) {
       setIsModalOpen(false);
       dispatch({ type: 'GETSTATEMENT', payload: { id: member.Id } })
       dispatch({ type: "CLEAR_STATUS_CODES_RECORD_PAYMENT" });
-
-    }
+   }
   }, [state.Member.statusCodeForRecordPayment])
+ 
+  useEffect(() => {
+    if (state.Member.statusCodeAddTransactions === 200) {
+      setIsModalOpen(false);
+      dispatch({ type: 'GETSTATEMENT', payload: { id: member.Id } })
+      dispatch({ type: "CLEAR_STATUS_CODE_ADD_TRANSACTIONS" });
+   }
+  },[state.Member.statusCodeAddTransactions])
 
   const handleInputChange = (field, value) => {
     if (errors[field]) {
