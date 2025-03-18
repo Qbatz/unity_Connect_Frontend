@@ -3,6 +3,7 @@ import ExpensesSetting from "./ExpensesSetting";
 import LoanSetting from "./LoanSetting";
 import MemberID from "./MemberID";
 import LoanID from "./LoanID";
+import TransactionID from "./TransactionID";
 import Payment from "./Payment";
 
 const Settings = () => {
@@ -19,7 +20,7 @@ const Settings = () => {
 
 
       <div className="border-b border-gray-300 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 md:gap-10 lg:gap-[75px] scrollbar-hide">
-        {["Member ID", "Loan ID", "Subscription", "Loan", "Interest", "Returns", "Expenses", "Payment"].map((tab) => (
+        {["Member ID", "Loan ID", "Transaction ID", "Loan", "Interest", "Returns", "Expenses", "Payment"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -41,6 +42,7 @@ const Settings = () => {
         {activeTab === "Expenses" && <ExpensesSetting />}
         {activeTab === "Member ID" && <MemberID />}
         {activeTab === "Loan ID" && <LoanID />}
+        {activeTab === "Transaction ID" && <TransactionID />}
         {activeTab === "Payment" && <Payment />}
       </div>
     </div>

@@ -14,6 +14,13 @@ export async function SettingLoanIDAction(loan) {
     });
 }
 
+export async function SettingTransactionIDAction(Transaction) {
+    return await AxiosConfig.post('/transaction/add_transaction_id',Transaction,{
+
+     data:Transaction 
+    });
+}
+
 
 export async function SettingAddExpenses(datum) {
 

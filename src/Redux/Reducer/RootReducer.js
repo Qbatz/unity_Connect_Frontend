@@ -7,6 +7,7 @@ import MemberListReducer from "./MemberReducer";
 import SettingLoanReducer from "./SettingLoanReducer";
 import LoanReducer from "./LoanReducer";
 import StatementReducer from "./StatementReducer";
+import ExpensesReducer from "./ExpensesReducer";
 import ReportReducer from "./ReportsReducer";
 
 
@@ -20,6 +21,7 @@ const RootReducer = combineReducers({
     SettingLoan: SettingLoanReducer,
     Loan:LoanReducer,
     Statement: StatementReducer,
+    Expenses: ExpensesReducer,
     Report:ReportReducer,
 })
 export default RootReducer;

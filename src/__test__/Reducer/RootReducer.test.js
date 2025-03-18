@@ -7,6 +7,7 @@ import SettingLoanReducer from "../../Redux/Reducer/SettingLoanReducer";
 import SettingAddExpensesReducer from "../../Redux/Reducer/SettingsExpensesReducer";
 import LoanReducer from "../../Redux/Reducer/LoanReducer";
 import StatementReducer from "../../Redux/Reducer/StatementReducer";
+import ExpensesReducer from "../../Redux/Reducer/ExpensesReducer";
 
 
 describe('it should check for root reducer', () => {
@@ -20,7 +21,8 @@ describe('it should check for root reducer', () => {
             SettingExpenses:SettingAddExpensesReducer(undefined, { type: "INIT" }),
             SettingLoan:SettingLoanReducer(undefined, { type: "INIT" }),
             Loan: LoanReducer(undefined, { type: "INIT" }),
-            Statement: StatementReducer(undefined, { type: "INIT" })
+            Statement: StatementReducer(undefined, { type: "INIT" }),
+            Expenses: ExpensesReducer(undefined, { type: "INIT" })
         });
     })
 })

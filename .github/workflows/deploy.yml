@@ -1,0 +1,69 @@
+name: Node.js CI and Deploy
+
+on:
+  pull_request:
+    branches: [ "test", "master"]
+  push:
+    branches: [ "main" ]  # Deploy only on push to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install --force
+
+      - name: Build React App
+        run: npm run build --if-present
+
+      - name: Run Tests
+        run: npm test
+
+  deploy:
+    needs: build  # Run deploy only after build is successful
+    if: github.ref == 'refs/heads/main'  # Deploy only on main branch
+    runs-on: ubuntu-latest
+
+    # ✅ Correct placement of permissions
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install --force
+
+      - name: Build React App
+        run: npm run build --if-present
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::211125359030:role/unityconnectdev-git
+          role-session-name: GitHubActions
+          aws-region: ap-south-1
+
+      - name: Deploy to S3
+        run: aws s3 sync ./build s3://unityconnectdev.s3remotica.com --delete

@@ -136,11 +136,7 @@ const SignIn = ({ state }) => {
             )}
           </div>
           <div>
-            {state.SignIn.errorEmail && (
-              <label className="text-red-500 text-xs font-bold font-gilroy ml-1 -mt-1/2 mb-2 block">
-                {state.SignIn.errorEmail}
-              </label>
-            )}
+           
           </div>
         </div>
 
@@ -178,14 +174,21 @@ const SignIn = ({ state }) => {
             )}
           </div>
           <div>
-            {state.SignIn.errorPassword && (
-              <label className="text-red-500 text-xs font-bold font-gilroy ml-1 -mt-1/2 mb-2 block">
-                {state.SignIn.errorPassword}
-              </label>
-            )}
           </div>
 
         </div>
+        <div className="mt-2 flex justify-center">
+        {state.SignIn.errorEmail && (
+              <label className="text-red-500 text-sm font-bold font-gilroy ml-1 block">
+                {state.SignIn.errorEmail}
+              </label>
+            )}
+        {state.SignIn.errorPassword && (
+              <label className="text-red-500 text-sm font-bold font-gilroy ml-1 block">
+                {state.SignIn.errorPassword}
+              </label>
+            )}
+            </div>
 
         <div>
           <button

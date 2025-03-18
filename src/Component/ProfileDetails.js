@@ -1,33 +1,60 @@
-import React, { useState } from 'react';
-import Logout from "../Asset/Icons/turn-off.png";
-import ProfileIcon from '../Asset/Icons/ProfileIcon.svg';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
+import logoutIcon from "../Asset/Icons/logoutIcon.svg";
+import PropTypes from 'prop-types';
 import { encryptData } from "../Crypto/Utils";
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import { MdError } from 'react-icons/md';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 
-const ProfileDetails = () => {
+const ProfileDetails = ({ state }) => {
+
     const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState("editProfile");
     const [logoutFormShow, setLogoutFormShow] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [formData, setFormData] = useState({
-        firstName: 'Vikram',
-        lastName: 'Kumar',
-        email: 'vikramkumar@gmail.com',
-        mobile: '+91 9876543210',
+        firstName: '',
+        lastName: '',
+        email: '',
+        mobileNo: '',
+        id: 0
     });
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',
         email: '',
-        mobile: '',
+        mobileNo: '',
     });
 
     const [showPassword, setShowPassword] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [noChangesMessage, setNoChangesMessage] = useState('');
+    const [passwordErrors, setPasswordErrors] = useState({
+        currentPassword: '',
+        newPassword: '',
+        bothPassword: '',
+    });
+
+
+    useEffect(() => {
+        dispatch({ type: 'PROFILEDETAILS' });
+    }, []);
+
+    useEffect(() => {
+        setFormData((prev) => ({
+            ...prev,
+            firstName: state.First_Name || "",
+            lastName: state.Last_Name || "",
+            email: state.Email_Id || "",
+            mobileNo: state.Mobile_No || "",
+
+
+        }));
+    }, [state]);
+
 
     const validate = () => {
         let tempErrors = { ...errors };
@@ -54,24 +81,56 @@ const ProfileDetails = () => {
         } else {
             tempErrors.email = '';
         }
-
-        const mobilePattern = /^[+]{1}[0-9]{1,3}[ ]{1}[0-9]{10}$/;
-        if (!formData.mobile || !mobilePattern.test(formData.mobile)) {
-            tempErrors.mobile = 'Please enter a valid mobile number.';
+                       
+        const mobileNoPattern = /^[+]{1}[0-9]{1,3}[ ]{1}[0-9]{10}$/;
+        if (!formData.mobileNo || !mobileNoPattern.test(formData.mobileNo)) {
+            tempErrors.mobileNo = 'Please enter a valid mobileNo number.';
             isValid = false;
         } else {
-            tempErrors.mobile = '';
+            tempErrors.mobileNo = '';
         }
-
+    
         setErrors(tempErrors);
         return isValid;
     };
+
+    const validatePasswords = () => {
+        let tempErrors = { ...passwordErrors };
+        let isValid = true;
+
+        if (!currentPassword) {
+            tempErrors.currentPassword = 'Current password is required.';
+            isValid = false;
+        } else {
+            tempErrors.currentPassword = '';
+        }
+
+        if (!newPassword) {
+            tempErrors.newPassword = 'New password is required.';
+            isValid = false;
+        } else {
+            tempErrors.newPassword = '';
+        }
+
+        if (newPassword === currentPassword) {
+            tempErrors.bothPassword = 'New password cannot be the same as the current password.';
+            isValid = false;
+        } else {
+            tempErrors.bothPassword = '';
+        }
+
+        setPasswordErrors(tempErrors);
+        return isValid;
+    };
+
+
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
+
         if (errors[e.target.name]) {
             setErrors({
                 ...errors,
@@ -82,8 +141,42 @@ const ProfileDetails = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const EditPayload = {
+            id: state.Id,
+            first_name: formData.firstName || state.First_Name,
+            last_name: formData.lastName || state.Last_Name,
+            email_id: formData.email || state.Email_Id,
+            mobile_no: formData.mobileNo || state.Mobile_No,
+            file: selectedImage || state.Profile,
+        };
+
+        if (
+            EditPayload.first_name === state.First_Name &&
+            EditPayload.last_name === state.Last_Name &&
+            EditPayload.email_id === state.Email_Id &&
+            EditPayload.mobile_no === state.Mobile_No &&
+            !selectedImage
+        ) {
+            setNoChangesMessage("No changes detected.");
+            return;
+        }
+
+        if (
+            (formData.firstName && formData.firstName !== state.First_Name) ||
+            (formData.lastName && formData.lastName !== state.Last_Name) ||
+            (formData.email && formData.email !== state.Email_Id) ||
+            (formData.mobileNo && formData.mobileNo !== state.Mobile_No) ||
+            selectedImage
+        ) {
+            dispatch({ type: 'PROFILEDETAILSUPDATE', payload: EditPayload });
+            setNoChangesMessage('');
+            return;
+        }
+
         if (validate()) {
-            alert('Form submitted successfully');
+            dispatch({ type: 'PROFILEDETAILSUPDATE', payload: EditPayload });
+            setNoChangesMessage('');
         }
     };
 
@@ -102,13 +195,35 @@ const ProfileDetails = () => {
         setShowPassword(!showPassword);
     };
 
+    const handlePasswordSubmit = (e) => {
+        e.preventDefault();
+
+        if (validatePasswords()) {
+            const PasswordPayload = {
+                old_password: currentPassword,
+                new_password: newPassword,
+            };
+            dispatch({ type: 'UPDATEPASSWORD', payload: PasswordPayload });
+        }
+    };
+
     const handleCurrentPasswordChange = (e) => {
-        setCurrentPassword(e.target.value);
+        const newCurrentPassword = e.target.value.trim();
+        setCurrentPassword(newCurrentPassword);
+        setPasswordErrors((prev) => ({ ...prev, currentPassword: "", bothPassword: "" }));
+
     };
 
     const handleNewPasswordChange = (e) => {
-        setNewPassword(e.target.value);
+        const newPasswordValue = e.target.value.trim();
+        setNewPassword(newPasswordValue);
+        setPasswordErrors((prev) => ({ ...prev, newPassword: "", bothPassword: "" }));
+
+        if (!newPasswordValue) {
+            setPasswordErrors((prev) => ({ ...prev, newPassword: 'New password is required.' }));
+        }
     };
+
 
     const handleUpdateClick = () => {
         document.getElementById('image-upload').click();
@@ -127,20 +242,21 @@ const ProfileDetails = () => {
         setLogoutFormShow(false);
     }
 
+
     return (
         <div className="min-h-screen bg-white p-4 flex flex-col items-start">
-            <p className="font-Gilroy font-semibold text-2xl leading-none tracking-normal mb-6">Account settings</p>
+            <p className="font-Gilroy font-semibold text-2xl leading-none tracking-normal mb-6 -mt-5 ml-5">Account settings</p>
 
             <div className="flex items-center gap-6">
                 <img
-                    src={selectedImage || ProfileIcon}
+                    src={selectedImage || state.Profile}
                     alt="Profile"
                     className="w-[120px] h-[120px] rounded-full"
                 />
 
                 <div className="flex flex-col text-start">
                     <p className="font-Gilroy font-semibold text-xl tracking-normal mb-2">
-                        Profile picture
+                        {state.First_Name + " " + state.Last_Name}
                     </p>
                     <p className="font-Gilroy font-medium text-xs tracking-normal text-gray-500">
                         JPG or PNG up to 5MB
@@ -185,7 +301,13 @@ const ProfileDetails = () => {
             {activeTab === "editProfile" && (
                 <>
                     <h3 className="font-Gilroy font-semibold text-lg mb-4">Profile details</h3>
-                    <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
+                    {noChangesMessage && (
+                        <div className="flex items-center text-red-500 text-xs mb-4 font-Gilroy">
+                            <MdError className="mr-1" />
+                            {noChangesMessage}
+                        </div>
+                    )}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">First Name</label>
                             <input
@@ -238,19 +360,19 @@ const ProfileDetails = () => {
                             <label className="block font-Gilroy text-sm mb-2">Mobile number</label>
                             <input
                                 type="text"
-                                name="mobile"
-                                value={formData.mobile}
+                                name="mobileNo"
+                                value={formData.mobileNo}
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-sm"
                             />
-                            {errors.mobile && (
+                            {errors.mobileNo && (
                                 <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
-                                    {errors.mobile}
+                                    {errors.mobileNo}
                                 </p>
                             )}
                         </div>
-                    </form>
+                    </div>
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"
                         onClick={handleSubmit}
                     >Save changes</button>
@@ -260,7 +382,7 @@ const ProfileDetails = () => {
             {activeTab === "accountSettings" && (
                 <>
                     <h3 className="font-Gilroy font-semibold text-lg mb-5">Account Settings</h3>
-                    <form className="grid grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">Current Password</label>
                             <div className="relative">
@@ -283,6 +405,12 @@ const ProfileDetails = () => {
                                     )}
                                 </span>
                             </div>
+                            {passwordErrors.currentPassword && (
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                    <MdError className="mr-1" />
+                                    {passwordErrors.currentPassword}
+                                </p>
+                            )}
                         </div>
 
                         <div>
@@ -307,28 +435,36 @@ const ProfileDetails = () => {
                                     )}
                                 </span>
                             </div>
+                            {passwordErrors.newPassword && (
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                    <MdError className="mr-1" />
+                                    {passwordErrors.newPassword}
+                                </p>
+                            )}
+                            {passwordErrors.bothPassword && (
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                    <MdError className="mr-1 text-sm mb-4i]'
+                                    " />
+                                    {passwordErrors.bothPassword}
+                                </p>
+                            )}
                         </div>
-                    </form>
+                    </div>
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"
-                        onClick={handleSubmit}
+                        onClick={handlePasswordSubmit}
                     >Save changes</button>
                 </>
             )}
 
             <button onClick={handleLogout} className="flex items-center text-rose-500 w-5 h-6 gap-2">
                 <img
-                    src={Logout}
+                    src={logoutIcon}
                     alt="Logout Icon"
                     data-testid="img-logout"
-                    className="text-rose-500"
-                    style={{
-                        filter: 'invert(10%) sepia(100%) saturate(500%) hue-rotate(-50deg)',
-                    }}
                 />
-                <span className="text-rose-500">Logout</span>
+                <span className="text-[#EC202A] font-medium text-base font-Gilroy">Logout</span>
             </button>
 
-            {/* Logout confirmation modal */}
             <div className={`fixed inset-0 flex items-center justify-center ${logoutFormShow ? "visible" : "hidden"} bg-black bg-opacity-50`}>
                 <div className="bg-white rounded-lg shadow-lg w-[388px] h-[200px] p-6">
                     <div className="flex justify-center border-b-0">
@@ -362,6 +498,16 @@ const ProfileDetails = () => {
         </div>
     );
 };
+const mapsToProps = (stateInfo) => {
+    return {
+        state: stateInfo.SignIn.profileDetailsList
 
-export default ProfileDetails;
+    }
+}
+ProfileDetails.propTypes = {
+    state: PropTypes.object,
+};
+export default connect(mapsToProps)(ProfileDetails)
+
+
 

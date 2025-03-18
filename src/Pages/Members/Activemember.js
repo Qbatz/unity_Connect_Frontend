@@ -53,8 +53,8 @@ function ActiveMember({ state }) {
 
   const members = state?.Member?.ActiveMemberdata || [];
 
- 
-  const formattedDate = moment(members?.Joining_Date).format("DD-MM-YYYY");
+
+
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
@@ -68,11 +68,14 @@ function ActiveMember({ state }) {
 
   useEffect(() => {
 
+
         if (state.Member.statusCodeForAddUser === 200) {
             dispatch({ type: 'MEMBERLIST' });
+            dispatch({ type: 'GET_MEMBER_ID' });
             dispatch({ type: 'CLEAR_STATUS_CODES' })
         }
     }, [state.Member.statusCodeForAddUser]);
+
 
   useEffect(() => {
     if (state.Member.deleteMemberStatusCode === 200) {
@@ -144,7 +147,7 @@ function ActiveMember({ state }) {
 
   const handleOnClose = () => {
     setShowModal(false);
-   
+
   }
 
 
@@ -291,9 +294,9 @@ function ActiveMember({ state }) {
 
 
                 <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-                  {formattedDate}
+                  {member.Joining_Date ? moment(member.Joining_Date).format('YYYY-MM-DD') : 'No date'}
                 </span>
-                
+
               </div>
 
 

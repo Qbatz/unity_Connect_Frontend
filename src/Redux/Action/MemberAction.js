@@ -26,6 +26,7 @@ export async function ActiveMemberStatusAction(user) {
 export async function addMember(params) {
     const formData = new FormData();
 
+    if (params.Member_Id) formData.append("member_id", params.Member_Id);
     if (params.user_name) formData.append("user_name", params.user_name);
     if (params.address) formData.append("address", params.address);
     if (params.email_id) formData.append("email_id", params.email_id);
@@ -85,13 +86,6 @@ export async function GetStatementAction(statement) {
         data: statement
     });
 }
-export async function TransactionsAction() {
-
-    return await AxiosConfig.get('', {
-
-    });
-}
-
 
 export async function RecordPaymentAction(params) {
 
@@ -105,15 +99,24 @@ export async function RecordPaymentAction(params) {
     if (params.loan_id) formData.append("loan_id", params.loan_id);
 
     try {
-        const response = await AxiosConfig.post('/loan/add_record_payment', formData, {
-            headers: {
-                "Content-type": "multipart/form-data",
-            },
-            timeout: 100000000,
-            onUploadProgress: () => { }
+        const response = await AxiosConfig.post('/loan/add_record_payment', {
+           formData
         });
         return response.data;
     } catch (error) {
         console.log("No error", error);
     }
+}
+
+export async function AddTransaction(params) {
+
+   let AddTransaction = await AxiosConfig.post('/transaction/add_transaction', {
+         data : params
+    });
+    return AddTransaction
+}
+
+export async function GetTransactionsAction() {
+    let transaction = await AxiosConfig.get(`/transaction/get_transaction`);
+    return transaction
 }

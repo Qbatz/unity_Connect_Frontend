@@ -27,6 +27,12 @@ describe('render and check sidebar functionalities', () => {
                     StatementList: [],
                     statusCodeForStatement:0,
                     StatementErrorMsg: '',
+                },
+                Expenses: {
+                    getexpenses: []
+                },
+                SignIn: {
+                    profileDetailsList: []
                 }
         
             })

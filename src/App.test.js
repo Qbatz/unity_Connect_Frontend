@@ -36,7 +36,10 @@ test('renders when user is not logged id', () => {
   const mockStore = configureStore()
   const store = mockStore({
     SignIn: {
-      isLoggedIn: true
+      isLoggedIn: true,
+      profileDetailsList: {
+        state: ''
+      }
     },
     CreateAccount: {
       statusCodeCreateAccount: 100
@@ -44,7 +47,7 @@ test('renders when user is not logged id', () => {
     Member: {
       Memberdata: [],
       statusCodeMemberList: 200
-    }
+    },
   })
   localStorage.setItem("unity_connect_login", "encryptedData");
 

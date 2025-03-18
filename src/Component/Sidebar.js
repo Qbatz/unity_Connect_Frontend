@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import Dashboard from "../Asset/Icons/Dashboard.svg";
 import DashboardActive from "../Asset/Icons/DashboardActive.svg";
 import Member from "../Asset/Icons/Member.svg";
@@ -15,22 +16,32 @@ import settings from "../Asset/Icons/settings.svg";
 import settingsActive from "../Asset/Icons/settingsActive.svg";
 import Star from "../Asset/Icons/Star.svg";
 import UnityConnectImg from "../Asset/Icons/UnityConnectImg.svg";
-import ProfileIcon from "../Asset/Icons/ProfileIcon.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Settings from "../Pages/Settings/Settings";
 import Members from "../Pages/Members/Member";
 import AddLoanForm from "../Pages/Loan/AddLoanForm";
 import Statements from "../Pages/Statements/Statements";
+import ExpensesList from "../Pages/Expenses/Expenses";
 import ProfileDetails from "../Component/ProfileDetails";
+import PropTypes from 'prop-types';
+import { useDispatch, connect } from 'react-redux';
+
 import ReportsTab from "../Pages/Reports/Reports";
 
 
-const Sidebar = () => {
+const Sidebar = ({ state }) => {
 
+  const dispatch = useDispatch();
 
   const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  useEffect(() =>{
+   if(state.profileDetailsUpdateStatusCode === 200){
+    dispatch({ type: 'PROFILEDETAILS' });
+   }
+  },[state.profileDetailsUpdateStatusCode]);
+  
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const handleMenuClick = (menu) => {
@@ -93,14 +104,14 @@ const Sidebar = () => {
           <div className="p-2 flex items-center justify-between w-full md:flex-wrap lg:flex-nowrap">
             <div className="flex items-center md:flex-wrap lg:flex-nowrap">
               <img
-                src={ProfileIcon}
+                src={state.profileDetailsList.Profile}
                 alt="Profile"
                 className="w-12 h-12 rounded-full lg:ml-0 sm:ml-0 md:ml-7 cursor-pointer"
                 onClick={() => handleMenuClick("Profile")}
               />
               <div className="md:text-center lg:text-start md:ml-2">
-                <p className="text-black font-semibold text-base leading-snug font-Gilroy">John Doe</p>
-                <p className="text-neutral-400 font-normal text-xs leading-tight font-Gilroy">vikram@gmail.com</p>
+                <p className="text-black font-semibold text-base leading-snug font-Gilroy">{state.profileDetailsList.First_Name + " " + state.profileDetailsList.Last_Name}</p>
+                <p className="text-neutral-400 font-normal text-xs leading-tight font-Gilroy">{state.profileDetailsList.Email_Id}</p>
               </div>
             </div>
 
@@ -135,7 +146,7 @@ const Sidebar = () => {
 
           {activeMenu === "Expenses" && (
             <div data-testid='div-expenses' className="bg-white mt-2">
-              {/* <Expenses /> */}
+              <ExpensesList />
             </div>
           )}
 
@@ -156,16 +167,26 @@ const Sidebar = () => {
               <Settings />
             </div>
           )}
-           {activeMenu === "Profile" && (
+          {activeMenu === "Profile" && (
             <div data-testid='div-profile' className="bg-white mt-2 p-6">
               <ProfileDetails />
             </div>
           )}
-       
+
         </div>
       </div>
     </>
   );
 };
 
-export default Sidebar;
+const mapsToProps = (stateInfo) => {
+  return {
+    state: stateInfo.SignIn
+  }
+}
+
+Sidebar.propTypes = {
+  state: PropTypes.object
+}
+
+export default connect(mapsToProps)(Sidebar);
