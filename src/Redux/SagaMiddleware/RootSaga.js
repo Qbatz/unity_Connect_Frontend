@@ -6,6 +6,7 @@ import SettingAddExpensesSaga from './SettingExpensesSaga';
 import MemberSaga from './MemberSaga';
 import LoanSaga from './LoanSaga';
 import StatementSaga from './StatementSaga';
+import ReportSaga from './ReportsSaga';
 
 function* RootSaga() {
 
@@ -17,7 +18,7 @@ function* RootSaga() {
         MemberSaga(),
         LoanSaga(),
         StatementSaga(),
-
+        ReportSaga(),
     ])
 }
 export default RootSaga;

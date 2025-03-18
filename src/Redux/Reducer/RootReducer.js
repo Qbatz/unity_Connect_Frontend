@@ -7,6 +7,9 @@ import MemberListReducer from "./MemberReducer";
 import SettingLoanReducer from "./SettingLoanReducer";
 import LoanReducer from "./LoanReducer";
 import StatementReducer from "./StatementReducer";
+import ReportReducer from "./ReportsReducer";
+
+
 
 const RootReducer = combineReducers({
     SignIn: SignInReducer,
@@ -17,5 +20,6 @@ const RootReducer = combineReducers({
     SettingLoan: SettingLoanReducer,
     Loan:LoanReducer,
     Statement: StatementReducer,
+    Report:ReportReducer,
 })
 export default RootReducer;

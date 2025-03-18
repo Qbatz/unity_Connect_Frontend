@@ -22,7 +22,7 @@ import Members from "../Pages/Members/Member";
 import AddLoanForm from "../Pages/Loan/AddLoanForm";
 import Statements from "../Pages/Statements/Statements";
 import ProfileDetails from "../Component/ProfileDetails";
-
+import ReportsTab from "../Pages/Reports/Reports";
 
 
 const Sidebar = () => {
@@ -147,7 +147,7 @@ const Sidebar = () => {
 
           {activeMenu === "Reports" && (
             <div data-testid='div-reports' className="bg-white mt-2">
-              {/* <Reports /> */}
+              <ReportsTab />
             </div>
           )}
 
