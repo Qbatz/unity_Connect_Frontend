@@ -24,8 +24,8 @@ function ReportsTab() {
         }
     }, [statusCode, dispatch]);
 
-  const [paidStart, setpaidStart] = useState("");
-  const [paidEnd, setpaidEnd] = useState("");
+  const [paidStart] = useState("");
+  const [paidEnd] = useState("");
   const [unpaidStart, setunpaidStart] = useState("");
   const [unpaidEnd, setunpaidEnd] = useState("");
   const [filterunpaid, setFilterUnpaid] = useState("");
@@ -140,7 +140,7 @@ const handleFilterChange = (option) => {
             <div className="bg-[#F4F7FF] p-4 rounded-[24px]  w-1/2">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-[18px] font-semibold leading-[100%] tracking-[0%] font-Gilroy flex items-center gap-2">
-                  <img src={unsuccessfullpayment} className="h-[24px] w-[24px]" />
+                  <img src={unsuccessfullpayment} alt='unsuccesfullpayment' className="h-[24px] w-[24px]" />
                   Unsuccessful Payments
                 </h2>
 
@@ -153,7 +153,7 @@ const handleFilterChange = (option) => {
                       {selectedFilter1}
                     </span>
                     <span>
-                      <img src={arrowdown} className="h-[16px] w-[16px]" />
+                      <img src={arrowdown} alt='arrowdown' className="h-[16px] w-[16px]" />
                     </span>
                   </button>
                   {isOpen1 && (
@@ -225,7 +225,7 @@ const handleFilterChange = (option) => {
                         getReports.map((report, index) => (
                             <div key={index} className="flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
-                                    <img src={manimg} className="w-10 h-10 rounded-full" />
+                                    <img src={manimg} alt='manimg' className="w-10 h-10 rounded-full" />
                                     <div className="space-y-3">
                                         <p className="text-black font-semibold text-[16px]">
                                             {report.Id}
@@ -259,7 +259,7 @@ const handleFilterChange = (option) => {
             <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-1/2">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-[18px] font-semibold leading-[100%] tracking-[0%] font-Gilroy flex items-center gap-2">
-                  <img src={paymentreceived} className="h-[24px] w-[24px]" />
+                  <img src={paymentreceived} alt='paymentreceived' className="h-[24px] w-[24px]" />
                   Payments Received
                 </h2>
 
@@ -272,7 +272,7 @@ const handleFilterChange = (option) => {
                       {selectedFilter2}
                     </span>
                     <span>
-                      <img src={arrowdown} className="h-[16px] w-[16px]" />
+                      <img src={arrowdown} alt='arrowdown' className="h-[16px] w-[16px]" />
                     </span>
                   </button>
                   {isOpen2 && (
@@ -337,7 +337,7 @@ const handleFilterChange = (option) => {
                         getReports.map((report, index) => (
                             <div key={index} className="flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
-                                    <img src={manimg} className="w-10 h-10 rounded-full" />
+                                    <img src={manimg} alt='manimg' className="w-10 h-10 rounded-full" />
                                     <div className="space-y-3">
                                         <p className="text-black font-semibold text-[16px]">
                                             {report.Member_Id}
