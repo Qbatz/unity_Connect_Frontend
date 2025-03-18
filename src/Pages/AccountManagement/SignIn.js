@@ -112,7 +112,7 @@ const SignIn = ({ state }) => {
             alt="Illustration" />
         </div>
         <h1 className="text-black font-Gilroy text-2xl font-semibold leading-normal mb-2">Welcome back!</h1>
-        <p className="font-Gilroy font-normal text-base leading-4 tracking-normal mb-8">
+        <p className="text-[#646464] font-Gilroy font-normal text-sm leading-4 tracking-normal mb-8">
           Enter your details below to get onto your Unity Connect account.
         </p>
 
@@ -124,11 +124,11 @@ const SignIn = ({ state }) => {
             data-testid="input-email"
             type="email"
             placeholder="Email address"
-            className="border rounded-lg p-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-5 tracking-normal"
+            className="border rounded-lg p-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-sm leading-5 tracking-normal text-[#646464]"
             value={email}
             onChange={handleEmailChange}
           />
-          <div data-testid='error-email' className="">
+          <div data-testid='error-email'>
             {errors.email && (
               <p data-testid='label-error-email' className="text-red-500 text-sm font-medium mb-4 flex items-center">
                 <MdError className="mr-1 text-sm" /> {errors.email}
@@ -136,7 +136,7 @@ const SignIn = ({ state }) => {
             )}
           </div>
           <div>
-           
+
           </div>
         </div>
 
@@ -149,7 +149,7 @@ const SignIn = ({ state }) => {
               data-testid='input-password'
               type={showPassword ? "text" : "password"}
               placeholder="********"
-              className="border rounded-lg py-2.5 px-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-base leading-6 tracking-normal pr-10"
+              className="border rounded-lg py-2.5 px-3 w-full mt-2 mb-1 focus:outline-none focus:ring-2 focus:ring-blue-400 font-Gilroy font-medium text-sm leading-6 tracking-normal pr-10 text-[#646464]"
               value={password}
               onChange={handlePasswordChange}
             />
@@ -178,23 +178,23 @@ const SignIn = ({ state }) => {
 
         </div>
         <div className="mt-2 flex justify-center">
-        {state.SignIn.errorEmail && (
-              <label className="text-red-500 text-sm font-bold font-gilroy ml-1 block">
-                {state.SignIn.errorEmail}
-              </label>
-            )}
-        {state.SignIn.errorPassword && (
-              <label className="text-red-500 text-sm font-bold font-gilroy ml-1 block">
-                {state.SignIn.errorPassword}
-              </label>
-            )}
-            </div>
+          {state.SignIn.errorEmail && (
+            <label className="text-red-500 text-sm font-bold font-gilroy ml-1 block">
+              {state.SignIn.errorEmail}
+            </label>
+          )}
+          {state.SignIn.errorPassword && (
+            <label className="text-red-500 text-sm font-bold font-gilroy ml-1 block">
+              {state.SignIn.errorPassword}
+            </label>
+          )}
+        </div>
 
         <div>
           <button
             data-testid="button-submit"
             type="submit"
-            className={`w-full py-3 rounded-3xl text-white text-lg font-Gilroy leading-6 tracking-normal font-medium hover:bg-gray-600 transition mt-8 mb-2 ${email.trim() && password.trim() ? "bg-black" : "bg-gray-500"
+            className={`w-full py-3 rounded-3xl text-white text-lg font-Gilroy leading-6 tracking-normal font-normal hover:bg-gray-600 transition mt-8 mb-2 ${email.trim() && password.trim() ? "bg-black" : "bg-gray-500"
               }`}
             onClick={handleSubmit}
           >

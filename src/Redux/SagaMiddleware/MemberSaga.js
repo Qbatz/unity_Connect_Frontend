@@ -121,6 +121,7 @@ function* handleAddMember(datum) {
             type: 'ADD_USER_SUCCESS',
             payload: { response: response.data, statusCode: response.statusCode || response.status },
         });
+        yield put({ type: 'MEMBERLIST' })
 
         toast.success(response.message, {
             position: "bottom-center",

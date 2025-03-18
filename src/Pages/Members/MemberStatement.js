@@ -19,13 +19,26 @@ function MemberStatements({ state, member }) {
   const [showOptions, setShowOptions] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [loanAmount, setLoanAmount] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [paidAmount, setPaidAmount] = useState('');
   const [pendingAmount, setPendingAmount] = useState('');
-  const [loanId, setLoanId] = useState('');
   const [status, setStatus] = useState('');
   const [errors, setErrors] = useState({});
+  const [selectedStatement, setSelectedStatement] = useState(null);
+
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowOptions(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (member?.Id) {
@@ -39,7 +52,9 @@ function MemberStatements({ state, member }) {
   useEffect(() => {
     if (state.Member.statusCodeForRecordPayment === 200) {
       setIsModalOpen(false);
+      dispatch({ type: 'GETSTATEMENT', payload: { id: member.Id } })
       dispatch({ type: "CLEAR_STATUS_CODES_RECORD_PAYMENT" });
+
     }
   }, [state.Member.statusCodeForRecordPayment])
 
@@ -48,14 +63,13 @@ function MemberStatements({ state, member }) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
     if (field === "loanAmount" || field === "paidAmount") {
-      const loan = parseFloat(field === "loanAmount" ? value : loanAmount) || 0;
+      const loan = parseFloat(field === "loanAmount" ? value : selectedStatement?.Loan_Amount) || 0;
       const paid = parseFloat(field === "paidAmount" ? value : paidAmount) || 0;
       setPendingAmount((loan - paid).toString());
     }
 
-    if (field === "loanAmount") {
-      setLoanAmount(value);
-    } else if (field === "dueDate") {
+
+    if (field === "dueDate") {
       setDueDate(value);
     } else if (field === "paidAmount") {
       setPaidAmount(value);
@@ -63,8 +77,6 @@ function MemberStatements({ state, member }) {
       setPendingAmount(value);
     } else if (field === "status") {
       setStatus(value);
-    } else if (field === "loanId") {
-      setLoanId(value);
     }
   };
 
@@ -72,7 +84,6 @@ function MemberStatements({ state, member }) {
     e.preventDefault();
 
     const newErrors = {};
-    if (!loanAmount) newErrors.loanAmount = "Loan amount is required";
     if (!dueDate) newErrors.dueDate = "Due date is required";
     if (!paidAmount) newErrors.paidAmount = "Paid amount is required";
     if (!status) newErrors.status = "Status is required";
@@ -80,24 +91,26 @@ function MemberStatements({ state, member }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
+
       const payload = {
-        loan_amount: member.loanAmount,
+        loan_amount: selectedStatement.Loan_Amount,
         due_date: dueDate,
         pending_amount: pendingAmount,
         status: status,
-        loan_id: loanId,
+        loan_id: selectedStatement.Loan_Id,
+        id: selectedStatement.Id
       };
 
       dispatch({
         type: 'ADDRECORDPAYMENT',
         payload: payload,
       });
-   
+
       const TransactionPayload = {
         Member_Id: member.Id,
         Amount: paidAmount,
         Status: status,
-        Loan_Id: Statement.loanId,
+        Loan_Id: selectedStatement.Loan_Id,
         Transaction_Date: dueDate
       };
       dispatch({
@@ -105,13 +118,11 @@ function MemberStatements({ state, member }) {
         payload: TransactionPayload,
       });
 
-      setLoanAmount("");
       setDueDate("");
       setPaidAmount("");
       setPendingAmount("");
       setStatus("");
       setIsModalOpen(false);
-      setLoanId();
     }
   };
 
@@ -177,20 +188,30 @@ function MemberStatements({ state, member }) {
                   <td className="p-4 relative">
                     <button
                       className="text-gray-600 text-xl"
-                      onClick={() => setShowOptions(!showOptions)}
+                      onClick={() => {
+                        setShowOptions(showOptions === index ? null : index);
+                        setSelectedStatement(item);
+                      }}
+
+
                     >
                       ⋮
                     </button>
 
-                    {showOptions && (
+                    {showOptions === index && (
                       <div
                         ref={popupRef}
-                        className="absolute mt-2 bg-white shadow-lg rounded w-40 z-10">
+                        className="absolute right-4 top-10 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
+                      >
                         <button
                           className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200"
                           onClick={() => setIsModalOpen(true)}
                         >
-                          <img src={RecordPaymentIcon} alt="Record Payment" className="h-4 w-4" />
+                          <img
+                            src={RecordPaymentIcon}
+                            alt="Record Payment"
+                            className="h-4 w-4"
+                          />
                           Record Payment
                         </button>
                       </div>
@@ -199,6 +220,7 @@ function MemberStatements({ state, member }) {
                 </tr>
               ))}
             </tbody>
+
 
 
           </table>
@@ -225,24 +247,19 @@ function MemberStatements({ state, member }) {
                   <label className="text-sm font-semibold">Loan Amount</label>
                   <input
                     type="text"
-                    value={Statement.loanAmount}
+                    value={selectedStatement?.Loan_Amount || ""}
                     onChange={(e) => handleInputChange("loanAmount", e.target.value)}
                     placeholder="Enter amount"
                     className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none"
                   />
-                  {errors.loanAmount && (
-                    <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">
-                      <MdError className="mr-1 text-xs" />
-                      {errors.loanAmount}
-                    </div>
-                  )}
+
                 </div>
 
                 <div>
                   <label className="text-sm font-semibold">Due Date</label>
                   <input
                     type="date"
-                    value={Statement.dueDate}
+                    value={dueDate}
                     onChange={(e) => handleInputChange("dueDate", e.target.value)}
                     className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
                   />
@@ -333,5 +350,4 @@ MemberStatements.propTypes = {
   member: PropTypes.object
 };
 
-export default connect(mapsToProps)(MemberStatements);
-
+export default connect(mapsToProps)(MemberStatements); 

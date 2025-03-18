@@ -62,7 +62,11 @@ function MemberModal({ state, memberData, onClose }) {
     const validate = () => {
         let tempErrors = {};
         if (!userName) tempErrors.userName = "User Name is required";
-        if (!email) tempErrors.email = "Email is required";
+        if (!email) {
+            tempErrors.email = "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            tempErrors.email = "Enter a valid email address";
+        }
         if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
         if (!mobileNo) {
             tempErrors.mobileNo = "Mobile number is required";
@@ -125,7 +129,7 @@ function MemberModal({ state, memberData, onClose }) {
         setNoChanges("");
 
         if (!userName && !email && !mobileNo && !joiningDate && !address) {
-            setNoChanges("Please fill in all the required fields.");
+            setNoChanges("Please fill in all the required fields");
             return;
         }
         const formatDate = (date) => date ? new Date(date).toISOString().split("T")[0] : "";
@@ -239,7 +243,7 @@ function MemberModal({ state, memberData, onClose }) {
 
                     <div className="flex gap-4">
                         <div className="w-1/2">
-                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email</label>
+                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email address</label>
                             <input
                                 data-testid='input-member-email'
                                 type="email"
@@ -256,7 +260,7 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
 
                         <div className="w-1/2">
-                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Mobile No.</label>
+                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Mobile No</label>
                             <input
                                 data-testid='input-member-phone'
                                 type="text"

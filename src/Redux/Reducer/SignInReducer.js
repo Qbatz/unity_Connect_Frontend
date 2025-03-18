@@ -20,7 +20,7 @@ export const initialState = {
     updatePasswordStatusCode: 0,
 };
 const SignInReducer = (state = initialState, action) => {
-  
+
     switch (action.type) {
         case 'SIGNIN-INFO':
             return { ...state, signinsuccessstatuscode: action.payload.statusCode, JWTtoken: action.payload.token }
@@ -48,7 +48,7 @@ const SignInReducer = (state = initialState, action) => {
             return { ...state, profileDetailsStatusCode: 0 }
 
         case 'PROFILE_DETAILS_UPDATE_LIST':
-            return { ...state, profileDetailsUpdateList: action.payload.data[0], profileDetailsUpdateStatusCode: action.payload.statusCode }
+            return { ...state, profileDetailsUpdateStatusCode: action.payload.statusCode }
         case 'PROFILE_DETAILS_UPDATE_ERROR':
             return { ...state, profileDetailsUpdateErrorMessage: '', }
         case 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR':

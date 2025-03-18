@@ -89,29 +89,16 @@ export async function GetStatementAction(statement) {
 
 export async function RecordPaymentAction(params) {
 
-    const formData = new FormData();
+    return await AxiosConfig.post('/loan/add_record_payment', params, {
 
-    if (params.loan_amount) formData.append("loan_amount", params.loan_amount);
-    if (params.due_date) formData.append("due_date", params.due_date);
-    if (params.pending_amount) formData.append("pending_amount", params.pending_amount);
-    if (params.status) formData.append("status", params.status);
-    if (params.id) formData.append("id", params.id);
-    if (params.loan_id) formData.append("loan_id", params.loan_id);
-
-    try {
-        const response = await AxiosConfig.post('/loan/add_record_payment', {
-           formData
-        });
-        return response.data;
-    } catch (error) {
-        console.log("No error", error);
-    }
+        data: params
+    });
 }
 
 export async function AddTransaction(params) {
 
-   let AddTransaction = await AxiosConfig.post('/transaction/add_transaction', {
-         data : params
+    let AddTransaction = await AxiosConfig.post('/transaction/add_transaction', {
+        data: params
     });
     return AddTransaction
 }

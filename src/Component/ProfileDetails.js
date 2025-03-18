@@ -6,6 +6,8 @@ import { encryptData } from "../Crypto/Utils";
 import { useDispatch, connect } from 'react-redux';
 import { MdError } from 'react-icons/md';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import imageCompression from 'browser-image-compression';
+
 
 
 const ProfileDetails = ({ state }) => {
@@ -55,7 +57,6 @@ const ProfileDetails = ({ state }) => {
         }));
     }, [state]);
 
-
     const validate = () => {
         let tempErrors = { ...errors };
         let isValid = true;
@@ -81,18 +82,19 @@ const ProfileDetails = ({ state }) => {
         } else {
             tempErrors.email = '';
         }
-                       
-        const mobileNoPattern = /^[+]{1}[0-9]{1,3}[ ]{1}[0-9]{10}$/;
+
+        const mobileNoPattern = /^[0-9]{10}$/;
         if (!formData.mobileNo || !mobileNoPattern.test(formData.mobileNo)) {
-            tempErrors.mobileNo = 'Please enter a valid mobileNo number.';
+            tempErrors.mobileNo = 'Please enter a valid 10-digit mobile number.';
             isValid = false;
         } else {
             tempErrors.mobileNo = '';
         }
-    
+
         setErrors(tempErrors);
         return isValid;
     };
+
 
     const validatePasswords = () => {
         let tempErrors = { ...passwordErrors };
@@ -180,14 +182,25 @@ const ProfileDetails = ({ state }) => {
         }
     };
 
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setSelectedImage(reader.result);
+    const handleImageChange = async (event) => {
+        const fileImage = event.target.files[0];
+        if (fileImage) {
+            const options = {
+                maxSizeMB: 1,
+                maxWidthOrHeight: 800,
+                useWebWorker: true,
             };
-            reader.readAsDataURL(file);
+            try {
+                const compressedFile = await imageCompression(fileImage, options);
+
+                if (compressedFile instanceof Blob) {
+                    setSelectedImage(URL.createObjectURL(compressedFile));
+                } else {
+                    console.error("Compressed file is not a Blob:", compressedFile);
+                }
+            } catch (error) {
+                console.error("Image compression error:", error);
+            }
         }
     };
 
@@ -358,13 +371,24 @@ const ProfileDetails = ({ state }) => {
                         </div>
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">Mobile number</label>
+
                             <input
-                                type="text"
+                                type="tel"
                                 name="mobileNo"
                                 value={formData.mobileNo}
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    let value = e.target.value.replace(/\D/g, "");
+                                    if (!value.startsWith("91")) {
+                                        value = "+ 91" + value;
+                                    }
+                                    if (value.length <= 12) {
+                                        handleChange({ target: { name: "mobileNo", value: `+${value}` } });
+                                    }
+                                }}
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-sm"
                             />
+
+
                             {errors.mobileNo && (
                                 <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
@@ -456,14 +480,17 @@ const ProfileDetails = ({ state }) => {
                 </>
             )}
 
-            <button onClick={handleLogout} className="flex items-center text-rose-500 w-5 h-6 gap-2">
-                <img
-                    src={logoutIcon}
-                    alt="Logout Icon"
-                    data-testid="img-logout"
-                />
-                <span className="text-[#EC202A] font-medium text-base font-Gilroy">Logout</span>
-            </button>
+            <div className={`relative flex flex-col ${activeTab === "editProfile" ? "top-0" : "top-20"}`}>
+
+                <button onClick={handleLogout} className="absolute top-6 flex items-center text-rose-500 w-5 h-6 gap-2">
+                    <img
+                        src={logoutIcon}
+                        alt="Logout Icon"
+                        data-testid="img-logout"
+                    />
+                    <span className="text-[#EC202A] font-medium text-base font-Gilroy">Logout</span>
+                </button>
+            </div>
 
             <div className={`fixed inset-0 flex items-center justify-center ${logoutFormShow ? "visible" : "hidden"} bg-black bg-opacity-50`}>
                 <div className="bg-white rounded-lg shadow-lg w-[388px] h-[200px] p-6">

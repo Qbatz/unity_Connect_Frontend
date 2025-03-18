@@ -31,17 +31,23 @@ import { useDispatch, connect } from 'react-redux';
 
 const Sidebar = ({ state }) => {
 
+
   const dispatch = useDispatch();
 
   const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  useEffect(() =>{
-   if(state.profileDetailsUpdateStatusCode === 200){
+  useEffect(() => {
     dispatch({ type: 'PROFILEDETAILS' });
-   }
-  },[state.profileDetailsUpdateStatusCode]);
-  
+  }, [])
+
+  useEffect(() => {
+    if (state.profileDetailsUpdateStatusCode === 200) {
+      dispatch({ type: 'PROFILEDETAILS' });
+      dispatch({ type: 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR' })
+    }
+  }, [state.profileDetailsUpdateStatusCode]);
+
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const handleMenuClick = (menu) => {
@@ -104,7 +110,7 @@ const Sidebar = ({ state }) => {
           <div className="p-2 flex items-center justify-between w-full md:flex-wrap lg:flex-nowrap">
             <div className="flex items-center md:flex-wrap lg:flex-nowrap">
               <img
-                src={state.profileDetailsList.Profile}
+                src={state.profileDetailsList.Profile || Star}
                 alt="Profile"
                 className="w-12 h-12 rounded-full lg:ml-0 sm:ml-0 md:ml-7 cursor-pointer"
                 onClick={() => handleMenuClick("Profile")}
