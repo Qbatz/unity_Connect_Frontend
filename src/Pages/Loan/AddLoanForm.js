@@ -160,7 +160,7 @@ function AddLoanForm({ state }) {
 
 
     const payload = {
-      id: approve.Loan_Id,
+      id: approve.Loan_Id, 
       loan_type: Number(memberLoanType),
       loan_amount: Number(eligibleLoanAmount),
       interest: Number(interesttype)
@@ -672,8 +672,8 @@ function AddLoanForm({ state }) {
                             <img src={tick} alt="Approved" className="w-5 h-5" />
                             <p className="text-black text-base font-Gilroy font-medium">
                               Loan approved on {new Date(loan.Approvel_Date).toLocaleDateString()}{" "}
-                              with interest of
-                              {loan?.interest} {" "}%
+                              with interest of {" "}
+                              {loan?.Interest_Type} {" "}%
 
                             </p>
 

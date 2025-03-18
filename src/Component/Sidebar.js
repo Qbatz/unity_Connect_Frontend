@@ -26,7 +26,7 @@ import ProfileDetails from "../Component/ProfileDetails";
 import PropTypes from 'prop-types';
 import { useDispatch, connect } from 'react-redux';
 
-
+import ReportsTab from "../Pages/Reports/Reports";
 
 
 const Sidebar = ({ state }) => {
@@ -158,7 +158,7 @@ const Sidebar = ({ state }) => {
 
           {activeMenu === "Reports" && (
             <div data-testid='div-reports' className="bg-white mt-2">
-              {/* <Reports /> */}
+              <ReportsTab />
             </div>
           )}
 
