@@ -102,6 +102,7 @@ function MemberStatements({ state, member }) {
       const payload = {
         loan_amount: selectedStatement.Loan_Amount,
         due_date: dueDate,
+        paid_amount :paidAmount,
         pending_amount: pendingAmount,
         status: status,
         loan_id: selectedStatement.Loan_Id,

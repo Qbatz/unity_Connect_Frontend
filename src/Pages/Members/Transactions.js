@@ -32,11 +32,14 @@ function Transactions({ state }) {
               {transactionList.map((item, index) => (
                 <tr key={index}>
                   <td className="p-4 font-Gilroy">{item.Loan_Name}</td>
+
                   <td className="p-4">
                     <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
-                      {item.Transaction_Date}
+                      {new Date(item.Transaction_Date).toISOString().split("T")[0]}
                     </span>
                   </td>
+
+
                   <td className="p-4">
                     <span className="bg-orange-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
                       {item.Transaction_Id}

@@ -57,8 +57,8 @@ function Statement({ state }) {
   }
 
   return (
-    <div className="w-full p-4 bg-white rounded-xl">
-      <h2 className="font-Gilroy font-semibold text-xl md:text-2xl mb-4 mt-1 ml-12 lg:ml-3 ">Statements</h2>
+    <div className="p-4">
+      <h2 className="font-Gilroy font-semibold text-xl md:text-2xl mb-4 mt-1 ml-12 lg:ml-3">Statements</h2>
 
       <div className="flex gap-2 md:gap-4 mb-4">
         <button
@@ -68,19 +68,18 @@ function Statement({ state }) {
         </button>
       </div>
 
-      <div className="relative overflow-hidden overflow-x-hidden rounded-3xl">
-        <div className="overflow-x-auto overflow-y-scroll max-h-[400px] rounded-3xl">
-          <table className="w-full bg-[#f4f7ff] shadow-md text-xs md:text-sm min-w-[800px]">
-            <thead className="p-3 font-Gilroy font-medium text-gray-600 text-left border-b border-gray-300 sticky top-0 bg-[#f4f7ff] z-10">
-              <tr>
-                <th className="p-3 pl-5">Member Name</th>
-                <th className="pl-5">Loan ID</th>
-                <th className="pl-10 min-w-[120px] md:min-w-[150px]">Loan Date</th>
-                <th className="pl-1">Loan Amount</th>
-                <th className="pl-8 min-w-[120px] md:min-w-[150px]">Due Date</th>
-                <th className="pl-6">Due</th>
-                <th className="pl-8">Status</th>
-                <th className=""> </th>
+      <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
+        <div className="overflow-y-auto">
+          <table className="w-full text-left border-collapse min-w-max">
+          <thead>
+              <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
+                <th className="p-4 font-Gilroy">Member Name</th>
+                <th className="p-4 font-Gilroy">Loan Id</th>
+                <th className="p-4 font-Gilroy">Loan Date</th>
+                <th className="p-4 font-Gilroy">Loan Amount</th>
+                <th className="p-4 font-Gilroy">DueDate</th>
+                <th className="p-4 font-Gilroy">Due</th>
+                <th className="p-4 font-Gilroy">Status</th>
               </tr>
             </thead>
 
@@ -167,7 +166,6 @@ const mapsToProps = (stateInfo) => {
 Statement.propTypes = {
   state: PropTypes.object,
 };
-
 export default connect(mapsToProps)(Statement);
 
 
