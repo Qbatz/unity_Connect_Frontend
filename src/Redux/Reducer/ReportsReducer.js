@@ -1,37 +1,31 @@
 export const initialState = {
-    paidstart: '',
-    paidend: '',
-    unpaidstart: '',
-    unpaidend: '',
-    getReport: [],
-    statusCodeLoans: 0,
+    successreport: [],
+    unsuccessreport: [],
+    statusCodeSuccess: 0,
+    statusCodeUnSuccess: 0,
 };
 
 const ReportReducer = (state = initialState, action) => {
     switch (action.type) {
-        case "REPORTADD":
-            return {
-                ...state,
-                paidstart: action.payload.start_date_Paid || '',
-                paidend: action.payload.end_date_Paid || '',
-                unpaidstart: action.payload.start_date_UnPaid || '',
-                unpaidend: action.payload.end_date_UnPaid || '',
-                getReport: action.payload.reports || action.payload || [], 
-                statusCodeLoans: 200,
-            };
 
-        case "GETREPORT":
-            return {
-                ...state,
-                getReport: action.payload.response || [], 
-                statusCodeLoans: action.payload.statusCodeLoan,
-            };
 
-        case "CLEARREPORTS":
+        case "SUCCESSREPORT":
             return {
-                ...state,
-                statusCodeLoans: 0,
+                ...state, successreport: action.payload.response.data
+
+                , statusCodeSuccess: action.payload.statusCode
             };
+        case 'CLEAR_STATUS_CODE_SUCCESSREPORT':
+            return { ...state, statusCodeSuccess: 0 }
+
+        case "UNSUCCESSREPORT":
+            return {
+                ...state, unsuccessreport: action.payload.response.data
+
+                , statusCodeUnSuccess: action.payload.statusCode
+            };
+        case 'CLEAR_STATUS_CODE_UNSUCCESSREPORT':
+            return { ...state, statusCodeUnSuccess: 0 }
 
         default:
             return state;

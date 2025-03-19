@@ -5,25 +5,27 @@ import paymentreceived from "../../Asset/Icons/PaymentReceived.svg";
 import unsuccessfullpayment from "../../Asset/Icons/unsuccessfullpayment.svg";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { useDispatch ,useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
 
-function ReportsTab() {
+function ReportsTab({state}) {
   
   const dispatch = useDispatch();
-    const statusCode = useSelector((state) => state.Report.statusCodeLoans);
-    const getReports = useSelector((state) => state.Report.getReport?.unsuccessfullPayment || []);
+    // const statusCode = useSelector((state) => state.Report.statusCodeLoans);
+    // const getReports = useSelector((state) => state.Report.getReport?.unsuccessfullPayment || []);
   
-    
+    const Success = state.Report.successreport || [];
+    const UnSuccess = state.Report.unsuccessreport || [];
     useEffect(() => {
-        dispatch({ type: "GET_REPORT" });
+        dispatch({ type: "SUCCESS_REPORT" });
+        dispatch({ type: "UNSUCCESS_REPORT" });
         dispatch({type: 'MEMBERLIST'})
     }, [dispatch]);
 
-    useEffect(() => {
-        if (statusCode === 200) {
-            dispatch({ type: "CLEARREPORTS" });
-        }
-    }, [statusCode, dispatch]);
+    // useEffect(() => {
+    //     if (statusCode === 200) {
+    //         dispatch({ type: "CLEARREPORTS" });
+    //     }
+    // }, [statusCode, dispatch]);
 
   const [paidStart] = useState("");
   const [paidEnd] = useState("");
@@ -222,8 +224,8 @@ const handleFilterChange = (option) => {
               <div className="w-full border border-[#E7E7E7] mx-auto my-3"></div>
 
               <div className="space-y-4 mt-5 overflow-y-auto max-h-[400px]">
-              {getReports.length > 0 ? (
-                        getReports.map((report, index) => (
+              {Success.length > 0 ? (
+                        Success.map((report, index) => (
                             <div key={index} className="flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
                                     <img src={manimg} alt='manimg' className="w-10 h-10 rounded-full" />
@@ -334,8 +336,8 @@ const handleFilterChange = (option) => {
               <div className="w-full border border-[#E7E7E7] mx-auto my-3"></div>
 
               <div className="space-y-4 mt-5 overflow-y-auto max-h-[400px]">
-              {getReports.length > 0 ? (
-                        getReports.map((report, index) => (
+              {UnSuccess.length > 0 ? (
+                        UnSuccess.map((report, index) => (
                             <div key={index} className="flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
                                     <img src={manimg} alt='manimg' className="w-10 h-10 rounded-full" />
