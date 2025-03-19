@@ -94,10 +94,10 @@ function Overview({ member }) {
                         <BsThreeDots className="text-gray-500 cursor-pointer" />
                     </div>
 
-                    <div className="flex justify-center md:justify-start gap-3 flex-wrap ">
-                        <img src={member?.Document_Url} alt="Document 1" className=" w-[180px] h-[170px] rounded-lg object-cover" />
-                        <img src={member?.Document_Url} alt="Document 2" className="w-[180px] h-[170px] rounded-lg  object-cover" />
-                        <img src={member?.Document_Url} alt="Document 3" className="w-[180px] h-[170px] rounded-lg  object-cover" />
+                    <div className="flex gap-4"  >
+                        <img src={member?.Document_Url} alt="Document 1" />
+                        <img src={member?.Document_Url} alt="Document 2" />
+                        <img src={member?.Document_Url} alt="Document 3" />
                     </div>
                 </div>
             </div>

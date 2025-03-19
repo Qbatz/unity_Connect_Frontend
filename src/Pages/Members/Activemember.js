@@ -14,10 +14,10 @@ import PropTypes from 'prop-types';
 import AddMemberForm from "./AddMemberForm";
 import MemberDetails from './MemberDetails';
 import closecircle from '../../Asset/Icons/close-circle.svg';
-import { useNavigate } from "react-router-dom";
 
-function ActiveMember({ state }) {
-  const navigate = useNavigate();
+
+function ActiveMember({ state, onSelectMember }) {
+
   const dispatch = useDispatch();
 
 
@@ -138,12 +138,6 @@ function ActiveMember({ state }) {
     };
   }, []);
 
-  const handleClickAddMember = () => {
-
-    setShowModal(true);
-    setSelectedMember("");
-
-  }
 
 
   const handleOnClose = () => {
@@ -170,15 +164,6 @@ function ActiveMember({ state }) {
   }
 
 
-
-  const handleCardClick = (member) => {
-
-
-    if (member?.Id) {
-      navigate(`/member-details/${member.Id}`, { state: { member } });
-    }
-  };
-
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) setCurrentPage(newPage);
   };
@@ -198,16 +183,7 @@ function ActiveMember({ state }) {
   return (
     <>
       <div className="container">
-        <div data-testid='active-member-div' className="flex justify-end">
-          <button
-            data-testid="button-add-member"
 
-            className="bg-black text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium mt-[-60px]"
-            onClick={handleClickAddMember}
-          >
-            + Add Member
-          </button>
-        </div>
         <div>
           {state.Member.errormsg === "No members found" && (
             <p className="text-red-500 text-sm text-center font-Gilroy">{state.Member.errormsg}</p>
@@ -260,7 +236,7 @@ function ActiveMember({ state }) {
               )}
 
 
-              <div onClick={() => handleCardClick(member)} className="flex items-center gap-4">
+              <div onClick={() => onSelectMember(member)} className="flex items-center gap-4">
                 <img src={img1} alt='Member' className="rounded-full" />
                 <div>
                   <h3 className="font-semibold text-base font-Gilroy">{member.User_Name}</h3>
@@ -279,7 +255,7 @@ function ActiveMember({ state }) {
               </div>
 
 
-              <div onClick={() => handleCardClick(member)} className="mt-3 text-sm text-gray-700">
+              <div onClick={() => onSelectMember(member)} className="mt-3 text-sm text-gray-700">
                 <div className="flex justify-between">
                   <p className="flex items-center gap-2 font-Gilroy">
                     <img src={sms} className="text-gray-500" alt="sms" />
@@ -303,7 +279,7 @@ function ActiveMember({ state }) {
 
                 <p
                   className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
-                  onClick={() => handleCardClick(member)}
+                  onClick={() => onSelectMember(member)}
                 >
                   View attached documents
                 </p>

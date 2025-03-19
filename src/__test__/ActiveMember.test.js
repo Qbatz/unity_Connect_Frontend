@@ -67,8 +67,8 @@ describe('checks for active members', () => {
     
         </Provider>)
 
-        const buttonAddMember = screen.getByTestId('button-add-member')
-        expect(buttonAddMember).toBeInTheDocument();
+        // const buttonAddMember = screen.getByTestId('button-add-member')
+        // expect(buttonAddMember).toBeInTheDocument();
         const buttonToggleMenu = screen.getByTestId('button-toggle-menu0');
         userEvent.click(buttonToggleMenu)
         const editContainer = screen.getByTestId('edit-container')
@@ -81,6 +81,6 @@ describe('checks for active members', () => {
         userEvent.click(document.body)
         userEvent.click(buttonToggleMenu);
         userEvent.click(buttonToggleMenu)
-        userEvent.click(buttonAddMember)
+        // userEvent.click(buttonAddMember)
     })
 })
