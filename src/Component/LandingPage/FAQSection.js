@@ -49,7 +49,7 @@ const FAQSection = () => {
           Get answers to some FAQs
         </h2>
         <p
-          className="text-lg font-Gilroy font-light leading-[28.8px] text-gray-500 text-center mt-2"
+          className="text-lg font-Gilroy font-light leading-[28.8px] text-gray-500 text-center mt-4 mb-5"
 
         >
           Take a look at our most Frequently Asked Questions
@@ -59,15 +59,16 @@ const FAQSection = () => {
         <img
           src={Diamond}
           alt="Pink Spiral"
-          className="hidden lg:block absolute right-[-40px] top-[-200px] w-218 h-217 "
+          className="hidden lg:block absolute right-[-50px] top-[-200px] w-218 h-217 "
         />
       </div>
 
 
-      <div className="container mx-auto text-center px-6 mt-20">
+      <div className="container mx-auto text-center px-12 mt-16">
 
 
-        <div className="mt-6 bg-#FAF9FF rounded-[40px]  border border-purple-200 p-5 pr-10 ">
+        <div className="mt-8 bg-#FAF9FF rounded-[40px] p-5 pr-10 border-l-[1px] border-violet-700 border-t-[1px] border-r-[1px] border-b-[1px] border-teal-500 border-t-violet-500 border-r-teal-500 border-b-teal-500">
+
           {faqs.map((faq, index) => (
             <div key={index}
               className="border-b border-[#C3C3C3] last:border-none"

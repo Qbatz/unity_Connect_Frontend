@@ -89,9 +89,9 @@ export async function GetStatementAction(statement) {
 
 export async function RecordPaymentAction(params) {
 
-    return await AxiosConfig.post('/loan/add_record_payment', params, {
-
-        data: params
+    return await AxiosConfig.post('/loan/add_record_payment', params.payload, {
+        
+        data: params.payload
     });
 }
 

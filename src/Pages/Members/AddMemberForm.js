@@ -45,6 +45,7 @@ function MemberModal({ state, memberData, onClose }) {
     useEffect(() => {
         if (state.Member.statusCodeForAddUser === 200) {
             dispatch({ type: 'MEMBERLIST' });
+            dispatch({ type: 'CLEAR_STATUS_CODES' });
         }
     }, [state.Member.statusCodeForAddUser]);
 
@@ -144,6 +145,10 @@ function MemberModal({ state, memberData, onClose }) {
             (address?.trim() || "") !== (memberData?.Address?.trim() || "") ||
             isFileChanged
         );
+        if (!email.includes("@") || !email.includes(".com")) {
+            setNoChanges("Please enter a valid email address");
+            return;
+        }
 
 
         if (memberData && !isChanged) {
@@ -228,7 +233,7 @@ function MemberModal({ state, memberData, onClose }) {
                             <input
                                 data-testid='input-user-name'
                                 type="text"
-                                className="w-full p-2 h-10 border rounded-lg text-sm"
+                                className="w-full p-2 h-10 border rounded-lg text-sm mb-1"
                                 placeholder="Enter User Name"
                                 value={userName}
                                 onChange={(e) => handleChange("userName", e.target.value)}
@@ -243,11 +248,11 @@ function MemberModal({ state, memberData, onClose }) {
 
                     <div className="flex gap-4">
                         <div className="w-1/2">
-                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email address</label>
+                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email Address</label>
                             <input
                                 data-testid='input-member-email'
                                 type="email"
-                                className="w-full p-2 h-10 border rounded-lg text-sm mb-3"
+                                className="w-full p-2 h-10 border rounded-lg text-sm mb-1"
                                 placeholder="Enter Email"
                                 value={email}
                                 onChange={(e) => handleChange("email", e.target.value)}
@@ -264,8 +269,8 @@ function MemberModal({ state, memberData, onClose }) {
                             <input
                                 data-testid='input-member-phone'
                                 type="text"
-                                className="w-full p-2 h-10 border rounded-lg text-sm"
-                                placeholder="Enter Mobile No."
+                                className="w-full p-2 h-10 border rounded-lg text-sm mb-1"
+                                placeholder="Enter Mobile No"
                                 value={mobileNo}
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -276,18 +281,18 @@ function MemberModal({ state, memberData, onClose }) {
                             />
                             {errors.mobileNo && (
                                 <p className="text-red-500 flex items-center gap-1 text-xs">
-                                    <MdError className="text-xs" /> {errors.mobileNo}
+                                    <MdError className="text-xs mb-4" /> {errors.mobileNo}
                                 </p>
                             )}
                         </div>
                     </div>
 
                     <div>
-                        <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1">Joining Date</label>
+                        <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">Joining Date</label>
                         <input
                             data-testid='input-joining-data'
                             type="date"
-                            className="w-56 p-2 h-10 border rounded-lg text-sm cursor-pointer mb-3"
+                            className="w-56 p-2 h-10 border rounded-lg text-sm cursor-pointer mb-1"
                             placeholder="Select Joining Date"
                             value={formattedDate}
                             onChange={(e) => handleChange("joiningDate", e.target.value)}
@@ -300,10 +305,10 @@ function MemberModal({ state, memberData, onClose }) {
                     </div>
 
                     <div className="mb-3">
-                        <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Address</label>
+                        <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-3">Address</label>
                         <textarea
                             data-testid='input-member-address'
-                            className="w-full p-2 border rounded-lg h-10 text-sm mb-3"
+                            className="w-full p-2 border rounded-lg h-10 text-sm mb-1"
                             placeholder="Enter Address"
                             value={address}
                             onChange={(e) => handleChange("address", e.target.value)}
