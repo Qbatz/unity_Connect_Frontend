@@ -12,7 +12,7 @@ import { MdError } from "react-icons/md";
 
 function CreateAccount({ state }) {
 
-  console.log("state", state);
+  
 
 
   const dispatch = useDispatch()
