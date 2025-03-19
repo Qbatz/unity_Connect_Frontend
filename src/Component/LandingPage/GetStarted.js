@@ -53,7 +53,7 @@ function GetStarted() {
 
 
         <button className="lg:mb-10 mt-10 bg-#7F00FF font-Raleway text-lg text-white p-32 rounded-2xl lg:w-232 lg:h-85"
-        
+
         >
           Get Started
         </button>

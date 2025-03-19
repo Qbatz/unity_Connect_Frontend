@@ -68,7 +68,7 @@ const FAQSection = () => {
 
 
         <div className="mt-8 bg-#FAF9FF rounded-[40px] p-5 pr-10 border-l-[1px] border-violet-700 border-t-[1px] border-r-[1px] border-b-[1px] border-teal-500 border-t-violet-500 border-r-teal-500 border-b-teal-500">
-          
+
           {faqs.map((faq, index) => (
             <div key={index}
               className="border-b border-[#C3C3C3] last:border-none"
