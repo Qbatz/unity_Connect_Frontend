@@ -129,7 +129,7 @@ function ExpensesList({ state }) {
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-semibold font-Gilroy">Expenses</h2>
                     <button
-                        className="bg-black text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium"
+                        className="bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium"
                         onClick={handleClickExpenses}
                     >
                         + Add Expenses
