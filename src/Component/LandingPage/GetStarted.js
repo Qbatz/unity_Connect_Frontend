@@ -43,11 +43,11 @@ function GetStarted() {
 
         <img src={UnityConnectWhiteLetter} className="mb-4 mt-10 mx-auto" alt="Unity Connect" />
 
-        <h2 className="font-Gilroy font-semibold text-6xl leading-[67.2px] text-white mt-5">
+        <h2 className="font-Gilroy font-semibold text-5xl leading-[67.2px] text-white mt-5">
           Ready to Make Your <br /> <span>Money Work for You?</span>
         </h2>
 
-        <p className="font-Gilroy font-light text-lg leading-[28.8px] text-white mt-6">
+        <p className="font-Gilroy font-light text-lg leading-[28.8px] text-gray-200 mt-6">
           Join now and be part of a new era of collaborative investment.
         </p>
 
