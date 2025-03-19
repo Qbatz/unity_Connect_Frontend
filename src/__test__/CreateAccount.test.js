@@ -179,6 +179,6 @@ describe('checks for Create account', () => {
         </Provider>
         )
 
-        expect(screen.getByTestId('mobile_error')).toBeInTheDocument()
+        expect(screen.getByTestId('mobile-error')).toBeInTheDocument()
     })
 })
