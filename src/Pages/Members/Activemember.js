@@ -31,7 +31,8 @@ function ActiveMember({ state }) {
   const [memberdetail, setMemberdetails] = useState(null);
   const [showMembers, setShowMembers] = useState(true);
 
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
 
   const handleStatusChange = (e) => setStatus(e.target.value);
@@ -52,7 +53,7 @@ function ActiveMember({ state }) {
   const popupRef = useRef(null);
 
   const members = state?.Member?.ActiveMemberdata || [];
-
+  const totalPages = Math.ceil(members.length / pageSize);
 
 
   useEffect(() => {
@@ -69,12 +70,12 @@ function ActiveMember({ state }) {
   useEffect(() => {
 
 
-        if (state.Member.statusCodeForAddUser === 200) {
-            dispatch({ type: 'MEMBERLIST' });
-            dispatch({ type: 'GET_MEMBER_ID' });
-            dispatch({ type: 'CLEAR_STATUS_CODES' })
-        }
-    }, [state.Member.statusCodeForAddUser]);
+    if (state.Member.statusCodeForAddUser === 200) {
+      dispatch({ type: 'MEMBERLIST' });
+      dispatch({ type: 'GET_MEMBER_ID' });
+      dispatch({ type: 'CLEAR_STATUS_CODES' })
+    }
+  }, [state.Member.statusCodeForAddUser]);
 
 
   useEffect(() => {
@@ -178,12 +179,25 @@ function ActiveMember({ state }) {
     }
   };
 
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) setCurrentPage(newPage);
+  };
 
+  const handlePageSizeChange = (e) => {
+    setPageSize(Number(e.target.value));
+    setCurrentPage(1);
+  };
+
+
+  const paginatedData = members.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
 
   return (
     <>
-      <div>
+      <div className="container">
         <div data-testid='active-member-div' className="flex justify-end">
           <button
             data-testid="button-add-member"
@@ -200,7 +214,7 @@ function ActiveMember({ state }) {
           )}
         </div>
         <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          {members?.map((member, index) => (
+          {paginatedData?.map((member, index) => (
             <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
 
 
@@ -256,7 +270,7 @@ function ActiveMember({ state }) {
                       }
                     </span>
 
-                    <span className={`px-2 py-1 rounded-xl text-sm font-medium font-Gilroy ${member.Status.toLowerCase() === "Active" ? "bg-pink-200" : "bg-green-200"
+                    <span className={`px-2 py-1 rounded-xl text-sm font-medium font-Gilroy ${member.Status.toLowerCase() === "Active" ? "bg-#FFE8E8" : "bg-green-200"
                       }`}>
                       {member.Status}
                     </span>
@@ -266,22 +280,24 @@ function ActiveMember({ state }) {
 
 
               <div onClick={() => handleCardClick(member)} className="mt-3 text-sm text-gray-700">
-                <div className="flex justify-stretch items-center">
+                <div className="flex justify-between">
                   <p className="flex items-center gap-2 font-Gilroy">
                     <img src={sms} className="text-gray-500" alt="sms" />
                     {member.Email_Id}
                   </p>
                   <p className="flex items-center gap-2 font-Gilroy">
-                    <img src={call} className="text-gray-500" alt="call" />
+                    <img src={call} className="text-gray-500" alt="call" /> +
                     {member.Mobile_No
                     }
                   </p>
+                  <p></p>
                 </div>
                 <p className="flex items-center gap-2 mt-2 font-Gilroy">
                   <img src={building} className="text-gray-500" alt="building" />
                   {member.Address}
                 </p>
               </div>
+              <div className="border-b mt-4"></div>
 
               <div className="flex justify-between items-center mt-3">
 
@@ -293,11 +309,13 @@ function ActiveMember({ state }) {
                 </p>
 
 
-                <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
+                <span className="bg-#E8E8E8 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
                   {member.Joining_Date ? moment(member.Joining_Date).format('YYYY-MM-DD') : 'No date'}
                 </span>
 
               </div>
+
+
 
 
               {deletePopup === index && (
@@ -368,7 +386,7 @@ function ActiveMember({ state }) {
 
                       {statusError.trim() !== "" && (
                         <div className="mt-2 text-center text-red-500 text-[12px] font-medium font-gilroy">
-                          <span className="inline-block text-red-500 mb-1">{statusError}</span>
+                          <span className="inline-block text-red-500 mb-1 font-gilroy">{statusError}</span>
                         </div>
                       )}
                     </div>
@@ -390,6 +408,47 @@ function ActiveMember({ state }) {
           ))}
 
         </div>
+
+        {members.length > 5 && (
+          <div className="flex justify-end items-center gap-4 mt-5">
+
+            <select
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              className="border border-gray-300 px-4 py-2 rounded-lg"
+            >
+              {[5, 10, 50, 100].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+
+
+
+
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 border rounded-lg"
+              >
+                &lt;
+              </button>
+              <p className="text-gray-600 font-medium px-4 py-2">
+                {currentPage} of {totalPages}
+              </p>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 border rounded-lg"
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
+        )}
         {showModal && <AddMemberForm memberData={selectedMember} onClose={handleOnClose} />}
         {!showMembers && <MemberDetails member={memberdetail} onClick={() => closeDetails} />}
 

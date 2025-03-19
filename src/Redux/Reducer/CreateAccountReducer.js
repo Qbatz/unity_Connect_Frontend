@@ -21,6 +21,7 @@ export const initialState = {
 const CreateAccountReducer = (state = initialState, action) => {
 
 
+
    switch (action.type) {
       case 'ERROR':
          return { ...state, errorMessage: action.payload }

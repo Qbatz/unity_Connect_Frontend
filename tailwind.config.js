@@ -10,8 +10,9 @@ module.exports = {
          'lightblue':'#D9E9FF',
          '#7F00FF': '#7F00FF', 
          '#FAF9FF':'#FAF9FF',
-         '#F4F7FF':'#F4F7FF'
-
+         '#F4F7FF':'#F4F7FF',
+         '#FFE8E8': '#FFE8E8',
+         '#E8E8E8' : '#E8E8E8'
          
       },
     

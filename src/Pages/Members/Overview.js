@@ -89,8 +89,8 @@ function Overview({ member }) {
 
 
                 <div className="member-card bg-blue-50 p-4 rounded-2xl shadow-lg w-full md:w-1/2">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-lg font-semibold">Documents</h3>
+                    <div className="flex justify-between items-center mb-4 border-b">
+                        <h3 className="text-lg font-semibold mb-4">Documents</h3>
                         <BsThreeDots className="text-gray-500 cursor-pointer" />
                     </div>
 

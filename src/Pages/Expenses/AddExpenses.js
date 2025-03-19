@@ -157,7 +157,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
             <div className="bg-white w-full max-w-2xl p-6 rounded-2xl shadow-lg relative">
 
                 <button

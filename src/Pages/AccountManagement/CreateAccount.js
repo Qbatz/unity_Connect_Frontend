@@ -8,8 +8,11 @@ import { useDispatch, connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { HiOutlineEye } from "react-icons/hi2";
 import { RiEyeOffLine } from "react-icons/ri";
+import { MdError } from "react-icons/md";
 
 function CreateAccount({ state }) {
+
+  
 
 
   const dispatch = useDispatch()
@@ -303,7 +306,13 @@ function CreateAccount({ state }) {
                 value={firstName} onChange={handleFirstNameChange}
               />
 
-              {isSubmitted && firstNameError && <p data-testid='fname-error' className="text-red-500 text-sm">{firstNameError}</p>}
+              {isSubmitted && firstNameError &&
+               
+                <div className="flex items-center text-red-500 text-sm mt-1">
+                  <MdError className="mr-1 text-base" /> 
+                  <span data-testid='fname-error'>{firstNameError}</span>
+                </div>
+              }
             </div>
 
             <div className="w-full">
@@ -311,18 +320,35 @@ function CreateAccount({ state }) {
               <input type="text" data-testid='input-lname' placeholder="Last name" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={lastName} onChange={handleLastNameChange}
               />
-              {isSubmitted && lastNameError && <p className="text-red-500 text-sm">{lastNameError}</p>}
+              {isSubmitted && lastNameError &&
+                <div className="flex items-center text-red-500 text-sm mt-1">
+                  <MdError className="mr-1 text-sm" />
+                  <span >{lastNameError}</span>
+                </div>
+              }
             </div>
 
             <div className="w-full">
               <label className="block font-Gilroy text-sm font-medium mb-2">Email ID</label>
-              <input data-testid='input-email' type="email" placeholder="Email address" className="w-full p-3 border border-gray-300 rounded-xl"
+              <input data-testid='input-email'
+                autoComplete='new-email'
+                autoCorrect='off'
+                type="email" placeholder="Email address" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={email} onChange={handleEmailChange}
               />
-              {state.CreateAccount.mobileError === "Email Id Already Exists" && (
-                <p data-testid='mobile-error' className="text-red-500 text-sm mt-1">{state.CreateAccount.mobileError}</p>
+              {state.CreateAccount.emailError === "Email Id Already Exists" && (
+                <div className="flex items-center text-red-500 text-sm mt-1">
+                  <MdError className="mr-1 text-sm" />
+                  <p data-testid='mobile-error' className="text-red-500 text-sm mt-1">{state.CreateAccount.emailError}</p>
+                </div>
               )}
-              {isSubmitted && emailError && <p data-testid='email-error' className="text-red-500 text-sm">{emailError}</p>}
+              {isSubmitted && emailError &&
+                <div className="flex items-center text-red-500 text-sm mt-1">
+                  <MdError className="mr-1 text-sm" />
+                  <p data-testid='email-error' className="text-red-500 text-sm">
+                    {emailError}</p>
+                </div>
+              }
             </div>
 
             <div className="w-full">
@@ -341,10 +367,19 @@ function CreateAccount({ state }) {
                   disabled={false}
                 />
               </div>
-              {state.CreateAccount.email_mobile_Error === "Mobile Number Already Exists" && (
-                <p data-testid='mobile_error' className="text-red-500 text-sm mt-1">{state.CreateAccount.email_mobile_Error}</p>
+              {state.CreateAccount.emailError === "Mobile Number Already Exists" && (
+                <div className="flex items-center text-red-500 text-sm mt-1">
+                  <MdError className="mr-1 text-sm" />
+                  <p data-testid='mobile_error' className="text-red-500 text-sm mt-1">{state.CreateAccount.emailError}</p>
+                </div>
               )}
-              {isSubmitted && phoneError && <p className="text-red-500 text-sm">{phoneError}</p>}
+              {isSubmitted && phoneError &&
+                <div className="flex items-center text-red-500 text-sm mt-1">
+                  <MdError className="mr-1 text-sm" />
+                  <p className="text-red-500 text-sm">
+                    {phoneError}</p>
+                </div>
+              }
             </div>
 
 
@@ -355,6 +390,8 @@ function CreateAccount({ state }) {
               <div className="relative">
                 <input
                   data-testid='input-password'
+                  autoComplete='new-password'
+                  autoCorrect='off'
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   className="border py-3 px-3 w-full mt-1  border-gray-300 rounded-xl  font-Gilroy font-medium text-base leading-6 tracking-normal pr-10"
@@ -376,7 +413,13 @@ function CreateAccount({ state }) {
                 </button>
               </div>
               <div >
-                {isSubmitted && passwordErrors && <p className="text-red-500 text-sm">{passwordErrors}</p>}
+                {isSubmitted && passwordErrors &&
+                  <div className="flex items-center text-red-500 text-sm mt-1">
+                    <MdError className="mr-1 text-sm" />
+                    <p className="text-red-500 text-sm">
+                      {passwordErrors}</p>
+                  </div>
+                }
               </div>
               <div>
 
@@ -394,8 +437,19 @@ function CreateAccount({ state }) {
                   {showConfirmPassword ? <HiOutlineEye size="20" color="#292D32" /> : <RiEyeOffLine size="20" color="#292D32" />}
                 </button>
               </div>
-              {isSubmitted && confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
-              {isSubmitted && bothPasswordError && <p className="text-red-500 text-sm">{bothPasswordError}</p>}
+              {isSubmitted && confirmPasswordError &&
+                <div className="flex items-center text-red-500 text-sm mt-1">
+                  <MdError className="mr-1 text-sm" />
+                  <p className="text-red-500 text-sm">{confirmPasswordError}</p>
+                </div>
+              }
+              {isSubmitted && bothPasswordError &&
+                <div className="flex items-center text-red-500 text-sm mt-1">
+                  <MdError className="mr-1 text-sm" />
+                  <p className="text-red-500 text-sm">{bothPasswordError}</p>
+                </div>
+              }
+
             </div>
           </div>
 
