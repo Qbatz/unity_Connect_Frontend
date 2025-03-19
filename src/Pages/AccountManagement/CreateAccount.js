@@ -307,9 +307,9 @@ function CreateAccount({ state }) {
               />
 
               {isSubmitted && firstNameError &&
-                //  <p data-testid='fname-error' className="text-red-500 text-sm"> <MdError className="mr-1 text-sm" />{firstNameError}</p>
+               
                 <div className="flex items-center text-red-500 text-sm mt-1">
-                  <MdError className="mr-1 text-base" /> {/* Adjust size with text-base */}
+                  <MdError className="mr-1 text-base" /> 
                   <span data-testid='fname-error'>{firstNameError}</span>
                 </div>
               }
