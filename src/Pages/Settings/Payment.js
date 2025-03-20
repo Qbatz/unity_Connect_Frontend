@@ -26,14 +26,14 @@ const Payment = () => {
               <p className="text-gray-500 text-sm font-Gilroy font-medium mt-1">
                 IFSC code: SBIN004578945
               </p>
-              <div className="flex gap-4 text-purple-600 text-sm mt-4">
-                <span className="cursor-pointer font-Gilroy font-medium text-sm">
+              <div className="flex gap-4  text-sm mt-4">
+                <span className="cursor-pointer text-purple-400 font-Gilroy font-medium text-sm">
                   Set as default
                 </span>
-                <span className="cursor-pointer font-Gilroy text-sm font-semibold">
+                <span className="cursor-pointer text-purple-600 font-Gilroy text-sm font-semibold">
                   Edit
                 </span>
-                <span className="cursor-pointer font-Gilroy font-medium text-sm">
+                <span className="cursor-pointer text-purple-400 font-Gilroy font-medium text-sm">
                   Remove
                 </span>
               </div>

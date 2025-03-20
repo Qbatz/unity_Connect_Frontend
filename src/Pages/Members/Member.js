@@ -1,26 +1,53 @@
 import React, { useState } from "react";
 import ActiveMember from "./Activemember";
 import NonActiveMember from "./NonActivemember";
-
-
+import AddMemberForm from "./AddMemberForm";
+import MemberDetails from "./MemberDetails";
 
 const Members = () => {
   const [activeTab, setActiveTab] = useState("Active members");
   const [selectedMemberdetails, setSelectedMemberdetails] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
+
+
+  const handleClickAddMember = () => {
+
+    setShowModal(true);
+    setSelectedMember("");
+
+  }
+
+  const handleOnClose = () => {
+    setShowModal(false);
+
+  }
 
 
   return (
     <div className="container mx-auto mt-4">
 
       {!selectedMemberdetails && (
-        <h2 className="text-[24px] font-semibold font-Gilroy leading-[28.63px] text-black mb-4">
-          Members
-        </h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-[24px] font-semibold font-Gilroy leading-[28.63px] text-black mb-4">
+            Members
+          </h2>
+          <div data-testid='active-member-div' className="flex justify-end">
+            <button
+              data-testid="button-add-member"
+
+              className="bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium"
+              onClick={handleClickAddMember}
+            >
+              + Add Member
+            </button>
+          </div>
+        </div>
       )}
 
       {!selectedMemberdetails && (
         <div data-testid='members-tab' className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
-          {["Active members", "In active members"].map((tab,index) => (
+          {["Active members", "In active members"].map((tab, index) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -38,13 +65,21 @@ const Members = () => {
         </div>
       )}
 
-<div className="mt-8">
-  {activeTab === "Active members" ? (
-    <ActiveMember onSelectMember={setSelectedMemberdetails} />
-  ) : (
-    <NonActiveMember onSelectMember={setSelectedMemberdetails} />
-  )}
-</div>
+      <div className="">
+      {!selectedMemberdetails ? (
+        activeTab === "Active members" ? (
+          <ActiveMember onSelectMember={setSelectedMemberdetails} />
+        ) : (
+          <NonActiveMember onSelectMember={setSelectedMemberdetails} />
+        )
+      ) : (
+        <MemberDetails member={selectedMemberdetails} onBack={() => setSelectedMemberdetails(null)} />
+
+      )
+        }
+
+        {showModal && <AddMemberForm memberData={selectedMember} onClose={handleOnClose} />}
+      </div>
 
     </div>
   );

@@ -54,16 +54,16 @@ function MemberStatements({ state, member }) {
       setIsModalOpen(false);
       dispatch({ type: 'GETSTATEMENT', payload: { id: member.Id } })
       dispatch({ type: "CLEAR_STATUS_CODES_RECORD_PAYMENT" });
-   }
+    }
   }, [state.Member.statusCodeForRecordPayment])
- 
+
   useEffect(() => {
     if (state.Member.statusCodeAddTransactions === 200) {
       setIsModalOpen(false);
       dispatch({ type: 'GETSTATEMENT', payload: { id: member.Id } })
       dispatch({ type: "CLEAR_STATUS_CODE_ADD_TRANSACTIONS" });
-   }
-  },[state.Member.statusCodeAddTransactions])
+    }
+  }, [state.Member.statusCodeAddTransactions])
 
   const handleInputChange = (field, value) => {
     if (errors[field]) {
@@ -102,7 +102,7 @@ function MemberStatements({ state, member }) {
       const payload = {
         loan_amount: selectedStatement.Loan_Amount,
         due_date: dueDate,
-        paid_amount :paidAmount,
+        paid_amount: paidAmount,
         pending_amount: pendingAmount,
         status: status,
         loan_id: selectedStatement.Loan_Id,
@@ -146,9 +146,9 @@ function MemberStatements({ state, member }) {
 
       </div>
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
-        <div className="overflow-y-auto h-[300px]">
+        <div className="overflow-y-auto h-[280px]">
           <table className="w-full text-left border-collapse min-w-max">
-            <thead>
+            <thead className="sticky top-0 bg-blue-50 z-10">
               <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
                 <th className="p-4">
                   <input

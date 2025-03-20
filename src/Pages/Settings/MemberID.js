@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import { MdError } from "react-icons/md";
 
 function MemberID({ state }) {
 
@@ -19,6 +19,9 @@ function MemberID({ state }) {
       setSuffix('');
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_ID' });
 
+    }
+    return () => {
+      dispatch({ type: 'CLEAR_ERROR' })
     }
   }, [state.Settings.statusCodeMemberID]);
 
@@ -87,7 +90,10 @@ function MemberID({ state }) {
             onChange={handlePrefix}
           />
           {error.prefix && (
-            <p className="text-red-500 text-sm mt-1">{error.prefix}</p>
+            <div className="flex items-center text-red-500 text-sm mt-1">
+              <MdError className="mr-1 text-sm" />
+              <p >{error.prefix}</p>
+            </div>
           )}
         </div>
         <div className="w-[280px]">
@@ -99,7 +105,10 @@ function MemberID({ state }) {
             onChange={handleSuffix}
           />
           {error.suffix && (
-            <p className="text-red-500 text-sm mt-1">{error.suffix}</p>
+            <div className="flex items-center text-red-500 text-sm mt-1">
+              <MdError className="mr-1 text-sm" />
+              <p>{error.suffix}</p>
+            </div>
           )}
         </div>
         <div className="w-[280px]">

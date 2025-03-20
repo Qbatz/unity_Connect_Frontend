@@ -10,8 +10,7 @@ import { useDispatch } from "react-redux";
 function ReportsTab({state}) {
   
   const dispatch = useDispatch();
-    // const statusCode = useSelector((state) => state.Report.statusCodeLoans);
-    // const getReports = useSelector((state) => state.Report.getReport?.unsuccessfullPayment || []);
+   
   
     const Success = state.Report.successreport || [];
     const UnSuccess = state.Report.unsuccessreport || [];
@@ -21,11 +20,7 @@ function ReportsTab({state}) {
         dispatch({type: 'MEMBERLIST'})
     }, [dispatch]);
 
-    // useEffect(() => {
-    //     if (statusCode === 200) {
-    //         dispatch({ type: "CLEARREPORTS" });
-    //     }
-    // }, [statusCode, dispatch]);
+   
 
   const [paidStart] = useState("");
   const [paidEnd] = useState("");

@@ -3,7 +3,7 @@ import CountUp from "react-countup";
 
 const CountNumbers = () => {
   return (
-    <div className="bg-#FAF9FF py-10 px-4 flex flex-wrap justify-around gap-6 text-center mt-20" >
+    <div className="bg-#FAF9FF py-10 px-4 flex flex-wrap justify-around gap-6 text-center mt-20 mb-16" >
 
       <div className="w-full sm:w-auto">
         <div className="text-6xl font-bold font-Gilroy text-black">

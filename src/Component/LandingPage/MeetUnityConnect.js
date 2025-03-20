@@ -4,8 +4,8 @@ import FlyingDollar from "../../Asset/Icons/CashwithWings.svg";
 
 const MeetUnityConnect = () => {
   return (
-    <div className="container">
-      <div className="relative flex flex-col items-center text-center px-6 py-10 md:px-10 lg:px-16">
+    <div className="container mx-auto mb-8">
+      <div className="relative flex flex-col items-center text-center w-full px-6 py-10 md:px-10 lg:px-22">
 
 
         <img
@@ -36,7 +36,7 @@ const MeetUnityConnect = () => {
 
 
         <button className="mt-5 font-Raleway rounded-2xl bg-[#7F00FF] text-white 
-        px-5 py-3 md:px-6 md:py-3 lg:px-8 lg:py-6
+       w-64 py-6
         font-semibold text-base sm:text-lg hover:bg-[#7F00FF] transition">
           Join a community
         </button>

@@ -82,7 +82,7 @@ function CommentSection({ state, member }) {
       </div>
 
 
-      <div className="mt-20  border p-4 rounded-lg flex items-center">
+      <div className="mt-10  border p-4 rounded-lg flex items-center">
         <input
           type="text"
           placeholder="Add comment..."
