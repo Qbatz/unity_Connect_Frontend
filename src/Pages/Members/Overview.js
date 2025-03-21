@@ -70,7 +70,7 @@ function Overview({ member }) {
                             <span className="text-gray-500 text-xs font-medium mb-2 font-Gilroy">Mobile No</span>
                             <div className="flex items-center gap-2">
                                 <img src={call} alt="call" className="w-5 h-5" />
-                                <span className="text-gray-800 text-sm font-semibold font-Gilroy">{member?.Mobile_No}</span>
+                                <span className="text-gray-800 text-sm font-semibold font-Gilroy">+91{" "}{member?.Mobile_No}</span>
                             </div>
                         </div>
                     </div>

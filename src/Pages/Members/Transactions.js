@@ -17,22 +17,22 @@ function Transactions({ state }) {
   return (
 
     <div className="p-4">
-  <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
-    <div className=" max-h-[300px] overflow-y-auto">
-      <table className="w-full text-left border-collapse min-w-max">
-        <thead className="sticky top-0 z-10 border-b">
-          <tr className="bg-blue-50 border-b font-light text-sm text-gray-500 font-Gilroy">
-            <th className="p-4 font-Gilroy">Transactions</th>
-            <th className="p-4 font-Gilroy">Date & Time</th>
-            <th className="p-4 font-Gilroy">Transaction Id</th>
-            <th className="p-4 font-Gilroy">Amount</th>
-            <th className="p-4 font-Gilroy">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactionList.map((item, index) => (
-            <tr key={index}>
-              <td className="p-4 font-Gilroy">{item.Loan_Name}</td>
+      <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
+        <div className="min-w-max overflow-y-auto max-h-[320px]">
+          <table className="w-full text-left border-collapse">
+            <thead className="sticky top-0 bg-blue-50 z-10">
+              <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
+                <th className="p-4 font-Gilroy">Transactions</th>
+                <th className="p-4 font-Gilroy">Date & Time</th>
+                <th className="p-4 font-Gilroy">Transaction Id</th>
+                <th className="p-4 font-Gilroy">Amount</th>
+                <th className="p-4 font-Gilroy">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactionList.map((item, index) => (
+                <tr key={index}>
+                  <td className="p-4 font-Gilroy">{item.Loan_Name}</td>
 
               <td className="p-4">
                 <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">

@@ -306,8 +306,8 @@ function NonActiveMember({ state }) {
                       <option value="" disabled selected>
                         Select a status
                       </option>
-                      <option value="active">Active</option>
-                      <option value="in-progress">In Active</option>
+                      <option value="Active">Active</option>
+                      <option value="Inactive">In Active</option>
 
                     </select>
 

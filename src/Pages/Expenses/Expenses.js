@@ -7,6 +7,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import editIcon from "../../Asset/Icons/edit_blue.svg";
 import deleteIcon from "../../Asset/Icons/Delete.svg";
 import ExpenseForm from './AddExpenses';
+import moment from "moment";
 
 function ExpensesList({ state }) {
 
@@ -141,12 +142,12 @@ function ExpensesList({ state }) {
                     <div className="overflow-x-auto">
                         <div className="min-w-max overflow-y-auto max-h-[400px]">
                             <table className="w-full text-left border-collapse">
-                                <thead className="sticky top-0 bg-blue-50 z-10">
-                                    <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
+                                <thead className="sticky top-0 bg-#F4F7FF z-10">
+                                    <tr style={{ color: "#939393" }} className="bg-F4F7FF border-b font-light text-sm font-Gilroy">
                                         <th className="p-4 font-Gilroy">Merchant</th>
                                         <th className="p-4 font-Gilroy ">Category</th>
                                         <th className="p-4 font-Gilroy ">Sub-Category</th>
-                                        <th className="p-4 font-Gilroy">Expenses date</th>
+                                        <th className="p-4 font-Gilroy">Expenses Date</th>
                                         <th className="p-4 font-Gilroy ">Amount</th>
                                         <th className="p-4 font-Gilroy">Mode of payment</th>
                                         <th className="p-4 font-Gilroy "></th>
@@ -195,14 +196,17 @@ function ExpensesList({ state }) {
                                                 ) : "-"}
                                             </td>
 
-                                            <td className="p-4 font-Gilroy">{item.Expense_Date}</td>
+                                            <td className="p-4 font-Gilroy">
+                                                {moment(item.Expense_Date).format("DD-MM-YYYY")}
+                                            </td>
                                             <td className="p-4 font-Gilroy">{item.Expense_Amount}</td>
                                             <td className="p-4  font-Gilroy">{item.Mode_of_Payment}</td>
 
 
                                             <td className="p-4  relative">
                                                 <div
-                                                    className="cursor-pointer h-10 w-10 border border-gray-300 rounded-full flex justify-center items-center bg-white"
+                                                    className={`cursor-pointer h-10 w-10 border border-gray-300 rounded-full flex justify-center items-center 
+                                                        bg-white ${openMenu === index ? "!bg-blue-100" : ""}`}
                                                     onClick={(event) => handledots(event, index)}
                                                 >
                                                     <PiDotsThreeOutlineVerticalFill />

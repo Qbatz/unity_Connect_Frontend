@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useState, useEffect } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import closecircle from '../../Asset/Icons/close-circle.svg';
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
 
@@ -57,30 +57,30 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         const newErrors = {};
 
         if (!merchantName.trim() || merchantName.length < 3) {
-            newErrors.merchantName = "Merchant name must be at least 3 characters.";
+            newErrors.merchantName = "Merchant name must be at least 3 characters";
         }
 
         if (!category) {
-            newErrors.category = "Please select a category.";
+            newErrors.category = "Please select a category";
         }
 
         if (!paymentMode) {
-            newErrors.paymentMode = "Please select a payment mode.";
+            newErrors.paymentMode = "Please select a payment mode";
         }
 
 
         if (!expenseDate) {
-            newErrors.expenseDate = "Please select a valid date.";
+            newErrors.expenseDate = "Please select a valid date";
         }
 
 
 
         if (!expenseAmount || isNaN(expenseAmount) || Number(expenseAmount) <= 0) {
-            newErrors.expenseAmount = "Enter a valid expense amount.";
+            newErrors.expenseAmount = "Enter a valid expense amount";
         }
 
         if (description.length > 200) {
-            newErrors.description = "Description cannot exceed 200 characters.";
+            newErrors.description = "Description cannot exceed 200 characters";
         }
 
 
@@ -164,7 +164,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                     className="absolute top-4 right-4 text-gray-500 hover:text-black"
                     onClick={onClose}
                 >
-                    <AiOutlineClose size={24} />
+                    <img src={closecircle} alt="Close" className="" />
                 </button>
 
 
@@ -178,12 +178,18 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                     <div>
                         <label className="block text-gray-600 mb-3 font-Gilroy">
-                            Merchant Name
+                            Merchant Name <span className="text-red-500 text-[20px]">*</span>
                         </label>
                         <input
                             type="text"
                             value={merchantName}
-                            onChange={(e) => setMerchantName(e.target.value)}
+
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^[A-Za-z\s]*$/.test(value)) {
+                                    setMerchantName(value);
+                                }
+                            }}
                             placeholder="Enter name"
                             className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
@@ -196,12 +202,12 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-gray-600 mb-3 font-Gilroy">
-                                Category
+                                Category <span className="text-red-500 text-[20px]">*</span>
                             </label>
                             <select
                                 value={category}
                                 onChange={handlePaymentChange}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-gray-400"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
                             >
                                 <option value="">Select a category</option>
                                 {name &&
@@ -219,12 +225,12 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                         <div>
                             <label className="block text-gray-600 mb-3 font-Gilroy">
-                                Mode of payment
+                                Mode of payment <span className="text-red-500 text-[20px]">*</span>
                             </label>
                             <select
                                 value={paymentMode}
                                 onChange={(e) => setPaymentMode(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-gray-400"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
                             >
                                 <option value="">Select a payment mode</option>
                                 <option value="Credit Card">Credit Card</option>
@@ -243,11 +249,11 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-gray-600 mb-3 font-Gilroy">
-                                Expense date
+                                Expense date <span className="text-red-500 text-[20px]">*</span>
                             </label>
                             <input
                                 type="date"
-                                className="w-full p-2 h-10 border rounded-lg text-sm"
+                                className="w-full p-2 h-10 border rounded-lg text-sm cursor-pointer"
                                 value={expenseDate}
                                 onChange={(e) => setExpenseDate(e.target.value)}
                             />
@@ -258,14 +264,14 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                         <div>
                             <label className="block text-gray-600 mb-3 font-Gilroy">
-                                Expense amount
+                                Expense amount <span className="text-red-500 text-[20px]">*</span>
                             </label>
                             <input
                                 type="number"
                                 value={expenseAmount}
                                 onChange={(e) => setExpenseAmount(e.target.value)}
                                 placeholder="Enter expense amount"
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
                             />
                             {errors.expenseAmount && (
                                 <p className="text-red-500 text-sm mt-1">{errors.expenseAmount}</p>
