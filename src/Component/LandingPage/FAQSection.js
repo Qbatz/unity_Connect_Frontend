@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import Diamond from '../../Asset/Icons/DiamondGreen.svg';
 
@@ -37,13 +37,41 @@ const FAQSection = () => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.innerHTML = `
+        @media (min-width: 200px) and (max-width: 300px) {
+          .custom-text {
+            font-size: 12px;
+          }
+        }
+   
+     @media (min-width: 200px) and (max-width: 300px) {
+           .faq {
+           font-size: 28px;
+          }
+        }
+         
+           @media (min-width: 200px) and (max-width: 300px) {
+           .faq-content {
+           font-size: 16px;
+          }
+        }
+   
+      `;
+
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   return (
     <>
 
 
-      <div className="mt-20 flex flex-col" data-testid='get-answer-container'>
+      <div className="mt-20 flex flex-col faq" data-testid='get-answer-container'>
         <h2
-          className="text-6xl font-Gilroy font-bold leading-[67.2px] text-gray-900 text-center"
+          className="faq text-6xl font-Gilroy font-bold  text-gray-900 text-center"
 
         >
           Get answers to some FAQs
@@ -67,7 +95,8 @@ const FAQSection = () => {
       <div className="container mx-auto text-center px-12 mt-16">
 
 
-        <div className="mt-8 bg-#FAF9FF rounded-[40px] p-5 pr-10 border-l-[1px] border-violet-700 border-t-[1px] border-r-[1px] border-b-[1px] border-teal-500 border-t-violet-500 border-r-teal-500 border-b-teal-500">
+        <div className="custom-text mt-8 bg-#FAF9FF rounded-[40px] p-5 pr-10 border-l-[1px] border-violet-700 border-t-[1px] 
+        border-r-[1px] border-b-[1px] border-teal-500 border-t-violet-500 border-r-teal-500 border-b-teal-500">
 
           {faqs.map((faq, index) => (
             <div key={index}
@@ -75,21 +104,24 @@ const FAQSection = () => {
             >
               <button
                 data-testid={`button-toggle-faq-${index}`}
-                className="w-full flex justify-between items-center text-left py-4 px-4 text-black font-500 text-xl rounded-lg"
+                className=" w-full flex justify-between items-center text-left py-4 px-4 text-black font-500 text-xl rounded-lg"
                 onClick={() => toggleFAQ(index)}
               >
                 <span
-                  className="text-xl font-medium leading-32 font-Gilroy py-5 text-gray-800"
+                  className="faq-content text-xl font-Gilroy font-medium leading-32 font-Gilroy py-5 text-gray-800"
 
                 >
                   {faq.question}
                 </span>
 
-                {openIndex === index ? (
-                  <FaChevronUp className="text-#000000" />
-                ) : (
-                  <FaChevronDown className="text-#000000" />
-                )}
+
+                <span className="ml-2 flex-shrink-0">
+                  {openIndex === index ? (
+                    <FaChevronUp className="text-grey-50" />
+                  ) : (
+                    <FaChevronDown className="text-black-50" />
+                  )}
+                </span>
               </button>
               {openIndex === index && (
                 <div data-testid='div-answers' className="px-4 pb-4 text-#000000 text-sm">{faq.answer}</div>
