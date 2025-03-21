@@ -49,6 +49,7 @@ function* handledeleteMember(action) {
             type: 'DELETE_MEMBER',
             payload: { response: response.data, statusCode: response.statusCode || response.status },
         });
+        yield put({ type: 'MEMBERLIST' })
         toast.success(response.data.message, {
             position: "bottom-center",
             autoClose: 2000,

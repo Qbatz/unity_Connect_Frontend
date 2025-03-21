@@ -17,9 +17,9 @@ function Transactions({ state }) {
   return (
     <div className="p-4">
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
-        <div className="overflow-y-auto">
-          <table className="w-full text-left border-collapse min-w-max">
-            <thead>
+        <div className="min-w-max overflow-y-auto max-h-[320px]">
+          <table className="w-full text-left border-collapse">
+            <thead className="sticky top-0 bg-blue-50 z-10">
               <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
                 <th className="p-4 font-Gilroy">Transactions</th>
                 <th className="p-4 font-Gilroy">Date & Time</th>

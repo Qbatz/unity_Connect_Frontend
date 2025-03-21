@@ -129,10 +129,7 @@ function MemberModal({ state, memberData, onClose }) {
         e.preventDefault();
         setNoChanges("");
 
-        if (!userName && !email && !mobileNo && !joiningDate && !address) {
-            setNoChanges("Please fill in all the required fields");
-            return;
-        }
+
         const formatDate = (date) => date ? new Date(date).toISOString().split("T")[0] : "";
 
         const isFileChanged = file && file.name !== (memberData?.Document_Url || "");
@@ -145,10 +142,7 @@ function MemberModal({ state, memberData, onClose }) {
             (address?.trim() || "") !== (memberData?.Address?.trim() || "") ||
             isFileChanged
         );
-        if (!email.includes("@") || !email.includes(".com")) {
-            setNoChanges("Please enter a valid email address");
-            return;
-        }
+
 
 
         if (memberData && !isChanged) {
@@ -236,7 +230,12 @@ function MemberModal({ state, memberData, onClose }) {
                                 className="w-full p-2 h-10 border rounded-lg text-sm mb-1"
                                 placeholder="Enter User Name"
                                 value={userName}
-                                onChange={(e) => handleChange("userName", e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^[A-Za-z\s]*$/.test(value)) {
+                                        handleChange("userName", value);
+                                    }
+                                }}
                             />
                             {errors.userName && (
                                 <p className="text-red-500 flex items-center gap-1 text-xs">
@@ -281,7 +280,7 @@ function MemberModal({ state, memberData, onClose }) {
                             />
                             {errors.mobileNo && (
                                 <p className="text-red-500 flex items-center gap-1 text-xs">
-                                    <MdError className="text-xs mb-4" /> {errors.mobileNo}
+                                    <MdError className="text-xs" /> {errors.mobileNo}
                                 </p>
                             )}
                         </div>
@@ -322,7 +321,7 @@ function MemberModal({ state, memberData, onClose }) {
 
                     <div className="">
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Add Documents</label>
-                        <div className="border rounded px-2 py-4 flex items-center justify-center relative w-28 mb-1">
+                        <div className="border rounded-xl px-2 py-4 flex items-center justify-center relative w-28 h-20 mb-1">
                             <input type="file" className="absolute inset-0 opacity-0 w-full h-full" onChange={handleFileChange} />
                             {memberData && <img src={memberData.Document_Url} alt="Selected" />}
                             {showImage ? <img src={showImage} alt="Selected" /> : <AiOutlinePlus size={20} />}

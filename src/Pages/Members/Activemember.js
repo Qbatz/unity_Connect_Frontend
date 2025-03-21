@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import AddMemberForm from "./AddMemberForm";
 import MemberDetails from './MemberDetails';
 import closecircle from '../../Asset/Icons/close-circle.svg';
-
+import { FaAngleDown } from "react-icons/fa6";
 
 function ActiveMember({ state, onSelectMember }) {
 
@@ -30,12 +30,18 @@ function ActiveMember({ state, onSelectMember }) {
   const [statusError, setStatusError] = useState("");
   const [memberdetail, setMemberdetails] = useState(null);
   const [showMembers, setShowMembers] = useState(true);
+  const [activeMemberData, setActiveMemberData] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
 
-  const handleStatusChange = (e) => setStatus(e.target.value);
+
+  const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+    setStatusError("");
+  };
+
   const handleChangeStatusClick = (memberId) => {
     if (!status) {
       setStatusError("Please select a status");
@@ -48,18 +54,32 @@ function ActiveMember({ state, onSelectMember }) {
       dispatch({ type: "CHANGE_STATUS", payload });
     }
     setStatus("")
+
   };
 
   const popupRef = useRef(null);
 
-  const members = state?.Member?.ActiveMemberdata || [];
-  const totalPages = Math.ceil(members.length / pageSize);
+
+
+  const totalPages = Math.ceil(activeMemberData.length / pageSize);
 
 
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
+      setActiveMemberData(state.Member.ActiveMemberdata);
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
     }
+    return () => {
+      dispatch({ type: 'CLEAR_ERROR' })
+    }
+  }, [state.Member.statusCodeMemberList])
+
+
+  useEffect(() => {
+    if (state.Member.statusCodeMemberList === 201) {
+      setActiveMemberData([])
+    }
+
   }, [state.Member.statusCodeMemberList])
 
 
@@ -174,7 +194,7 @@ function ActiveMember({ state, onSelectMember }) {
   };
 
 
-  const paginatedData = members.slice(
+  const paginatedData = activeMemberData.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
@@ -191,7 +211,7 @@ function ActiveMember({ state, onSelectMember }) {
         </div>
         <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           {paginatedData?.map((member, index) => (
-            <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
+            <div key={index} className="member-card bg-#F4F7FF p-4 rounded-3xl shadow-sm relative">
 
 
               <div className="absolute top-4 right-4">
@@ -262,7 +282,7 @@ function ActiveMember({ state, onSelectMember }) {
                     {member.Email_Id}
                   </p>
                   <p className="flex items-center gap-2 font-Gilroy">
-                    <img src={call} className="text-gray-500" alt="call" /> +
+                    <img src={call} className="text-gray-500" alt="call" /> +91{" "}
                     {member.Mobile_No
                     }
                   </p>
@@ -286,7 +306,7 @@ function ActiveMember({ state, onSelectMember }) {
 
 
                 <span className="bg-#E8E8E8 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-                  {member.Joining_Date ? moment(member.Joining_Date).format('YYYY-MM-DD') : 'No date'}
+                  {member.Joining_Date ? moment(member.Joining_Date).format('DD-MM-YYYY') : 'No date'}
                 </span>
 
               </div>
@@ -345,24 +365,28 @@ function ActiveMember({ state, onSelectMember }) {
                       <label className="text-[14px] text-[#222] font-medium font-Gilroy mb-2 block">
                         Change Status <span className="text-red-500 text-[20px]">*</span>
                       </label>
-                      <select
-                        className="border border-gray-300 text-[#4B4B4B] text-[16px] font-medium font-gilroy shadow-none h-[50px] rounded-xl w-full px-3"
-                        value={status}
-                        onChange={handleStatusChange}
-                      >
-                        <option value="" disabled selected>
-                          Select a status
-                        </option>
-                        <option value="Active">Active</option>
+                      <div className="relative">
+                        <select
+                          className="border border-gray-300 text-[#4B4B4B] text-[16px] font-medium font-Gilroy shadow-none h-[50px] rounded-xl w-full px-3 appearance-none"
+                          value={status}
+                          onChange={handleStatusChange}
+                        >
+                          <option value="" disabled selected>
+                            Select a status
+                          </option>
+                          <option value="Active">Active</option>
 
-                        <option value="Inactive">In active</option>
-                      </select>
-
+                          <option value="Inactive">In active</option>
+                        </select>
+                        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                          <FaAngleDown size={15} />
+                        </div>
+                      </div>
 
 
                       {statusError.trim() !== "" && (
-                        <div className="mt-2 text-center text-red-500 text-[12px] font-medium font-gilroy">
-                          <span className="inline-block text-red-500 mb-1 font-gilroy">{statusError}</span>
+                        <div className="mt-2 text-center text-red-500 text-[12px] font-medium font-Gilroy">
+                          <span className="inline-block text-red-500 mb-1 font-Gilroy">{statusError}</span>
                         </div>
                       )}
                     </div>
@@ -370,7 +394,7 @@ function ActiveMember({ state, onSelectMember }) {
 
                     <div className="mt-6">
                       <button
-                        className="w-full bg-[#1E45E1] text-white font-medium h-[50px] rounded-xl text-[16px] font-gilroy"
+                        className="w-full bg-[#1E45E1] text-white font-medium h-[50px] rounded-xl text-[16px] font-Gilroy"
                         onClick={() => handleChangeStatusClick(member.Id)}
                       >
                         Change Status
@@ -385,24 +409,24 @@ function ActiveMember({ state, onSelectMember }) {
 
         </div>
 
-        {members.length > 5 && (
-          <div className="flex justify-end items-center gap-4 mt-5">
-
-            <select
-              value={pageSize}
-              onChange={handlePageSizeChange}
-              className="border border-gray-300 px-4 py-2 rounded-lg"
-            >
-              {[5, 10, 50, 100].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-
-
-
-
+        {activeMemberData.length > 5 && (
+          <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
+            <div className="relative">
+              <select
+                value={pageSize}
+                onChange={handlePageSizeChange}
+                className="border border-gray-300 px-4 py-2 rounded-lg appearance-none"
+              >
+                {[5, 10, 50, 100].map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                <FaAngleDown size={15} />
+              </div>
+            </div>
 
             <div className="flex gap-2">
               <button
@@ -425,6 +449,7 @@ function ActiveMember({ state, onSelectMember }) {
             </div>
           </div>
         )}
+
         {showModal && <AddMemberForm memberData={selectedMember} onClose={handleOnClose} />}
         {!showMembers && <MemberDetails member={memberdetail} onClick={() => closeDetails} />}
 
