@@ -116,7 +116,7 @@ const SignIn = ({ state }) => {
           Enter your details below to get onto your Unity Connect account.
         </p>
 
-        <div>
+        <div className="mb-3">
           <label className="font-Gilroy font-medium text-sm leading-4">
             Email ID <span className="text-red-500 align-super">*</span>
           </label>
