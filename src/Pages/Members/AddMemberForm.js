@@ -60,7 +60,7 @@ function MemberModal({ state, memberData, onClose }) {
         setNoChanges("");
     }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
 
-    const formattedDate = joiningDate ? moment(joiningDate).format("YYYY-MM-DD") : "";
+    // const formattedDate = joiningDate ? moment(joiningDate).format("YYYY-MM-DD") : "";
 
 
     const validate = () => {
