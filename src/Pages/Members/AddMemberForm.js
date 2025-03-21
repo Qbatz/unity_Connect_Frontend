@@ -5,7 +5,6 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from "moment";
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import calendar from '../../Asset/Icons/calendar.svg';
 
