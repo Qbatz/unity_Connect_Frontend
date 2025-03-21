@@ -74,7 +74,7 @@ function GetStarted() {
           Ready to Make Your <br /> <span>Money Work for You?</span>
         </h2>
 
-        <p className="font-Gilroy font-light text-lg leading-[28.8px] text-gray-200 mt-6">
+        <p className="font-Gilroy font-light text-lg leading-[28.8px] text-gray-200 mt-5">
           Join now and be part of a new era of collaborative investment.
         </p>
 
@@ -91,3 +91,5 @@ function GetStarted() {
 }
 
 export default GetStarted;
+
+

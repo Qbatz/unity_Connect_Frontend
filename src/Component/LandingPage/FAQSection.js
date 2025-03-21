@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import Diamond from '../../Asset/Icons/DiamondGreen.svg';
+import ArrowDown from '../../Asset/Icons/arrow-down.svg';
 
 const faqs = [
   {
@@ -57,6 +57,8 @@ const FAQSection = () => {
            font-size: 16px;
           }
         }
+
+      
    
       `;
 
@@ -77,7 +79,7 @@ const FAQSection = () => {
           Get answers to some FAQs
         </h2>
         <p
-          className="text-lg font-Gilroy font-light leading-[28.8px] text-gray-500 text-center mt-4 mb-5"
+          className="text-lg font-Gilroy font-light leading-[28.8px] text-[#000000] text-center mt-4 mb-5"
 
         >
           Take a look at our most Frequently Asked Questions
@@ -117,9 +119,12 @@ const FAQSection = () => {
 
                 <span className="ml-2 flex-shrink-0">
                   {openIndex === index ? (
-                    <FaChevronUp className="text-grey-50" />
+
+                    <img src={ArrowDown} alt="arrow-icon"/>
+
                   ) : (
-                    <FaChevronDown className="text-black-50" />
+
+                    <img src={ArrowDown} alt="arrow-icon"/>
                   )}
                 </span>
               </button>

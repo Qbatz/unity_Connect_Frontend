@@ -17,6 +17,11 @@ const MeetUnityConnect = () => {
             width: 190px;
           }
         }
+              @media (min-width: 270px) and (max-width: 770px) {
+           .btn-width {
+            width: 190px;
+          }
+        }
       `;
 
     document.head.appendChild(style);
@@ -56,9 +61,9 @@ const MeetUnityConnect = () => {
         </p>
 
 
-        <button className="mt-5 font-Raleway rounded-2xl bg-[#7F00FF] text-white join-community
-       w-64 py-6
-        font-semibold text-base sm:text-lg hover:bg-[#7F00FF] transition">
+        <button className="btn-width mt-5 font-Raleway rounded-2xl bg-[#7F00FF] text-white join-community
+       lg:w-[215px] py-6 md:w-[215px]
+        font-semibold text-lg sm:text-lg hover:bg-[#7F00FF] transition">
           Join a community
         </button>
 
