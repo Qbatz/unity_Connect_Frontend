@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MdError } from "react-icons/md";
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from "moment";
 import closecircle from '../../Asset/Icons/close-circle.svg';
+import calendar from '../../Asset/Icons/calendar.svg';
 
 
 function MemberModal({ state, memberData, onClose }) {
 
     const dispatch = useDispatch();
+    const dateInputRef = useRef(null)
 
     const [memberId, setMemberId] = useState("");
     const [userName, setUserName] = useState("");
@@ -23,6 +24,7 @@ function MemberModal({ state, memberData, onClose }) {
     const [showImage, setShowImage] = useState("");
     const [errors, setErrors] = useState({});
     const [noChanges, setNoChanges] = useState("");
+
 
 
     useEffect(() => {
@@ -57,11 +59,12 @@ function MemberModal({ state, memberData, onClose }) {
         setNoChanges("");
     }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
 
-    const formattedDate = joiningDate ? moment(joiningDate).format("YYYY-MM-DD") : "";
+    // const formattedDate = joiningDate ? moment(joiningDate).format("YYYY-MM-DD") : "";
 
 
     const validate = () => {
         let tempErrors = {};
+        if (!memberId) tempErrors.memberId = "Member Id is required";
         if (!userName) tempErrors.userName = "User Name is required";
         if (!email) {
             tempErrors.email = "Email is required";
@@ -99,23 +102,13 @@ function MemberModal({ state, memberData, onClose }) {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-        const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
-
+        setFile(selectedFile)
         if (selectedFile) {
-            if (allowedTypes.includes(selectedFile.type)) {
-                setFile(selectedFile);
-                if (selectedFile.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        setShowImage(reader.result);
-                    };
-                    reader.readAsDataURL(selectedFile);
-                } else {
-                    setShowImage(null);
-                }
-            } else {
-                alert("Only PDF, PNG, and JPG files are allowed.");
-            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setShowImage(reader.result);
+            };
+            reader.readAsDataURL(selectedFile);
         }
     };
 
@@ -167,6 +160,7 @@ function MemberModal({ state, memberData, onClose }) {
             mobile_no: mobileNo,
             joining_date: joiningDate,
             address: address,
+            file: file
         };
 
         const Editpayload = {
@@ -177,14 +171,10 @@ function MemberModal({ state, memberData, onClose }) {
             joining_date: joiningDate,
             address: address,
             id: memberData.Id,
+            file: file ? file : undefined,
+            document_url: !file ? memberData?.Document_Url : undefined,
         };
 
-        if (isFileChanged) {
-            Editpayload.file = file;
-            Editpayload.document_url = null;
-        } else {
-            Editpayload.document_url = memberData?.Document_Url || null;
-        }
 
         dispatch({
             type: 'MEMBERINFO',
@@ -213,7 +203,8 @@ function MemberModal({ state, memberData, onClose }) {
                 <div className="space-y-1 mt-2">
                     <div className="flex gap-4 ">
                         <div className="w-1/2">
-                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID</label>
+                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID
+                            </label>
                             <input
                                 data-testid='input-member-id'
                                 type="text"
@@ -229,7 +220,9 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
 
                         <div className="w-1/2">
-                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">User Name</label>
+                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">User Name
+                                <span className="text-red-500 text-xl">*</span>
+                            </label>
                             <input
                                 data-testid='input-user-name'
                                 type="text"
@@ -248,7 +241,9 @@ function MemberModal({ state, memberData, onClose }) {
 
                     <div className="flex gap-4">
                         <div className="w-1/2">
-                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email Address</label>
+                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email Address
+                                <span className="text-red-500 text-xl">*</span>
+                            </label>
                             <input
                                 data-testid='input-member-email'
                                 type="email"
@@ -265,7 +260,9 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
 
                         <div className="w-1/2">
-                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Mobile No</label>
+                            <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Mobile No
+                                <span className="text-red-500 text-xl">*</span>
+                            </label>
                             <input
                                 data-testid='input-member-phone'
                                 type="text"
@@ -287,8 +284,10 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">Joining Date</label>
+                    {/* <div>
+                        <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">Joining Date
+                        <span className="text-red-500 text-xl">*</span>
+                        </label>
                         <input
                             data-testid='input-joining-data'
                             type="date"
@@ -302,10 +301,32 @@ function MemberModal({ state, memberData, onClose }) {
                                 <MdError className="text-xs" /> {errors.joiningDate}
                             </p>
                         )}
+                    </div> */}
+                    <div className="relative w-56">
+                        <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">
+                            Joining Date
+                            <span className="text-red-500 text-xl">*</span>
+                        </label>
+                        <div className="relative">
+                            <input
+                                data-testid="input-joining-data"
+                                type="date"
+                                className="w-56 p-2 h-10 border rounded-lg text-sm cursor-pointer mb-1 appearance-none pr-10"
+                                ref={dateInputRef}
+                            />
+                            <img
+                                src={calendar}
+                                alt="calendar"
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer w-4 h-4"
+                                onClick={() => dateInputRef.current?.showPicker()}
+                            />
+                        </div>
                     </div>
 
                     <div className="mb-3">
-                        <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-3">Address</label>
+                        <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-3">Address
+                            <span className="text-red-500 text-xl">*</span>
+                        </label>
                         <textarea
                             data-testid='input-member-address'
                             className="w-full p-2 border rounded-lg h-10 text-sm mb-1"

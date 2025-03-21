@@ -1,40 +1,34 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { ReportsAction } from '../Action/ReportsAction';
-import { toast } from 'react-toastify';
+import { SuccessReportsAction, UnSuccessReportsAction } from '../Action/ReportsAction';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 
-function* ReportsFilter(action) {
+
+
+function* SuccessReportSaga(action) {
     try {
-        const response = yield call(ReportsAction, action.payload);
-
-        if (response?.status === 200 || response?.statusCode === 200) {
+        const response = yield call(SuccessReportsAction, action.payload);
+        if (response.status === 200) {
             yield put({
-                type: "REPORTADD",
-                payload: response.data,
+                type: "SUCCESSREPORT",
+                payload: { response: response.data.reports || response.data || [], statusCodeLoan: response.status },
             });
+        }
 
-            toast.success("Report filtered successfully!", {
-                position: "bottom-center",
-                autoClose: 2000,
-                hideProgressBar: true,
-            });
-        } else {
-            console.error("Error Response:", response);
-            toast.error("Failed to filter reports");
+        if (response) {
+            refreshToken(response);
         }
     } catch (error) {
-        console.error("Saga API Error:", error.response || error);
-        toast.error("API Error: Failed to fetch reports");
+        console.error("Get Report Saga Error:", error);
     }
 }
 
-function* GetrReportSaga(action) {
+function* UnSuccessReportSaga(action) {
     try {
-        const response = yield call(ReportsAction, action.payload);
+        const response = yield call(UnSuccessReportsAction, action.payload);
         if (response.status === 200) {
             yield put({
-                type: "GETREPORT",
+                type: "UNSUCCESSREPORT",
                 payload: { response: response.data.reports || response.data || [], statusCodeLoan: response.status },
             });
         }
@@ -57,8 +51,11 @@ function refreshToken(response) {
 }
 
 function* ReportSaga() {
-    yield takeEvery('REPORTS_FILTER', ReportsFilter);
-    yield takeEvery("GET_REPORT", GetrReportSaga);
+
+    yield takeEvery("SUCCESS_REPORT", SuccessReportSaga);
+    yield takeEvery("UNSUCCESS_REPORT", UnSuccessReportSaga);
 }
 
 export default ReportSaga;
+
+

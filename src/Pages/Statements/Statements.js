@@ -69,9 +69,10 @@ function Statement({ state }) {
       </div>
 
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
-        <div className="overflow-y-auto">
-          <table className="w-full text-left border-collapse min-w-max">
-          <thead>
+        <div className="overflow-x-auto">
+        <div className="min-w-max overflow-y-auto max-h-[400px]">
+          <table className="w-full text-left border-collapse">
+          <thead className="sticky top-0 bg-blue-50 z-10">
               <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
                 <th className="p-4 font-Gilroy">Member Name</th>
                 <th className="p-4 font-Gilroy">Loan Id</th>
@@ -92,7 +93,7 @@ function Statement({ state }) {
     </tr>
   ) : (
     statementList.map((item, index) => (
-      <tr key={index} className="p-3 hover:bg-gray-100 border-b font-Gilroy">
+      <tr key={index} className="p-3 hover:bg-gray-100 font-Gilroy">
         <td className="p-3 flex items-center gap-2 truncate">
           <img src={ProfileIcon} alt="avatar" className="w-6 h-6 rounded-full" />
           <span className="truncate">{item.User_Name}</span>
@@ -154,6 +155,9 @@ function Statement({ state }) {
         </div>
       </div>
     </div>
+    </div>   
+
+
   );
 };
 
