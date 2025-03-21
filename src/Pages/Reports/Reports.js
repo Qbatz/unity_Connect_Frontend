@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import manimg from "../../Asset/Images/Memberone.svg";
 import arrowdown from "../../Asset/Icons/arrow-down.svg";
 import paymentreceived from "../../Asset/Icons/PaymentReceived.svg";
@@ -7,20 +7,14 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
-function ReportsTab({state}) {
-  
-  const dispatch = useDispatch();
-   
-  
-    const Success = state.Report.successreport || [];
-    const UnSuccess = state.Report.unsuccessreport || [];
-    useEffect(() => {
-        dispatch({ type: "SUCCESS_REPORT" });
-        dispatch({ type: "UNSUCCESS_REPORT" });
-        dispatch({type: 'MEMBERLIST'})
-    }, [dispatch]);
+function ReportsTab({ state }) {
 
-   
+  const dispatch = useDispatch();
+
+
+  const Success = state.Report.successreport || [];
+  const UnSuccess = state.Report.unsuccessreport || [];
+
 
   const [paidStart] = useState("");
   const [paidEnd] = useState("");
@@ -36,10 +30,10 @@ function ReportsTab({state}) {
 
 
   const options = [
-      { label: "This week", value: "weekly" },
-      { label: "This month", value: "this_month" },
-      { label: "This year", value: "this_year" },
-      { label: "Customise", value: "customise" },
+    { label: "This week", value: "weekly" },
+    { label: "This month", value: "this_month" },
+    { label: "This year", value: "this_year" },
+    { label: "Customise", value: "customise" },
   ];
 
   const [showPopup, setShowPopup] = useState(false);
@@ -48,48 +42,46 @@ function ReportsTab({state}) {
   const [reportType, setReportType] = useState("");
 
   const handleOptionClick = (option, e, type) => {
-      e.preventDefault();
-      setReportType(type);
-  
-  
-      if (type === 1) {
-        setFilterUnpaid(option.value);
-      } else {
-        setFilterPaid(option.value);
-      }
-      if (option.value === "customise") {
-        setShowPopup(true);
-      } else {
-  
-        if (type === 1) {
-          setSelectedFilter1(option.label);
-        } else {
-          setSelectedFilter2(option.label);
-        }
-       setTimeout(() => {
-      handleCommonClick();
-       }, 500);
-      }
-      setIsOpen2(false);
-      setIsOpen1(false);
-  
-  
-    };
-  
-const handleCommonClick = () => {
+    e.preventDefault();
+    setReportType(type);
 
-  const payload = {
-    start_date_Paid: paidStart,
+
+    if (type === 1) {
+      setFilterUnpaid(option.value);
+    } else {
+      setFilterPaid(option.value);
+    }
+    if (option.value === "customise") {
+      setShowPopup(true);
+    } else {
+
+      if (type === 1) {
+        setSelectedFilter1(option.label);
+      } else {
+        setSelectedFilter2(option.label);
+      }
+      setTimeout(() => {
+        handleCommonClick();
+      }, 500);
+    }
+    setIsOpen2(false);
+    setIsOpen1(false);
+  };
+
+  const handleCommonClick = () => {
+
+    const payload = {
+      start_date_Paid: paidStart,
       end_date_Paid: paidEnd,
       start_date_UnPaid: unpaidStart,
       end_date_UnPaid: unpaidEnd,
       filter_Paid: filterpaid,
       filter_UnPaid: filterunpaid,
 
-  };
+    };
 
-  dispatch({ type: "REPORTS_FILTER", payload });
-};
+    dispatch({ type: "SUCCESS_REPORT", payload });
+  };
 
 
   const handleApply = () => {
@@ -104,20 +96,26 @@ const handleCommonClick = () => {
     setShowPopup(false);
   };
 
-const handleFilterChange = (option) => {
-  setFilterUnpaid(option.value);
-  dispatch({
-    type: "REPORTS_FILTER",
-    payload: {
-      start_date_Paid: paidStart,
-      end_date_Paid: paidEnd,
-      start_date_UnPaid: unpaidStart,
-      end_date_UnPaid: unpaidEnd,
-      filter_UnPaid: option.value, 
-      filter_Paid: filterpaid,     
-    },
-  });
-};
+
+  const handleFilterChange = (option) => {
+
+    setFilterUnpaid(option.value);
+    dispatch({
+
+      type: "UNSUCCESS_REPORT",
+      payload: {
+        start_date_Paid: paidStart,
+        end_date_Paid: paidEnd,
+        start_date_UnPaid: unpaidStart,
+        end_date_UnPaid: unpaidEnd,
+        filter_UnPaid: option.value,
+        filter_Paid: filterpaid,
+      },
+    });
+
+  };
+
+
 
 
   return (
@@ -134,7 +132,7 @@ const handleFilterChange = (option) => {
           </div>
 
           <div className="flex gap-6 mt-5">
-          
+
             <div className="bg-[#F4F7FF] p-4 rounded-[24px]  w-1/2">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-[18px] font-semibold leading-[100%] tracking-[0%] font-Gilroy flex items-center gap-2">
@@ -157,18 +155,18 @@ const handleFilterChange = (option) => {
                   {isOpen1 && (
                     <div className="absolute mt-2 w-full bg-white border border-[#D9D9D9] rounded-lg shadow-lg">
                       <select
-                            className="border p-2 rounded-lg mt-2"
-                            onChange={(e) =>
-                                handleFilterChange({ value: e.target.value }, "paid")
-                            }
-                        >
-                            <option value="">Select Filter</option>
-                            {options.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
+                        className="border p-2 rounded-lg mt-2"
+                        onChange={(e) =>
+                          handleFilterChange({ value: e.target.value }, "paid")
+                        }
+                      >
+                        <option value="">Select Filter</option>
+                        {options.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
 
                     </div>
                   )}
@@ -219,38 +217,38 @@ const handleFilterChange = (option) => {
               <div className="w-full border border-[#E7E7E7] mx-auto my-3"></div>
 
               <div className="space-y-4 mt-5 overflow-y-auto max-h-[400px]">
-              {Success.length > 0 ? (
-                        Success.map((report, index) => (
-                            <div key={index} className="flex items-center justify-between">
-                                <div className="flex items-center space-x-3">
-                                    <img src={manimg} alt='manimg' className="w-10 h-10 rounded-full" />
-                                    <div className="space-y-3">
-                                        <p className="text-black font-semibold text-[16px]">
-                                            {report.Id}
-                                        </p>
-                                        <div className="flex space-x-2">
-                                            <span className="bg-blue-100 text-black px-3 py-1 rounded-full text-sm">
-                                                {report.Member_Id}
-                                            </span>
-                                            <span className="bg-yellow-100 text-black px-3 py-1 rounded-full text-sm">
-                                                {report.Status}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-lg font-semibold text-[black]">
-                                        ₹{report.Pending_Amount}
-                                    </p>
-                                    <p className="text-gray-500 text-sm">
-                                        {new Date(report.Created_At).toLocaleDateString()}
-                                    </p>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p className="text-gray-500">No unsuccessful payments found.</p>
-                    )}
+                {UnSuccess.length > 0 ? (
+                  UnSuccess.map((report, index) => (
+                    <div key={index} className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <img src={manimg} alt='manimg' className="w-10 h-10 rounded-full" />
+                        <div className="space-y-3">
+                          <p className="text-black font-semibold text-[16px]">
+                            {report.User_Name}
+                          </p>
+                          <div className="flex space-x-2">
+                            <span className="bg-blue-100 text-black px-3 py-1 rounded-full text-sm">
+                              {report.Member_Id}
+                            </span>
+                            <span className="bg-yellow-100 text-black px-3 py-1 rounded-full text-sm">
+                              {report.Status}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-semibold text-[black]">
+                          ₹{report.Amount}
+                        </p>
+                        <p className="text-gray-500 text-sm">
+                          {new Date(report.Created_At).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500">No unsuccessful payments found.</p>
+                )}
               </div>
             </div>
 
@@ -331,38 +329,38 @@ const handleFilterChange = (option) => {
               <div className="w-full border border-[#E7E7E7] mx-auto my-3"></div>
 
               <div className="space-y-4 mt-5 overflow-y-auto max-h-[400px]">
-              {UnSuccess.length > 0 ? (
-                        UnSuccess.map((report, index) => (
-                            <div key={index} className="flex items-center justify-between">
-                                <div className="flex items-center space-x-3">
-                                    <img src={manimg} alt='manimg' className="w-10 h-10 rounded-full" />
-                                    <div className="space-y-3">
-                                        <p className="text-black font-semibold text-[16px]">
-                                            {report.Member_Id}
-                                        </p>
-                                        <div className="flex space-x-2">
-                                            <span className="bg-blue-100 text-black px-3 py-1 rounded-full text-sm">
-                                                {report.Id}
-                                            </span>
-                                            <span className="bg-yellow-100 text-black px-3 py-1 rounded-full text-sm">
-                                               {report.Status}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-lg font-semibold text-[green]">
-                                        ₹{report.Pending_Amount}
-                                    </p>
-                                    <p className="text-gray-500 text-sm">
-                                        {new Date(report.Created_At).toLocaleDateString()}
-                                    </p>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p className="text-gray-500">No unsuccessful payments found.</p>
-                    )}
+                {Success.length > 0 ? (
+                  Success.map((report, index) => (
+                    <div key={index} className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <img src={manimg} alt='manimg' className="w-10 h-10 rounded-full" />
+                        <div className="space-y-3">
+                          <p className="text-black font-semibold text-[16px]">
+                            {report.Member_Id}
+                          </p>
+                          <div className="flex space-x-2">
+                            <span className="bg-blue-100 text-black px-3 py-1 rounded-full text-sm">
+                              {report.User_Name}
+                            </span>
+                            <span className="bg-yellow-100 text-black px-3 py-1 rounded-full text-sm">
+                              {report.Status}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-semibold text-[green]">
+                          ₹{report.Pending_Amount}
+                        </p>
+                        <p className="text-gray-500 text-sm">
+                          {new Date(report.Created_At).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500">No unsuccessful payments found.</p>
+                )}
               </div>
             </div>
 
@@ -384,4 +382,3 @@ ReportsTab.propTypes = {
 };
 
 export default connect(mapsToProps)(ReportsTab);
-

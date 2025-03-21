@@ -91,7 +91,6 @@ function MemberStatements({ state, member }) {
     e.preventDefault();
 
     const newErrors = {};
-    if (!dueDate) newErrors.dueDate = "Due date is required";
     if (!paidAmount) newErrors.paidAmount = "Paid amount is required";
     if (!status) newErrors.status = "Status is required";
 
@@ -101,7 +100,7 @@ function MemberStatements({ state, member }) {
 
       const payload = {
         loan_amount: selectedStatement.Loan_Amount,
-        due_date: dueDate,
+        due_date: selectedStatement.Due_Date,
         paid_amount: paidAmount,
         pending_amount: pendingAmount,
         status: status,
@@ -267,10 +266,11 @@ function MemberStatements({ state, member }) {
                   <label className="text-sm font-semibold">Due Date</label>
                   <input
                     type="date"
-                    value={dueDate}
+                    value={selectedStatement?.Due_Date ? selectedStatement.Due_Date.split("T")[0] : ""}
                     onChange={(e) => handleInputChange("dueDate", e.target.value)}
                     className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
                   />
+
                   {errors.dueDate && (
                     <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">
                       <MdError className="mr-1 text-xs" />
