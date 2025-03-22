@@ -26,7 +26,7 @@ function AddLoanForm({ state }) {
   const [selectedWitnesses, setSelectedWitnesses] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isWitnessModalOpen, setIsWitnessModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Active Loan");
+  const [activeTab, setActiveTab] = useState("Active loan");
 
   const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
   const [memberLoanType, setMemberLoanType] = useState("");
@@ -45,12 +45,14 @@ function AddLoanForm({ state }) {
         : [...prevSelected, id]
     );
     setIsDropdownOpen(false);
+    setErrorMessage("");
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!memberId) {
-      setErrorMessage("Please select a member");
+      setErrorMessage("Please fill  all fields");
       return;
     }
 
@@ -78,6 +80,12 @@ function AddLoanForm({ state }) {
     });
   };
 
+  useEffect(() => {
+    if (isModalOpen) {
+      setErrorMessage("");
+    }
+  }, [isModalOpen]);
+
 
   useEffect(() => {
     if (statusCode === 200) {
@@ -93,6 +101,7 @@ function AddLoanForm({ state }) {
     setMemberLoanType("");
     setEligibleLoanAmount("");
     setIsApprovePopupOpen(false);
+
   }, [statusCode]);
 
 
@@ -143,6 +152,7 @@ function AddLoanForm({ state }) {
     setVitDetails({});
     setSelectedWitnesses([]);
 
+
   };
 
   const handleAddNewWitness = (loan) => {
@@ -162,13 +172,21 @@ function AddLoanForm({ state }) {
   const approvalSubmit = async (e) => {
     e.preventDefault();
 
-
     if (!memberLoanType) {
-      console.error("No loan found for the selected member");
+      setErrorMessage("Please select a loan type before approving the loan.");
       return;
     }
 
+    if (!eligibleLoanAmount) {
+      setErrorMessage("Please enter the approved loan amount.");
+      return;
+    }
 
+    if (!interesttype) {
+      setErrorMessage("Interest type is missing. Please select a valid loan type.");
+      return;
+    }
+    setErrorMessage("");
 
     const payload = {
       id: approve.Loan_Id,
@@ -190,6 +208,19 @@ function AddLoanForm({ state }) {
   }
 
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [currentPageActive, setCurrentPageActive] = useState(1);
+  const [currentPageApproved, setCurrentPageApproved] = useState(1);
+  const itemsPerPage = 6;
+
+  const indexOfLastActive = currentPageActive * itemsPerPage;
+  const indexOfFirstActive = indexOfLastActive - itemsPerPage;
+  const paginatedActiveLoans = loans.filter(loan => !loan.Loan_Type).slice(indexOfFirstActive, indexOfLastActive);
+
+  const indexOfLastApproved = currentPageApproved * itemsPerPage;
+  const indexOfFirstApproved = indexOfLastApproved - itemsPerPage;
+  const paginatedApprovedLoans = loans.filter(loan => loan.Loan_Type).slice(indexOfFirstApproved, indexOfLastApproved);
 
 
 
@@ -198,9 +229,9 @@ function AddLoanForm({ state }) {
       <div className="container mx-auto mt-5 ">
         <div>
           <div className="flex items-center  justify-between w-full pl-5 pr-5">
-            <p className="font-Gilroy font-semibold text-xl text-black">Loan Request</p>
+            <p className="font-Gilroy font-semibold text-2xl text-black">Loan Request</p>
             <button
-              className="bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium"
+              className="bg-black text-white py-4 px-5 rounded-full text-base font-Gilroy font-medium"
 
               onClick={() => {
                 setIsModalOpen(true);
@@ -214,8 +245,8 @@ function AddLoanForm({ state }) {
           </div>
         </div>
 
-        <div data-testid='Loans-tab' className="mt-5 pl-5 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
-          {["Active Loan", "Approved Loan"].map((tab, index) => (
+        <div data-testid='Loans-tab' className="mt-5 pl-5 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-10 scrollbar-hide">
+          {["Active loan", "Approved loan"].map((tab, index) => (
             <button
               data-testid={`button-tab-${index}`}
               key={tab}
@@ -225,8 +256,9 @@ function AddLoanForm({ state }) {
             >
               {tab}
               <span
-                className={`absolute left-0 bottom-0 h-[3px] w-full transition-all ${activeTab === tab ? "bg-black" : "bg-transparent"
-                  }`}
+                className={`container absolute left-1/2 bottom-0 h-[2px] lg:w-[130px] 
+          transition-all transform -translate-x-1/2 ${activeTab === tab ? "bg-black" : "bg-transparent"}
+        `}
               ></span>
             </button>
           ))}
@@ -249,23 +281,38 @@ function AddLoanForm({ state }) {
 
               <div className="mt-7">
                 <label className="text-black text-sm font-medium font-Gilroy text-lg">Member</label>
-                <div className="relative">
-                  <select
-                    value={memberId}
-                    onChange={(e) => { setMemberId(e.target.value); setErrorMessage(""); }}
-                    className="w-full font-Gilroy h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 appearance-none"
 
+
+                <div className="relative">
+                  <div
+                    className="cursor-pointer w-full font-Gilroy h-14 border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex justify-between items-center"
+                    onClick={() => setIsOpen(!isOpen)}
                   >
-                    <option value="">Select a member</option>
-                    {members.map((member) => (
-                      <option key={member.Id} value={member.Id}>
-                        {member.User_Name}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute right-2 top-11 -translate-y-1/2 pointer-events-none w-8 h-6">
-                    <GrDown />
+                    {memberId ? members.find((m) => m.Id === memberId)?.User_Name : "Select a member"}
+                    <GrDown className="w-5 h-5" />
                   </div>
+
+
+                  {isOpen && (
+                    <div className="absolute w-full bg-white border border-gray-300 rounded-xl mt-1  max-h-48  overflow-y-auto shadow-lg z-10">
+                      {members.length > 0 ? (
+                        members.map((member) => (
+                          <div
+                            key={member.Id}
+                            className="cursor-pointer p-3 hover:bg-gray-200"
+                            onClick={() => {
+                              setMemberId(member.Id);
+                              setIsOpen(false); setErrorMessage("");
+                            }}
+                          >
+                            {member.User_Name}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="p-3 text-gray-500">No members available</div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -293,7 +340,7 @@ function AddLoanForm({ state }) {
 
                 {isDropdownOpen && (
                   <div className="absolute z-10 w-full border border-[#D9D9D9] bg-white rounded-2xl mt-2 max-h-48 overflow-y-auto">
-                    {members.map((member) => (
+                    {members.filter((member) => member.Id !== memberId).map((member) => (
                       <label
                         key={member.Id}
                         className="block px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
@@ -324,7 +371,7 @@ function AddLoanForm({ state }) {
                   onChange={(e) => {
 
                     const value = e.target.value.replace(/[^0-9]/g, "");
-                    setLoanAmount(value);
+                    setLoanAmount(value); setErrorMessage("");
                   }}
                   type="text"
                   placeholder="Enter approved loan amount"
@@ -347,13 +394,13 @@ function AddLoanForm({ state }) {
           </div>
         )}
 
-        {activeTab === "Active Loan" && (
+        {activeTab === "Active loan" && (
           <div>
 
-            <div className="active-loan max-h-[500px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+            <div className="active-loan max-h-[400px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
-              {loans?.length > 0 ? (
-                loans?.map((loan) => {
+              {paginatedActiveLoans?.length > 0 ? (
+                paginatedActiveLoans?.map((loan) => {
                   const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
 
                   return !loan.Loan_Type && (
@@ -376,7 +423,7 @@ function AddLoanForm({ state }) {
                             </p>
 
                             <p className="text-[#000000] text-sm bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">
-                              {selectedMember?.Id}
+                              {selectedMember?.Member_Id}
                             </p>
                           </div>
                         </div>
@@ -393,7 +440,7 @@ function AddLoanForm({ state }) {
                       <div className="witness-div">
                         <div className="mt-3">
 
-                          <p className="text-[#939393] font-medium text-xs font-Gilroy">Witnesses:</p>
+                          <p className="text-[#939393] font-medium text-xs font-Gilroy">Witnesses</p>
 
                           {loan.Witness_Details && loan.Witness_Details.length > 0 ? (
                             <div className="flex flex-wrap gap-4 mt-2">
@@ -405,7 +452,7 @@ function AddLoanForm({ state }) {
                                     <img src={img1} alt="Witness Profile" className="w-10 h-10 rounded-full" />
                                     <div className="ml-2">
                                       <p className="text-black font-semibold text-sm font-Gilroy font-semibold">{witnessData.User_Name}</p>
-                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Id}</p>
+                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Member_Id}</p>
                                     </div>
                                   </div>
                                 ) : null;
@@ -430,7 +477,8 @@ function AddLoanForm({ state }) {
 
 
                         <div className="flex gap-3">
-                          <button className="border border-black text-black py-3 px-8 rounded-full text-base font-Gilroy font-medium cursor-pointer ">
+                          <button className="border border-black text-[#222222] py-3 px-8 rounded-full text-base font-Gilroy
+                           font-medium cursor-pointer ">
                             Reject
                           </button>
                           <button className="bg-black text-white py-3 px-8 rounded-full text-base font-Gilroy font-medium cursor-pointer"
@@ -450,8 +498,31 @@ function AddLoanForm({ state }) {
               )}
 
             </div>
-
+            <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+              <button
+                className={`px-4 py-2 mx-2 border rounded ${currentPageActive === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
+                  }`}
+                onClick={() => setCurrentPageActive(currentPageActive - 1)}
+                disabled={currentPageActive === 1}
+              >
+                &lt;
+              </button>
+              <span className="px-4 py-2 border rounded">{currentPageActive}</span>
+              <button
+                className={`px-4 py-2 mx-2 border rounded ${indexOfLastActive >= loans.filter(loan => !loan.Loan_Type).length
+                  ? "opacity-50 cursor-not-allowed"
+                  : "bg-[#F4F7FF] text-black"
+                  }`}
+                onClick={() => setCurrentPageActive(currentPageActive + 1)}
+                disabled={indexOfLastActive >= loans.filter(loan => !loan.Loan_Type).length}
+              >
+                &gt;
+              </button>
+            </div>
           </div>
+
+
+
         )}
 
 
@@ -510,6 +581,11 @@ function AddLoanForm({ state }) {
               </div>
 
 
+              {errorMessage && (
+                <p className="flex items-center gap-2 text-[red] text-sm font-medium mt-3">
+                  <MdError className="text-sm" /> {errorMessage}
+                </p>
+              )}
               <button
                 className="mt-10 bg-black text-white border font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-full h-[51px] pt-4 pr-5 pb-4 pl-5"
                 onClick={handleAddWitness}
@@ -549,13 +625,13 @@ function AddLoanForm({ state }) {
 
               <div className="mt-4">
                 <label className="text-black text-sm font-medium font-Gilroy">Loan Type</label>
-                <div className="relative">
+                <div className="relative overflow-y-auto max-h-[200px]">
                   <select
                     value={memberLoanType}
                     onChange={(e) => {
                       setMemberLoanType(e.target.value);
                       setInterestType("");
-
+                      setErrorMessage("");
                       const selectedLoan = loanGetSetting?.SettingLoan?.getLoan.loans?.find(
                         (loan) => String(loan.Id) === String(e.target.value)
                       );
@@ -566,7 +642,7 @@ function AddLoanForm({ state }) {
                   >
                     <option value="">Select a Loan Type</option>
                     {loanGetSetting?.SettingLoan?.getLoan.loans?.map((loan, index) => (
-                      <option key={index} value={loan.Id}>
+                      <option key={index} value={loan.Id} >
                         {loan.Loan_Name}
                       </option>
                     ))}
@@ -594,7 +670,7 @@ function AddLoanForm({ state }) {
                   value={eligibleLoanAmount}
                   onChange={(e) => {
                     const value = e.target.value.replace(/[^0-9]/g, "");
-                    setEligibleLoanAmount(value);
+                    setEligibleLoanAmount(value); setErrorMessage("");
                   }}
                   type="text"
                   placeholder="Enter Approved Loan Amount"
@@ -605,6 +681,13 @@ function AddLoanForm({ state }) {
               <div className="mt-5">
                 <p className="font-Gilroy text-sm font-medium text-[#939393]">Note: Once loan approved cannot be canceled!</p>
               </div>
+
+
+              {errorMessage && (
+                <p className="flex items-center gap-2 text-[red] text-sm font-medium mt-3">
+                  <MdError className="text-sm" /> {errorMessage}
+                </p>
+              )}
               <button className="mt-5 bg-black text-white border font-Gilroy font-medium text-base 
                           cursor-pointer rounded-[60px] w-full h-[60px] pt-4 pr-5 pb-4 pl-5"
                 onClick={approvalSubmit}
@@ -621,13 +704,13 @@ function AddLoanForm({ state }) {
 
 
 
-        {activeTab === "Approved Loan" && (
+        {activeTab === "Approved loan" && (
           <div>
 
-            <div className="active-loan max-h-[500px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+            <div className="active-loan max-h-[400px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
-              {loans.length > 0 ? (
-                loans.map((loan) => {
+              {paginatedApprovedLoans.length > 0 ? (
+                paginatedApprovedLoans.map((loan) => {
 
                   const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
 
@@ -651,7 +734,7 @@ function AddLoanForm({ state }) {
                             </p>
 
                             <p className="text-[#000000] text-sm bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">
-                              {selectedMember?.Id}
+                              {selectedMember?.Member_Id}
                             </p>
                           </div>
                         </div>
@@ -668,7 +751,7 @@ function AddLoanForm({ state }) {
                       <div className="witness-div">
                         <div className="mt-3">
 
-                          <p className="text-[#939393] font-medium text-xs font-Gilroy">Witnesses:</p>
+                          <p className="text-[#939393] font-medium text-xs font-Gilroy">Witnesses</p>
 
                           {loan.Witness_Details && loan.Witness_Details.length > 0 ? (
                             <div className="flex flex-wrap gap-4 mt-2">
@@ -680,7 +763,7 @@ function AddLoanForm({ state }) {
                                     <img src={img1} alt="Witness Profile" className="w-10 h-10 rounded-full" />
                                     <div className="ml-2">
                                       <p className="text-black font-semibold text-sm font-Gilroy font-semibold">{witnessData.User_Name}</p>
-                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Id}</p>
+                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Member_Id}</p>
                                     </div>
                                   </div>
 
@@ -706,9 +789,10 @@ function AddLoanForm({ state }) {
                           <div className="flex items-center gap-2 mt-5 mb-5">
                             <img src={tick} alt="Approved" className="w-5 h-5" />
                             <p className="text-black text-base font-Gilroy font-medium">
-                              Loan approved on {new Date(loan.Approvel_Date).toLocaleDateString()}{" "}
+                              Loan approved on {" "}
+                              <span className="text-black text-base font-Gilroy font-semibold">{new Date(loan.Approvel_Date).toLocaleDateString("en-GB")}</span>{" "}
                               with interest of {" "}
-                              {loan?.Interest_Type} {" "}%
+                              {loan?.Interest_Type} {" "}% p.m
 
                             </p>
 
@@ -728,9 +812,35 @@ function AddLoanForm({ state }) {
               )}
 
             </div>
-
+            <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+              <button
+                className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
+                  }`}
+                onClick={() => setCurrentPageApproved(currentPageApproved - 1)}
+                disabled={currentPageApproved === 1}
+              >
+                &lt;
+              </button>
+              <span className="px-4 py-2 border rounded">{currentPageApproved}</span>
+              <button
+                className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length
+                  ? "opacity-50 cursor-not-allowed"
+                  : "bg-[#F4F7FF] text-black"
+                  }`}
+                onClick={() => setCurrentPageApproved(currentPageApproved + 1)}
+                disabled={indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length}
+              >
+                &gt;
+              </button>
+            </div>
           </div>
+
+
         )}
+
+
+
+
 
 
 
