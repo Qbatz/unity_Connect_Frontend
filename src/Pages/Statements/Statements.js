@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, connect } from "react-redux";
 import { FiMoreVertical } from "react-icons/fi";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import PropTypes from 'prop-types';
 import ProfileIcon from '../../Asset/Icons/ProfileIcon.svg';
 import editIcon from "../../Asset/Icons/edit_blue.svg";
