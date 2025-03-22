@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import manimg from "../../Asset/Images/Memberone.svg";
 import arrowdown from "../../Asset/Icons/arrow-down.svg";
@@ -38,10 +39,10 @@ function ReportsTab({ state }) {
   ];
 
   const [showPopup, setShowPopup] = useState(false);
-  const [startDateFilter1, setStartDateFilter1] = useState("");
-  const [startDateFilter2, setStartDateFilter2] = useState("");
-  const [endDateFilter1, setEndDateFilter1] = useState("");
-  const [endDateFilter2, setEndDateFilter2] = useState("");
+  const [ setStartDateFilter1] = useState("");
+  const [ setStartDateFilter2] = useState("");
+  const [ setEndDateFilter1] = useState("");
+  const [ setEndDateFilter2] = useState("");
   const [endDate, setEndDate] = useState("");
   const [startDate, setStartDate] = useState("");
   const [reportType, setReportType] = useState("");
@@ -81,7 +82,7 @@ function ReportsTab({ state }) {
     if (filterpaid || filterunpaid) {
       handleCommonClick(3);
     }
-  }, [filterpaid, filterunpaid, reportType]);
+  },[filterpaid, filterunpaid, reportType]);
 
 
   const handleDownload = (fileUrl, fileName) => {
