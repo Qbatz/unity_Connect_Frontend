@@ -24,8 +24,6 @@ function Statement({ state }) {
 
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(null);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -59,18 +57,7 @@ function Statement({ state }) {
       </div>
     );
   }
-  const totalPages = Math.ceil(statementList.length / itemsPerPage);
-  const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1);
-  };
 
-
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
-  };
 
   return (
     <div className="p-4">
@@ -84,7 +71,7 @@ function Statement({ state }) {
 
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
-          <div className="min-w-max overflow-y-auto max-h-[600px]">
+          <div className="min-w-max overflow-auto max-h-[400px]">
             <table className="w-full text-left border-collapse">
               <thead className="sticky top-0 bg-blue-50 z-10">
                 <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
@@ -176,48 +163,6 @@ function Statement({ state }) {
 
         </div>
       </div>
-   
-      <nav className="absolute bottom-0 left-0 w-full flex justify-end items-center gap-4 bg-white p-4">
-        <select
-          value={itemsPerPage}
-          onChange={handleItemsPerPageChange}
-          className="px-1 py-1  border border-[#205DA8] rounded-md text-[#205DA8] font-bold cursor-pointer outline-none shadow-none"
-        >
-          <option value={4}>4</option>
-          <option value={10}>10</option>
-          <option value={50}>50</option>
-          <option value={100}>100</option>
-        </select>
-
-        <ul className="flex items-center list-none m-0 p-0 gap-4">
-          <li>
-            <button
-              className={`px-2 py-1 rounded-full min-w-[30px] text-center border-none bg-transparent ${currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-[#1E45E1] cursor-pointer"
-                }`}
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#205DA8"} />
-            </button>
-          </li>
-
-          <li className="text-sm font-bold">
-            {currentPage} of {totalPages}
-          </li>
-
-          <li>
-            <button
-              className={`px-2 py-1 rounded-full min-w-[30px] text-center border-none bg-transparent ${currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-[#1E45E1] cursor-pointer"
-                }`}
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              <ArrowRight2 size="16" color={currentPage === totalPages ? "#ccc" : "#1E45E1"} />
-            </button>
-          </li>
-        </ul>
-      </nav>
-
 
     </div>
 
