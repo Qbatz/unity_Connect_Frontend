@@ -84,7 +84,7 @@ function Statement({ state }) {
 
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
-          <div className="min-w-max overflow-auto max-h-[400px]">
+          <div className="min-w-max overflow-y-auto max-h-[600px]">
             <table className="w-full text-left border-collapse">
               <thead className="sticky top-0 bg-blue-50 z-10">
                 <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
