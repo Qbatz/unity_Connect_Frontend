@@ -15,6 +15,7 @@ import AddMemberForm from "./AddMemberForm";
 import MemberDetails from './MemberDetails';
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
+import { ClipLoader } from "react-spinners";
 
 function ActiveMember({ state, onSelectMember }) {
 
@@ -35,7 +36,7 @@ function ActiveMember({ state, onSelectMember }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
-
+  const [loading, setLoading] = useState(true);
 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
@@ -84,7 +85,11 @@ function ActiveMember({ state, onSelectMember }) {
 
 
   useEffect(() => {
+    setLoading(true);
     dispatch({ type: 'MEMBERLIST' });
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -198,6 +203,14 @@ function ActiveMember({ state, onSelectMember }) {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
+
+  if (loading) {
+    return (
+      <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
+        <ClipLoader color="#7f00ff" loading={loading} size={30} />
+      </div>
+    );
+  }
 
 
   return (
@@ -415,7 +428,7 @@ function ActiveMember({ state, onSelectMember }) {
               <select
                 value={pageSize}
                 onChange={handlePageSizeChange}
-                className="border border-gray-300 px-4 py-2 rounded-lg appearance-none"
+                className="border border-gray-300 px-4 py-2 rounded-lg appearance-none cursor-pointer"
               >
                 {[5, 10, 50, 100].map((size) => (
                   <option key={size} value={size}>

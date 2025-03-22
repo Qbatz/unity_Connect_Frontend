@@ -184,8 +184,8 @@ function MemberModal({ state, memberData, onClose }) {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-md relative overflow-y-auto">
-                <div className="flex items-center justify-between border-b pb-2 mb-4">
+            <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-lg relative overflow-y-auto">
+                <div className="flex items-center justify-between border-b pb-2 mb-2">
                     <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">
                         {memberData ? "Edit Member" : "Add a Member"}
                     </p>
@@ -198,6 +198,7 @@ function MemberModal({ state, memberData, onClose }) {
                     <div className="flex gap-4 ">
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID
+                                <span className="text-red-500 text-xl"></span>
                             </label>
                             <input
                                 data-testid='input-member-id'
@@ -322,7 +323,7 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
                     </div>
 
-                    <div className="mb-3">
+                    <div className="mb-2">
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-3">Address
                             <span className="text-red-500 text-xl">*</span>
                         </label>
