@@ -17,6 +17,7 @@ import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
 import { ClipLoader } from "react-spinners";
 
+
 function ActiveMember({ state, onSelectMember }) {
 
   const dispatch = useDispatch();
@@ -35,8 +36,8 @@ function ActiveMember({ state, onSelectMember }) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] = useState(true);
 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
@@ -68,6 +69,7 @@ function ActiveMember({ state, onSelectMember }) {
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
       setActiveMemberData(state.Member.ActiveMemberdata);
+      setLoading(false);
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
     }
     return () => {
@@ -78,6 +80,7 @@ function ActiveMember({ state, onSelectMember }) {
 
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 201) {
+      setLoading(false);
       setActiveMemberData([])
     }
 
@@ -85,12 +88,13 @@ function ActiveMember({ state, onSelectMember }) {
 
 
   useEffect(() => {
-    setLoading(true);
+
     dispatch({ type: 'MEMBERLIST' });
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+
   }, []);
+
+
+
 
   useEffect(() => {
 
@@ -204,6 +208,8 @@ function ActiveMember({ state, onSelectMember }) {
     currentPage * pageSize
   );
 
+
+
   if (loading) {
     return (
       <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
@@ -211,7 +217,6 @@ function ActiveMember({ state, onSelectMember }) {
       </div>
     );
   }
-
 
   return (
     <>
