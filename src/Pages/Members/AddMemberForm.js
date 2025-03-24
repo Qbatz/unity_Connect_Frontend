@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { MdError } from "react-icons/md";
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import closecircle from '../../Asset/Icons/close-circle.svg';
-import calendar from '../../Asset/Icons/calendar.svg';
+import moment from "moment";
 
 
 function MemberModal({ state, memberData, onClose }) {
 
     const dispatch = useDispatch();
-    const dateInputRef = useRef(null)
+
 
     const [memberId, setMemberId] = useState("");
     const [userName, setUserName] = useState("");
@@ -59,7 +59,7 @@ function MemberModal({ state, memberData, onClose }) {
         setNoChanges("");
     }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
 
-    // const formattedDate = joiningDate ? moment(joiningDate).format("YYYY-MM-DD") : "";
+    const formattedDate = joiningDate ? moment(joiningDate).format("YYYY-MM-DD") : "";
 
 
     const validate = () => {
@@ -284,9 +284,9 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
                     </div>
 
-                    {/* <div>
+                    <div>
                         <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">Joining Date
-                        <span className="text-red-500 text-xl">*</span>
+                            <span className="text-red-500 text-xl">*</span>
                         </label>
                         <input
                             data-testid='input-joining-data'
@@ -301,8 +301,8 @@ function MemberModal({ state, memberData, onClose }) {
                                 <MdError className="text-xs" /> {errors.joiningDate}
                             </p>
                         )}
-                    </div> */}
-                    <div className="relative w-56">
+                    </div>
+                    {/* <div className="relative w-56">
                         <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">
                             Joining Date
                             <span className="text-red-500 text-xl">*</span>
@@ -321,7 +321,7 @@ function MemberModal({ state, memberData, onClose }) {
                                 onClick={() => dateInputRef.current?.showPicker()}
                             />
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="mb-2">
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-3">Address

@@ -175,7 +175,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         }
 
     };
-    CustomInput.displayName = "CustomInput";
+
 
     const CustomInput = forwardRef(({ value, onClick }, ref) => (
         <div className="relative w-full">
@@ -195,6 +195,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             />
         </div>
     ));
+    CustomInput.displayName = "CustomInput";
 
 
     return (
@@ -365,6 +366,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 Expense date <span className="text-red-500 text-[20px]">*</span>
                             </label>
 
+
                             <DatePicker
                                 selected={expenseDate}
                                 onChange={(date) => setExpenseDate(date)}
@@ -379,6 +381,8 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 </div>
                             )}
                         </div>
+
+
 
                         <div>
                             <label className="block  mb-2 font-Gilroy">
