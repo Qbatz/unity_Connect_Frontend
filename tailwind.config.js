@@ -12,7 +12,11 @@ module.exports = {
          '#FAF9FF':'#FAF9FF',
          '#F4F7FF':'#F4F7FF',
          '#FFE8E8': '#FFE8E8',
-         '#E8E8E8' : '#E8E8E8'
+         '#E8E8E8' : '#E8E8E8',
+         '#D9E9FF': '#D9E9FF',
+         '#FFEFCF': '#FFEFCF',
+         '#222222' : '#222222',
+         '#F2F4F8': '#F2F4F8'
          
       },
     

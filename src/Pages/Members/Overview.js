@@ -94,10 +94,9 @@ function Overview({ member }) {
                         <BsThreeDots className="text-gray-500 cursor-pointer" />
                     </div>
 
-                    <div className="flex gap-4"  >
-                        <img src={member?.Document_Url} alt="Document 1" />
-                        <img src={member?.Document_Url} alt="Document 2" />
-                        <img src={member?.Document_Url} alt="Document 3" />
+                    <div className=""  >
+                        <img src={member?.Document_Url} alt="Document 1" className="w-[100px]" />
+
                     </div>
                 </div>
             </div>
