@@ -20,7 +20,6 @@ function MemberStatements({ state, member }) {
   const [showOptions, setShowOptions] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [dueDate, setDueDate] = useState('');
   const [paidAmount, setPaidAmount] = useState('');
   const [pendingAmount, setPendingAmount] = useState('');
   const [status, setStatus] = useState('');
@@ -77,9 +76,7 @@ function MemberStatements({ state, member }) {
     }
 
 
-    if (field === "dueDate") {
-      setDueDate(value);
-    } else if (field === "paidAmount") {
+    if (field === "paidAmount") {
       setPaidAmount(value);
     } else if (field === "pendingAmount") {
       setPendingAmount(value);
@@ -100,6 +97,7 @@ function MemberStatements({ state, member }) {
     if (Object.keys(newErrors).length === 0) {
 
       const payload = {
+        member_id: selectedStatement.Member_Id,
         loan_amount: selectedStatement.Loan_Amount,
         due_date: selectedStatement.Due_Date,
         paid_amount: paidAmount,
@@ -113,20 +111,6 @@ function MemberStatements({ state, member }) {
         type: 'ADDRECORDPAYMENT',
         payload: payload,
       });
-
-      const TransactionPayload = {
-        Member_Id: member.Id,
-        Amount: paidAmount,
-        Status: status,
-        Loan_Id: selectedStatement.Loan_Id,
-        Transaction_Date: dueDate
-      };
-      dispatch({
-        type: 'ADDTRANSACTIONS',
-        payload: TransactionPayload,
-      });
-
-      setDueDate("");
       setPaidAmount("");
       setPendingAmount("");
       setStatus("");
