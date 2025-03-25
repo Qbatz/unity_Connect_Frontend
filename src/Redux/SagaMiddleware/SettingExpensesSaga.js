@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from "redux-saga/effects";
-import { SettingAddExpenses ,SettingGetExpenses} from "../Action/SettingAction";
+import { SettingAddExpenses, SettingGetExpenses } from "../Action/SettingAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 function* SettingAddExpensesPage(action) {
   try {
     const response = yield call(SettingAddExpenses, action.payload);
-    
+
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -25,7 +25,7 @@ function* SettingAddExpensesPage(action) {
     };
 
     if (response?.status === 200 || response?.statusCode === 200) {
-      
+
       yield put({
         type: "SETTINGADDEXPENSES",
         payload: {
@@ -33,6 +33,10 @@ function* SettingAddExpensesPage(action) {
           sub_Category: response.data.sub_Category,
           statusCode: response.status || response.statusCode,
         },
+      });
+
+      yield put({
+        type: 'SETTING_GET_EXPENSES',
       });
 
       toast.success("Created successfully", {
@@ -61,22 +65,22 @@ function* SettingAddExpensesPage(action) {
 
 
 function* SettingGetExpensesPage(action) {
-   
+
   const response = yield call(SettingGetExpenses, action.payload);
- 
- 
- 
-   if ( response.status === 200) {
-      yield put({
-          type: 'SETTINGGETEXPENSES',
-          payload: { response:response.data, statusCode: response.status },
-      });
+
+
+
+  if (response.status === 200) {
+    yield put({
+      type: 'SETTINGGETEXPENSES',
+      payload: { response: response.data, statusCode: response.status },
+    });
 
 
   }
-   if (response) {
-          refreshToken(response);
-      }
+  if (response) {
+    refreshToken(response);
+  }
 }
 
 
@@ -91,7 +95,7 @@ function refreshToken(response) {
 
 function* SettingAddExpensesSaga() {
   yield takeEvery("SETTING_ADD_EXPENSES", SettingAddExpensesPage);
-  yield takeEvery("SETTING_GET_EXPENSES",SettingGetExpensesPage)
+  yield takeEvery("SETTING_GET_EXPENSES", SettingGetExpensesPage)
 }
 
 export default SettingAddExpensesSaga;

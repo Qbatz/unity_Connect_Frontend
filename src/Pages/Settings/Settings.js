@@ -19,8 +19,8 @@ const Settings = () => {
       </h2>
 
 
-      <div className="border-b border-gray-300 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 md:gap-10 lg:gap-[75px] scrollbar-hide">
-        {["Member ID", "Loan ID", "Transaction ID", "Loan", "Interest", "Returns", "Expenses", "Payment"].map((tab) => (
+      <div className="border-b border-gray-300 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 md:gap-10 lg:gap-[125px] scrollbar-hide">
+        {["Member ID", "Loan ID", "Transaction ID", "Loan", "Expenses", "Payment"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
