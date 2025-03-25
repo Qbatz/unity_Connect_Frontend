@@ -94,9 +94,12 @@ function Overview({ member }) {
                         <BsThreeDots className="text-gray-500 cursor-pointer" />
                     </div>
 
-                    <div className=""  >
-                        <img src={member?.Document_Url} alt="Document 1" className="w-[100px]" />
-
+                    <div className="flex justify-center items-center">
+                        {member?.Document_Url ? (
+                            <img src={member.Document_Url} alt="Document" className="w-[100px]" />
+                        ) : (
+                            <p className="text-gray-500 text-sm">No Document Available</p>
+                        )}
                     </div>
                 </div>
             </div>

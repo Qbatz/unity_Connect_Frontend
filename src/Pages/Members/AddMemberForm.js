@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import { MdError } from "react-icons/md";
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useDispatch } from "react-redux";
@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import moment from "moment";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { CalendarDays } from "lucide-react";
 
 
 function MemberModal({ state, memberData, onClose }) {
@@ -181,6 +184,26 @@ function MemberModal({ state, memberData, onClose }) {
 
     };
 
+    const CustomInput = forwardRef(({ value, onClick }, ref) => (
+        <div className="relative w-full">
+            <input
+                ref={ref}
+                type="text"
+                className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
+                placeholder="DD-MM-YYYY"
+                value={value}
+                onClick={onClick}
+                readOnly
+            />
+            <CalendarDays
+                size={20}
+                className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+                onClick={onClick}
+            />
+        </div>
+    ));
+    CustomInput.displayName = "CustomInput";
+
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -288,13 +311,14 @@ function MemberModal({ state, memberData, onClose }) {
                         <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">Joining Date
                             <span className="text-red-500 text-xl">*</span>
                         </label>
-                        <input
+
+
+                        <DatePicker
                             data-testid='input-joining-data'
-                            type="date"
-                            className="w-56 p-2 h-10 border rounded-lg text-sm cursor-pointer mb-1"
-                            placeholder="Select Joining Date"
-                            value={formattedDate}
-                            onChange={(e) => handleChange("joiningDate", e.target.value)}
+                            selected={formattedDate ? new Date(formattedDate) : null}
+                            onChange={(date) => handleChange("joiningDate", date)}
+                            dateFormat="dd-MM-yyyy"
+                            customInput={<CustomInput />}
                         />
                         {errors.joiningDate && (
                             <p className="text-red-500 flex items-center gap-1 text-xs">
@@ -302,26 +326,7 @@ function MemberModal({ state, memberData, onClose }) {
                             </p>
                         )}
                     </div>
-                    {/* <div className="relative w-56">
-                        <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">
-                            Joining Date
-                            <span className="text-red-500 text-xl">*</span>
-                        </label>
-                        <div className="relative">
-                            <input
-                                data-testid="input-joining-data"
-                                type="date"
-                                className="w-56 p-2 h-10 border rounded-lg text-sm cursor-pointer mb-1 appearance-none pr-10"
-                                ref={dateInputRef}
-                            />
-                            <img
-                                src={calendar}
-                                alt="calendar"
-                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer w-4 h-4"
-                                onClick={() => dateInputRef.current?.showPicker()}
-                            />
-                        </div>
-                    </div> */}
+
 
                     <div className="mb-2">
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-3">Address
@@ -382,7 +387,10 @@ const mapsToProps = (stateInfo) => {
 MemberModal.propTypes = {
     memberData: PropTypes.object,
     state: PropTypes.object,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    value: PropTypes.string,
+    onClick: PropTypes.func,
+    mobileNo: PropTypes.string,
 };
 
 export default connect(mapsToProps)(MemberModal);

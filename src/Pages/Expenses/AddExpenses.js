@@ -19,7 +19,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     const [merchantName, setMerchantName] = useState("");
     const [category, setCategory] = useState("");
     const [paymentMode, setPaymentMode] = useState("");
-    const [expenseDate, setExpenseDate] = useState("");
+    const [expenseDate, setExpenseDate] = useState(null)
     const [expenseAmount, setExpenseAmount] = useState("");
     const [description, setDescription] = useState("");
     const [formError, setFormError] = useState("");
@@ -36,8 +36,8 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         { value: "Credit Card", label: "Credit Card" },
         { value: "Debit Card", label: "Debit Card" },
         { value: "Cash", label: "Cash" },
-        { value: "UPI", label: "UPI" },
-        { value: "Banking", label: "Banking" }
+        { value: "UPI/BHIM", label: "UPI/BHIM" },
+        { value: "Net Banking", label: "Net Banking" }
     ];
 
     useEffect(() => {
@@ -230,6 +230,9 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 const value = e.target.value;
                                 if (/^[A-Za-z\s]*$/.test(value)) {
                                     setMerchantName(value);
+                                    if (errors.merchantName) {
+                                        setErrors((prevErrors) => ({ ...prevErrors, merchantName: "" }));
+                                    }
                                 }
                             }}
                             placeholder="Enter name"
@@ -253,9 +256,15 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                             <Select
                                 value={categoryOptions?.find((option) => option.value === category) || null}
-                                onChange={(selectedOption) => {
+                                // onChange={(selectedOption) => {
 
+                                //     setCategory(selectedOption?.value);
+                                // }}
+                                onChange={(selectedOption) => {
                                     setCategory(selectedOption?.value);
+                                    if (errors.category) {
+                                        setErrors((prevErrors) => ({ ...prevErrors, category: "" }));
+                                    }
                                 }}
                                 options={categoryOptions || []}
                                 isSearchable
@@ -270,6 +279,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                         borderRadius: "8px",
                                         padding: "4px",
                                         boxShadow: "none",
+                                        cursor: "pointer",
                                         "&:hover": { borderColor: "#666" },
                                     }),
                                     menu: (base) => ({
@@ -313,11 +323,16 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                             <Select
                                 value={paymentOptions.find((option) => option.value === paymentMode) || null}
-                                onChange={(selectedOption) => setPaymentMode(selectedOption?.value)}
+                                onChange={(selectedOption) => {
+                                    setPaymentMode(selectedOption?.value);
+                                    if (errors.paymentMode) {
+                                        setErrors((prevErrors) => ({ ...prevErrors, paymentMode: "" }));
+                                    }
+                                }}
                                 options={paymentOptions}
                                 placeholder="Select a payment mode"
                                 isSearchable
-                                className="w-full"
+                                className="w-full cursor-pointer"
                                 styles={{
                                     control: (base) => ({
                                         ...base,
@@ -325,6 +340,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                         borderRadius: "8px",
                                         padding: "4px",
                                         boxShadow: "none",
+                                        cursor: "pointer",
                                         "&:hover": { borderColor: "#666" },
                                         minHeight: "40px"
                                     }),
@@ -369,9 +385,15 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                             <DatePicker
                                 selected={expenseDate}
-                                onChange={(date) => setExpenseDate(date)}
+                                onChange={(date) => {
+                                    setExpenseDate(date);
+                                    if (errors.expenseDate) {
+                                        setErrors((prevErrors) => ({ ...prevErrors, expenseDate: "" }));
+                                    }
+                                }}
                                 dateFormat="dd-MM-yyyy"
                                 customInput={<CustomInput />}
+                                maxDate={new Date()}
                             />
 
                             {errors.expenseDate && (
@@ -391,7 +413,12 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                             <input
                                 type="number"
                                 value={expenseAmount}
-                                onChange={(e) => setExpenseAmount(e.target.value)}
+                                onChange={(e) => {
+                                    setExpenseAmount(e.target.value);
+                                    if (errors.expenseAmount) {
+                                        setErrors((prevErrors) => ({ ...prevErrors, expenseAmount: "" }));
+                                    }
+                                }}
                                 placeholder="Enter expense amount"
                                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                             />

@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, forwardRef } from "react";
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
 import RecordPaymentIcon from "../../Asset/Icons/RecordPayment.svg";
 import CloseCircle from "../../Asset/Icons/close-circle.svg";
 import { MdError } from "react-icons/md";
 import moment from "moment";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { CalendarDays } from "lucide-react";
+import { FaAngleDown } from "react-icons/fa6";
 
 function MemberStatements({ state, member }) {
 
@@ -139,6 +143,26 @@ function MemberStatements({ state, member }) {
     setIsModalOpen(false);
   };
 
+  const CustomInput = forwardRef(({ value, onClick }, ref) => (
+    <div className="relative w-full">
+      <input
+        ref={ref}
+        type="text"
+        className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
+        placeholder="DD-MM-YYYY"
+        value={value}
+        onClick={onClick}
+        readOnly
+      />
+      <CalendarDays
+        size={20}
+        className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+        onClick={onClick}
+      />
+    </div>
+  ));
+  CustomInput.displayName = "CustomInput";
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-3">
@@ -168,7 +192,7 @@ function MemberStatements({ state, member }) {
                   <td className="p-4 font-Gilroy">{`Repayment ${formattedDueDate}`}</td>
                   <td className="p-4">
                     <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
-                      {formattedDueDate} . 9.50 PM{""}
+                      {formattedDueDate}
                     </span>
                   </td>
                   <td className="p-4 font-Gilroy">{item.Loan_Amount}</td>
@@ -256,11 +280,12 @@ function MemberStatements({ state, member }) {
 
                 <div>
                   <label className="text-sm font-semibold">Due Date</label>
-                  <input
-                    type="date"
-                    value={selectedStatement?.Due_Date ? selectedStatement.Due_Date.split("T")[0] : ""}
-                    onChange={(e) => handleInputChange("dueDate", e.target.value)}
-                    className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
+
+                  <DatePicker
+                    selected={dueDate ? new Date(dueDate) : null}
+                    onChange={(date) => handleInputChange("dueDate", date)}
+                    dateFormat="dd-MM-yyyy"
+                    customInput={<CustomInput />}
                   />
 
                   {errors.dueDate && (
@@ -313,15 +338,20 @@ function MemberStatements({ state, member }) {
 
                 <div className="md:col-span-2">
                   <label className="text-sm font-semibold">Status</label>
-                  <select
-                    value={status}
-                    onChange={(e) => handleInputChange("status", e.target.value)}
-                    className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none"
-                  >
-                    <option value="">Select status</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Unpaid">Unpaid</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={status}
+                      onChange={(e) => handleInputChange("status", e.target.value)}
+                      className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none appearance-none"
+                    >
+                      <option value="">Select status</option>
+                      <option value="Paid">Paid</option>
+                      <option value="Unpaid">Unpaid</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                      <FaAngleDown size={15} />
+                    </div>
+                  </div>
                   {errors.status && (
                     <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">
                       <MdError className="mr-1 text-xs" />
@@ -352,7 +382,9 @@ const mapsToProps = (stateInfo) => {
 
 MemberStatements.propTypes = {
   state: PropTypes.object,
-  member: PropTypes.object
+  member: PropTypes.object,
+  value: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default connect(mapsToProps)(MemberStatements); 

@@ -45,12 +45,12 @@ function MemberDetails({ member, onBack }) {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${activeTab === tab ? "text-black font-semibold" : "text-[#939393]"
+              className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${activeTab === tab ? "text-black font-medium" : "text-[#939393]"
                 }`}
             >
               {tab}
               <span
-                className={`absolute left-0 bottom-0 h-[3px] w-full transition-all ${activeTab === tab ? "bg-black" : "bg-transparent"
+                className={`absolute left-0 bottom-0 h-[2px] w-full transition-all ${activeTab === tab ? "bg-black" : "bg-transparent"
                   }`}
               ></span>
             </button>

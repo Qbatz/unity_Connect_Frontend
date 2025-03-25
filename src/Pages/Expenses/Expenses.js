@@ -163,7 +163,7 @@ function ExpensesList({ state }) {
 
 
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-semibold font-Gilroy">Expenses</h2>
+                    <h2 className="text-2xl font-semibold font-Gilroy p-6">Expenses</h2>
                     <div className="flex items-center gap-3">
 
                         <div className="relative ">
@@ -206,7 +206,7 @@ function ExpensesList({ state }) {
 
 
                         <button
-                            className="bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium"
+                            className="bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium mr-4"
                             onClick={handleClickExpenses}
                         >
                             + Add an expense
@@ -215,16 +215,16 @@ function ExpensesList({ state }) {
                 </div>
 
 
-                <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden">
+                <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden mt-4 mx-6">
                     <div className="overflow-x-auto">
-                        <div className="min-w-max overflow-y-auto max-h-[400px]">
+                        <div className="overflow-y-auto max-h-[450px]">
                             <table className="w-full text-left border-collapse">
                                 <thead className="sticky top-0 bg-[#F4F7FF] z-10">
                                     <tr className="bg-[#F4F7FF] border-b font-extralight text-xs font-Gilroy">
                                         <th className="p-4 font-Gilroy text-lightgray">Merchant</th>
                                         <th className="p-4 font-Gilroy text-lightgray">Category</th>
                                         <th className="p-4 font-Gilroy text-lightgray">Sub-Category</th>
-                                        <th className="p-4 font-Gilroy text-lightgray">Expenses Date</th>
+                                        <th className="p-4 font-Gilroy text-lightgray">Expense Date</th>
                                         <th className="p-4 font-Gilroy text-lightgray">Amount</th>
                                         <th className="p-4 font-Gilroy text-lightgray">Mode of payment</th>
                                         <th className="p-4 font-Gilroy text-lightgray"></th>
@@ -243,13 +243,13 @@ function ExpensesList({ state }) {
                                         paginatedData?.map((item, index) => (
                                             <tr key={index}>
 
-                                                <td className="p-4  flex items-center gap-2 truncate">
+                                                <td className="py-2 px-4 flex items-center gap-2 truncate">
                                                     <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
-                                                    <span className="truncate text-[#222222]">{item.Name}</span>
+                                                    <span className="truncate text-[#222222] p-1 font-Gilroy font-semibold">{item.Name}</span>
                                                 </td>
 
 
-                                                <td className="p-4 ">
+                                                <td className="py-2 px-4 ">
                                                     <div className="bg-[#FFEFCF] text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy flex items-center justify-center whitespace-nowrap">
                                                         {item.Category_Name}
                                                     </div>
@@ -257,7 +257,7 @@ function ExpensesList({ state }) {
 
 
 
-                                                <td className="p-4  font-Gilroy relative">
+                                                <td className="py-2 px-6  font-Gilroy relative">
                                                     {item.sub_cat?.length > 0 ? (
                                                         <div className="relative" ref={popupRef}>
 
@@ -284,26 +284,26 @@ function ExpensesList({ state }) {
 
 
 
-                                                <td className="p-4">
+                                                <td className="py-2 px-4">
                                                     <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
                                                         {moment(item.Expense_Date).format("DD-MM-YYYY")}
                                                     </span>
                                                 </td>
-                                                <td className="p-4 font-Gilroy">
+                                                <td className="py-2 px-4 font-Gilroy">
                                                     ₹{item.Expense_Amount.toLocaleString("en-IN")}
                                                 </td>
 
 
 
-                                                <td className="p-4">
-                                                    <span className="bg-[#D9E9FF] text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                                                <td className="py-2 px-4">
+                                                    <span className="bg-[#D9E9FF] text-gray-700 px-4 py-2 rounded-full text-sm font-Gilroy min-w-[120px] text-center inline-block">
                                                         {item.Mode_of_Payment}
                                                     </span>
                                                 </td>
 
-                                                <td className="p-4  relative">
+                                                <td className="py-2 px-4 relative">
                                                     <div
-                                                        className={`cursor-pointer h-10 w-10 border border-gray-300 rounded-full flex justify-center items-center 
+                                                        className={`cursor-pointer h-9 w-9 border border-gray-300 rounded-full flex justify-center items-center 
                                                         bg-white ${openMenu === index ? "!bg-blue-100" : ""}`}
                                                         onClick={(event) => handledots(event, index)}
                                                     >
@@ -316,11 +316,11 @@ function ExpensesList({ state }) {
                                                                 position: 'fixed',
                                                                 top: `${popupPosition.top}px`,
                                                                 left: `${popupPosition.left}px`,
-                                                                right: '90px',
+                                                                right: '110px',
                                                                 zIndex: 50,
 
                                                             }}
-                                                            className="absolute  top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[150px]">
+                                                            className="absolute  top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[130px]">
                                                             <button
                                                                 onClick={() => handleEditclick(item)}
                                                                 className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy rounded-lg"
@@ -358,7 +358,7 @@ function ExpensesList({ state }) {
                                 value={pageSize}
                                 onChange={handlePageSizeChange}
                                 style={{ color: 'blue', borderColor: 'blue' }}
-                                className="border px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer "
+                                className="border px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer pr-8"
                             >
                                 {[5, 10, 50, 100].map((size) => (
                                     <option key={size} value={size}>

@@ -427,7 +427,8 @@ function ActiveMember({ state, onSelectMember }) {
               <select
                 value={pageSize}
                 onChange={handlePageSizeChange}
-                className="border border-gray-300 px-4 py-2 rounded-lg appearance-none cursor-pointer"
+                style={{ color: 'blue', borderColor: 'blue' }}
+                className="border border-gray-300 px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer pr-8"
               >
                 {[5, 10, 50, 100].map((size) => (
                   <option key={size} value={size}>
@@ -436,7 +437,7 @@ function ActiveMember({ state, onSelectMember }) {
                 ))}
               </select>
               <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                <FaAngleDown size={15} />
+                <FaAngleDown size={15} style={{ color: 'blue' }} />
               </div>
             </div>
 
