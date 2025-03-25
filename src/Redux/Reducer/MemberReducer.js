@@ -26,9 +26,6 @@ export const initialState = {
     addRecordPayment: [],
     statusCodeForRecordPayment: 0,
     recordPaymentErrorMessage: '',
-    addTransactionsList: [],
-    statusCodeAddTransactions: 0,
-    addTransactionsErrorMsg: '',
     GetTransactionsList: [],
     statusCodeForGetTransactions: 0,
     GetTransactionsErrorMsg: '',
@@ -107,13 +104,6 @@ const MemberListReducer = (state = initialState, action) => {
             return { ...state, statusCodeForRecordPayment: 0 }
         case 'RECORD_PAYMENT_ERROR_MSG':
             return { ...state, recordPaymentErrorMessage: '' }
-
-        case 'ADD_TRANSACTIONS_LIST':
-            return { ...state, addTransactionsList: action.payload.response, statusCodeAddTransactions: action.payload.response }
-        case 'ADD_TRANSACTIONS_ERROR_MESSAGE':
-            return { ...state, addTransactionsErrorMsg: action.payload.message }
-        case 'CLEAR_STATUS_CODE_ADD_TRANSACTIONS':
-            return { ...state, statusCodeAddTransactions: 0 }
 
         case 'GET_TRANSACTIONS_LIST':
             return {

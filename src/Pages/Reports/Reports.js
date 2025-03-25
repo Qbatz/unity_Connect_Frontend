@@ -20,13 +20,15 @@ function ReportsTab({ state }) {
   const dropdownRef2 = useRef(null);
 
   const [loading, setLoading] = useState(true);
-  const [unpaidStart, setunpaidStart] = useState("");
-  const [unpaidEnd, setunpaidEnd] = useState("");
+  const [unpaidStart, setUnpaidStart] = useState("");
+  const [unpaidEnd, setUnpaidEnd] = useState("");
+  const [paidStart, setPaidStart] = useState("");
+  const [paidEnd, setPaidEnd] = useState("");
   const [filterunpaid, setFilterUnpaid] = useState("");
   const [filterpaid, setFilterPaid] = useState("");
 
-  const [selectedFilter1, setSelectedFilter1] = useState("This Month");
-  const [selectedFilter2, setSelectedFilter2] = useState("This Month");
+  const [selectedFilter1, setSelectedFilter1] = useState("");
+  const [selectedFilter2, setSelectedFilter2] = useState("");
   const [isOpen1, setIsOpen1] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
 
@@ -39,12 +41,6 @@ function ReportsTab({ state }) {
   ];
 
   const [showPopup, setShowPopup] = useState(false);
-  const [ setStartDateFilter1] = useState("");
-  const [ setStartDateFilter2] = useState("");
-  const [ setEndDateFilter1] = useState("");
-  const [ setEndDateFilter2] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [startDate, setStartDate] = useState("");
   const [reportType, setReportType] = useState("");
 
   const pdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/UnsuccessfulPayments_1742493051264.pdf";
@@ -71,12 +67,20 @@ function ReportsTab({ state }) {
         setIsOpen2(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [])
+  useEffect(() => {
+    if (state.successReport || state.unsuccessReport) {
+      setFilterPaid("");
+      setFilterUnpaid("");
+      setSelectedFilter1("");
+      setSelectedFilter2("");
+    }
+  }, [state.successReport, state.unsuccessReport]);
+  
 
   useEffect(() => {
     if (filterpaid || filterunpaid) {
@@ -94,10 +98,10 @@ function ReportsTab({ state }) {
     document.body.removeChild(link);
   };
   
+ 
   const handleOptionClick = (option, e, type) => {
-
     setReportType(type);
-
+  
     if (type === 1) {
       setFilterUnpaid(option.value);
       setSelectedFilter1(option.label);
@@ -105,15 +109,13 @@ function ReportsTab({ state }) {
       setFilterPaid(option.value);
       setSelectedFilter2(option.label);
     }
-
+  
     if (option.value === "customise") {
-      setShowPopup(true);
+      setShowPopup(type);
     }
     setIsOpen1(false);
     setIsOpen2(false);
-
   };
-
 
 
   const handleCommonClick = (reportType) => {
@@ -124,16 +126,16 @@ function ReportsTab({ state }) {
       payload = {
         start_date_Paid: "",
         end_date_Paid: "",
-        start_date_UnPaid: startDate,
-        end_date_UnPaid: endDate,
+        start_date_UnPaid: unpaidStart,
+        end_date_UnPaid: unpaidEnd,
         filter_Paid: "",
         filter_UnPaid: "",
       };
       dispatch({ type: "UNSUCCESS_REPORT", payload });
     } else if (reportType === 2) {
       payload = {
-        start_date_Paid: startDate,
-        end_date_Paid: endDate,
+        start_date_Paid: paidStart,
+        end_date_Paid: paidEnd,
         start_date_UnPaid: "",
         end_date_UnPaid: "",
         filter_Paid: "",
@@ -157,24 +159,17 @@ function ReportsTab({ state }) {
       }
     }
 
-    setFilterPaid("");
-    setFilterUnpaid("");
-    setSelectedFilter1("");
-    setSelectedFilter2("");
-    setStartDate(null);
-    setEndDate(null);
-
   };
 
   const handleApply = () => {
 
     if (reportType === 1) {
-      setStartDateFilter1(startDate);
-      setEndDateFilter1(endDate);
+      setUnpaidStart("");
+      setUnpaidEnd("");
     }
     else {
-      setStartDateFilter2(startDate);
-      setEndDateFilter2(endDate);
+    setPaidStart("");
+    setPaidEnd("");
     }
 
     setShowPopup(false);
@@ -231,10 +226,7 @@ function ReportsTab({ state }) {
                     onClick={() => setIsOpen1(!isOpen1)}
                     
                   >
-                    
-                    <span className="font-Gilroy text-[14px] text-black font-medium">
-                      {selectedFilter1}
-                    </span>
+                      {selectedFilter1 || "This Month"}
                     <span>
                       <img src={arrowdown} alt='arrowdown' className="h-[16px] w-[16px]" />
                     </span>
@@ -254,7 +246,7 @@ function ReportsTab({ state }) {
                     </div>
                   )}
 
-                  {showPopup && (
+                  {showPopup === 1 && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
                       <div className="bg-white p-6 rounded-lg shadow-lg w-[320px]">
                         <h2 className="text-lg font-semibold mb-4 text-center">Select Date Range</h2>
@@ -264,7 +256,7 @@ function ReportsTab({ state }) {
                             type="date"
                             value={unpaidStart}
                             onChange={(e) => {
-                              setunpaidStart(e.target.value)
+                              setUnpaidStart(e.target.value)
                             }}
                             className="w-full border border-gray-300 rounded-lg p-2 cursor-pointer"
                           />
@@ -274,7 +266,7 @@ function ReportsTab({ state }) {
                           <input
                             type="date"
                             value={unpaidEnd}
-                            onChange={(e) => setunpaidEnd(e.target.value)}
+                            onChange={(e) => setUnpaidEnd(e.target.value)}
                             className="w-full border border-gray-300 rounded-lg p-2 cursor-pointer"
                           />
                         </div>
@@ -325,7 +317,11 @@ function ReportsTab({ state }) {
                           ₹{report.Pending_Amount}
                         </p>
                         <p className="text-gray-500 text-sm">
-                          {new Date(report.Created_At).toLocaleDateString()}
+                          {new Date(report.Created_At).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}
                         </p>
                       </div>
                     </div>
@@ -362,10 +358,7 @@ function ReportsTab({ state }) {
                     className="bg-white text-black w-[121px] h-[44px] rounded-[60px] px-[16px] py-[14px] border border-[#D9D9D9] flex items-center justify-between"
                     onClick={() => setIsOpen2(!isOpen2)}
                   >
-
-                    <span className="font-Gilroy text-[14px] text-black font-medium">
-                      {selectedFilter2}
-                    </span>
+                             {selectedFilter2 || "This Month"}
                     <span>
                       <img src={arrowdown} alt='arrowdown' className="h-[16px] w-[16px]" />
                     </span>
@@ -383,7 +376,7 @@ function ReportsTab({ state }) {
                       ))}
                     </div>
                   )}
-                  {showPopup && (
+                  {showPopup === 2 && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
                       <div className="bg-white p-6 rounded-lg shadow-lg w-[320px]">
                         <h2 className="text-lg font-semibold mb-4 text-center">Select Date Range</h2>
@@ -391,8 +384,8 @@ function ReportsTab({ state }) {
                           <label className="block text-sm font-medium">Start Date</label>
                           <input
                             type="date"
-                            value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
+                            value={paidStart}
+                            onChange={(e) => setPaidStart(e.target.value)}
                             className="w-full border border-gray-300 rounded-lg p-2"
                           />
                         </div>
@@ -400,8 +393,8 @@ function ReportsTab({ state }) {
                           <label className="block text-sm font-medium">End Date</label>
                           <input
                             type="date"
-                            value={endDate}
-                            onChange={(e) => setEndDate(e.target.value)}
+                            value={paidEnd}
+                            onChange={(e) => setPaidEnd(e.target.value)}
                             className="w-full border border-gray-300 rounded-lg p-2"
                           />
                         </div>
