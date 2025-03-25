@@ -20,7 +20,11 @@ function* LoanAddRequest(action) {
             });
         } else {
             console.error("Error Response:", response);
-            toast.error("Failed to add loan");
+            toast.error("Failed to add loan", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
         }
     } catch (error) {
         console.error("Saga API Error:", error.response || error);

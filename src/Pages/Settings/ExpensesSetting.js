@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useDispatch,  connect } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 import ExpensesIcon from "../../Asset/Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../../Asset/Icons/ThreeDotMore.svg";
 import CloseCircleIcon from "../../Asset/Icons/close-circle.svg";
@@ -10,9 +10,7 @@ function ExpensesSetting({ state }) {
 
   const dispatch = useDispatch();
 
-
-  const expensesetting = state.SettingExpenses?.getExpenseData.data || [];
-
+  const expensesetting = [...(state.SettingExpenses?.getExpenseData.data || [])].reverse();
 
   const statusCode = state.SettingExpenses.statusCodeSettingsAddExpenses;
 
@@ -26,15 +24,23 @@ function ExpensesSetting({ state }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!categoryName && !isSubCategory) {
-      setErrorMessage("!Please do some changes before adding a category.");
+      setErrorMessage("Please do some changes before adding a category");
       return;
     }
-  
+
     if (isSubCategory && !subCategoryName) {
-      setErrorMessage("!Please enter a sub-category name.");
+      setErrorMessage("Please enter a sub-category name");
       return;
     }
-  
+
+    const categoryExists = expensesetting.some(
+      (category) => category.category_Name.toLowerCase() === categoryName.toLowerCase()
+    );
+
+    if (categoryExists) {
+      setErrorMessage("Sub Category Name Already Exist");
+      return;
+    }
 
     setErrorMessage("");
     const payload = {
@@ -67,15 +73,12 @@ function ExpensesSetting({ state }) {
 
 
 
-  useEffect(() => {
-    if (state.SettingExpenses === 200) {
-      dispatch({ type: "SETTING_GET_EXPENSES" });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentExpenses = expensesetting.slice(indexOfFirstItem, indexOfLastItem);
 
-      setTimeout(() => {
-        dispatch({ type: "CLEARSETTINGADDEXPENSES" })
-      }, 500)
-    }
-  }, [state.SettingExpenses, dispatch])
 
 
   return (
@@ -97,7 +100,7 @@ function ExpensesSetting({ state }) {
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className={`bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300 ${isSubCategory ? 'h-auto' : 'h-[380px]'}`}>
+          <div className={`bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300 `}>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold font-Gilroy">Add new category</h2>
               <img
@@ -109,12 +112,12 @@ function ExpensesSetting({ state }) {
             </div>
             <div className="w-full border border-[#E7E7E7] mx-auto"></div>
             <div className="mt-7">
-              <label className="text-black text-sm font-medium font-Gilroy text-lg">Category name</label>
+              <label className="text-black text-sm font-medium font-Gilroy text-lg">Category name <span className="text-red-500 text-[20px]">*</span></label>
               <input
                 onChange={(e) => {
                   handlecategoryName(e);
                   setErrorMessage("");
-                }}                value={categoryName}
+                }} value={categoryName}
                 type="text"
                 placeholder="Enter category name"
                 className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
@@ -141,7 +144,7 @@ function ExpensesSetting({ state }) {
 
               {isSubCategory && (
                 <div className="mt-5">
-                  <label className="text-black text-sm font-medium font-Gilroy text-lg">Select Category</label>
+                  <label className="text-black text-sm font-medium font-Gilroy text-lg">Sub Category <span className="text-red-500 text-[20px]">*</span></label>
                   <input
                     type="text"
                     placeholder="Select a category"
@@ -156,8 +159,8 @@ function ExpensesSetting({ state }) {
             </div>
 
             {errorMessage && (
-  <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
-)}
+              <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
+            )}
 
             <button
               onClick={handleSubmit}
@@ -172,7 +175,7 @@ function ExpensesSetting({ state }) {
 
 
       <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {expensesetting.map((category, index) => (
+        {currentExpenses.map((category, index) => (
           <div key={index} className="w-350 h-170 border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
@@ -194,14 +197,32 @@ function ExpensesSetting({ state }) {
           </div>
         ))}
       </div>
+      <div className="fixed bottom-0 left-0 w-full  p-4  flex justify-end">
+        <button
+          className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          &lt;
 
+        </button>
+        <span className="px-4 py-2 border rounded">{currentPage}</span>
+        <button
+          className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= expensesetting.length ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={indexOfLastItem >= expensesetting.length}
+        >
+          &gt;
+
+        </button>
+      </div>
     </div>
   );
 }
 
 const mapsToProps = (stateInfo) => {
   return {
-      state: stateInfo
+    state: stateInfo
   }
 }
 ExpensesSetting.propTypes = {
