@@ -30,6 +30,11 @@ function MemberStatements({ state, member }) {
   const [status, setStatus] = useState('');
   const [errors, setErrors] = useState({});
   const [selectedStatement, setSelectedStatement] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const totalPages = Math.ceil(Statement.length / pageSize);
   const formattedDueDate = moment(Statement.Due_Date).format("DD-MM-YYYY");
 
   useEffect(() => {
@@ -143,6 +148,21 @@ function MemberStatements({ state, member }) {
     setIsModalOpen(false);
   };
 
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) setCurrentPage(newPage);
+  };
+
+  const handlePageSizeChange = (e) => {
+    setPageSize(Number(e.target.value));
+    setCurrentPage(1);
+  };
+
+
+  const paginatedData = Statement.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   const CustomInput = forwardRef(({ value, onClick }, ref) => (
     <div className="relative w-full">
       <input
@@ -169,23 +189,23 @@ function MemberStatements({ state, member }) {
         <h2 className="text-xl font-semibold font-Gilroy">Loan Statements</h2>
 
       </div>
-      <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
+      <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden">
         <div className="overflow-y-auto h-[280px]">
           <table className="w-full text-left border-collapse min-w-max">
-            <thead className="sticky top-0 bg-blue-50 z-10">
-              <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
-
-                <th className="p-4 font-Gilroy">Statement</th>
-                <th className="p-4 font-Gilroy">Due Date</th>
-                <th className="p-4 font-Gilroy">Loan Amount</th>
-                <th className="p-4 font-Gilroy">Pending</th>
-                <th className="p-4 font-Gilroy">Paid Amount</th>
-                <th className="p-4 font-Gilroy">Status</th>
-                <th className="p-4 font-Gilroy "></th>
+            <thead className="sticky top-0 bg-[#F4F7FF] z-10">
+              <tr className="bg-[#F4F7FF] border-b  text-sm font-Gilroy text-[#939393]">
+                <th className="p-4 font-Gilroy font-normal">Statement</th>
+                <th className="p-4 font-Gilroy font-normal">Due Date</th>
+                <th className="p-4 font-Gilroy font-normal">Loan Amount</th>
+                <th className="p-4 font-Gilroy font-normal">Pending</th>
+                <th className="p-4 font-Gilroy font-normal">Paid Amount</th>
+                <th className="p-4 font-Gilroy font-normal">Status</th>
+                <th className="p-4 font-Gilroy font-normal"></th>
               </tr>
             </thead>
+
             <tbody>
-              {Statement.map((item, index) => (
+              {paginatedData?.map((item, index) => (
 
                 <tr key={index}>
 
@@ -369,6 +389,48 @@ function MemberStatements({ state, member }) {
               </button>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {Statement.length > 5 && (
+        <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
+          <div className="relative">
+            <select
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              style={{ color: 'blue', borderColor: 'blue' }}
+              className="border border-gray-300 px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer pr-8"
+            >
+              {[5, 10, 50, 100].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+              <FaAngleDown size={15} style={{ color: 'blue' }} />
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 border rounded-lg"
+            >
+              &lt;
+            </button>
+            <p className="text-gray-600 font-medium px-4 py-2">
+              {currentPage} of {totalPages}
+            </p>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 border rounded-lg"
+            >
+              &gt;
+            </button>
           </div>
         </div>
       )}

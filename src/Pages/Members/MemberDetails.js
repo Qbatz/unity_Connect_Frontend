@@ -40,7 +40,7 @@ function MemberDetails({ member, onBack }) {
 
         </div>
 
-        <div className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide mt-8 pl-2">
+        <div className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide mt-6 pl-2">
           {["Overview", "Comments", "Transactions", "Statements"].map((tab) => (
             <button
               key={tab}

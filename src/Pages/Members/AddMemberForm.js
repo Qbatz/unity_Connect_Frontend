@@ -350,7 +350,7 @@ function MemberModal({ state, memberData, onClose }) {
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Add Documents</label>
                         <div className="border rounded-xl px-2 py-4 flex items-center justify-center relative w-28 h-20 mb-1">
                             <input type="file" className="absolute inset-0 opacity-0 w-full h-full" onChange={handleFileChange} />
-                            {memberData && <img src={memberData.Document_Url} alt="Selected" />}
+                            {memberData && <img src={memberData.Document_Url} alt="" />}
                             {showImage ? <img src={showImage} alt="Selected" /> : <AiOutlinePlus size={20} />}
                         </div>
                         <p className="font-medium text-xs font-Gilroy mb-3">Note: File should be .JPG, .PDF, .PNG (max 2MB)</p>

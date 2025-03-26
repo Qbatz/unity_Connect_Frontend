@@ -67,22 +67,26 @@ function CommentSection({ state, member }) {
       <div ref={commentSectionRef} className="space-y-6 max-h-[230px] overflow-y-auto">
         {localComments.length > 0 &&
           localComments.map((item, index) => (
-            <div key={index} className="mt-4 flex gap-4">
+            <div key={index} className="mt-4 flex items-start gap-4">
+
               <img src={img} alt="Member" className="w-12 h-12 rounded-full" />
-              <div>
-                <h3 className="font-semibold text-gray-900 font-Gilroy">
-                  {member.User_Name}
-                </h3>
+
+
+              <div className="flex flex-col">
+                <h3 className="font-semibold text-gray-900 font-Gilroy">{member.User_Name}</h3>
                 <p className="text-sm text-gray-500 font-Gilroy mt-1">
                   {formattedDate}. 9.30AM
                 </p>
-                <p className="mt-2 text-gray-700 font-Gilroy p-2 rounded-md">
-                  {item.Comment}
-                </p>
+
+                <div style={{ marginLeft: '-70px' }} className="mt-2   p-2  inline-block ">
+                  <p className="text-gray-700 font-Gilroy">{item.Comment}</p>
+                </div>
               </div>
             </div>
           ))}
       </div>
+
+
 
       <div className="mt-10 border p-4 rounded-lg flex items-center">
         <input

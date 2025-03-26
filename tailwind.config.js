@@ -16,7 +16,8 @@ module.exports = {
          '#D9E9FF': '#D9E9FF',
          '#FFEFCF': '#FFEFCF',
          '#222222' : '#222222',
-         '#F2F4F8': '#F2F4F8'
+         '#F2F4F8': '#F2F4F8',
+         '#FFDDDB':'#FFDDDB'
          
       },
     

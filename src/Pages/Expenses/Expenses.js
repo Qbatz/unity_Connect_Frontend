@@ -220,14 +220,14 @@ function ExpensesList({ state }) {
                         <div className="overflow-y-auto max-h-[450px]">
                             <table className="w-full text-left border-collapse">
                                 <thead className="sticky top-0 bg-[#F4F7FF] z-10">
-                                    <tr className="bg-[#F4F7FF] border-b font-extralight text-xs font-Gilroy">
-                                        <th className="p-4 font-Gilroy text-lightgray">Merchant</th>
-                                        <th className="p-4 font-Gilroy text-lightgray">Category</th>
-                                        <th className="p-4 font-Gilroy text-lightgray">Sub-Category</th>
-                                        <th className="p-4 font-Gilroy text-lightgray">Expense Date</th>
-                                        <th className="p-4 font-Gilroy text-lightgray">Amount</th>
-                                        <th className="p-4 font-Gilroy text-lightgray">Mode of payment</th>
-                                        <th className="p-4 font-Gilroy text-lightgray"></th>
+                                    <tr className="bg-[#F4F7FF] border-b font-extralight text-sm font-Gilroy">
+                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Merchant</th>
+                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Category</th>
+                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Sub-Category</th>
+                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Expense Date</th>
+                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Amount</th>
+                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Mode of payment</th>
+                                        <th className="p-4 font-Gilroy text-lightgray font-normal"></th>
                                     </tr>
                                 </thead>
 
