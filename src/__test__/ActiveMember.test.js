@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
-
+jest.useFakeTimers()
 describe('checks for active members', () => {
      const mockStore = configureStore()
         const store = mockStore({
@@ -27,7 +27,7 @@ describe('checks for active members', () => {
         )
     })
 
-    it('it will check for non active members UI when it has more than one member', () => {
+    it('it will check for non active members UI when it has more than one member', async () => {
         const store = mockStore({
 
             Member: {
@@ -40,7 +40,7 @@ describe('checks for active members', () => {
                     Mobile_No: '98766543728',
                     Address: 'Test address',
                     Joining_Date: '26-Feb-2025'
-                },],
+                }],
                 NonActiveMemberdata : [
                 {
                     User_Name: 'XYZ',
@@ -67,6 +67,7 @@ describe('checks for active members', () => {
     
         </Provider>)
 
+        jest.advanceTimersByTime(2000);
         // const buttonAddMember = screen.getByTestId('button-add-member')
         // expect(buttonAddMember).toBeInTheDocument();
         const buttonToggleMenu = screen.getByTestId('button-toggle-menu0');

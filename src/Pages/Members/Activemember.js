@@ -37,7 +37,7 @@ function ActiveMember({ state, onSelectMember }) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
 
   const handleStatusChange = (event) => {
@@ -70,6 +70,7 @@ function ActiveMember({ state, onSelectMember }) {
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
       setLoading(false);
+      console.log(state.Member.ActiveMemberdata)
       setActiveMemberData(state.Member.ActiveMemberdata);
 
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
@@ -91,6 +92,7 @@ function ActiveMember({ state, onSelectMember }) {
 
   useEffect(() => {
     setLoading(true);
+    console.log("set loading true")
     dispatch({ type: 'MEMBERLIST' });
 
   }, []);
@@ -209,6 +211,8 @@ function ActiveMember({ state, onSelectMember }) {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
+
+  console.log(loading)
 
   if (loading) {
     return (

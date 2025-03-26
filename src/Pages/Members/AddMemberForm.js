@@ -314,7 +314,6 @@ function MemberModal({ state, memberData, onClose }) {
 
 
                         <DatePicker
-                            data-testid='input-joining-data'
                             selected={formattedDate ? new Date(formattedDate) : null}
                             onChange={(date) => handleChange("joiningDate", date)}
                             dateFormat="dd-MM-yyyy"
