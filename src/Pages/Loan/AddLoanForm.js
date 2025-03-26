@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import CloseCircleIcon from '../../Asset/Icons/close-circle.svg';
@@ -8,6 +8,8 @@ import img1 from "../../Asset/Images/Memberone.svg";
 import tick from '../../Asset/Icons/tick-circle.svg';
 import { MdError } from "react-icons/md";
 import { GrDown } from "react-icons/gr";
+
+
 
 function AddLoanForm({ state }) {
   const dispatch = useDispatch();
@@ -52,7 +54,7 @@ function AddLoanForm({ state }) {
     e.preventDefault();
 
     if (!memberId) {
-      setErrorMessage("Please fill  all fields");
+      setErrorMessage("Please select a member");
       return;
     }
 
@@ -173,20 +175,20 @@ function AddLoanForm({ state }) {
     e.preventDefault();
 
     if (!memberLoanType) {
-      setErrorMessage("Please select a loan type before approving the loan.");
+      setErrorMessage("Please select a loan type before approving the loan");
       return;
     }
 
     if (!eligibleLoanAmount) {
-      setErrorMessage("Please enter the approved loan amount.");
+      setErrorMessage("Please enter the approved loan amount");
       return;
     }
 
     if (!interesttype) {
-      setErrorMessage("Interest type is missing. Please select a valid loan type.");
+      setErrorMessage("Interest type is missing. Please select a valid loan type");
       return;
     }
-    setErrorMessage("");
+
 
     const payload = {
       id: approve.Loan_Id,
@@ -199,12 +201,14 @@ function AddLoanForm({ state }) {
       type: "ADD_APPROVAL",
       payload,
     });
+    setErrorMessage("")
 
   };
 
   const handleClose = () => {
     setIsModalOpen(false)
     setIsDropdownOpen(false);
+
   }
 
 
@@ -223,15 +227,30 @@ function AddLoanForm({ state }) {
   const paginatedApprovedLoans = loans.filter(loan => loan.Loan_Type).slice(indexOfFirstApproved, indexOfLastApproved);
 
 
+  const dropdownRef = useRef(null);
+
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
-      <div className="container mx-auto mt-5 ">
+      <div className="container mx-auto mt-5 p-4 ">
         <div>
           <div className="flex items-center  justify-between w-full pl-5 pr-5">
             <p className="font-Gilroy font-semibold text-2xl text-black">Loan Request</p>
             <button
-              className="bg-black text-white py-4 px-5 rounded-full text-base font-Gilroy font-medium"
+              className="bg-black text-white py-3 px-4 rounded-full text-base font-Gilroy font-medium"
 
               onClick={() => {
                 setIsModalOpen(true);
@@ -245,7 +264,7 @@ function AddLoanForm({ state }) {
           </div>
         </div>
 
-        <div data-testid='Loans-tab' className="mt-5 pl-5 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-10 scrollbar-hide">
+        <div data-testid='Loans-tab' className="mt-5 pl-8 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-10 scrollbar-hide">
           {["Active loan", "Approved loan"].map((tab, index) => (
             <button
               data-testid={`button-tab-${index}`}
@@ -280,29 +299,31 @@ function AddLoanForm({ state }) {
 
 
               <div className="mt-7">
-                <label className="text-black text-sm font-medium font-Gilroy text-lg">Member</label>
+                <label className="text-black text-sm font-medium font-Gilroy text-lg">
+                  Member<span className="text-red-500 text-[20px]">*</span>
+                </label>
 
-
-                <div className="relative">
+                <div className="relative" ref={dropdownRef}>
                   <div
-                    className="cursor-pointer w-full font-Gilroy h-14 border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex justify-between items-center"
+                    className='cursor-pointer w-full font-Gilroy h-14 border rounded-2xl p-4 mt-3 flex justify-between items-center'
+
                     onClick={() => setIsOpen(!isOpen)}
                   >
                     {memberId ? members.find((m) => m.Id === memberId)?.User_Name : "Select a member"}
                     <GrDown className="w-5 h-5" />
                   </div>
 
-
                   {isOpen && (
-                    <div className="absolute w-full bg-white border border-gray-300 rounded-xl mt-1  max-h-48  overflow-y-auto shadow-lg z-10">
+                    <div className="absolute w-full bg-white border border-gray-300 rounded-xl mt-1 h-[150px] overflow-y-auto shadow-lg z-10">
                       {members.length > 0 ? (
                         members.map((member) => (
                           <div
                             key={member.Id}
-                            className="cursor-pointer p-3 hover:bg-gray-200"
+                            className="cursor-pointer p-3 hover:bg-blue-200"
                             onClick={() => {
                               setMemberId(member.Id);
-                              setIsOpen(false); setErrorMessage("");
+                              setIsOpen(false);
+                              setErrorMessage("");
                             }}
                           >
                             {member.User_Name}
@@ -314,14 +335,23 @@ function AddLoanForm({ state }) {
                     </div>
                   )}
                 </div>
+
+
+                {errorMessage && !memberId && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                    <MdError className="mr-1" /> {errorMessage}
+                  </p>
+                )}
               </div>
 
 
 
 
-              <div className="relative mt-7">
+
+
+              <div className="relative mt-7" ref={dropdownRef}>
                 <label className="text-black text-sm font-medium font-Gilroy text-lg">
-                  Witnesses
+                  Witnesses <span className="text-red-500 text-[20px]">*</span>
                 </label>
 
 
@@ -339,11 +369,11 @@ function AddLoanForm({ state }) {
 
 
                 {isDropdownOpen && (
-                  <div className="absolute z-10 w-full border border-[#D9D9D9] bg-white rounded-2xl mt-2 max-h-48 overflow-y-auto">
+                  <div className="absolute z-10 w-full border border-[#D9D9D9] bg-white rounded-2xl mt-2 h-[150px] overflow-y-auto">
                     {members.filter((member) => member.Id !== memberId).map((member) => (
                       <label
                         key={member.Id}
-                        className="block px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
+                        className="block px-4 py-2 hover:bg-blue-400 cursor-pointer flex items-center"
                       >
                         <input
                           type="checkbox"
@@ -358,13 +388,19 @@ function AddLoanForm({ state }) {
                   </div>
 
                 )}
+
+                {errorMessage && selectedWitnesses.length === 0 && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                    <MdError className="mr-1" /> {errorMessage}
+                  </p>
+                )}
               </div>
 
 
 
 
               <div className="mt-7">
-                <label className="text-black text-sm font-medium font-Gilroy text-lg">Loan amount</label>
+                <label className="text-black text-sm font-medium font-Gilroy text-lg">Loan amount <span className="text-red-500 text-[20px]">*</span></label>
                 <input
                   value={loanAmount}
 
@@ -377,13 +413,13 @@ function AddLoanForm({ state }) {
                   placeholder="Enter approved loan amount"
                   className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                 />
+                {errorMessage && !loanAmount && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                    <MdError className="mr-1" /> {errorMessage}
+                  </p>
+                )}
               </div>
 
-              {errorMessage && (
-                <p className="flex items-center gap-2 text-[red] text-sm font-medium mt-3">
-                  <MdError className="text-sm" /> {errorMessage}
-                </p>
-              )}
               <button
                 onClick={handleSubmit}
                 className="mt-10 pt-[20px] pr-[40px] pb-[20px] pl-[40px] w-full h-59 bg-black text-white rounded-60 text-base font-Gilroy font-medium"
@@ -397,7 +433,7 @@ function AddLoanForm({ state }) {
         {activeTab === "Active loan" && (
           <div>
 
-            <div className="active-loan max-h-[400px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+            <div className="active-loan max-h-[400px] overflow-y-auto p-5 mt-1 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
               {paginatedActiveLoans?.length > 0 ? (
                 paginatedActiveLoans?.map((loan) => {
@@ -422,14 +458,14 @@ function AddLoanForm({ state }) {
                               {selectedMember?.User_Name}
                             </p>
 
-                            <p className="text-[#000000] text-sm bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">
+                            <p className="text-[#000000] text-sm bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block font-Gilroy">
                               {selectedMember?.Member_Id}
                             </p>
                           </div>
                         </div>
 
 
-                        <p className="text-black font-semibold text-base font-Gilroy font-semibold">
+                        <p style={{ marginTop: '-30px' }} className="text-black font-semibold text-base font-Gilroy font-semibold">
                           Loan amount: ₹{loan.Loan_Amount}
                         </p>
                       </div>
@@ -448,11 +484,11 @@ function AddLoanForm({ state }) {
                                 const witnessData = members.find((member) => String(member.Id) === String(witness.Widness_Id || witness.Id));
 
                                 return witnessData ? (
-                                  <div key={witnessData.Id} className="flex items-center px-3 py-2 rounded-lg">
+                                  <div key={witnessData.Id} className="flex items-center  py-2 rounded-lg">
                                     <img src={img1} alt="Witness Profile" className="w-10 h-10 rounded-full" />
                                     <div className="ml-2">
                                       <p className="text-black font-semibold text-sm font-Gilroy font-semibold">{witnessData.User_Name}</p>
-                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Member_Id}</p>
+                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block font-Gilroy">{witnessData.Member_Id}</p>
                                     </div>
                                   </div>
                                 ) : null;
@@ -561,7 +597,7 @@ function AddLoanForm({ state }) {
                 </div>
 
                 {isDropdownOpen && (
-                  <div className="absolute z-10 w-full border border-gray-300 bg-white rounded-2xl mt-2 max-h-48 overflow-y-auto">
+                  <div className="absolute w-full bg-white border border-[#D9D9D9] rounded-2xl mt-1 shadow-lg max-h-48 overflow-y-auto z-10">
                     {members.map((member) => (
                       <label
                         key={member.Id}
@@ -604,7 +640,14 @@ function AddLoanForm({ state }) {
                 <h2 className="text-xl font-semibold font-Gilroy">Approve Loan?</h2>
                 <button
                   className="text-gray-600 text-xl"
-                  onClick={() => setIsApprovePopupOpen(false)}
+
+                  onClick={() => {
+                    setIsApprovePopupOpen(false);
+                    setErrorMessage("");
+                    setMemberLoanType("");
+                    setInterestType("");
+                    setEligibleLoanAmount('');
+                  }}
                 >
                   <img src={CloseCircleIcon} alt="Close" />
                 </button>
@@ -623,49 +666,73 @@ function AddLoanForm({ state }) {
                 )}</div>
 
 
-              <div className="mt-4">
-                <label className="text-black text-sm font-medium font-Gilroy">Loan Type</label>
-                <div className="relative overflow-y-auto max-h-[200px]">
-                  <select
-                    value={memberLoanType}
-                    onChange={(e) => {
-                      setMemberLoanType(e.target.value);
-                      setInterestType("");
-                      setErrorMessage("");
-                      const selectedLoan = loanGetSetting?.SettingLoan?.getLoan.loans?.find(
-                        (loan) => String(loan.Id) === String(e.target.value)
-                      );
 
-                      setInterestType(selectedLoan?.Interest || "");
-                    }}
-                    className="w-full h-14 font-Gilroy border border-[#D9D9D9] rounded-2xl p-4 pr-12 mt-3 appearance-none"
+              <div className="mt-4 relative">
+                <label className="text-black text-sm font-medium font-Gilroy">Loan Type<span className="text-red-500 text-[20px]">*</span></label>
+                <div className="relative">
+                  <div
+                    className="w-full h-14 font-Gilroy border border-[#D9D9D9] rounded-2xl p-4 pr-5 mt-3 flex items-center justify-between cursor-pointer"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   >
-                    <option value="">Select a Loan Type</option>
-                    {loanGetSetting?.SettingLoan?.getLoan.loans?.map((loan, index) => (
-                      <option key={index} value={loan.Id} >
-                        {loan.Loan_Name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <div className="absolute right-4 top-10 -translate-y-1/2 pointer-events-none w-8 h-6">
-                    <GrDown />
+                    {loanGetSetting?.SettingLoan?.getLoan.loans?.find(loan => String(loan.Id) === String(memberLoanType))?.Loan_Name || "Select a Loan Type"}
+                    <GrDown className="w-6 h-6" />
                   </div>
+
+                  {isDropdownOpen && (
+                    <div className="absolute w-full bg-white border border-[#D9D9D9] rounded-2xl mt-1 shadow-lg h-[150px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 z-10">
+                      <div
+                        className="p-2 cursor-pointer hover:bg-blue-200"
+                        onClick={() => {
+                          setMemberLoanType("");
+                          setInterestType("");
+                          setErrorMessage("");
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        Select a Loan Type
+                      </div>
+                      {loanGetSetting?.SettingLoan?.getLoan.loans?.map((loan, index) => (
+                        <div
+                          key={index}
+                          className="p-2 cursor-pointer hover:bg-blue-200"
+                          onClick={() => {
+                            setMemberLoanType(loan.Id);
+                            setInterestType(loan.Interest || "");
+                            setErrorMessage("");
+                            setIsDropdownOpen(false);
+                          }}
+                        >
+                          {loan.Loan_Name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                 </div>
+                {errorMessage && !memberLoanType && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                    <MdError className="mr-1" /> {errorMessage}
+                  </p>
+                )}
               </div>
 
               <div className="mt-4">
-                <label className="text-black font-Gilroy text-sm font-medium text-lg mt-10">Interest Type</label>
+                <label className="text-black font-Gilroy text-sm font-medium text-lg mt-10">Interest Type<span className="text-red-500 text-[20px]">*</span></label>
                 <input
                   type="text"
                   value={interesttype}
                   readOnly
                   className="w-full h-60 font-Gilroy border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                 />
+                {errorMessage && !interesttype && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                    <MdError className="mr-1" /> {errorMessage}
+                  </p>
+                )}
               </div>
 
               <div className="mt-4">
-                <label className="text-black text-sm font-medium font-Gilroy">Loan Amount</label>
+                <label className="text-black text-sm font-medium font-Gilroy">Loan Amount<span className="text-red-500 text-[20px]">*</span></label>
                 <input
                   value={eligibleLoanAmount}
                   onChange={(e) => {
@@ -674,8 +741,13 @@ function AddLoanForm({ state }) {
                   }}
                   type="text"
                   placeholder="Enter Approved Loan Amount"
-                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-3 mt-2"
+                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-3 mt-2 font-Gilroy"
                 />
+                {errorMessage && !eligibleLoanAmount && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                    <MdError className="mr-1" /> {errorMessage}
+                  </p>
+                )}
               </div>
 
               <div className="mt-5">
@@ -683,11 +755,7 @@ function AddLoanForm({ state }) {
               </div>
 
 
-              {errorMessage && (
-                <p className="flex items-center gap-2 text-[red] text-sm font-medium mt-3">
-                  <MdError className="text-sm" /> {errorMessage}
-                </p>
-              )}
+
               <button className="mt-5 bg-black text-white border font-Gilroy font-medium text-base 
                           cursor-pointer rounded-[60px] w-full h-[60px] pt-4 pr-5 pb-4 pl-5"
                 onClick={approvalSubmit}
@@ -740,7 +808,7 @@ function AddLoanForm({ state }) {
                         </div>
 
 
-                        <p className="text-black font-semibold text-base font-Gilroy font-semibold">
+                        <p style={{ marginTop: '-30px' }} className="text-black font-semibold text-base font-Gilroy font-semibold">
                           Loan amount: ₹{loan.Approved_Amount}
                         </p>
                       </div>
@@ -790,9 +858,17 @@ function AddLoanForm({ state }) {
                             <img src={tick} alt="Approved" className="w-5 h-5" />
                             <p className="text-black text-base font-Gilroy font-medium">
                               Loan approved on {" "}
-                              <span className="text-black text-base font-Gilroy font-semibold">{new Date(loan.Approvel_Date).toLocaleDateString("en-GB")}</span>{" "}
+                              <span className="text-black text-base font-Gilroy font-semibold">
+                                {new Date(loan.Approvel_Date).toLocaleDateString("en-GB", {
+                                  day: "2-digit",
+                                  month: "long",
+                                  year: "numeric",
+                                })}
+                              </span>
+
+                              {" "}
                               with interest of {" "}
-                              {loan?.Interest_Type} {" "}% p.m
+                              {loan?.Interest_Type}% p.m
 
                             </p>
 
@@ -813,6 +889,7 @@ function AddLoanForm({ state }) {
 
             </div>
             <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+
               <button
                 className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                   }`}
