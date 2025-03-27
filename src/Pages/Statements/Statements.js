@@ -4,9 +4,9 @@ import { useDispatch, connect } from "react-redux";
 import { FiMoreVertical } from "react-icons/fi";
 import PropTypes from 'prop-types';
 import ProfileIcon from '../../Asset/Icons/ProfileIcon.svg';
-import editIcon from "../../Asset/Icons/edit_blue.svg";
-import trashRed from "../../Asset/Icons/trashRed.svg";
-import RecordPayment from "../../Asset/Icons/RecordPayment.svg";
+// import editIcon from "../../Asset/Icons/edit_blue.svg";
+// import trashRed from "../../Asset/Icons/trashRed.svg";
+// import RecordPayment from "../../Asset/Icons/RecordPayment.svg";
 import moment from "moment";
 import { ClipLoader } from "react-spinners";
 
@@ -18,16 +18,12 @@ function Statement({ state }) {
 
   const statementList = state.Statement.StatementList;
 
-  // const formattingDate = moment(statementList?.loan_date).format("DD MMM YYYY");
-  // const formattingDueDate = moment(statementList?.Due_Date).format("DD MMM YYYY");
-
 
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(null);
 
-
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentStatement = statementList.slice(indexOfFirstItem, indexOfLastItem);
@@ -74,7 +70,7 @@ function Statement({ state }) {
 
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
-          <div className="min-w-max overflow-y-auto max-h-[500px]">
+          <div className="min-w-max overflow-y-auto max-h-[700px]">
             <table className="w-full text-left border-collapse">
               <thead className="sticky top-0 bg-blue-50 z-10">
                 <tr className="bg-blue-50 border-b font-light text-sm font-Gilroy text-neutral-400 text-center">
@@ -98,33 +94,34 @@ function Statement({ state }) {
                 ) : (
                   currentStatement.map((item, index) => (
                     <tr key={index} className="p-3 text-center">
-                      <td className="p-3 flex text-start gap-3 pl-6">
+                      <td className="p-2 flex text-start gap-3 pl-6">
                         <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
-                        <span className="truncate">{item.User_Name}</span>
+                        <span className="truncate mt-2">{item.User_Name}</span>
                       </td>
-                      <td className="p-3">
-                        <span className="bg-orange-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                      <td className="p-2">
+                        <span className="bg-orange-100 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
                           {item.Loan_id}
                         </span>
                       </td>
-                      <td className="p-3">
+                      <td className="p-2">
                         <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
                           {moment(item.loan_date).format("DD MMM YYYY")}
                         </span>
                       </td>
-                      <td className="p-3">{item.Loan_Amount}</td>
-                      <td className="p-3">
+                      <td className="p-2">₹{item.Loan_Amount.toLocaleString('en-IN')}</td>
+                     
+                      <td className="p-2">
                         <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
                           {moment(item.Due_Date).format("DD MMM YYYY")}
                         </span>
                       </td>
-                      <td className="p-3">{item.Due}</td>
-                      <td className="p-3">
-                        <span className={`px-3 py-2 rounded-full text-black ${item.Status === "Paid" ? "bg-green-200" : "bg-red-200"}`}>
+                      <td className="p-2">₹{item.Due.toLocaleString('en-IN')}</td>
+                      <td className="p-2">
+                        <span className={`px-3 py-1.5 rounded-full text-black ${item.Status === "Paid" ? "bg-emerald-100" : "bg-red-100"}`}>
                           {item.Status}
                         </span>
                       </td>
-                      <td className="p-4 relative">
+                      <td className="p-3 relative">
                         <button
                           onClick={() => toggleMenu(index)}
                           className={`text-gray-600 rounded-full p-2 shadow ${menuOpen === index ? "bg-blue-200" : "bg-white"
@@ -133,7 +130,7 @@ function Statement({ state }) {
                           <FiMoreVertical size={16} />
                         </button>
 
-                        {menuOpen === index && (
+                        {/* {menuOpen === index && (
                           <div  
                             ref={popupRef}
                             className={`absolute right-20 my-auto ${index === 0 ? "top-full" : "bottom-full"} bg-white border border-gray-200 rounded-lg shadow-lg z-50 w-[180px]`} >
@@ -150,7 +147,9 @@ function Statement({ state }) {
                               Delete
                             </button>
                           </div>
-                        )}
+                        )} */}
+
+
                       </td>
                     </tr>
                   ))
@@ -163,9 +162,9 @@ function Statement({ state }) {
 
         </div>
       </div>
-      <div className="fixed bottom-0 left-0 w-full  p-4  flex justify-end">
+      <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
         <button
-          className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+          className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -174,7 +173,7 @@ function Statement({ state }) {
         </button>
         <span className="px-4 py-2 border rounded">{currentPage}</span>
         <button
-          className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= statementList.length ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+          className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= statementList.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={indexOfLastItem >= statementList.length}
         >
