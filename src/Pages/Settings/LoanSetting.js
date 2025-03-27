@@ -132,7 +132,7 @@ function LoanSetting({ state }) {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 3;
 
   const allLoans = loanGetSetting?.SettingLoan?.getLoan.loans || [];
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -417,7 +417,7 @@ function LoanSetting({ state }) {
                 <label className="text-black font-Gilroy text-sm font-medium text-lg">Interest <span className="text-red-500 text-[20px]">*</span></label>
                 <input
                   type="text" value={selectedInterest}
-                  placeholder="Enter due count"
+                  placeholder="Enter interest count"
                   onChange={(e) => {
                     const value = e.target.value;
                     if (/^\d*$/.test(value)) {
@@ -431,7 +431,7 @@ function LoanSetting({ state }) {
             </div>
 
             {errorMessage && (
-              <p className="text-[red] text-sm font-medium mt-3">!{errorMessage}</p>
+              <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
             )}
 
             <button onClick={handleSubmit}
@@ -462,43 +462,45 @@ function LoanSetting({ state }) {
             <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
 
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
+              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_On}</p>
             </div>
 
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
+              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
             </div>
 
 
 
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
+              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
             </div>
           </div>
         ))}
       </div>
 
+      {allLoans.length > 0 && (
+        <div className="flex justify-end mt-10">
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &lt;
+          </button>
+          <span className="px-4 py-2 border rounded">{currentPage}</span>
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= allLoans.length ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={indexOfLastItem >= allLoans.length}
+          >
+            &gt;
+          </button>
+        </div>
 
-      <div className="flex justify-end mt-4">
-        <button
-          className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
-          onClick={() => setCurrentPage(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          &lt;
-        </button>
-        <span className="px-4 py-2 border rounded">{currentPage}</span>
-        <button
-          className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= allLoans.length ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
-          onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={indexOfLastItem >= allLoans.length}
-        >
-          &gt;
-        </button>
-      </div>
+      )}
     </div>
   );
 }

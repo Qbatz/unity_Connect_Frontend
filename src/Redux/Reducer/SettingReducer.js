@@ -22,6 +22,13 @@ const SettingReducer = (state = initialState, action) => {
       case 'CLEAR_STATUS_CODE_MEMBER_ID':
          return { ...state, statusCodeMemberID: 0 }
 
+      case 'CLEAR_MEMBER_ID':
+         return {
+            ...state,
+            MemberIDprefix: "",
+            MemberIdsuffix: ""
+         };
+
       case 'SETTINGS_LOAN_ID':
          return { ...state, LoanIDprefix: action.payload.prefix, LoanIDsuffix: action.payload.suffix, statusCodeLoanID: action.payload.statusCode }
       case 'CLEAR_STATUS_CODE_LOAN_ID':
@@ -35,7 +42,7 @@ const SettingReducer = (state = initialState, action) => {
          return { ...state, TransactionIDprefix: action.payload.prefix, TransactionIDsuffix: action.payload.suffix, statusCodeTransactionID: action.payload.statusCode }
       case 'CLEAR_STATUS_CODE_TRANSACTION_ID':
          return { ...state, statusCodeTransactionID: 0 }
-      
+
       default:
          return state;
    }

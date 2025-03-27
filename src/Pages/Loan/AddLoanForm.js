@@ -243,6 +243,29 @@ function AddLoanForm({ state }) {
     };
   }, []);
 
+  const [isRejectPopupOpen, setisRejectPopupOpen] = useState(false);
+
+  const handleReject = (loan) => {
+    if (!loan) {
+      console.error("Loan ID is missing.");
+      return;
+    }
+
+    dispatch({
+      type: "LOAN_REJECT",
+      payload: { loan_status: "Reject", id: loan.Loan_Id },
+    });
+    setisRejectPopupOpen(false);
+  };
+
+  const [rejectLoanData, setRejectLoanData] = useState('');
+
+  const indexOfLastRejected = currentPageApproved * itemsPerPage;
+  const indexOfFirstRejected = indexOfLastApproved - itemsPerPage;
+  const paginatedRejectedLoans = loans.filter(loan => loan.Loan_Status === 'Reject').slice(indexOfFirstRejected, indexOfLastRejected);
+
+
+
   return (
     <>
       <div className="container mx-auto mt-5 p-4 ">
@@ -264,8 +287,8 @@ function AddLoanForm({ state }) {
           </div>
         </div>
 
-        <div data-testid='Loans-tab' className="mt-5 pl-8 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-10 scrollbar-hide">
-          {["Active loan", "Approved loan"].map((tab, index) => (
+        <div data-testid='Loans-tab' className="mt-5 pl-5 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-10 scrollbar-hide">
+          {["Active loan", "Approved loan", "Rejected loan"].map((tab, index) => (
             <button
               data-testid={`button-tab-${index}`}
               key={tab}
@@ -439,7 +462,7 @@ function AddLoanForm({ state }) {
                 paginatedActiveLoans?.map((loan) => {
                   const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
 
-                  return !loan.Loan_Type && (
+                  return (loan.Loan_Type === null && loan.Loan_Status !== "Reject") && (
                     <div
                       key={loan.Loan_Id}
                       className="w-full  bg-[#F4F7FF] flex flex-col rounded-2xl p-4 shadow-md"
@@ -514,9 +537,18 @@ function AddLoanForm({ state }) {
 
                         <div className="flex gap-3">
                           <button className="border border-black text-[#222222] py-3 px-8 rounded-full text-base font-Gilroy
-                           font-medium cursor-pointer ">
+                           font-medium cursor-pointer "
+
+                            onClick={() => {
+                              setisRejectPopupOpen(true);
+                              setRejectLoanData({ ...loan })
+                            }}
+                          >
                             Reject
                           </button>
+
+
+
                           <button className="bg-black text-white py-3 px-8 rounded-full text-base font-Gilroy font-medium cursor-pointer"
 
                             onClick={() => handleApproval(loan, selectedMember)}
@@ -525,6 +557,31 @@ function AddLoanForm({ state }) {
                           </button>
                         </div>
                       </div>
+                      {isRejectPopupOpen && (
+                        <div className="fixed inset-0 flex items-center justify-center ">
+                          <div className="bg-white p-6 rounded-xl shadow-lg w-[350px]">
+                            <p className="text-lg font-Gilroy font-medium text-center mb-4">
+                              Are you sure you want to reject the loan?
+                            </p>
+                            <div className="flex justify-between">
+                              <button
+                                className="bg-black text-white py-2 px-6 rounded-lg font-medium"
+                                onClick={() => handleReject(rejectLoanData)}
+                              >
+                                Yes
+                              </button>
+                              <button
+                                className="border bg-black border-black text-white py-2 px-6 rounded-lg font-medium"
+                                onClick={() => setisRejectPopupOpen(false)}
+                              >
+                                Cancel
+                              </button>
+
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
 
                     </div>
                   );
@@ -534,6 +591,11 @@ function AddLoanForm({ state }) {
               )}
 
             </div>
+
+
+
+
+
             <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
               <button
                 className={`px-4 py-2 mx-2 border rounded ${currentPageActive === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
@@ -782,7 +844,7 @@ function AddLoanForm({ state }) {
 
                   const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
 
-                  return loan.Loan_Type && (
+                  return (loan.Loan_Type && loan.Loan_Status !== 'Reject') && (
                     <div
                       key={loan.Loan_Id}
                       className="w-full  bg-[#F4F7FF] flex flex-col rounded-2xl p-4 shadow-md"
@@ -864,9 +926,7 @@ function AddLoanForm({ state }) {
                                   month: "long",
                                   year: "numeric",
                                 })}
-                              </span>
-
-                              {" "}
+                              </span>{" "}
                               with interest of {" "}
                               {loan?.Interest_Type}% p.m
 
@@ -917,7 +977,119 @@ function AddLoanForm({ state }) {
 
 
 
+        {activeTab === "Rejected loan" && (
 
+          <div>
+
+            <div className="active-loan max-h-[400px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+
+              {paginatedRejectedLoans.length > 0 ? (
+                paginatedRejectedLoans.map((loan) => {
+
+                  const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
+
+                  return (
+                    <div
+                      key={loan.Loan_Id}
+                      className="w-full  bg-[#F4F7FF] flex flex-col rounded-2xl p-4 shadow-md"
+                    >
+
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <img
+                            src={img1}
+                            alt="Profile"
+                            className="w-12 h-12 rounded-full"
+                          />
+                          <div className="ml-3">
+
+                            <p className="text-black font-semibold text-base font-Gilroy font-semibold">
+                              {selectedMember?.User_Name}
+                            </p>
+
+                            <p className="text-[#000000] text-sm bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">
+                              {selectedMember?.Member_Id}
+                            </p>
+                          </div>
+                        </div>
+
+
+                        <p className="text-black font-semibold text-base font-Gilroy font-semibold">
+                          Loan amount: ₹{loan.Loan_Amount}
+                        </p>
+                      </div>
+
+                      <div className="w-full border border-[#E7E7E7] mx-auto my-3"></div>
+
+
+                      <div className="witness-div">
+                        <div className="mt-3">
+
+                          <p className="text-[#939393] font-medium text-xs font-Gilroy">Witnesses</p>
+
+                          {loan.Witness_Details && loan.Witness_Details.length > 0 ? (
+                            <div className="flex flex-wrap gap-4 mt-2">
+                              {loan.Witness_Details.map((witness) => {
+                                const witnessData = members.find((member) => String(member.Id) === String(witness.Widness_Id || witness.Id));
+
+                                return witnessData ? (
+                                  <div key={witnessData.Id} className="flex items-center px-3 py-2 rounded-lg">
+                                    <img src={img1} alt="Witness Profile" className="w-10 h-10 rounded-full" />
+                                    <div className="ml-2">
+                                      <p className="text-black font-semibold text-sm font-Gilroy font-semibold">{witnessData.User_Name}</p>
+                                      <p className="text-[#000000] text-xs bg-[#D9E9FF] pt-1 pr-2 pb-1 pl-2 rounded-[60px] inline-block">{witnessData.Member_Id}</p>
+                                    </div>
+                                  </div>
+
+
+                                ) : null;
+
+                              })}
+
+
+
+                            </div>
+                          ) : (
+                            <p className="text-gray-500">No Witnesses</p>
+                          )}
+
+                        </div>
+
+                      </div>
+
+
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="text-gray-500">No Loan Data Available</p>
+              )}
+
+            </div>
+            <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+              <button
+                className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
+                  }`}
+                onClick={() => setCurrentPageApproved(currentPageApproved - 1)}
+                disabled={currentPageApproved === 1}
+              >
+                &lt;
+              </button>
+              <span className="px-4 py-2 border rounded">{currentPageApproved}</span>
+              <button
+                className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length
+                  ? "opacity-50 cursor-not-allowed"
+                  : "bg-[#F4F7FF] text-black"
+                  }`}
+                onClick={() => setCurrentPageApproved(currentPageApproved + 1)}
+                disabled={indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length}
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
+
+        )}
 
 
 

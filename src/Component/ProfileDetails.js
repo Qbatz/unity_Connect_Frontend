@@ -250,9 +250,19 @@ const ProfileDetails = ({ state }) => {
 
     const handleConfirmLogout = () => {
         dispatch({ type: 'LOGOUT' });
+
         const encryptDataLogin = encryptData(JSON.stringify(false));
         localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
         setLogoutFormShow(false);
+        localStorage.removeItem("MemberIDprefix");
+        localStorage.removeItem("MemberIdsuffix");
+
+        localStorage.removeItem("LoanIDprefix");
+        localStorage.removeItem("LoanIDsuffix");
+
+        localStorage.removeItem("TransactionIDprefix");
+        localStorage.removeItem("TransactionIDsuffix");
+
     }
 
 

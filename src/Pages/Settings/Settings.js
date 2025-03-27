@@ -18,18 +18,17 @@ const Settings = () => {
         Settings
       </h2>
 
-
-      <div className="border-b border-gray-300 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 md:gap-10 lg:gap-[125px] scrollbar-hide">
+      <div className="border-b border-gray-300 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 md:gap-10 lg:gap-[125px] scrollbar-hide justify-center">
         {["Member ID", "Loan ID", "Transaction ID", "Loan", "Expenses", "Payment"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${activeTab === tab ? "text-purple-600 font-semibold" : "text-[#939393]"
+            className={`pb-2 text-[16px] font-base font-Gilroy flex justify-center items-center text-center transition-all relative min-w-max ${activeTab === tab ? "text-[#7F00FF] font-semibold" : "text-[#939393]"
               }`}
           >
             {tab}
             <span
-              className={`absolute left-0 bottom-0 h-[3px] w-full transition-all ${activeTab === tab ? "bg-purple-600" : "bg-transparent"
+              className={`absolute left-1/2 -translate-x-1/2 bottom-0 h-[2px] lg:w-[140px] transition-all ${activeTab === tab ? "bg-[#7F00FF]" : "bg-transparent"
                 }`}
             ></span>
           </button>
