@@ -11,6 +11,7 @@ function MemberID({ state }) {
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
   const [error, setError] = useState({ prefix: "", suffix: "" });
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (state.Settings.statusCodeMemberID === 200) {
@@ -44,6 +45,26 @@ function MemberID({ state }) {
     }
   };
 
+  useEffect(() => {
+    const storedPrefix = localStorage.getItem("MemberIDprefix") || state.Settings?.MemberIDprefix || "";
+    const storedSuffix = localStorage.getItem("MemberIdsuffix") || state.Settings?.MemberIdsuffix || "";
+
+    setPrefix(storedPrefix);
+    setSuffix(storedSuffix);
+
+    if (state.Settings.statusCodeMemberID === 200) {
+      localStorage.setItem("MemberIDprefix", prefix);
+      localStorage.setItem("MemberIdsuffix", suffix);
+      dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_ID' });
+    }
+
+    return () => {
+      dispatch({ type: 'CLEAR_ERROR' });
+    };
+  }, [state.Settings.statusCodeMemberID]);
+
+
+
   const handleSave = () => {
 
     let newError = { prefix: "", suffix: "" };
@@ -60,31 +81,39 @@ function MemberID({ state }) {
 
     setError(newError);
     if (!hasError) {
-      const payload = {
-        prefix: prefix,
-        suffix: suffix,
-      };
+      const payload = { prefix, suffix };
 
+      dispatch({ type: 'SETTINGSMEMBERID', payload });
 
-
-      dispatch({
-        type: 'SETTINGSMEMBERID',
-        payload: payload
-      });
+      localStorage.setItem("MemberIDprefix", prefix);
+      localStorage.setItem("MemberIdsuffix", suffix);
     }
-  }
+  };
+
+
+
+
+  useEffect(() => {
+    if (state.Settings.error === "Prefix and Suffix already Exist") {
+      setErrorMessage(state.Settings.error);
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 1000);
+    }
+  }, [state.Settings.error]);
+
 
   return (
     <div className="container mx-auto mt-10">
       <h1 className="text-xl font-semibold font-Gilroy">Member ID</h1>
-      <p className="text-lightgray font-Gilroy text-sm font-normal mt-4">
+      <p className="text-lightgray font-Gilroy text-sm font-normal mt-3">
         Set up the prefix and suffix for Member ID
       </p>
       <div className="mt-6 grid grid-cols-4 gap-[150px]">
         <div className="w-[280px]">
           <label className="block text-sm font-Gilroy font-medium">Prefix</label>
           <input
-            className="border p-2 mt-4 rounded-xl w-full h-14"
+            className="border p-2 text-sm font-Gilroy mt-4 rounded-xl w-full h-14"
             placeholder="Prefix"
             value={prefix}
             onChange={handlePrefix}
@@ -99,7 +128,7 @@ function MemberID({ state }) {
         <div className="w-[280px]">
           <label className="block text-sm font-Gilroy font-medium">Suffix</label>
           <input
-            className="border p-2 mt-4 rounded-xl w-full h-14"
+            className="border p-2 mt-4 text-sm font-Gilroy rounded-xl w-full h-14"
             placeholder="Suffix"
             value={suffix}
             onChange={handleSuffix}
@@ -112,9 +141,9 @@ function MemberID({ state }) {
           )}
         </div>
         <div className="w-[280px]">
-          <label className="block text-sm font-Gilroy font-medium">Preview</label>
+          <label className="block text-sm font-Gilroy text-sm font-Gilroy font-medium">Preview</label>
           <input
-            className="border p-2 rounded-xl mt-4 w-full bg-gray-100 h-14"
+            className="border p-2 rounded-xl mt-4 w-full bg-[#F4F7FF] h-14"
             placeholder="Preview"
             value={`${prefix}${suffix}`}
             disabled
@@ -124,14 +153,16 @@ function MemberID({ state }) {
 
 
       <div className="mt-6 flex justify-end">
-        <button onClick={handleSave} className="bg-lightgray text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium">
+        <button onClick={handleSave} className="bg-black text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium">
           Save changes
         </button>
 
       </div>
-      {state.Settings.error === "Prefix and Suffix already Exist" && (
-        <p className="text-red-500 text-sm text-center font-Gilroy">{state.Settings.error}</p>
+
+      {errorMessage && (
+        <p className="text-red-500 text-sm text-center font-Gilroy">{errorMessage}</p>
       )}
+
     </div>
 
   );
@@ -147,3 +178,5 @@ MemberID.propTypes = {
   state: PropTypes.object,
 };
 export default connect(mapsToProps)(MemberID)
+
+
