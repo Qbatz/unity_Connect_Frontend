@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, connect } from "react-redux";
 import { FiMoreVertical } from "react-icons/fi";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import PropTypes from 'prop-types';
 import ProfileIcon from '../../Asset/Icons/ProfileIcon.svg';
 import editIcon from "../../Asset/Icons/edit_blue.svg";
@@ -17,14 +17,20 @@ function Statement({ state }) {
   const popupRef = useRef(null);
 
   const statementList = state.Statement.StatementList;
-  const formattingDate = moment(statementList?.loan_date).format("DD-MM-YYYY");
-  const formattingDueDate = moment(statementList?.Due_Date).format("DD-MM-YYYY");
+
+  // const formattingDate = moment(statementList?.loan_date).format("DD MMM YYYY");
+  // const formattingDueDate = moment(statementList?.Due_Date).format("DD MMM YYYY");
 
 
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(null);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+
+
   const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentStatement = statementList.slice(indexOfFirstItem, indexOfLastItem);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -58,83 +64,67 @@ function Statement({ state }) {
       </div>
     );
   }
-  const totalPages = Math.ceil(statementList.length / itemsPerPage);
-  const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1);
-  };
 
-
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
-  };
 
   return (
-    <div className="p-4">
-      <p className="font-Gilroy font-semibold text-base md:text-2xl mb-4 mt-1 ml-12 lg:ml-3 text-gray-700">Statements</p>
-        
-      <div className="font-Gilroy font-base px-2 md:px-4 py-2 text-gray-600 mb-3">
+    <div className="p-8">
+      <p className="font-Gilroy font-medium text-sm md:text-2xl mb-4 mt-1 ml-12 lg:ml-1 text-gray-700">Statements</p>
 
-        Loan statement
-
-      </div>
+      <div className="font-Gilroy font-base px-2 md:px-4 py-2 text-gray-600 mb-3 lg:-ml-2.5">Loan statement</div>
 
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
-          <div className="min-w-max overflow-y-auto max-h-[600px]">
+          <div className="min-w-max overflow-y-auto max-h-[500px]">
             <table className="w-full text-left border-collapse">
               <thead className="sticky top-0 bg-blue-50 z-10">
-                <tr style={{ color: "#939393" }} className="bg-blue-50 border-b font-light text-sm font-Gilroy">
-                  <th className="p-4 font-Gilroy">Member Name</th>
+                <tr className="bg-blue-50 border-b font-light text-sm font-Gilroy text-neutral-400 text-center">
+                  <th className="pl-8 font-Gilroy text-left">Member Name</th>
                   <th className="p-4 font-Gilroy">Loan Id</th>
                   <th className="p-4 font-Gilroy">Loan Date</th>
                   <th className="p-4 font-Gilroy">Loan Amount</th>
-                  <th className="p-4  font-Gilroy">Due Date</th>
+                  <th className="p-4 font-Gilroy">Due Date</th>
                   <th className="p-4 font-Gilroy">Due</th>
                   <th className="p-4 font-Gilroy">Status</th>
                 </tr>
               </thead>
 
               <tbody>
-                {statementList.length === 0 ? (
+                {currentStatement.length === 0 ? (
                   <tr>
                     <td colSpan="8" className="text-center text-red-500 font-Gilroy py-4">
                       No data available
                     </td>
                   </tr>
                 ) : (
-                  statementList.map((item, index) => (
-                    <tr key={index} className="p-3 hover:bg-gray-100 font-Gilroy">
-                      <td className="p-3 flex items-center gap-2 truncate">
-                        <img src={ProfileIcon} alt="avatar" className="w-6 h-6 rounded-full" />
+                  currentStatement.map((item, index) => (
+                    <tr key={index} className="p-3 text-center">
+                      <td className="p-3 flex text-start gap-3 pl-6">
+                        <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
                         <span className="truncate">{item.User_Name}</span>
                       </td>
-                      <td className="p-4">
+                      <td className="p-3">
                         <span className="bg-orange-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
                           {item.Loan_id}
                         </span>
                       </td>
-                      <td className="p-4">
+                      <td className="p-3">
                         <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
-                          {formattingDate}
+                          {moment(item.loan_date).format("DD MMM YYYY")}
                         </span>
                       </td>
-                      <td className="p-4">{item.Loan_Amount}</td>
-                      <td className="p-4">
+                      <td className="p-3">{item.Loan_Amount}</td>
+                      <td className="p-3">
                         <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
-                          {formattingDueDate}
+                          {moment(item.Due_Date).format("DD MMM YYYY")}
                         </span>
                       </td>
-                      <td className="p-2 text-center">{item.Due}</td>
-                      <td className="p-2 text-center">
+                      <td className="p-3">{item.Due}</td>
+                      <td className="p-3">
                         <span className={`px-3 py-2 rounded-full text-black ${item.Status === "Paid" ? "bg-green-200" : "bg-red-200"}`}>
                           {item.Status}
                         </span>
                       </td>
-                      <td className="p-2 relative">
-
+                      <td className="p-4 relative">
                         <button
                           onClick={() => toggleMenu(index)}
                           className={`text-gray-600 rounded-full p-2 shadow ${menuOpen === index ? "bg-blue-200" : "bg-white"
@@ -144,24 +134,21 @@ function Statement({ state }) {
                         </button>
 
                         {menuOpen === index && (
-                          <div
+                          <div  
                             ref={popupRef}
-                            className="fixed right-28 top-48 bg-white border-t border-b border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
-                          >
-                            <div>
-                              <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
-                                <img src={RecordPayment} alt="Record Payment" className="h-4 w-4" />
-                                Record Payment
-                              </button>
-                              <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
-                                <img src={editIcon} alt="Edit" className="h-4 w-4" />
-                                Edit
-                              </button>
-                              <button className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy">
-                                <img src={trashRed} alt="Delete" className="h-4 w-4" />
-                                Delete
-                              </button>
-                            </div>
+                            className={`absolute right-20 my-auto ${index === 0 ? "top-full" : "bottom-full"} bg-white border border-gray-200 rounded-lg shadow-lg z-50 w-[180px]`} >
+                            <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
+                              <img src={RecordPayment} alt="Record Payment" className="h-4 w-4" />
+                              Record Payment
+                            </button>
+                            <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
+                              <img src={editIcon} alt="Edit" className="h-4 w-4" />
+                              Edit
+                            </button>
+                            <button className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy">
+                              <img src={trashRed} alt="Delete" className="h-4 w-4" />
+                              Delete
+                            </button>
                           </div>
                         )}
                       </td>
@@ -170,54 +157,31 @@ function Statement({ state }) {
                 )}
               </tbody>
 
+
             </table>
           </div>
 
         </div>
       </div>
-   
-      <nav className="absolute bottom-0 left-0 w-full flex justify-end items-center gap-4 bg-white p-4">
-        <select
-          value={itemsPerPage}
-          onChange={handleItemsPerPageChange}
-          className="px-1 py-1  border border-[#205DA8] rounded-md text-[#205DA8] font-bold cursor-pointer outline-none shadow-none"
+      <div className="fixed bottom-0 left-0 w-full  p-4  flex justify-end">
+        <button
+          className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
         >
-          <option value={4}>4</option>
-          <option value={10}>10</option>
-          <option value={50}>50</option>
-          <option value={100}>100</option>
-        </select>
-
-        <ul className="flex items-center list-none m-0 p-0 gap-4">
-          <li>
-            <button
-              className={`px-2 py-1 rounded-full min-w-[30px] text-center border-none bg-transparent ${currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-[#1E45E1] cursor-pointer"
-                }`}
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#205DA8"} />
-            </button>
-          </li>
-
-          <li className="text-sm font-bold">
-            {currentPage} of {totalPages}
-          </li>
-
-          <li>
-            <button
-              className={`px-2 py-1 rounded-full min-w-[30px] text-center border-none bg-transparent ${currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-[#1E45E1] cursor-pointer"
-                }`}
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              <ArrowRight2 size="16" color={currentPage === totalPages ? "#ccc" : "#1E45E1"} />
-            </button>
-          </li>
-        </ul>
-      </nav>
-
-
+          &lt;
+ 
+        </button>
+        <span className="px-4 py-2 border rounded">{currentPage}</span>
+        <button
+          className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= statementList.length ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={indexOfLastItem >= statementList.length}
+        >
+          &gt;
+ 
+        </button>
+      </div>
     </div>
 
 

@@ -4,7 +4,8 @@ export const initialState = {
     statusCodeExpenses: 0,
     addexpenses: '',
     statusCodeAddExpenses: 0,
-    deleteExpensesStatusCode: 0
+    deleteExpensesStatusCode: 0,
+    errormsg: ''
 }
 
 const ExpensesReducer = (state = initialState, action) => {
@@ -37,6 +38,11 @@ const ExpensesReducer = (state = initialState, action) => {
             return { ...state, deleteExpensesStatusCode: action.payload.statusCode }
         case 'CLEAR_DELETE_EXPENSES':
             return { ...state, deleteExpensesStatusCode: 0 }
+
+        case 'ERROR':
+            return { ...state, errormsg: action.payload }
+        case 'CLEAR_ERROR':
+            return { ...state, errormsg: '' }
 
         default:
             return state;

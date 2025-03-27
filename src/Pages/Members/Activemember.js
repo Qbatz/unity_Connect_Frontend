@@ -16,6 +16,8 @@ import MemberDetails from './MemberDetails';
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
 
+
+
 function ActiveMember({ state, onSelectMember }) {
 
   const dispatch = useDispatch();
@@ -67,6 +69,7 @@ function ActiveMember({ state, onSelectMember }) {
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
       setActiveMemberData(state.Member.ActiveMemberdata);
+
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
     }
     return () => {
@@ -77,6 +80,7 @@ function ActiveMember({ state, onSelectMember }) {
 
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 201) {
+
       setActiveMemberData([])
     }
 
@@ -84,8 +88,13 @@ function ActiveMember({ state, onSelectMember }) {
 
 
   useEffect(() => {
+
     dispatch({ type: 'MEMBERLIST' });
+
   }, []);
+
+
+
 
   useEffect(() => {
 
@@ -198,6 +207,9 @@ function ActiveMember({ state, onSelectMember }) {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
+
+
+
 
 
   return (
@@ -415,7 +427,7 @@ function ActiveMember({ state, onSelectMember }) {
               <select
                 value={pageSize}
                 onChange={handlePageSizeChange}
-                className="border border-gray-300 px-4 py-2 rounded-lg appearance-none"
+                className="border border-gray-300 px-4 py-2 rounded-lg appearance-none cursor-pointer"
               >
                 {[5, 10, 50, 100].map((size) => (
                   <option key={size} value={size}>

@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { MdError } from "react-icons/md";
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import closecircle from '../../Asset/Icons/close-circle.svg';
-import calendar from '../../Asset/Icons/calendar.svg';
+import moment from "moment";
 
 
 function MemberModal({ state, memberData, onClose }) {
 
     const dispatch = useDispatch();
-    const dateInputRef = useRef(null)
+
 
     const [memberId, setMemberId] = useState("");
     const [userName, setUserName] = useState("");
@@ -59,7 +59,7 @@ function MemberModal({ state, memberData, onClose }) {
         setNoChanges("");
     }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
 
-    // const formattedDate = joiningDate ? moment(joiningDate).format("YYYY-MM-DD") : "";
+    const formattedDate = joiningDate ? moment(joiningDate).format("YYYY-MM-DD") : "";
 
 
     const validate = () => {
@@ -184,8 +184,8 @@ function MemberModal({ state, memberData, onClose }) {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-md relative overflow-y-auto">
-                <div className="flex items-center justify-between border-b pb-2 mb-4">
+            <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-lg relative overflow-y-auto">
+                <div className="flex items-center justify-between border-b pb-2 mb-2">
                     <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">
                         {memberData ? "Edit Member" : "Add a Member"}
                     </p>
@@ -198,6 +198,7 @@ function MemberModal({ state, memberData, onClose }) {
                     <div className="flex gap-4 ">
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID
+                                <span className="text-red-500 text-xl"></span>
                             </label>
                             <input
                                 data-testid='input-member-id'
@@ -283,9 +284,9 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
                     </div>
 
-                    {/* <div>
+                    <div>
                         <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">Joining Date
-                        <span className="text-red-500 text-xl">*</span>
+                            <span className="text-red-500 text-xl">*</span>
                         </label>
                         <input
                             data-testid='input-joining-data'
@@ -300,8 +301,8 @@ function MemberModal({ state, memberData, onClose }) {
                                 <MdError className="text-xs" /> {errors.joiningDate}
                             </p>
                         )}
-                    </div> */}
-                    <div className="relative w-56">
+                    </div>
+                    {/* <div className="relative w-56">
                         <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">
                             Joining Date
                             <span className="text-red-500 text-xl">*</span>
@@ -320,9 +321,9 @@ function MemberModal({ state, memberData, onClose }) {
                                 onClick={() => dateInputRef.current?.showPicker()}
                             />
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="mb-3">
+                    <div className="mb-2">
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-3">Address
                             <span className="text-red-500 text-xl">*</span>
                         </label>

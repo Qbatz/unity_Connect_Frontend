@@ -1,9 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
+import { MdError } from "react-icons/md";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { CalendarDays } from "lucide-react";
+import Select from "react-select";
 
 function ExpenseForm({ onClose, state, expensesdata }) {
 
@@ -21,17 +26,30 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
     const [errors, setErrors] = useState({});
 
+
     const name = state.SettingExpenses.getExpenseData.data
 
-    const categoryId = name?.[0]?.category_Id || null;
 
+    const categoryId = category;
 
-
+    const paymentOptions = [
+        { value: "Credit Card", label: "Credit Card" },
+        { value: "Debit Card", label: "Debit Card" },
+        { value: "Cash", label: "Cash" },
+        { value: "UPI", label: "UPI" },
+        { value: "Banking", label: "Banking" }
+    ];
 
     useEffect(() => {
         if (expensesdata) {
             setMerchantName(prev => expensesdata.Name || prev);
-            setCategory(prev => expensesdata.Category_Name || prev);
+
+            setCategory(prev => {
+                const foundCategory = categoryOptions.find(
+                    (option) => option.label === expensesdata.Category_Name
+                );
+                return foundCategory ? foundCategory.value : prev;
+            });
             setPaymentMode(prev => expensesdata.Mode_of_Payment || prev);
             setExpenseDate(prev => expensesdata.Expense_Date || prev);
             setExpenseAmount(prev => expensesdata.Expense_Amount || prev);
@@ -56,8 +74,8 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!merchantName.trim() || merchantName.length < 3) {
-            newErrors.merchantName = "Merchant name must be at least 3 characters";
+        if (!merchantName.trim()) {
+            newErrors.merchantName = "Merchant name is required";
         }
 
         if (!category) {
@@ -90,12 +108,15 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handlePaymentChange = (e) => {
-        const { value } = e.target;
-        setCategory(value);
+
+    const categoryOptions = (name || []).map((item) => ({
+        value: item.category_Id,
+        label: item.category_Name,
+    }));
 
 
-    };
+
+
 
     const hasChanges = () => {
         if (!expensesdata) return true;
@@ -156,6 +177,27 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     };
 
 
+    const CustomInput = forwardRef(({ value, onClick }, ref) => (
+        <div className="relative w-full">
+            <input
+                ref={ref}
+                type="text"
+                className="w-[300px] text-gray-600 p-2 h-10 border border-gray-300 rounded-lg text-sm cursor-pointer pl-4"
+                placeholder="DD-MM-YYYY"
+                value={value}
+                onClick={onClick}
+                readOnly
+            />
+            <CalendarDays
+                size={20}
+                className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+                onClick={onClick}
+            />
+        </div>
+    ));
+    CustomInput.displayName = "CustomInput";
+
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
             <div className="bg-white w-full max-w-2xl p-6 rounded-2xl shadow-lg relative">
@@ -171,13 +213,13 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                 <h2 className="text-xl font-semibold text-gray-800 text-left font-Gilroy">
                     {expensesdata ? "Edit an expense" : "Add an expense"}
                 </h2>
-                <div className="border-b mt-6"></div>
+                <div className="border-b mt-4"></div>
 
 
-                <div className="mt-4 space-y-4">
+                <div className="mt-2 space-y-3">
 
                     <div>
-                        <label className="block text-gray-600 mb-3 font-Gilroy">
+                        <label className="block  mb-2 font-Gilroy">
                             Merchant Name <span className="text-red-500 text-[20px]">*</span>
                         </label>
                         <input
@@ -194,53 +236,125 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                             className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
                         {errors.merchantName && (
-                            <p className="text-red-500 text-sm mt-1">{errors.merchantName}</p>
+                            <div className="flex items-center text-red-500 text-sm mt-1">
+                                <MdError className="mr-1 text-base" />
+                                <p >{errors.merchantName}</p>
+                            </div>
                         )}
                     </div>
 
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-gray-600 mb-3 font-Gilroy">
+                            <label className="block  mb-2 font-Gilroy">
                                 Category <span className="text-red-500 text-[20px]">*</span>
                             </label>
-                            <select
-                                value={category}
-                                onChange={handlePaymentChange}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
-                            >
-                                <option value="">Select a category</option>
-                                {name &&
-                                    name?.map((item) => (
-                                        <option key={item.Id} value={item.category_Name}>
-                                            {item.category_Name}
-                                        </option>
-                                    ))}
 
-                            </select>
+
+                            <Select
+                                value={categoryOptions?.find((option) => option.value === category) || null}
+                                onChange={(selectedOption) => {
+
+                                    setCategory(selectedOption?.value);
+                                }}
+                                options={categoryOptions || []}
+                                isSearchable
+                                placeholder="Select a category"
+                                className="w-full"
+                                menuShouldScrollIntoView={false}
+                                menuPlacement="auto"
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        borderColor: "#D1D5DB",
+                                        borderRadius: "8px",
+                                        padding: "4px",
+                                        boxShadow: "none",
+                                        "&:hover": { borderColor: "#666" },
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        maxHeight: categoryOptions.length > 3 ? "150px" : "auto",
+                                        overflowY: categoryOptions.length > 3 ? "auto" : "hidden",
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                        scrollbarWidth: "thin",
+                                        "&::-webkit-scrollbar": {
+                                            width: "6px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb": {
+                                            backgroundColor: "#888",
+                                            borderRadius: "4px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb:hover": {
+                                            backgroundColor: "#555",
+                                        },
+                                    }),
+                                }}
+                            />
+
                             {errors.category && (
-                                <p className="text-red-500 text-sm mt-1">{errors.category}</p>
+                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                    <MdError className="mr-1 text-base" />
+                                    <p >{errors.category}</p>
+                                </div>
                             )}
                         </div>
 
                         <div>
-                            <label className="block text-gray-600 mb-3 font-Gilroy">
+                            <label className="block  mb-2 font-Gilroy">
                                 Mode of payment <span className="text-red-500 text-[20px]">*</span>
                             </label>
-                            <select
-                                value={paymentMode}
-                                onChange={(e) => setPaymentMode(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
-                            >
-                                <option value="">Select a payment mode</option>
-                                <option value="Credit Card">Credit Card</option>
-                                <option value="Debit Card">Debit Card</option>
-                                <option value="Cash">Cash</option>
-                                <option value="UPI">UPI</option>
-                                <option value="Banking">Banking</option>
-                            </select>
+
+
+                            <Select
+                                value={paymentOptions.find((option) => option.value === paymentMode) || null}
+                                onChange={(selectedOption) => setPaymentMode(selectedOption?.value)}
+                                options={paymentOptions}
+                                placeholder="Select a payment mode"
+                                isSearchable
+                                className="w-full"
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        borderColor: "#D1D5DB",
+                                        borderRadius: "8px",
+                                        padding: "4px",
+                                        boxShadow: "none",
+                                        "&:hover": { borderColor: "#666" },
+                                        minHeight: "40px"
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                    }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                        scrollbarWidth: "thin",
+                                        "&::-webkit-scrollbar": { width: "6px" },
+                                        "&::-webkit-scrollbar-thumb": {
+                                            backgroundColor: "#888",
+                                            borderRadius: "4px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb:hover": {
+                                            backgroundColor: "#555",
+                                        },
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" })
+                                }}
+                            />
                             {errors.paymentMode && (
-                                <p className="text-red-500 text-sm mt-1">{errors.paymentMode}</p>
+                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                    <MdError className="mr-1 text-base" />
+                                    <p >{errors.paymentMode}</p>
+                                </div>
                             )}
                         </div>
                     </div>
@@ -248,22 +362,30 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-gray-600 mb-3 font-Gilroy">
+                            <label className="block  mb-2 font-Gilroy">
                                 Expense date <span className="text-red-500 text-[20px]">*</span>
                             </label>
-                            <input
-                                type="date"
-                                className="w-full p-2 h-10 border rounded-lg text-sm cursor-pointer"
-                                value={expenseDate}
-                                onChange={(e) => setExpenseDate(e.target.value)}
+
+
+                            <DatePicker
+                                selected={expenseDate}
+                                onChange={(date) => setExpenseDate(date)}
+                                dateFormat="dd-MM-yyyy"
+                                customInput={<CustomInput />}
                             />
+
                             {errors.expenseDate && (
-                                <p className="text-red-500 text-sm mt-1">{errors.expenseDate}</p>
+                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                    <MdError className="mr-1 text-base" />
+                                    <p >{errors.expenseDate}</p>
+                                </div>
                             )}
                         </div>
 
+
+
                         <div>
-                            <label className="block text-gray-600 mb-3 font-Gilroy">
+                            <label className="block  mb-2 font-Gilroy">
                                 Expense amount <span className="text-red-500 text-[20px]">*</span>
                             </label>
                             <input
@@ -271,17 +393,21 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 value={expenseAmount}
                                 onChange={(e) => setExpenseAmount(e.target.value)}
                                 placeholder="Enter expense amount"
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                             />
+
                             {errors.expenseAmount && (
-                                <p className="text-red-500 text-sm mt-1">{errors.expenseAmount}</p>
+                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                    <MdError className="mr-1 text-base" />
+                                    <p >{errors.expenseAmount}</p>
+                                </div>
                             )}
                         </div>
                     </div>
 
 
                     <div>
-                        <label className="block text-gray-600 mb-3 font-Gilroy">
+                        <label className="block  mb-2 font-Gilroy">
                             Description
                         </label>
                         <textarea
@@ -294,7 +420,14 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                             <p className="text-red-500 text-sm mt-1">{errors.description}</p>
                         )}
                     </div>
-
+                    {formError && (
+                        <div className="flex items-center justify-center text-red-500 text-sm mt-1">
+                            <MdError className="mr-1 text-base" />
+                            <p >
+                                {formError}
+                            </p>
+                        </div>
+                    )}
 
                     <button
                         type="submit"
@@ -304,11 +437,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                         {expensesdata ? "Save Changes" : "Add expense"}
                     </button>
 
-                    {formError && (
-                        <p className="text-red-500 text-sm mt-2 text-center">
-                            {formError}
-                        </p>
-                    )}
+
                 </div>
             </div>
         </div>
@@ -322,7 +451,9 @@ const mapsToProps = (stateInfo) => {
 ExpenseForm.propTypes = {
     state: PropTypes.object,
     onClose: PropTypes.func,
-    expensesdata: PropTypes.object
+    expensesdata: PropTypes.object,
+    value: PropTypes.string,
+    onClick: PropTypes.func,
 
 };
 
