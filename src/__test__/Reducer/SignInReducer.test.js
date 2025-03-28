@@ -40,7 +40,8 @@ describe('check for sign in reducer', () => {
             updatePasswordStatusCode: 0,
             profileDetailsUpdateErrorMessage: '',
             profileDetailsUpdateList: [],
-            profileDetailsUpdateStatusCode: 0
+            profileDetailsUpdateStatusCode: 0,
+
         })
     })
 
@@ -67,7 +68,10 @@ describe('check for sign in reducer', () => {
             updatePasswordStatusCode: 0,
             profileDetailsUpdateErrorMessage: '',
             profileDetailsUpdateList: [],
-            profileDetailsUpdateStatusCode: 0
+            profileDetailsUpdateStatusCode: 0,
+            members: [],
+            loans: [],
+            transactions: [],
         })
     })
 
@@ -77,7 +81,7 @@ describe('check for sign in reducer', () => {
             payload: 'Email Error'
         }
 
-        const signIn = SignInReducer({...INITIAL_STATE, JWTtoken: 'ABCD123' }, action)
+        const signIn = SignInReducer({ ...INITIAL_STATE, JWTtoken: 'ABCD123' }, action)
         expect(signIn).toEqual({
             id: 0,
             email_Id: '',
@@ -96,7 +100,10 @@ describe('check for sign in reducer', () => {
             updatePasswordStatusCode: 0,
             profileDetailsUpdateErrorMessage: '',
             profileDetailsUpdateList: [],
-            profileDetailsUpdateStatusCode: 0
+            profileDetailsUpdateStatusCode: 0,
+            members: [],
+            loans: [],
+            transactions: [],
         })
     })
 
@@ -106,7 +113,7 @@ describe('check for sign in reducer', () => {
             payload: 'Password Error'
         }
 
-        const signIn = SignInReducer({...INITIAL_STATE, JWTtoken: 'ABCD123' }, action)
+        const signIn = SignInReducer({ ...INITIAL_STATE, JWTtoken: 'ABCD123' }, action)
         expect(signIn).toEqual({
             id: 0,
             email_Id: '',
@@ -125,7 +132,10 @@ describe('check for sign in reducer', () => {
             updatePasswordStatusCode: 0,
             profileDetailsUpdateErrorMessage: '',
             profileDetailsUpdateList: [],
-            profileDetailsUpdateStatusCode: 0
+            profileDetailsUpdateStatusCode: 0,
+            members: [],
+            loans: [],
+            transactions: [],
         })
     })
 
@@ -135,7 +145,7 @@ describe('check for sign in reducer', () => {
             payload: ''
         }
 
-        const signIn = SignInReducer({...INITIAL_STATE, JWTtoken: 'ABCD123' }, action)
+        const signIn = SignInReducer({ ...INITIAL_STATE, JWTtoken: 'ABCD123' }, action)
         expect(signIn).toEqual({
             id: 0,
             email_Id: '',
@@ -154,7 +164,10 @@ describe('check for sign in reducer', () => {
             updatePasswordStatusCode: 0,
             profileDetailsUpdateErrorMessage: '',
             profileDetailsUpdateList: [],
-            profileDetailsUpdateStatusCode: 0
+            profileDetailsUpdateStatusCode: 0,
+            members: [],
+            loans: [],
+            transactions: [],
         })
     })
 
@@ -164,7 +177,7 @@ describe('check for sign in reducer', () => {
             payload: ''
         }
 
-        const signIn = SignInReducer({...INITIAL_STATE, JWTtoken: '' }, action)
+        const signIn = SignInReducer({ ...INITIAL_STATE, JWTtoken: '' }, action)
         expect(signIn).toEqual({
             id: 0,
             email_Id: '',
@@ -183,7 +196,10 @@ describe('check for sign in reducer', () => {
             updatePasswordStatusCode: 0,
             profileDetailsUpdateErrorMessage: '',
             profileDetailsUpdateList: [],
-            profileDetailsUpdateStatusCode: 0
+            profileDetailsUpdateStatusCode: 0,
+            members: [],
+            loans: [],
+            transactions: [],
         })
     })
 
@@ -193,7 +209,7 @@ describe('check for sign in reducer', () => {
             payload: ''
         }
 
-        const signIn = SignInReducer({...INITIAL_STATE, statusCode: 200, errorEmail: 'Email Error' }, action)
+        const signIn = SignInReducer({ ...INITIAL_STATE, statusCode: 200, errorEmail: 'Email Error' }, action)
         expect(signIn).toEqual({
             id: 0,
             email_Id: '',
@@ -212,7 +228,10 @@ describe('check for sign in reducer', () => {
             updatePasswordStatusCode: 0,
             profileDetailsUpdateErrorMessage: '',
             profileDetailsUpdateList: [],
-            profileDetailsUpdateStatusCode: 0
+            profileDetailsUpdateStatusCode: 0,
+            members: [],
+            loans: [],
+            transactions: [],
         })
     })
 
@@ -222,7 +241,7 @@ describe('check for sign in reducer', () => {
             payload: ''
         }
 
-        const signIn = SignInReducer({...INITIAL_STATE, statusCode: 200, errorPassword: 'Password Error' }, action)
+        const signIn = SignInReducer({ ...INITIAL_STATE, statusCode: 200, errorPassword: 'Password Error' }, action)
         expect(signIn).toEqual({
             id: 0,
             email_Id: '',
@@ -241,7 +260,10 @@ describe('check for sign in reducer', () => {
             updatePasswordStatusCode: 0,
             profileDetailsUpdateErrorMessage: '',
             profileDetailsUpdateList: [],
-            profileDetailsUpdateStatusCode: 0
+            profileDetailsUpdateStatusCode: 0,
+            members: [],
+            loans: [],
+            transactions: [],
         })
     })
 })

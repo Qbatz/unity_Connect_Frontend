@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { ActiveMemberGetAction, ActiveMemberDeleteAction, ActiveMemberStatusAction, addMember, GetMemberId, MemberOverviewAction, GetCommentAction, AddCommentAction, GetStatementAction, RecordPaymentAction, AddTransaction, GetTransactionsAction } from '../Action/MemberAction';
+import { ActiveMemberGetAction, ActiveMemberDeleteAction, ActiveMemberStatusAction, addMember, GetMemberId, MemberOverviewAction, GetCommentAction, AddCommentAction, GetStatementAction, RecordPaymentAction, GetTransactionsAction } from '../Action/MemberAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -336,28 +336,6 @@ function* handleRecordPayment(payload) {
     }
 }
 
-function* handleAddTransactions(action) {
-
-
-    const response = yield call(AddTransaction, action.payload);
-
-
-    if (response.status === 200 || response.data.statusCode === 200) {
-        yield put({
-            type: 'ADD_TRANSACTIONS_LIST',
-            payload: { response: response.data, statusCode: response.status || response.data.statusCode },
-        });
-
-    } else if (response.status === 201 || response.statusCode === 201) {
-
-        yield put({ type: 'ADD_TRANSACTIONS_ERROR_MESSAGE', payload: response.data.message });
-    }
-    if (response) {
-        refreshToken(response);
-    }
-
-
-}
 
 function* handleGetTransactions() {
 
@@ -409,7 +387,6 @@ function* MemberSaga() {
     yield takeEvery('ADDCOMMENTS', handleAddComment);
     yield takeEvery('GETSTATEMENT', handleGetStatement);
     yield takeEvery('ADDRECORDPAYMENT', handleRecordPayment)
-    yield takeEvery('ADDTRANSACTIONS', handleAddTransactions);
     yield takeEvery('GETTRANSACTIONSLIST', handleGetTransactions)
 
 }

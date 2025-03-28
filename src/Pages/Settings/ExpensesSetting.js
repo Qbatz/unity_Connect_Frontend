@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useDispatch,  connect } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 import ExpensesIcon from "../../Asset/Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../../Asset/Icons/ThreeDotMore.svg";
 import CloseCircleIcon from "../../Asset/Icons/close-circle.svg";
@@ -10,9 +10,7 @@ function ExpensesSetting({ state }) {
 
   const dispatch = useDispatch();
 
-
-  const expensesetting = state.SettingExpenses?.getExpenseData.data || [];
-
+  const expensesetting = [...(state.SettingExpenses?.getExpenseData.data || [])].reverse();
 
   const statusCode = state.SettingExpenses.statusCodeSettingsAddExpenses;
 
@@ -26,21 +24,28 @@ function ExpensesSetting({ state }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!categoryName && !isSubCategory) {
-      setErrorMessage("!Please do some changes before adding a category.");
+      setErrorMessage("Please do some changes before adding a category");
       return;
     }
-  
+
     if (isSubCategory && !subCategoryName) {
-      setErrorMessage("!Please enter a sub-category name.");
+      setErrorMessage("Please enter a sub-category name");
       return;
     }
-  
+
+    const categoryExists = expensesetting.some(
+      (category) => category.category_Name.toLowerCase() === categoryName.toLowerCase()
+    );
+
+    if (categoryExists) {
+      setErrorMessage("Sub Category Name Already Exist");
+      return;
+    }
 
     setErrorMessage("");
     const payload = {
       category_Name: categoryName,
       sub_Category: isSubCategory ? subCategoryName : "",
-      id: expensesetting,
     };
 
     dispatch({
@@ -67,16 +72,45 @@ function ExpensesSetting({ state }) {
 
 
 
-  useEffect(() => {
-    if (state.SettingExpenses === 200) {
-      dispatch({ type: "SETTING_GET_EXPENSES" });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentExpenses = expensesetting.slice(indexOfFirstItem, indexOfLastItem);
 
-      setTimeout(() => {
-        dispatch({ type: "CLEARSETTINGADDEXPENSES" })
-      }, 500)
+  const [selectedCategoryId] = useState(null);
+  const [subCategoryInput, setSubCategoryInput] = useState("");
+  const [subCategories, setSubCategories] = useState([]);
+
+
+  const handleAddSubCategory = (categoryId) => {
+    if (!subCategoryInput.trim()) return;
+
+    const newSubCategories = { ...subCategories };
+    if (!newSubCategories[categoryId]) {
+      newSubCategories[categoryId] = [];
     }
-  }, [state.SettingExpenses, dispatch])
+    newSubCategories[categoryId].push(subCategoryInput);
 
+    setSubCategories(newSubCategories);
+    setSubCategoryInput("");
+
+
+    dispatch({
+      type: "SETTING_ADD_EXPENSES",
+      payload: {
+        category_Id: categoryId,
+        sub_Category: subCategories
+      },
+    });
+  };
+
+
+
+
+  const handleNewAddSubCategory = (categoryName) => {
+    setSubCategories([...subCategories, { subcategory: categoryName }])
+  };
 
   return (
     <div className="container mx-auto mt-5">
@@ -97,7 +131,7 @@ function ExpensesSetting({ state }) {
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className={`bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300 ${isSubCategory ? 'h-auto' : 'h-[380px]'}`}>
+          <div className={`bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300 `}>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold font-Gilroy">Add new category</h2>
               <img
@@ -109,16 +143,20 @@ function ExpensesSetting({ state }) {
             </div>
             <div className="w-full border border-[#E7E7E7] mx-auto"></div>
             <div className="mt-7">
-              <label className="text-black text-sm font-medium font-Gilroy text-lg">Category name</label>
+              <label className="text-black text-sm font-medium font-Gilroy text-lg">Category name <span className="text-red-500 text-[20px]">*</span></label>
               <input
                 onChange={(e) => {
                   handlecategoryName(e);
                   setErrorMessage("");
-                }}                value={categoryName}
+                }} value={categoryName}
                 type="text"
                 placeholder="Enter category name"
                 className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
               />
+
+              {errorMessage && (
+                <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
+              )}
 
               <div className="flex items-center mt-7 cursor-pointer">
                 <input
@@ -137,11 +175,27 @@ function ExpensesSetting({ state }) {
                 >
                   Make sub-category
                 </label>
+
               </div>
 
               {isSubCategory && (
                 <div className="mt-5">
-                  <label className="text-black text-sm font-medium font-Gilroy text-lg">Select Category</label>
+                  <div
+                    className="flex justify-between w-310 mx-auto px-2 pb-5 pt-5 font-Gilroy font-medium text-sm text-[#222222] cursor-pointer"
+                    onClick={() =>
+                      handleNewAddSubCategory(subCategoryName)
+                    }
+                  >
+                    + Add Sub-category
+                  </div>
+                  {subCategories?.map((sub, subIndex) => (
+                    <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pt-5">
+                      <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
+                        {sub}
+                      </p>
+                    </div>
+                  ))}
+                  <label className="text-black text-sm font-medium font-Gilroy text-lg">Sub Category <span className="text-red-500 text-[20px]">*</span></label>
                   <input
                     type="text"
                     placeholder="Select a category"
@@ -154,10 +208,6 @@ function ExpensesSetting({ state }) {
                 </div>
               )}
             </div>
-
-            {errorMessage && (
-  <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
-)}
 
             <button
               onClick={handleSubmit}
@@ -172,8 +222,8 @@ function ExpensesSetting({ state }) {
 
 
       <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {expensesetting.map((category, index) => (
-          <div key={index} className="w-350 h-170 border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
+        {currentExpenses.map((category, index) => (
+          <div key={index} className="w-300 h-300 border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
               <p className="text-darkGray text-base font-semibold leading-[19.09px] ml-2 font-Gilroy">
@@ -186,14 +236,77 @@ function ExpensesSetting({ state }) {
 
             {category.subcategory?.map((sub, subIndex) => (
 
-              <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pt-5">
-                <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Sub-category </p>
+              <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pb-5 pt-5">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Sub-category </p>
                 <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{sub.subcategory}</p>
               </div>
             ))}
+
+            {subCategories[category.category_Id]?.map((sub, subIndex) => (
+              <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pt-5">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">
+                  Sub-category
+                </p>
+                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
+                  {sub}
+                </p>
+              </div>
+            ))}
+
+
+
+
+            {selectedCategoryId === category.category_Id && (
+              <div className="w-310 mx-auto pb-5">
+                <input
+                  type="text"
+                  value={subCategoryInput}
+                  onChange={(e) => setSubCategoryInput(e.target.value)}
+                  className="w-full h-10 border border-gray-300 rounded-md p-2"
+                  placeholder="Enter sub-category"
+                />
+                <button
+                  onClick={() => handleAddSubCategory(category.category_Id)}
+                  className="mt-2 px-3 pb-2 font-Gilroy py-1 bg-black text-white rounded-md"
+                >
+                  Add
+                </button>
+              </div>
+            )}
+
           </div>
         ))}
+
       </div>
+
+
+
+
+      {expensesetting.length > 0 && (
+        <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+
+
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
+              }`}
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &lt;
+          </button>
+
+          <span className="px-4 py-2 border rounded">{currentPage}</span>
+
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= expensesetting.length ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
+              }`}
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={indexOfLastItem >= expensesetting.length}
+          >
+            &gt;
+          </button>
+        </div>
+      )}
 
     </div>
   );
@@ -201,7 +314,7 @@ function ExpensesSetting({ state }) {
 
 const mapsToProps = (stateInfo) => {
   return {
-      state: stateInfo
+    state: stateInfo
   }
 }
 ExpensesSetting.propTypes = {

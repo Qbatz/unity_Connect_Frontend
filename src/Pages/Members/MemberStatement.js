@@ -1,14 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef, forwardRef } from "react";
+import React, { useEffect, useState, useRef,  } from "react";
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
 import RecordPaymentIcon from "../../Asset/Icons/RecordPayment.svg";
 import CloseCircle from "../../Asset/Icons/close-circle.svg";
 import { MdError } from "react-icons/md";
 import moment from "moment";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { CalendarDays } from "lucide-react";
+
 import { FaAngleDown } from "react-icons/fa6";
 
 function MemberStatements({ state, member }) {
@@ -24,7 +22,6 @@ function MemberStatements({ state, member }) {
   const [showOptions, setShowOptions] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [dueDate, setDueDate] = useState(null);
   const [paidAmount, setPaidAmount] = useState('');
   const [pendingAmount, setPendingAmount] = useState('');
   const [status, setStatus] = useState('');
@@ -86,9 +83,7 @@ function MemberStatements({ state, member }) {
     }
 
 
-    if (field === "dueDate") {
-      setDueDate(value);
-    } else if (field === "paidAmount") {
+    if (field === "paidAmount") {
       setPaidAmount(value);
     } else if (field === "pendingAmount") {
       setPendingAmount(value);
@@ -109,6 +104,7 @@ function MemberStatements({ state, member }) {
     if (Object.keys(newErrors).length === 0) {
 
       const payload = {
+        member_id: selectedStatement.Member_Id,
         loan_amount: selectedStatement.Loan_Amount,
         due_date: selectedStatement.Due_Date,
         paid_amount: paidAmount,
@@ -122,20 +118,6 @@ function MemberStatements({ state, member }) {
         type: 'ADDRECORDPAYMENT',
         payload: payload,
       });
-
-      const TransactionPayload = {
-        Member_Id: member.Id,
-        Amount: paidAmount,
-        Status: status,
-        Loan_Id: selectedStatement.Loan_Id,
-        Transaction_Date: dueDate
-      };
-      dispatch({
-        type: 'ADDTRANSACTIONS',
-        payload: TransactionPayload,
-      });
-
-      setDueDate("");
       setPaidAmount("");
       setPendingAmount("");
       setStatus("");
@@ -163,25 +145,7 @@ function MemberStatements({ state, member }) {
     currentPage * pageSize
   );
 
-  const CustomInput = forwardRef(({ value, onClick }, ref) => (
-    <div className="relative w-full">
-      <input
-        ref={ref}
-        type="text"
-        className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
-        placeholder="DD-MM-YYYY"
-        value={value}
-        onClick={onClick}
-        readOnly
-      />
-      <CalendarDays
-        size={20}
-        className="absolute right-3 top-3 text-gray-500 cursor-pointer"
-        onClick={onClick}
-      />
-    </div>
-  ));
-  CustomInput.displayName = "CustomInput";
+  
 
   return (
     <div className="p-4">
@@ -301,19 +265,14 @@ function MemberStatements({ state, member }) {
                 <div>
                   <label className="text-sm font-semibold">Due Date</label>
 
-                  <DatePicker
-                    selected={dueDate ? new Date(dueDate) : null}
-                    onChange={(date) => handleInputChange("dueDate", date)}
-                    dateFormat="dd-MM-yyyy"
-                    customInput={<CustomInput />}
+                  <input
+                    type="date"
+                    value={selectedStatement?.Due_Date ? selectedStatement.Due_Date.split("T")[0] : ""}
+                    onChange={(e) => handleInputChange("dueDate", e.target.value)}
+                    className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
                   />
 
-                  {errors.dueDate && (
-                    <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">
-                      <MdError className="mr-1 text-xs" />
-                      {errors.dueDate}
-                    </div>
-                  )}
+                  
                 </div>
 
                 <div>

@@ -7,9 +7,6 @@ import { ChevronDown } from "lucide-react";
 import { useDispatch, connect } from "react-redux";
 
 
-
-
-
 function LoanSetting({ state }) {
 
   const dispatch = useDispatch();
@@ -60,7 +57,8 @@ function LoanSetting({ state }) {
       !selectedDueCount &&
       !selectedInterest
     ) {
-      setErrorMessage("Please do some changes before adding a loan.");
+      setErrorMessage("Please do some changes before adding a loan");
+
       return;
     }
 
@@ -132,6 +130,15 @@ function LoanSetting({ state }) {
   }, [state.SettingLoan.statusCodeLoans, dispatch])
 
 
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
+  const allLoans = loanGetSetting?.SettingLoan?.getLoan.loans || [];
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentLoans = allLoans.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <div className="container mx-auto">
       <div className="flex items-center justify-between w-full">
@@ -151,7 +158,7 @@ function LoanSetting({ state }) {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center  justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex  items-center  justify-center bg-black bg-opacity-50">
           <div className="bg-white w-464 rounded-40 p-6 shadow-lg ">
 
             <div className="flex justify-between items-center mb-4">
@@ -168,23 +175,26 @@ function LoanSetting({ state }) {
 
             <div className="mt-7 max-h-[450px] overflow-y-auto">
 
-              <label className="text-black text-sm font-medium font-Gilroy text-lg">Name</label>
+              <label className="text-black text-sm font-medium font-Gilroy text-lg">Name <span className="text-red-500 text-[20px]">*</span></label>
               <input value={selectedLoanName}
                 type="text"
-                placeholder="Enter Name" 
+                placeholder="Enter Name"
                 onChange={(e) => {
-                  setSelectedLoanName(e.target.value);
-                  setErrorMessage("");
+                  const value = e.target.value;
+                  if (/^[A-Za-z\s]*$/.test(value)) {
+                    setSelectedLoanName(value);
+                    setErrorMessage("");
+                  }
                 }}
                 className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 
                                         placeholder:text-base placeholder:font-medium placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"/>
 
 
               <div className="relative w-full mt-5">
-                <label className="text-black text-sm font-Gilroy font-medium text-lg">Due on</label>
+                <label className="text-black text-sm font-Gilroy font-medium text-lg">Due on <span className="text-red-500 text-[20px]">*</span></label>
                 <div
                   className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
-                  onClick={() => {setIsOpen(!isOpen);setErrorMessage("");}}
+                  onClick={() => { setIsOpen(!isOpen); setErrorMessage(""); }}
 
                 >
                   <span className={`text-base font-Gilroy font-medium ${selectedOption === "Select a due type" ? "text-gray-400" : "text-black"}`}>
@@ -283,6 +293,10 @@ function LoanSetting({ state }) {
                   )}
                 </div>
               )}
+
+
+
+
               {selectedMonthlyType === "Day" && (
                 <div className="relative w-full mt-3 flex gap-2">
 
@@ -355,6 +369,12 @@ function LoanSetting({ state }) {
                 </div>
               )}
 
+
+
+
+
+
+
               {selectedMonthlyType === "Date" && (
                 <div className="mt-3">
                   <label className="text-black text-base font-Gilroy font-medium">Select Date</label>
@@ -378,27 +398,40 @@ function LoanSetting({ state }) {
 
 
               <div className="mt-5">
-                <label className="text-black font-Gilroy text-sm font-medium text-lg">Due count</label>
+                <label className="text-black font-Gilroy text-sm font-medium text-lg">Due count <span className="text-red-500 text-[20px]">*</span></label>
                 <input
                   type="text" value={selectedDueCount}
-                  placeholder="Enter due count" onChange={(e) => setSelectedDueCount(e.target.value)}
+                  placeholder="Enter due count"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^\d*$/.test(value)) {
+                      setSelectedDueCount(value);
+                    }
+                  }}
                   className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                 />
               </div>
 
 
               <div className="mt-5">
-                <label className="text-black font-Gilroy text-sm font-medium text-lg">Interest</label>
+                <label className="text-black font-Gilroy text-sm font-medium text-lg">Interest <span className="text-red-500 text-[20px]">*</span></label>
                 <input
                   type="text" value={selectedInterest}
-                  placeholder="Enter due count" onChange={(e) => setSelectedInterest(e.target.value)}
+                  placeholder="Enter interest count"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^\d*$/.test(value)) {
+                      setSelectedInterest(value);
+                    }
+                  }}
+
                   className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
                 />
               </div>
             </div>
 
             {errorMessage && (
-              <p className="text-[red] text-sm font-medium mt-3">!{errorMessage}</p>
+              <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
             )}
 
             <button onClick={handleSubmit}
@@ -415,8 +448,8 @@ function LoanSetting({ state }) {
 
 
 
-      <div className="mt-5 max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {loanGetSetting?.SettingLoan?.getLoan.loans?.map((loan, index) => (
+      <div className="mt-5 max-h-[300px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {currentLoans?.map((loan, index) => (
           <div key={index} className="w-[350px] h-[200px] border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
@@ -429,25 +462,45 @@ function LoanSetting({ state }) {
             <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
 
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
+              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_On}</p>
             </div>
 
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
+              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
             </div>
 
 
 
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-grayCustom font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
+              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
             </div>
           </div>
         ))}
       </div>
 
+      {allLoans.length > 0 && (
+        <div className="flex justify-end mt-10">
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &lt;
+          </button>
+          <span className="px-4 py-2 border rounded">{currentPage}</span>
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= allLoans.length ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={indexOfLastItem >= allLoans.length}
+          >
+            &gt;
+          </button>
+        </div>
+
+      )}
     </div>
   );
 }
@@ -464,3 +517,6 @@ LoanSetting.propTypes = {
 
 
 export default connect(mapsToProps)(LoanSetting);
+
+
+

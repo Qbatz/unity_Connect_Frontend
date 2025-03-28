@@ -19,3 +19,7 @@ export async function AddWitness(datumWitness) {
 export async function AddApproval(dataApprove) {
     return await AxiosConfig.post("/loan/approve_loan", dataApprove);
 }
+
+export async function RejectLoan(reject) {
+    return await AxiosConfig.post("/loan/recject_loan", reject);
+}

@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { AddLoan, GetLoan, AddWitness, AddApproval } from '../Action/LoanAction';
+import { AddLoan, GetLoan, AddWitness, AddApproval, RejectLoan } from '../Action/LoanAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -20,7 +20,11 @@ function* LoanAddRequest(action) {
             });
         } else {
             console.error("Error Response:", response);
-            toast.error("Failed to add loan");
+            toast.error("Failed to add loan", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
         }
     } catch (error) {
         console.error("Saga API Error:", error.response || error);
@@ -103,6 +107,30 @@ function* LoanApproval(action) {
     }
 }
 
+function* LoanRejection(action) {
+    try {
+        const response = yield call(RejectLoan, action.payload);
+
+        if (response?.status === 200 || response?.statusCode === 200) {
+            yield put({
+                type: "REJECTLOAN",
+                payload: response.data,
+            });
+
+            toast.success("Loan Rejected successfully!", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
+        } else {
+            console.error("Error Response:", response);
+            toast.error("Failed to reject loan");
+        }
+    } catch (error) {
+        console.error("Saga API Error:", error.response || error);
+        toast.error("API Error: Failed to reject loan");
+    }
+}
 
 function refreshToken(response) {
     const cookies = new Cookies();
@@ -118,6 +146,7 @@ function* LoanSaga() {
     yield takeEvery("GET_LOAN", GetLoanSaga);
     yield takeEvery('ADD_WITNESS', AddWitnessSaga);
     yield takeEvery('ADD_APPROVAL', LoanApproval);
+    yield takeEvery('LOAN_REJECT', LoanRejection);
 }
 
 export default LoanSaga;
