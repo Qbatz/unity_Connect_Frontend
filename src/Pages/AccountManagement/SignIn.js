@@ -27,10 +27,34 @@ const SignIn = ({ state }) => {
 
   useEffect(() => {
     if (state.SignIn.signinsuccessstatuscode === 200) {
+
       dispatch({ type: "SIGNIN-SUCCESS" });
       const token = state.SignIn.JWTtoken
       const cookies = new Cookies()
       cookies.set('UnityConnectToken', token, { path: '/' });
+
+      const memberData = state.SignIn.members?.[0] || {};
+
+      if (memberData.Prefix && memberData.Suffix) {
+        localStorage.setItem("MemberIDprefix", memberData.Prefix);
+        localStorage.setItem("MemberIdsuffix", memberData.Suffix);
+      }
+
+
+      const loanData = state.SignIn.loans?.[0] || {};
+
+      if (loanData.Prefix && loanData.Suffix) {
+        localStorage.setItem("LoanIDprefix", loanData.Prefix);
+        localStorage.setItem("LoanIDsuffix", loanData.Suffix);
+      }
+
+      const transactionData = state.SignIn.transactions?.[0] || {};
+
+      if (transactionData.Prefix && transactionData.Suffix) {
+        localStorage.setItem("TransactionIDprefix", transactionData.Prefix);
+        localStorage.setItem("TransactionIdsuffix", transactionData.Suffix);
+      }
+
       const encryptDataLogin = encryptData(JSON.stringify(true));
       localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
       setTimeout(() => {
@@ -229,4 +253,3 @@ SignIn.propTypes = {
 }
 
 export default connect(mapsToProps)(SignIn);
-

@@ -13,19 +13,9 @@ function TransactionID({ state }) {
   const [isCreated, setIsCreated] = useState(false);
 
   useEffect(() => {
-    const storedPrefix = localStorage.getItem("TransactionIDprefix") || state.Settings?.TransactionIDprefix || "";
-    const storedSuffix = localStorage.getItem("TransactionIDsuffix") || state.Settings?.TransactionIDsuffix || "";
-
-    setPrefix(storedPrefix);
-    setSuffix(storedSuffix);
-
-    if (storedPrefix && storedSuffix) {
-      setIsCreated(true);
-    }
-
     if (state.Settings.statusCodeTransactionID === 200) {
-      localStorage.setItem("TransactionIDprefix", prefix);
-      localStorage.setItem("TransactionIDsuffix", suffix);
+      setPrefix('');
+      setSuffix('');
       dispatch({ type: "CLEAR_STATUS_CODE_TRANSACTION_ID" });
       setIsCreated(true);
     }
@@ -54,6 +44,26 @@ function TransactionID({ state }) {
       setError((prev) => ({ ...prev, suffix: "Suffix should contain only numbers." }));
     }
   };
+
+  useEffect(() => {
+    const storedPrefix = localStorage.getItem("TransactionIDprefix") || state.Settings?.TransactionIDprefix || "";
+    const storedSuffix = localStorage.getItem("TransactionIDsuffix") || state.Settings?.TransactionIDsuffix || "";
+
+
+    setPrefix(storedPrefix);
+    setSuffix(storedSuffix);
+
+    if (state.Settings.statusCodeTransactionID === 200) {
+      localStorage.setItem("TransactionIDprefix", prefix);
+      localStorage.setItem("TransactionIDsuffix", suffix);
+      dispatch({ type: 'CLEAR_STATUS_CODE_TRANSACTION_ID' });
+    }
+
+    return () => {
+      dispatch({ type: 'CLEAR_ERROR' });
+    };
+  }, [state.Settings.statusCodeTransactionID]);
+
 
   const handleSave = () => {
     let newError = { prefix: "", suffix: "" };

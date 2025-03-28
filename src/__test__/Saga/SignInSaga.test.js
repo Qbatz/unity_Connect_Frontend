@@ -16,27 +16,30 @@ jest.mock('../../Redux/Action/SignInAction', () => ({
 
 describe('SignIn Saga', () => {
     const mockAction = { type: 'SIGNININFO', payload: { email: 'abcd@example.com', password: 'abcd123' } };
-   
+
     it('it should return the signIn success', async () => {
 
         const mockResponse = {
             status: 200,
             data: {
-                    message: "Login successful",
-                    statusCode: 200,
-                    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9uYW1lIjoiY2NjIiwiaWF0IjoxNzQwMzkyNTI0LCJleHAiOjE3NDAzOTYxMjR9.9LS6--AYmEgYFprJF9EjimUt6Z0B24v32rxEFaXk_nI"
-                }
-            
-           
+                message: "Login successful",
+                statusCode: 200,
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9uYW1lIjoiY2NjIiwiaWF0IjoxNzQwMzkyNTI0LCJleHAiOjE3NDAzOTYxMjR9.9LS6--AYmEgYFprJF9EjimUt6Z0B24v32rxEFaXk_nI",
+                members: [{ prefix: "John Doe", suffix: 1 }],
+                loans: [{ prefix: "John Doe", suffix: 1 }],
+                transactions: [{ prefix: "John Doe", suffix: 1 }]
+            }
+
+
         };
         let dispatchedActions = [];
         SignIncall.mockResolvedValue(mockResponse);
-       
+
 
         await runSaga(
             {
                 dispatch: (action) => {
-                   
+
                     return dispatchedActions.push(action)
                 }
             },
@@ -64,7 +67,7 @@ describe('SignIn Saga', () => {
         await runSaga(
             {
                 dispatch: (action) => {
-                   
+
                     return dispatchedActions.push(action)
                 }
             },
@@ -86,7 +89,7 @@ describe('SignIn Saga', () => {
         await runSaga(
             {
                 dispatch: (action) => {
-                   
+
                     return dispatchedActions.push(action)
                 }
             },
