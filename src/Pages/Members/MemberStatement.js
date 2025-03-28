@@ -24,7 +24,7 @@ function MemberStatements({ state, member }) {
   const [showOptions, setShowOptions] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [dueDate, setDueDate] = useState('');
+  const [dueDate, setDueDate] = useState(null);
   const [paidAmount, setPaidAmount] = useState('');
   const [pendingAmount, setPendingAmount] = useState('');
   const [status, setStatus] = useState('');
