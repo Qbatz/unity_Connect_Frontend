@@ -15,6 +15,7 @@ import AddMemberForm from "./AddMemberForm";
 import MemberDetails from './MemberDetails';
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
+// import { ClipLoader } from "react-spinners";
 
 
 
@@ -36,7 +37,7 @@ function ActiveMember({ state, onSelectMember }) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-
+  // const [loading, setLoading] = useState(false);
 
 
   const handleStatusChange = (event) => {
@@ -68,6 +69,8 @@ function ActiveMember({ state, onSelectMember }) {
 
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
+      // setLoading(false);
+
       setActiveMemberData(state.Member.ActiveMemberdata);
 
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
@@ -88,6 +91,7 @@ function ActiveMember({ state, onSelectMember }) {
 
 
   useEffect(() => {
+    // setLoading(true);
 
     dispatch({ type: 'MEMBERLIST' });
 
@@ -209,6 +213,14 @@ function ActiveMember({ state, onSelectMember }) {
   );
 
 
+
+  // if (loading) {
+  //   return (
+  //     <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
+  //       <ClipLoader color="#7f00ff" loading={loading} size={30} />
+  //     </div>
+  //   );
+  // }
 
 
 
@@ -427,7 +439,8 @@ function ActiveMember({ state, onSelectMember }) {
               <select
                 value={pageSize}
                 onChange={handlePageSizeChange}
-                className="border border-gray-300 px-4 py-2 rounded-lg appearance-none cursor-pointer"
+                style={{ color: 'blue', borderColor: 'blue' }}
+                className="border border-gray-300 px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer pr-8"
               >
                 {[5, 10, 50, 100].map((size) => (
                   <option key={size} value={size}>
@@ -436,7 +449,7 @@ function ActiveMember({ state, onSelectMember }) {
                 ))}
               </select>
               <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                <FaAngleDown size={15} />
+                <FaAngleDown size={15} style={{ color: 'blue' }} />
               </div>
             </div>
 
