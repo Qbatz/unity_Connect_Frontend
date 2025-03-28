@@ -23,12 +23,16 @@ export function* SignIn(action) {
         };
 
         if (response.status === 200 && response.data.statusCode === 200) {
+
             yield put({
                 type: 'SIGNIN-INFO',
                 payload: {
                     token: response.data.token,
                     message: response.data.message,
-                    statusCode: response.status
+                    statusCode: response.status,
+                    members: response.data.members,
+                    loans: response.data.loans,
+                    transactions: response.data.transactions
                 }
             });
             toast.success(response.message || "Sign-in successful!", {

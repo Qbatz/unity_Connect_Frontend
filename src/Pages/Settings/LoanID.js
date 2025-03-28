@@ -12,15 +12,10 @@ function LoanID({ state }) {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    const storedPrefix = localStorage.getItem("LoanIDprefix") || state.Settings?.LoanIDprefix || "";
-    const storedSuffix = localStorage.getItem("LoanIDsuffix") || state.Settings?.LoanIDsuffix || "";
-
-    setPrefix(storedPrefix);
-    setSuffix(storedSuffix);
-
+  
     if (state.Settings.statusCodeLoanID === 200) {
-      localStorage.setItem("LoanIDprefix", prefix);
-      localStorage.setItem("LoanIDsuffix", suffix);
+      setPrefix('');
+      setSuffix('');
       dispatch({ type: "CLEAR_STATUS_CODE_LOAN_ID" });
     }
 
@@ -48,6 +43,28 @@ function LoanID({ state }) {
       setError((prev) => ({ ...prev, suffix: "Suffix should contain only numbers" }));
     }
   };
+
+
+
+    useEffect(() => {
+  const storedPrefix = localStorage.getItem("LoanIDprefix") || state.Settings?.LoanIDprefix || "";
+    const storedSuffix = localStorage.getItem("LoanIDsuffix") || state.Settings?.LoanIDsuffix || "";
+  
+      setPrefix(storedPrefix);
+      setSuffix(storedSuffix);
+  
+      if (state.Settings.statusCodeLoanID === 200) {
+        localStorage.setItem("LoanIDprefix", prefix);
+        localStorage.setItem("LoanIdsuffix", suffix);
+        dispatch({ type: 'CLEAR_STATUS_CODE_LOAN_ID' });
+      }
+  
+      return () => {
+        dispatch({ type: 'CLEAR_ERROR' });
+      };
+    }, [state.Settings.statusCodeLoanID]);
+  
+  
 
   const handleSave = () => {
     let newError = { prefix: "", suffix: "" };
