@@ -256,10 +256,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                             <Select
                                 value={categoryOptions?.find((option) => option.value === category) || null}
-                                // onChange={(selectedOption) => {
 
-                                //     setCategory(selectedOption?.value);
-                                // }}
                                 onChange={(selectedOption) => {
                                     setCategory(selectedOption?.value);
                                     if (errors.category) {

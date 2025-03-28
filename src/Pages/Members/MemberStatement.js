@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef,  } from "react";
+import React, { useEffect, useState, useRef, } from "react";
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
 import RecordPaymentIcon from "../../Asset/Icons/RecordPayment.svg";
@@ -145,7 +145,7 @@ function MemberStatements({ state, member }) {
     currentPage * pageSize
   );
 
-  
+
 
   return (
     <div className="p-4">
@@ -272,7 +272,7 @@ function MemberStatements({ state, member }) {
                     className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
                   />
 
-                  
+
                 </div>
 
                 <div>
