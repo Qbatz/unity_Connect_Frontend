@@ -61,12 +61,24 @@ function ReportsTab({ state }) {
 
   useEffect(() => {
     setLoading(true);
-    dispatch({ type: 'UNSUCCESS_REPORT' });
-    dispatch({ type: 'SUCCESS_REPORT' });
+    dispatch({
+      type: 'UNSUCCESS_REPORT', payload: {
+        start_date_UnPaid: unpaidStart,
+        end_date_UnPaid: unpaidEnd,
+        filter_UnPaid: "this_month",
+      }
+    });
+    dispatch({
+      type: 'SUCCESS_REPORT', payload: {
+        start_date_Paid: paidStart,
+        end_date_Paid: paidEnd,
+        filter_Paid: "this_month",
+      }
+    });
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -139,11 +151,8 @@ function ReportsTab({ state }) {
 
     if (reportType === 1) {
       payload = {
-        start_date_Paid: "",
-        end_date_Paid: "",
         start_date_UnPaid: unpaidStart,
         end_date_UnPaid: unpaidEnd,
-        filter_Paid: "",
         filter_UnPaid: "",
       };
       dispatch({ type: "UNSUCCESS_REPORT", payload });
@@ -151,10 +160,7 @@ function ReportsTab({ state }) {
       payload = {
         start_date_Paid: paidStart,
         end_date_Paid: paidEnd,
-        start_date_UnPaid: "",
-        end_date_UnPaid: "",
         filter_Paid: "",
-        filter_UnPaid: "",
       };
       dispatch({ type: "SUCCESS_REPORT", payload });
     } else {
@@ -403,7 +409,7 @@ function ReportsTab({ state }) {
                           +₹{report.Amount.toLocaleString('en-IN')}
                         </p>
                         <p className="text-[#939393] text-xs">
-                          {new Date(report.Created_At).toLocaleDateString("en-GB", {
+                          {new Date(report.Transaction_Date).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",
                             year: "numeric",
@@ -414,7 +420,7 @@ function ReportsTab({ state }) {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500">No Successful payments found.</p>
+                  <p className="text-red-500 font-Gilroy text-center">No Successful payments found</p>
                 )}
               </div>
             </div>
@@ -559,7 +565,7 @@ function ReportsTab({ state }) {
                           ₹{report.Pending_Amount.toLocaleString('en-IN')}
                         </p>
                         <p className="text-[#939393] text-xs">
-                          {new Date(report.Created_At).toLocaleDateString("en-GB", {
+                          {new Date(report.Due_Date).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",
                             year: "numeric",
@@ -569,7 +575,7 @@ function ReportsTab({ state }) {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500">No unsuccessful payments found.</p>
+                  <p className="text-red-500 font-Gilroy">No unsuccessful payments found</p>
                 )}
               </div>
             </div>
@@ -579,8 +585,7 @@ function ReportsTab({ state }) {
 
         </div>
 
-
-        <div className="flex justify-end space-x-2 p-4">
+        <div className="fixed bottom-0 left-0 w-full bg-white flex justify-end space-x-2 p-4 shadow-md">
 
           <button
             onClick={() => goToPage(currentPage - 1)}
@@ -599,7 +604,9 @@ function ReportsTab({ state }) {
           >
             &gt;
           </button>
+
         </div>
+
 
       </div>
     </>

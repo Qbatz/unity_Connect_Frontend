@@ -66,21 +66,22 @@ function Statement({ state }) {
     <div className="p-8">
       <p className="font-Gilroy font-medium text-sm md:text-2xl mb-4 mt-1 ml-12 lg:ml-1 text-gray-700">Statements</p>
 
-      <div className="font-Gilroy font-base px-2 md:px-4 py-2 text-gray-600 mb-3 lg:-ml-2.5">Loan statement</div>
+      <div className="font-Gilroy font-base px-2 md:px-4 py-2 text-gray-900 mb-3 lg:-ml-2.5">Loan statement</div>
 
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <div className="min-w-max overflow-y-auto max-h-[700px]">
             <table className="w-full text-left border-collapse">
               <thead className="sticky top-0 bg-blue-50 z-10">
-                <tr className="bg-blue-50 border-b font-light text-sm font-Gilroy text-neutral-400 text-center">
-                  <th className="pl-8 font-Gilroy text-left">Member Name</th>
-                  <th className="p-4 font-Gilroy">Loan Id</th>
-                  <th className="p-4 font-Gilroy">Loan Date</th>
-                  <th className="p-4 font-Gilroy">Loan Amount</th>
-                  <th className="p-4 font-Gilroy">Due Date</th>
-                  <th className="p-4 font-Gilroy">Due</th>
-                  <th className="p-4 font-Gilroy">Status</th>
+
+                <tr className="bg-blue-50 border-b text-center">
+                  <th className="pl-8 text-left" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }} >Member Name</th>
+                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Id</th>
+                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Date</th>
+                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Amount</th>
+                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due Date</th>
+                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due</th>
+                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Status</th>
                 </tr>
               </thead>
 
@@ -109,7 +110,7 @@ function Statement({ state }) {
                         </span>
                       </td>
                       <td className="p-2">₹{item.Loan_Amount.toLocaleString('en-IN')}</td>
-                     
+
                       <td className="p-2">
                         <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
                           {moment(item.Due_Date).format("DD MMM YYYY")}
@@ -117,7 +118,7 @@ function Statement({ state }) {
                       </td>
                       <td className="p-2">₹{item.Due.toLocaleString('en-IN')}</td>
                       <td className="p-2">
-                        <span className={`px-3 py-1.5 rounded-full text-black ${item.Status === "Paid" ? "bg-emerald-100" : "bg-red-100"}`}>
+                        <span className={`px-3 py-1.5 rounded-full text-black ${item.Status === "Paid" ? "bg-emerald-100 px-6" : "bg-red-100"}`}>
                           {item.Status}
                         </span>
                       </td>
@@ -169,7 +170,7 @@ function Statement({ state }) {
           disabled={currentPage === 1}
         >
           &lt;
- 
+
         </button>
         <span className="px-4 py-2 border rounded">{currentPage}</span>
         <button
@@ -178,7 +179,7 @@ function Statement({ state }) {
           disabled={indexOfLastItem >= statementList.length}
         >
           &gt;
- 
+
         </button>
       </div>
     </div>
