@@ -64,10 +64,28 @@ function* AddWitnessSaga(action) {
                 payload: response.data,
             });
 
-            toast.success("Witness added successfully!", {
+
+            toast.success(response.data.message, {
                 position: "bottom-center",
                 autoClose: 2000,
                 hideProgressBar: true,
+                closeButton: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                style: {
+                    backgroundColor: "#E6F6E6",
+                    color: "black",
+                    borderRadius: "60px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 600,
+                    fontSize: 14,
+                    textAlign: "start",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "10px",
+                },
             });
         } else {
             console.error("Error Response:", response);

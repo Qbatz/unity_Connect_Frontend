@@ -28,7 +28,7 @@ function AddLoanForm({ state }) {
   const [memberId, setMemberId] = useState("");
   const [loanAmount, setLoanAmount] = useState("");
   const [selectedWitnesses, setSelectedWitnesses] = useState([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const [isWitnessModalOpen, setIsWitnessModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Active loan");
 
@@ -37,15 +37,16 @@ function AddLoanForm({ state }) {
   const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
 
   const [approve, setApprove] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+
 
   const [interesttype, setInterestType] = useState("");
 
   const [loanTypeError, setLoanTypeError] = useState("");
-  const [interestTypeError, setInterestTypeError] = useState("");
+
   const [loanAmountError, setLoanAmountError] = useState("");
   const [memberError, setMemberError] = useState("");
   const [witnessError, setWitnessError] = useState("");
+  const [initialWitnesses, setInitialWitnesses] = useState([]);
 
   const [isRejectPopupOpen, setisRejectPopupOpen] = useState(false);
   const [rejectLoanData, setRejectLoanData] = useState('');
@@ -56,15 +57,7 @@ function AddLoanForm({ state }) {
   const indexOfLastApproved = currentPageApproved * itemsPerPage;
   const indexOfFirstApproved = indexOfLastApproved - itemsPerPage;
 
-  const handleSelectWitness = (id) => {
-    setSelectedWitnesses((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((witnessId) => witnessId !== id)
-        : [...prevSelected, id]
-    );
-    setIsDropdownOpen(false);
-    setErrorMessage("");
-  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -112,11 +105,7 @@ function AddLoanForm({ state }) {
     setMemberError('');
   };
 
-  useEffect(() => {
-    if (isModalOpen) {
-      setErrorMessage("");
-    }
-  }, [isModalOpen]);
+
 
 
   useEffect(() => {
@@ -168,30 +157,58 @@ function AddLoanForm({ state }) {
   }, [dispatch]);
 
 
+  useEffect(() => {
+    if (isWitnessModalOpen) {
+      setSelectedWitnesses([...initialWitnesses]);
+    }
+  }, [isWitnessModalOpen]);
+
+
+
   const handleAddWitness = () => {
+    if (selectedWitnesses.length === 0) {
+      setWitnessError("No changes detected. Please select at least one witness.");
+      return;
+    }
+
+    const isSelectionUnchanged =
+      JSON.stringify([...selectedWitnesses].sort()) === JSON.stringify([...initialWitnesses].sort());
+
+    if (isSelectionUnchanged) {
+      setWitnessError("No changes detected");
+      return;
+    }
+
     const witnessPayload = {
       id: vitDetails.Loan_Id,
       member_id: vitDetails.Member_Id,
-      widness_ids: selectedWitnesses.length > 0 ? selectedWitnesses : [],
+      widness_ids: selectedWitnesses,
     };
-
 
     dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
     dispatch({ type: "GET_LOAN" });
 
+    setInitialWitnesses([...selectedWitnesses]);
     setIsWitnessModalOpen(false);
-    setVitDetails({});
     setSelectedWitnesses([]);
-
-
+    setWitnessError("");
   };
 
-  const handleAddNewWitness = (loan) => {
 
+  const handleAddNewWitness = (loan) => {
     setIsWitnessModalOpen(true);
     setVitDetails({ ...loan });
-    setSelectedWitnesses([...loan.Widness_Id.split(",").map(Number)])
-  }
+
+    const existingWitnesses = loan.Widness_Id
+      ? loan.Widness_Id.split(",").map(Number)
+      : [];
+
+    setSelectedWitnesses(existingWitnesses);
+    setInitialWitnesses(existingWitnesses);
+  };
+
+
+
   const [selectedLoan, setSelectedLoan] = useState(null);
 
   const handleApproval = (loan, selectedMember) => {
@@ -211,12 +228,7 @@ function AddLoanForm({ state }) {
       setLoanTypeError("");
     }
 
-    if (!interesttype) {
-      setInterestTypeError("Please Enter interest type");
-      isValid = false;
-    } else {
-      setInterestTypeError("");
-    }
+
 
     if (!eligibleLoanAmount) {
       setLoanAmountError("Please Enter loan amount");
@@ -238,13 +250,13 @@ function AddLoanForm({ state }) {
       type: "ADD_APPROVAL",
       payload,
     });
-    setErrorMessage("")
+
 
   };
 
   const handleClose = () => {
     setIsModalOpen(false)
-    setIsDropdownOpen(false);
+
     setLoanAmountError('');
     setWitnessError('');
     setMemberError('');
@@ -303,15 +315,23 @@ function AddLoanForm({ state }) {
 
 
   const customLoanStyles = {
-    control: (base) => ({
+    control: (base, state) => ({
       ...base,
-      borderColor: "#D1D5DB",
+      borderColor: state.isFocused ? "#9CA3AF" : "#D1D5DB",
+
       borderRadius: "14px",
       padding: "4px",
       boxShadow: "none",
       height: '60px',
       marginTop: '10px',
+      fontStyle: 'Gilroy',
       "&:hover": { borderColor: "#666" },
+    }),
+    placeholder: (base) => ({
+      ...base,
+      fontFamily: "Gilroy",
+      fontSize: "16px",
+      color: "#9CA3AF",
     }),
     menu: (base) => ({
       ...base,
@@ -319,6 +339,10 @@ function AddLoanForm({ state }) {
       overflowY: loanOptions.length > 3 ? "auto" : "hidden",
     }),
     indicatorSeparator: () => ({ display: "none" }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      cursor: "pointer",
+    }),
     menuList: (base) => ({
       ...base,
       maxHeight: "150px",
@@ -338,9 +362,10 @@ function AddLoanForm({ state }) {
   };
 
   const customStyles = {
-    control: (base) => ({
+    control: (base, state) => ({
       ...base,
-      borderColor: "#D1D5DB",
+      borderColor: state.isFocused ? "#9CA3AF" : "#D1D5DB",
+
       borderRadius: "14px",
       padding: "4px",
       boxShadow: "none",
@@ -348,12 +373,22 @@ function AddLoanForm({ state }) {
       marginTop: '10px',
       "&:hover": { borderColor: "#666" },
     }),
+    placeholder: (base) => ({
+      ...base,
+      fontFamily: "Gilroy",
+      fontSize: "16px",
+      color: "#9CA3AF",
+    }),
     menu: (base) => ({
       ...base,
       maxHeight: options.length > 3 ? "150px" : "auto",
       overflowY: options.length > 3 ? "auto" : "hidden",
     }),
     indicatorSeparator: () => ({ display: "none" }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      cursor: "pointer",
+    }),
     menuList: (base) => ({
       ...base,
       maxHeight: "150px",
@@ -373,15 +408,22 @@ function AddLoanForm({ state }) {
   };
 
   const customStyled = {
-    control: (base) => ({
+    control: (base, state) => ({
       ...base,
-      borderColor: "#D1D5DB",
+      borderColor: state.isFocused ? "#9CA3AF" : "#D1D5DB",
+
       borderRadius: "14px",
       padding: "4px",
       boxShadow: "none",
       height: '60px',
       marginTop: '10px',
       "&:hover": { borderColor: "#666" },
+    }),
+    placeholder: (base) => ({
+      ...base,
+      fontFamily: "Gilroy",
+      fontSize: "16px",
+      color: "#9CA3AF",
     }),
     menu: (base) => ({
       ...base,
@@ -404,6 +446,58 @@ function AddLoanForm({ state }) {
       "&::-webkit-scrollbar-thumb:hover": {
         backgroundColor: "#555",
       },
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      cursor: "pointer",
+    }),
+    clearIndicator: (base) => ({
+      ...base,
+      cursor: "pointer",
+    }),
+  };
+
+
+  const customWitStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderColor: state.isFocused ? "#9CA3AF" : "#D1D5DB",
+      borderRadius: "14px",
+      padding: "4px",
+      boxShadow: "none",
+      height: "60px",
+      marginTop: "10px",
+      "&:hover": { borderColor: "#666" },
+    }),
+    menu: (base) => ({
+      ...base,
+      maxHeight: witnessOptions.length > 3 ? "150px" : "auto",
+      overflowY: "auto",
+    }),
+    indicatorSeparator: () => ({ display: "none" }),
+    menuList: (base) => ({
+      ...base,
+      maxHeight: "150px",
+      overflowY: "auto",
+      scrollbarWidth: "thin",
+      "&::-webkit-scrollbar": {
+        width: "6px",
+      },
+      "&::-webkit-scrollbar-thumb": {
+        backgroundColor: "#888",
+        borderRadius: "4px",
+      },
+      "&::-webkit-scrollbar-thumb:hover": {
+        backgroundColor: "#555",
+      },
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      cursor: "pointer",
+    }),
+    clearIndicator: (base) => ({
+      ...base,
+      cursor: "pointer",
     }),
   };
 
@@ -473,14 +567,22 @@ function AddLoanForm({ state }) {
                   value={options.find((opt) => opt.value === memberId)}
                   onChange={(selectedOption) => {
                     setMemberId(selectedOption ? selectedOption.value : "");
-                    setErrorMessage("");
+
+                    setMemberError("");
                   }}
                   options={options}
                   placeholder="Select a member"
                   styles={customStyles}
                   isSearchable={true}
                   menuShouldScrollIntoView={true}
+                  isValidNewOption={() => false} t
+                  onInputChange={(inputValue, { action }) => {
+                    if (action === "input-change" && /\d/.test(inputValue)) {
+                      return "";
+                    }
+                  }}
                 />
+
 
                 {memberError && (
                   <p className="text-red-500 text-sm mt-1 flex items-center">
@@ -500,6 +602,7 @@ function AddLoanForm({ state }) {
                   value={witnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
                   onChange={(selectedOptions) => {
                     setSelectedWitnesses(selectedOptions ? selectedOptions.map((opt) => opt.value) : []);
+                    setWitnessError("");
                   }}
                   options={witnessOptions}
                   placeholder="Select witnesses"
@@ -525,11 +628,14 @@ function AddLoanForm({ state }) {
                   onChange={(e) => {
 
                     const value = e.target.value.replace(/[^0-9]/g, "");
-                    setLoanAmount(value); setErrorMessage("");
+                    setLoanAmount(value);
+
+                    setLoanAmountError('');
                   }}
                   type="text"
                   placeholder="Enter approved loan amount"
-                  className="w-full h-60 border border-[#D9D9D9] font-Gilroy rounded-2xl p-4 mt-3"
+                  className="w-full h-60 border border-[#D9D9D9] font-Gilroy rounded-2xl p-4 mt-3 
+             focus:border-gray-400 focus:outline-none"
                 />
                 {loanAmountError && (
                   <p className="text-red-500 text-sm mt-1 flex items-center">
@@ -552,7 +658,7 @@ function AddLoanForm({ state }) {
         {activeTab === "Active loan" && (
           <div>
 
-            <div className="active-loan max-h-[400px] overflow-y-auto p-5  scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+            <div className="active-loan max-h-[440px] overflow-y-auto p-5  scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
               {paginatedActiveLoans?.length > 0 ? (
                 paginatedActiveLoans?.map((loan) => {
@@ -658,26 +764,38 @@ function AddLoanForm({ state }) {
                           </button>
                         </div>
                       </div>
+
+
+
                       {isRejectPopupOpen && (
-                        <div className="fixed inset-0 flex items-center justify-center ">
-                          <div className="bg-white p-6 rounded-xl shadow-lg w-[350px]">
-                            <p className="text-lg font-Gilroy font-medium text-center mb-4">
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-[9999]">
+                          <div className="bg-white w-[388px] h-[200px] mx-auto rounded-2xl shadow-lg">
+
+                            <div className="flex justify-center items-center p-4">
+                              <h2 className="text-[18px] font-semibold text-[#222222] font-Gilroy">
+                                Reject Loan ?
+                              </h2>
+                            </div>
+
+
+                            <div className="text-center text-[14px] font-medium text-[#646464] font-Gilroy mt-[-10px]">
                               Are you sure you want to reject the loan?
-                            </p>
-                            <div className="flex justify-between">
+                            </div>
+
+
+                            <div className="flex justify-center mt-4 p-4">
                               <button
-                                className="bg-black text-white py-2 px-6 rounded-lg font-medium"
-                                onClick={() => handleReject(rejectLoanData)}
-                              >
-                                Yes
-                              </button>
-                              <button
-                                className="border bg-black border-black text-white py-2 px-6 rounded-lg font-medium"
+                                className="w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white text-[#1E45E1] border border-[#1E45E1] font-semibold font-Gilroy text-[14px] mr-2"
                                 onClick={() => setisRejectPopupOpen(false)}
                               >
                                 Cancel
                               </button>
-
+                              <button
+                                className="w-[160px] h-[52px] rounded-lg px-5 py-3 bg-[#1E45E1] text-white font-semibold font-Gilroy text-[14px]"
+                                onClick={() => handleReject(rejectLoanData)}
+                              >
+                                Delete
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -688,7 +806,7 @@ function AddLoanForm({ state }) {
                   );
                 })
               ) : (
-                <p className="text-gray-500">No Loan Data Available</p>
+                <p className="text-red-500">No Loan Data Available</p>
               )}
 
             </div>
@@ -696,28 +814,29 @@ function AddLoanForm({ state }) {
 
 
 
-
-            <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
-              <button
-                className={`px-4 py-2 mx-2 border rounded ${currentPageActive === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
-                  }`}
-                onClick={() => setCurrentPageActive(currentPageActive - 1)}
-                disabled={currentPageActive === 1}
-              >
-                &lt;
-              </button>
-              <span className="px-4 py-2 border rounded">{currentPageActive}</span>
-              <button
-                className={`px-4 py-2 mx-2 border rounded ${indexOfLastActive >= loans.filter(loan => !loan.Loan_Type).length
-                  ? "opacity-50 cursor-not-allowed"
-                  : "bg-[#F4F7FF] text-black"
-                  }`}
-                onClick={() => setCurrentPageActive(currentPageActive + 1)}
-                disabled={indexOfLastActive >= loans.filter(loan => !loan.Loan_Type).length}
-              >
-                &gt;
-              </button>
-            </div>
+            {paginatedActiveLoans.length > 0 && (
+              <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+                <button
+                  className={`px-4 py-2 mx-2 border rounded ${currentPageActive === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
+                    }`}
+                  onClick={() => setCurrentPageActive(currentPageActive - 1)}
+                  disabled={currentPageActive === 1}
+                >
+                  &lt;
+                </button>
+                <span className="px-4 py-2 border rounded">{currentPageActive}</span>
+                <button
+                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastActive >= loans.filter(loan => !loan.Loan_Type).length
+                    ? "opacity-50 cursor-not-allowed"
+                    : "bg-[#F4F7FF] text-black"
+                    }`}
+                  onClick={() => setCurrentPageActive(currentPageActive + 1)}
+                  disabled={indexOfLastActive >= loans.filter(loan => !loan.Loan_Type).length}
+                >
+                  &gt;
+                </button>
+              </div>
+            )}
           </div>
 
 
@@ -727,66 +846,60 @@ function AddLoanForm({ state }) {
 
 
         {isWitnessModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
             <div className="bg-white w-[400px] rounded-2xl p-6 shadow-lg">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold font-Gilroy">Add New  Witnesses</h2>
                 <button
                   className="text-gray-600 text-xl"
-                  onClick={() => setIsWitnessModalOpen(false)}
+                  onClick={() => {
+                    setIsWitnessModalOpen(false);
+                    setWitnessError("");
+                    setInitialWitnesses([])
+                  }}
                 >
                   <img src={CloseCircleIcon} alt="Close" />
                 </button>
 
               </div>
+              <div className="w-full border border-[#E7E7E7] mx-auto my-2 mb-4"></div>
+
+
 
 
               <div className="relative">
-
                 <label className="text-black text-sm font-medium font-Gilroy text-lg">
                   Witnesses Names
                 </label>
+                <Select
+                  value={witnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
 
-                <div
-                  className="w-full h-12 font-Gilroy overflow-y-auto border border-gray-300 rounded-2xl p-3 mt-3 cursor-pointer"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                  {selectedWitnesses.length > 0
-                    ? members
-                      .filter((member) => selectedWitnesses.includes(member.Id))
-                      .map((member) => member.User_Name)
-                      .join(", ")
-                    : "Select witnesses"}
-                </div>
+                  onChange={(selectedOptions) => {
+                    setSelectedWitnesses(selectedOptions.map((opt) => opt.value)); // This ensures removal works
+                    setWitnessError("");
+                  }}
 
-                {isDropdownOpen && (
-                  <div className="absolute w-full bg-white border border-[#D9D9D9] rounded-2xl mt-1 shadow-lg max-h-48 overflow-y-auto z-10">
-                    {members.map((member) => (
-                      <label
-                        key={member.Id}
-                        className="block px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedWitnesses.includes(member.Id)}
-                          onChange={() => handleSelectWitness(member.Id)}
-                          className="mr-2"
-                        />
-                        {member.User_Name}
-                      </label>
-                    ))}
-                  </div>
-                )}
+
+
+                  options={witnessOptions}
+                  placeholder="Select witnesses"
+                  styles={customWitStyles}
+                  isSearchable={true}
+                  isMulti={true}
+                  menuShouldScrollIntoView={true}
+                  isValidNewOption={() => false}
+                  onInputChange={(inputValue, { action }) => {
+                    if (action === "input-change" && /\d/.test(inputValue)) {
+                      return "";
+                    }
+                  }}
+                />
               </div>
 
+              {witnessError && <p className="text-red-500 text-sm mt-2 text-center">{witnessError}</p>}
 
-              {errorMessage && (
-                <p className="flex items-center gap-2 text-[red] text-sm font-medium mt-3">
-                  <MdError className="text-sm" /> {errorMessage}
-                </p>
-              )}
               <button
-                className="mt-10 bg-black text-white border font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-full h-[51px] pt-4 pr-5 pb-4 pl-5"
+                className="mt-6 bg-black text-white border font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-full h-[51px] pt-4 pr-5 pb-4 pl-5"
                 onClick={handleAddWitness}
               >
                 Add Witnesses
@@ -807,7 +920,7 @@ function AddLoanForm({ state }) {
                   onClick={() => {
                     setIsApprovePopupOpen(false);
                     setLoanAmountError("");
-                    setInterestTypeError("");
+
                     setLoanTypeError("");
                     setMemberLoanType("");
                     setInterestType("");
@@ -834,7 +947,7 @@ function AddLoanForm({ state }) {
 
               <div className="mt-4 relative">
                 <label className="text-black text-sm font-medium font-Gilroy">
-                  Loan Type <span className="text-red-500 text-[20px]">*</span>
+                  Loan type <span className="text-red-500 text-[20px]">*</span>
                 </label>
 
                 <Select
@@ -842,6 +955,7 @@ function AddLoanForm({ state }) {
                   onChange={(selectedOption) => {
                     setMemberLoanType(selectedOption ? selectedOption.value : "");
                     setInterestType(selectedOption ? selectedOption.interest : "");
+                    setLoanTypeError("")
                   }}
                   options={loanOptions}
                   placeholder="Select a loan type"
@@ -858,14 +972,14 @@ function AddLoanForm({ state }) {
               </div>
 
               <div className="mt-4">
-                <label className="text-black font-Gilroy text-sm font-medium text-lg mt-10">Interest Type<span className="text-red-500 text-[20px]">*</span></label>
+                <label className="text-black font-Gilroy text-sm font-medium text-lg mt-10">Interest type<span className="text-red-500 text-[20px]">*</span></label>
                 <input
                   type="text"
                   value={interesttype}
                   readOnly
-                  className="w-full h-60 font-Gilroy border border-[#D9D9D9] rounded-2xl p-4 mt-3"
+                  className="w-full h-60 font-Gilroy border border-[#D9D9D9] rounded-2xl p-4 mt-3  focus:border-gray-400 focus:outline-none"
                 />
-                {interestTypeError && <p className="text-red-500 text-sm mt-1 flex items-center"><MdError className="mr-1" /> {interestTypeError}</p>}
+
               </div>
 
               <div className="mt-4">
@@ -874,11 +988,13 @@ function AddLoanForm({ state }) {
                   value={eligibleLoanAmount}
                   onChange={(e) => {
                     const value = e.target.value.replace(/[^0-9]/g, "");
-                    setEligibleLoanAmount(value); setErrorMessage("");
+                    setEligibleLoanAmount(value);
+
+                    setLoanAmountError("")
                   }}
                   type="text"
                   placeholder="Enter approved loan amount"
-                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-3 mt-2 font-Gilroy text-[#939393]"
+                  className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-3 mt-2 font-Gilroy  focus:border-gray-400 focus:outline-none"
                 />
 
                 {loanAmountError && <p className="text-red-500 text-sm mt-1 flex items-center"><MdError className="mr-1" /> {loanAmountError}</p>}
@@ -904,7 +1020,7 @@ function AddLoanForm({ state }) {
         {activeTab === "Approved loan" && (
           <div>
 
-            <div className="active-loan max-h-[400px] overflow-y-auto p-5  scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+            <div className="active-loan max-h-[440px] overflow-y-auto p-5  scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
               {paginatedApprovedLoans.length > 0 ? (
                 paginatedApprovedLoans.map((loan) => {
@@ -1015,32 +1131,34 @@ function AddLoanForm({ state }) {
                   );
                 })
               ) : (
-                <p className="text-gray-500">No Loan Data Available</p>
+                <p className="text-red-500">No Loan Data Available</p>
               )}
 
             </div>
-            <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+            {paginatedApprovedLoans.length > 0 && (
+              <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
 
-              <button
-                className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
-                  }`}
-                onClick={() => setCurrentPageApproved(currentPageApproved - 1)}
-                disabled={currentPageApproved === 1}
-              >
-                &lt;
-              </button>
-              <span className="px-4 py-2 border rounded">{currentPageApproved}</span>
-              <button
-                className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length
-                  ? "opacity-50 cursor-not-allowed"
-                  : "bg-[#F4F7FF] text-black"
-                  }`}
-                onClick={() => setCurrentPageApproved(currentPageApproved + 1)}
-                disabled={indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length}
-              >
-                &gt;
-              </button>
-            </div>
+                <button
+                  className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
+                    }`}
+                  onClick={() => setCurrentPageApproved(currentPageApproved - 1)}
+                  disabled={currentPageApproved === 1}
+                >
+                  &lt;
+                </button>
+                <span className="px-4 py-2 border rounded">{currentPageApproved}</span>
+                <button
+                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length
+                    ? "opacity-50 cursor-not-allowed"
+                    : "bg-[#F4F7FF] text-black"
+                    }`}
+                  onClick={() => setCurrentPageApproved(currentPageApproved + 1)}
+                  disabled={indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length}
+                >
+                  &gt;
+                </button>
+              </div>
+            )}
           </div>
 
 
@@ -1052,7 +1170,7 @@ function AddLoanForm({ state }) {
 
           <div>
 
-            <div className="active-loan max-h-[400px] overflow-y-auto p-5 mt-5 scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+            <div className="active-loan max-h-[440px] overflow-y-auto p-5  scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
               {paginatedRejectedLoans.length > 0 ? (
                 paginatedRejectedLoans.map((loan) => {
@@ -1086,7 +1204,8 @@ function AddLoanForm({ state }) {
 
 
                         <p className="text-black font-semibold text-base font-Gilroy font-semibold">
-                          Loan amount: ₹{loan.Loan_Amount}
+
+                          Loan amount: ₹{loan.Loan_Amount ? Number(loan.Loan_Amount).toLocaleString('en-IN') : "0"}
                         </p>
                       </div>
 
@@ -1104,7 +1223,7 @@ function AddLoanForm({ state }) {
                                 const witnessData = members.find((member) => String(member.Id) === String(witness.Widness_Id || witness.Id));
 
                                 return witnessData ? (
-                                  <div key={witnessData.Id} className="flex items-center px-3 py-2 rounded-lg">
+                                  <div key={witnessData.Id} className="flex items-center  py-2 rounded-lg">
                                     <img src={img1} alt="Witness Profile" className="w-10 h-10 rounded-full" />
                                     <div className="ml-2">
                                       <p className="text-black font-semibold text-sm font-Gilroy font-semibold">{witnessData.User_Name}</p>
@@ -1133,31 +1252,33 @@ function AddLoanForm({ state }) {
                   );
                 })
               ) : (
-                <p className="text-gray-500">No Loan Data Available</p>
+                <p className="text-red-500">No Loan Data Available</p>
               )}
 
             </div>
-            <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
-              <button
-                className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
-                  }`}
-                onClick={() => setCurrentPageApproved(currentPageApproved - 1)}
-                disabled={currentPageApproved === 1}
-              >
-                &lt;
-              </button>
-              <span className="px-4 py-2 border rounded">{currentPageApproved}</span>
-              <button
-                className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length
-                  ? "opacity-50 cursor-not-allowed"
-                  : "bg-[#F4F7FF] text-black"
-                  }`}
-                onClick={() => setCurrentPageApproved(currentPageApproved + 1)}
-                disabled={indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length}
-              >
-                &gt;
-              </button>
-            </div>
+            {paginatedRejectedLoans.length > 0 && (
+              <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+                <button
+                  className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
+                    }`}
+                  onClick={() => setCurrentPageApproved(currentPageApproved - 1)}
+                  disabled={currentPageApproved === 1}
+                >
+                  &lt;
+                </button>
+                <span className="px-4 py-2 border rounded">{currentPageApproved}</span>
+                <button
+                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length
+                    ? "opacity-50 cursor-not-allowed"
+                    : "bg-[#F4F7FF] text-black"
+                    }`}
+                  onClick={() => setCurrentPageApproved(currentPageApproved + 1)}
+                  disabled={indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length}
+                >
+                  &gt;
+                </button>
+              </div>
+            )}
           </div>
 
         )}
