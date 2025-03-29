@@ -12,7 +12,7 @@ function LoanID({ state }) {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-  
+
     if (state.Settings.statusCodeLoanID === 200) {
       setPrefix('');
       setSuffix('');
@@ -46,25 +46,25 @@ function LoanID({ state }) {
 
 
 
-    useEffect(() => {
-  const storedPrefix = localStorage.getItem("LoanIDprefix") || state.Settings?.LoanIDprefix || "";
+  useEffect(() => {
+    const storedPrefix = localStorage.getItem("LoanIDprefix") || state.Settings?.LoanIDprefix || "";
     const storedSuffix = localStorage.getItem("LoanIDsuffix") || state.Settings?.LoanIDsuffix || "";
-  
-      setPrefix(storedPrefix);
-      setSuffix(storedSuffix);
-  
-      if (state.Settings.statusCodeLoanID === 200) {
-        localStorage.setItem("LoanIDprefix", prefix);
-        localStorage.setItem("LoanIdsuffix", suffix);
-        dispatch({ type: 'CLEAR_STATUS_CODE_LOAN_ID' });
-      }
-  
-      return () => {
-        dispatch({ type: 'CLEAR_ERROR' });
-      };
-    }, [state.Settings.statusCodeLoanID]);
-  
-  
+
+    setPrefix(storedPrefix);
+    setSuffix(storedSuffix);
+
+    if (state.Settings.statusCodeLoanID === 200) {
+      localStorage.setItem("LoanIDprefix", prefix);
+      localStorage.setItem("LoanIdsuffix", suffix);
+      dispatch({ type: 'CLEAR_STATUS_CODE_LOAN_ID' });
+    }
+
+    return () => {
+      dispatch({ type: 'CLEAR_ERROR' });
+    };
+  }, [state.Settings.statusCodeLoanID]);
+
+
 
   const handleSave = () => {
     let newError = { prefix: "", suffix: "" };
@@ -93,6 +93,7 @@ function LoanID({ state }) {
       setErrorMessage(state.Settings.error);
       setTimeout(() => {
         setErrorMessage("");
+        dispatch({ type: "CLEAR_LOAN_ID_ERROR" });
       }, 1000);
     }
   }, [state.Settings.error]);

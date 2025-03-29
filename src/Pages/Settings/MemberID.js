@@ -98,6 +98,7 @@ function MemberID({ state }) {
       setErrorMessage(state.Settings.error);
       setTimeout(() => {
         setErrorMessage("");
+        dispatch({ type: "CLEAR_MEMBER_ID_ERROR" });
       }, 1000);
     }
   }, [state.Settings.error]);
@@ -109,6 +110,7 @@ function MemberID({ state }) {
       <p className="text-lightgray font-Gilroy text-sm font-normal mt-3">
         Set up the prefix and suffix for Member ID
       </p>
+
       <div className="mt-6 grid grid-cols-4 gap-[150px]">
         <div className="w-[280px]">
           <label className="block text-sm font-Gilroy font-medium">Prefix</label>
