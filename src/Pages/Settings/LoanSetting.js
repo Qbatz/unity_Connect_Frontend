@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import { ChevronDown } from "lucide-react";
 import { useDispatch, connect } from "react-redux";
 
-
 function LoanSetting({ state }) {
 
   const dispatch = useDispatch();
@@ -57,13 +56,33 @@ function LoanSetting({ state }) {
       !selectedDueCount &&
       !selectedInterest
     ) {
-      setErrorMessage("Please do some changes before adding a loan");
+      setErrorMessage("Please fill all loan details");
 
       return;
     }
 
+    if (!selectedLoanName.trim()) {
+      setErrorMessage("Loan Name is required.");
+      return;
+    }
+
+    if (selectedOption === "Select a due type") {
+      setErrorMessage("Please select a Due Type.");
+      return;
+    }
+
+    if (!selectedDueCount.trim()) {
+      setErrorMessage("Due Count is required.");
+      return;
+    }
+
+    if (!selectedInterest.trim()) {
+      setErrorMessage("Interest is required.");
+      return;
+    }
 
     setErrorMessage("");
+
 
     const payload = {
       loan_name: selectedLoanName,
@@ -103,6 +122,7 @@ function LoanSetting({ state }) {
     setSelectedDate("");
     setSelectedDueCount("");
     setIsModalOpen(false);
+    setErrorMessage("");
 
   }, [statusCode, dispatch]);
 
@@ -151,7 +171,10 @@ function LoanSetting({ state }) {
         <button
           className="bg-black font-Gilroy text-white w-[155px] rounded-[60px] text-base font-medium pt-[16px] pr-[20px]
                     pb-[16px] pl-[20px]"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setIsModalOpen(true);
+            setErrorMessage("");
+          }}
         >
           + Loan type
         </button>
@@ -166,7 +189,10 @@ function LoanSetting({ state }) {
               <img
                 alt="Close Circle icon"
                 src={CloseCircleIcon}
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setErrorMessage("");
+                }}
                 className="w-32 h-32 cursor-pointer"
               />
             </div>
@@ -387,8 +413,9 @@ function LoanSetting({ state }) {
                       }}
 
                       placeholder="Select a date"
-                      className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
+                      className="cursor-pointer w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
                     />
+
                   </div>
                 </div>
               )}
@@ -406,6 +433,7 @@ function LoanSetting({ state }) {
                     const value = e.target.value;
                     if (/^\d*$/.test(value)) {
                       setSelectedDueCount(value);
+                      setErrorMessage("");
                     }
                   }}
                   className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3"
@@ -422,6 +450,7 @@ function LoanSetting({ state }) {
                     const value = e.target.value;
                     if (/^\d*$/.test(value)) {
                       setSelectedInterest(value);
+                      setErrorMessage("");
                     }
                   }}
 

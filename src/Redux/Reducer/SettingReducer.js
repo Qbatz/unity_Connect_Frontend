@@ -42,6 +42,11 @@ const SettingReducer = (state = initialState, action) => {
          return { ...state, TransactionIDprefix: action.payload.prefix, TransactionIDsuffix: action.payload.suffix, statusCodeTransactionID: action.payload.statusCode }
       case 'CLEAR_STATUS_CODE_TRANSACTION_ID':
          return { ...state, statusCodeTransactionID: 0 }
+      case "CLEAR_MEMBER_ID_ERROR":
+         return { ...state, error: state.currentComponent === "LoanID" ? state.error : "" };
+
+      case "CLEAR_LOAN_ID_ERROR":
+         return { ...state, error: state.currentComponent === "MemberID" ? state.error : "" };
 
       default:
          return state;

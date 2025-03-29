@@ -24,12 +24,12 @@ function ExpensesSetting({ state }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!categoryName && !isSubCategory) {
-      setErrorMessage("Please do some changes before adding a category");
+      setErrorMessage("Please add a category name");
       return;
     }
 
     if (isSubCategory && !subCategoryName) {
-      setErrorMessage("Please enter a sub-category name");
+      setErrorMessage("Please add a sub-category name");
       return;
     }
 
@@ -43,9 +43,10 @@ function ExpensesSetting({ state }) {
     }
 
     setErrorMessage("");
+
     const payload = {
       category_Name: categoryName,
-      sub_Category: isSubCategory ? subCategoryName : "",
+      sub_Category: subCategories,
     };
 
     dispatch({
@@ -77,39 +78,13 @@ function ExpensesSetting({ state }) {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentExpenses = expensesetting.slice(indexOfFirstItem, indexOfLastItem);
-
-  const [selectedCategoryId] = useState(null);
-  const [subCategoryInput, setSubCategoryInput] = useState("");
   const [subCategories, setSubCategories] = useState([]);
-
-
-  const handleAddSubCategory = (categoryId) => {
-    if (!subCategoryInput.trim()) return;
-
-    const newSubCategories = { ...subCategories };
-    if (!newSubCategories[categoryId]) {
-      newSubCategories[categoryId] = [];
-    }
-    newSubCategories[categoryId].push(subCategoryInput);
-
-    setSubCategories(newSubCategories);
-    setSubCategoryInput("");
-
-
-    dispatch({
-      type: "SETTING_ADD_EXPENSES",
-      payload: {
-        category_Id: categoryId,
-        sub_Category: subCategories
-      },
-    });
-  };
 
 
 
 
   const handleNewAddSubCategory = (categoryName) => {
-    setSubCategories([...subCategories, { subcategory: categoryName }])
+    setSubCategories([...subCategories, categoryName])
   };
 
   return (
@@ -123,14 +98,22 @@ function ExpensesSetting({ state }) {
         </div>
         <button
           className="bg-black text-white w-[155px] rounded-[60px] font-Gilroy text-base font-medium pt-[16px] pr-[20px] pb-[16px] pl-[20px]"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setIsModalOpen(true);
+            setCategoryName("");
+            setSubCategoryName("");
+            setSubCategories([]);
+            setIsSubCategory(false);
+            setErrorMessage("");
+          }}
+
         >
           + Add category
         </button>
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center  bg-black bg-opacity-50">
           <div className={`bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300 `}>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold font-Gilroy">Add new category</h2>
@@ -142,7 +125,7 @@ function ExpensesSetting({ state }) {
               />
             </div>
             <div className="w-full border border-[#E7E7E7] mx-auto"></div>
-            <div className="mt-7">
+            <div className="mt-7 overflow-y-auto max-h-[350px]">
               <label className="text-black text-sm font-medium font-Gilroy text-lg">Category name <span className="text-red-500 text-[20px]">*</span></label>
               <input
                 onChange={(e) => {
@@ -153,10 +136,6 @@ function ExpensesSetting({ state }) {
                 placeholder="Enter category name"
                 className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
               />
-
-              {errorMessage && (
-                <p className="text-[red] text-sm font-medium mt-3">{errorMessage}</p>
-              )}
 
               <div className="flex items-center mt-7 cursor-pointer">
                 <input
@@ -179,9 +158,9 @@ function ExpensesSetting({ state }) {
               </div>
 
               {isSubCategory && (
-                <div className="mt-5">
+                <div className="mt-2">
                   <div
-                    className="flex justify-between w-310 mx-auto px-2 pb-5 pt-5 font-Gilroy font-medium text-sm text-[#222222] cursor-pointer"
+                    className="flex justify-between w-310 mx-auto px-2 pb-5 pt-1 font-Gilroy font-medium text-sm text-[#222222] cursor-pointer"
                     onClick={() =>
                       handleNewAddSubCategory(subCategoryName)
                     }
@@ -189,7 +168,7 @@ function ExpensesSetting({ state }) {
                     + Add Sub-category
                   </div>
                   {subCategories?.map((sub, subIndex) => (
-                    <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pt-5">
+                    <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pt-2">
                       <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
                         {sub}
                       </p>
@@ -208,7 +187,9 @@ function ExpensesSetting({ state }) {
                 </div>
               )}
             </div>
-
+            {errorMessage && (
+              <p className="text-red-500 text-sm font-medium mt-2">{errorMessage}</p>
+            )}
             <button
               onClick={handleSubmit}
               className="mt-10 pt-[20px] pr-[40px] pb-[20px] pl-[40px] w-full h-59 bg-black text-white
@@ -252,27 +233,6 @@ function ExpensesSetting({ state }) {
                 </p>
               </div>
             ))}
-
-
-
-
-            {selectedCategoryId === category.category_Id && (
-              <div className="w-310 mx-auto pb-5">
-                <input
-                  type="text"
-                  value={subCategoryInput}
-                  onChange={(e) => setSubCategoryInput(e.target.value)}
-                  className="w-full h-10 border border-gray-300 rounded-md p-2"
-                  placeholder="Enter sub-category"
-                />
-                <button
-                  onClick={() => handleAddSubCategory(category.category_Id)}
-                  className="mt-2 px-3 pb-2 font-Gilroy py-1 bg-black text-white rounded-md"
-                >
-                  Add
-                </button>
-              </div>
-            )}
 
           </div>
         ))}
