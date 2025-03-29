@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
 import ProfileIcon from '../../Asset/Icons/ProfileIcon.svg';
@@ -13,6 +13,8 @@ import { CalendarDays } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ClipLoader } from "react-spinners";
+
+
 
 function ExpensesList({ state }) {
 
@@ -32,7 +34,48 @@ function ExpensesList({ state }) {
     const popupRef = useRef(null);
 
     const ExpensesList = state.Expenses.getexpenses || [];
-    const totalPages = Math.ceil(ExpensesList.length / pageSize);
+
+
+
+
+    const getWeekRange = (date) => {
+        if (!date) return null;
+
+        const start = new Date(date);
+        start.setDate(date.getDate() - start.getDay());
+        start.setHours(0, 0, 0, 0);
+
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        end.setHours(23, 59, 59, 999);
+
+        return { start, end };
+    };
+
+    const filteredExpenses = useMemo(() => {
+        if (!selectedDate || !ExpensesList) return [];
+
+        const weekRange = getWeekRange(selectedDate);
+        if (!weekRange) return [];
+
+        return ExpensesList.filter((expense) => {
+            if (!expense.Expense_Date) return false; // Prevent errors if the date is missing
+            const expenseDate = new Date(expense.Expense_Date);
+            return expenseDate >= weekRange.start && expenseDate <= weekRange.end;
+        });
+    }, [selectedDate, ExpensesList]);
+
+    const totalPages = Math.max(1, Math.ceil(filteredExpenses.length / pageSize));
+
+    const paginatedData = useMemo(() => {
+        return filteredExpenses.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+    }, [filteredExpenses, currentPage, pageSize]);
+
+    useEffect(() => {
+        if (currentPage > totalPages) {
+            setCurrentPage(1);
+        }
+    }, [totalPages]);
 
 
 
@@ -127,27 +170,6 @@ function ExpensesList({ state }) {
     };
 
 
-    const paginatedData = ExpensesList.slice(
-        (currentPage - 1) * pageSize,
-        currentPage * pageSize
-    );
-
-
-    const getWeekRange = (date) => {
-        const start = new Date(date);
-        start.setDate(date.getDate() - date.getDay());
-        const end = new Date(start);
-        end.setDate(start.getDate() + 6);
-
-        return `${start.toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "short",
-        })} - ${end.toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "short",
-        })}`;
-    };
-
     if (loading) {
         return (
             <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
@@ -170,7 +192,7 @@ function ExpensesList({ state }) {
                             <DatePicker
                                 selected={selectedDate}
                                 onChange={(date) => setSelectedDate(date)}
-                                showWeekNumbers
+
                                 dateFormat="dd MMM yyyy"
                                 popperClassName="!z-50 !absolute"
                                 calendarClassName="rounded-lg border shadow-lg"
@@ -194,8 +216,9 @@ function ExpensesList({ state }) {
                                     <button className="flex items-center gap-2 border border-gray-300 bg-[#F2F4F8] text-black py-3 px-4 rounded-full text-base font-Gilroy shadow-md">
                                         <CalendarDays size={20} className="text-gray-600" />
                                         <span className="text-sm">
-                                            Week ({getWeekRange(selectedDate)})
+                                            Week ({moment(getWeekRange(selectedDate).start).format("DD MMM")} - {moment(getWeekRange(selectedDate).end).format("DD MMM")})
                                         </span>
+
                                     </button>
                                 }
                             />
@@ -351,7 +374,7 @@ function ExpensesList({ state }) {
 
 
 
-                {ExpensesList.length > 5 && (
+                {filteredExpenses.length > 5 && (
                     <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
                         <div className="relative">
                             <select
@@ -399,7 +422,7 @@ function ExpensesList({ state }) {
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
                     <div className="bg-white w-[388px] h-[200px] mx-auto rounded-2xl shadow-lg">
                         <div className="flex justify-center items-center p-4">
-                            <h2>Delete Expense?</h2>
+                            <h2 className="font-Gilroy text-lg font-semibold">Delete Expense?</h2>
                         </div>
 
 

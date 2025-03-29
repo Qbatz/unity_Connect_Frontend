@@ -24,6 +24,8 @@ function NonActiveMember({ state }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
+  const [NonactiveMemberData, setNonActiveMemberData] = useState([]);
+
   const handleStatusChange = (e) => setStatus(e.target.value);
   const handleChangeStatusClick = (memberId) => {
     if (!status) {
@@ -43,12 +45,13 @@ function NonActiveMember({ state }) {
 
 
   const popupRef = useRef(null);
-  const members = state.Member.NonActiveMemberdata;
-  const totalPages = Math.ceil(members.length / pageSize);
 
-  const formattedDate = moment(members.Joining_Date).format("DD-MM-YYYY");
+  const totalPages = Math.ceil(NonactiveMemberData.length / pageSize);
+
+  const formattedDate = moment(NonactiveMemberData.Joining_Date).format("DD-MM-YYYY");
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
+      setNonActiveMemberData(state.Member.NonActiveMemberdata)
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
     }
     return () => {
@@ -69,6 +72,15 @@ function NonActiveMember({ state }) {
       setDeletePopup(null)
     }
   }, [state.Member.deleteMemberStatusCode])
+
+
+  useEffect(() => {
+    if (state.Member.statusCodeMemberList === 201) {
+
+      setNonActiveMemberData([])
+    }
+
+  }, [state.Member.statusCodeMemberList])
 
 
 
@@ -143,7 +155,7 @@ function NonActiveMember({ state }) {
     setCurrentPage(1);
   };
 
-  const paginatedData = members.slice(
+  const paginatedData = NonactiveMemberData.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
@@ -358,7 +370,7 @@ function NonActiveMember({ state }) {
         </div>
 
 
-        {members.length > 5 && (
+        {NonactiveMemberData.length > 5 && (
           <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
             <div className="relative">
               <select

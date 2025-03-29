@@ -122,12 +122,12 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         if (!expensesdata) return true;
 
         return (
-            merchantName !== expensesdata.Name ||
-            category !== expensesdata.Category_Name ||
-            paymentMode !== expensesdata.Mode_of_Payment ||
-            expenseDate !== expensesdata.Expense_Date ||
-            expenseAmount !== expensesdata.Expense_Amount ||
-            description !== expensesdata.Description
+            expensesdata.name !== merchantName ||
+            expensesdata.category_id !== categoryId ||
+            expensesdata.mode_of_payment !== paymentMode ||
+            expensesdata.expense_date !== expenseDate ||
+            expensesdata.expense_amount !== expenseAmount ||
+            expensesdata.description !== description
         );
     };
 
@@ -182,7 +182,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             <input
                 ref={ref}
                 type="text"
-                className="w-[300px] text-gray-600 p-2 h-10 border border-gray-300 rounded-lg text-sm cursor-pointer pl-4"
+                className="w-[300px]  p-2 h-10 border border-gray-300 rounded-lg text-sm cursor-pointer pl-4 focus:outline-none focus:ring-1 focus:ring-black"
                 placeholder="DD-MM-YYYY"
                 value={value}
                 onClick={onClick}
@@ -190,7 +190,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             />
             <CalendarDays
                 size={20}
-                className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+                className="absolute text-[#292D32] right-3 top-3  cursor-pointer"
                 onClick={onClick}
             />
         </div>
@@ -236,7 +236,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 }
                             }}
                             placeholder="Enter name"
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
                         />
                         {errors.merchantName && (
                             <div className="flex items-center text-red-500 text-sm mt-1">
@@ -417,7 +417,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                     }
                                 }}
                                 placeholder="Enter expense amount"
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black cursor-pointer appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                             />
 
                             {errors.expenseAmount && (
@@ -438,7 +438,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Enter description"
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
                         />
                         {errors.description && (
                             <p className="text-red-500 text-sm mt-1">{errors.description}</p>
