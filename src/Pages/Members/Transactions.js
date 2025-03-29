@@ -4,16 +4,28 @@ import { connect, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { FaAngleDown } from "react-icons/fa6";
 
-function Transactions({ state }) {
+function Transactions({ state, member }) {
 
   const dispatch = useDispatch();
 
   const transactionList = state.Member.GetTransactionsList
+  console.log("transactionList",member);
+  
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
 
   const totalPages = Math.ceil(transactionList.length / pageSize);
+
+     useEffect(() => {
+       
+          dispatch({
+            type: "GETTRANSACTIONSLIST",
+            payload: { member_id :  member.Id  },
+          });
+console.log("",member.Id);
+
+      }, [member?.Id]);
 
   useEffect(() => {
     dispatch({ type: "GETTRANSACTIONSLIST" });
@@ -143,6 +155,7 @@ const mapsToProps = (stateInfo) => {
 
 Transactions.propTypes = {
   state: PropTypes.object,
+  member: PropTypes.object,
 };
 
 export default connect(mapsToProps)(Transactions);
