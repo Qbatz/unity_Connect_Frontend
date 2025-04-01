@@ -14,11 +14,13 @@ export const initialState = {
 }
 const SettingReducer = (state = initialState, action) => {
 
-
    switch (action.type) {
 
       case 'SETTINGS_MEMBER_ID':
-         return { ...state, MemberIDprefix: action.payload.prefix, MemberIdsuffix: action.payload.suffix, statusCodeMemberID: action.payload.statusCode }
+         return {
+            ...state, MemberIDprefix: action.payload.prefix, MemberIdsuffix: action.payload.suffix,
+            statusCodeMemberID: action.payload.statusCode
+         }
       case 'CLEAR_STATUS_CODE_MEMBER_ID':
          return { ...state, statusCodeMemberID: 0 }
 
@@ -39,7 +41,16 @@ const SettingReducer = (state = initialState, action) => {
          return { ...state, error: '' }
 
       case 'SETTINGS_TRANSACTION_ID':
-         return { ...state, TransactionIDprefix: action.payload.prefix, TransactionIDsuffix: action.payload.suffix, statusCodeTransactionID: action.payload.statusCode }
+         return {
+            ...state, TransactionIDprefix: action.payload.Prefix,
+            TransactionIDsuffix: action.payload.Suffix, statusCodeTransactionID: action.payload.statusCode
+         }
+
+      case 'SIGNIN-INFO':
+         return {
+            ...state, TransactionIDprefix: action.payload.transactions[0].Prefix,
+            TransactionIDsuffix: action.payload.transactions[0].Suffix, statusCodeTransactionID: action.payload.statusCode
+         }
       case 'CLEAR_STATUS_CODE_TRANSACTION_ID':
          return { ...state, statusCodeTransactionID: 0 }
       case "CLEAR_MEMBER_ID_ERROR":
