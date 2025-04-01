@@ -6,8 +6,11 @@ import RecordPaymentIcon from "../../Asset/Icons/RecordPayment.svg";
 import CloseCircle from "../../Asset/Icons/close-circle.svg";
 import { MdError } from "react-icons/md";
 import moment from "moment";
+import { CalendarDays } from "lucide-react";
 
 import { FaAngleDown } from "react-icons/fa6";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function MemberStatements({ state, member }) {
 
@@ -26,13 +29,19 @@ function MemberStatements({ state, member }) {
   const [pendingAmount, setPendingAmount] = useState('');
   const [status, setStatus] = useState('');
   const [errors, setErrors] = useState({});
-  const [selectedStatement, setSelectedStatement] = useState(null);
+  const [selectedStatement, setSelectedStatement] = useState();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
 
-  const totalPages = Math.ceil(Statement.length / pageSize);
-  const formattedDueDate = moment(Statement.Due_Date).format("DD-MM-YYYY");
+
+  const itemsPerPage = 6;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginatedData = Statement.slice(indexOfFirstItem, indexOfLastItem);
+
+
+  const formattedDueDate = moment(Statement.Due_Date).format("DD-MMM-YYYY");
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -130,21 +139,22 @@ function MemberStatements({ state, member }) {
     setIsModalOpen(false);
   };
 
-  const handlePageChange = (newPage) => {
-    if (newPage > 0 && newPage <= totalPages) setCurrentPage(newPage);
-  };
-
-  const handlePageSizeChange = (e) => {
-    setPageSize(Number(e.target.value));
-    setCurrentPage(1);
-  };
 
 
-  const paginatedData = Statement.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
 
+
+  const CustomDateInput = React.forwardRef(({ value, onClick }, ref) => (
+    <div
+      onClick={onClick}
+      ref={ref}
+      className="w-full border rounded-lg px-3 py-2 mt-1 flex items-center justify-between cursor-pointer"
+    >
+      <span>{value || "Select date"}</span>
+      <CalendarDays className="w-5 h-5 text-gray-500" />
+    </div>
+  ));
+
+  CustomDateInput.displayName = "CustomDateInput";
 
 
   return (
@@ -154,7 +164,7 @@ function MemberStatements({ state, member }) {
 
       </div>
       <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden">
-        <div className="overflow-y-auto h-[280px]">
+        <div className="overflow-y-auto h-[240px]">
           <table className="w-full text-left border-collapse min-w-max">
             <thead className="sticky top-0 bg-[#F4F7FF] z-10">
               <tr className="bg-[#F4F7FF] border-b  text-sm font-Gilroy text-[#939393]">
@@ -205,10 +215,12 @@ function MemberStatements({ state, member }) {
                       ⋮
                     </button>
 
+
                     {showOptions === index && (
                       <div
+
                         ref={popupRef}
-                        className="absolute right-8 top-4 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
+                        className="absolute right-14  top-4 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
                       >
                         <button
                           className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200"
@@ -238,7 +250,7 @@ function MemberStatements({ state, member }) {
       {isModalOpen && (
 
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50 font-Gilroy">
-          <div className="bg-white rounded-lg w-[90%] max-w-md p-4 shadow-lg rounded-3xl">
+          <div className="bg-white rounded-lg w-full max-w-md p-4 shadow-lg rounded-3xl">
             <div className="flex justify-between items-center mb-4 border-b border-gray-300 pb-2">
               <p className="text-lg font-semibold text-center text-black">
                 Record payment
@@ -248,7 +260,7 @@ function MemberStatements({ state, member }) {
               </button>
             </div>
 
-            <div className="font-Gilroy max-h-[300px] sm:max-h-[400px] overflow-y-auto">
+            <div className="font-Gilroy max-h-[400px] sm:max-h-[400px] overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="text-sm font-semibold">Loan Amount</label>
@@ -262,18 +274,17 @@ function MemberStatements({ state, member }) {
 
                 </div>
 
-                <div>
-                  <label className="text-sm font-semibold">Due Date</label>
+                <div className="flex flex-col">
+                  <label className="text-sm font-semibold mb-1">Due Date</label>
 
-                  <input
-                    type="date"
-                    value={selectedStatement?.Due_Date ? selectedStatement.Due_Date.split("T")[0] : ""}
-                    onChange={(e) => handleInputChange("dueDate", e.target.value)}
-                    className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
+                  <DatePicker
+                    selected={selectedStatement?.Due_Date ? new Date(selectedStatement.Due_Date) : null}
+                    onChange={(date) => setSelectedStatement({ ...selectedStatement, Due_Date: date })}
+                    dateFormat="yyyy-MM-dd"
+                    customInput={<CustomDateInput />}
                   />
-
-
                 </div>
+
 
                 <div>
                   <label className="text-sm font-semibold">Paid Amount</label>
@@ -353,44 +364,25 @@ function MemberStatements({ state, member }) {
       )}
 
       {Statement.length > 5 && (
-        <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
-          <div className="relative">
-            <select
-              value={pageSize}
-              onChange={handlePageSizeChange}
-              style={{ color: 'blue', borderColor: 'blue' }}
-              className="border border-gray-300 px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer pr-8"
-            >
-              {[5, 10, 50, 100].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-            <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-              <FaAngleDown size={15} style={{ color: 'blue' }} />
-            </div>
-          </div>
 
-          <div className="flex gap-2">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="px-4 py-2 border rounded-lg"
-            >
-              &lt;
-            </button>
-            <p className="text-gray-600 font-medium px-4 py-2">
-              {currentPage} of {totalPages}
-            </p>
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 border rounded-lg"
-            >
-              &gt;
-            </button>
-          </div>
+        <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &lt;
+
+          </button>
+          <span className="px-4 py-2 border rounded">{currentPage}</span>
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= Statement.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={indexOfLastItem >= Statement.length}
+          >
+            &gt;
+
+          </button>
         </div>
       )}
     </div>

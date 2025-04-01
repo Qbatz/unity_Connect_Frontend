@@ -30,7 +30,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     const name = state.SettingExpenses.getExpenseData.data
 
 
-    const categoryId = category;
+
 
     const paymentOptions = [
         { value: "Credit Card", label: "Credit Card" },
@@ -66,8 +66,6 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         });
 
     }, []);
-
-
 
 
 
@@ -119,62 +117,59 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
     const hasChanges = () => {
+
         if (!expensesdata) return true;
 
+
+        const expenseDateFormatted = expenseDate ? new Date(expenseDate).toISOString().split('T')[0] : null;
+        const expenseDataDateFormatted = expensesdata.Expense_Date ? new Date(expensesdata.Expense_Date).toISOString().split('T')[0] : null;
+
         return (
-            expensesdata.name !== merchantName ||
-            expensesdata.category_id !== categoryId ||
-            expensesdata.mode_of_payment !== paymentMode ||
-            expensesdata.expense_date !== expenseDate ||
-            expensesdata.expense_amount !== expenseAmount ||
-            expensesdata.description !== description
+            expensesdata.Name !== merchantName ||
+            expensesdata.Category_Name !== category ||
+            expensesdata.Mode_of_Payment !== paymentMode ||
+            expenseDataDateFormatted !== expenseDateFormatted ||
+            expensesdata.Expense_Amount !== expenseAmount ||
+            expensesdata.Description !== description
         );
     };
 
 
-
     const handleSubmit = (e) => {
-
-
         e.preventDefault();
+
 
         if (!hasChanges()) {
             setFormError("No changes detected");
             return;
         }
 
+
         if (validateForm()) {
-
-
             const payload = {
                 name: merchantName,
-                category_id: categoryId,
+                category_id: category,
                 mode_of_payment: paymentMode,
                 expense_date: expenseDate,
                 expense_amount: expenseAmount,
                 description: description,
             };
 
-
-            const Editpayload =
-            {
-                name: merchantName,
-                category_id: categoryId,
-                mode_of_payment: paymentMode,
-                expense_date: expenseDate,
-                expense_amount: expenseAmount,
-                description: description,
+            const Editpayload = {
+                ...payload,
                 id: expensesdata?.Id,
-            }
-
+            };
 
             dispatch({
                 type: 'ADDEXPENSES',
                 payload: expensesdata ? Editpayload : payload,
             });
-        }
 
+            setFormError("");
+        }
     };
+
+
 
 
     const CustomInput = forwardRef(({ value, onClick }, ref) => (

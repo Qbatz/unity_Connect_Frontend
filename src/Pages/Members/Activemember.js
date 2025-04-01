@@ -36,8 +36,12 @@ function ActiveMember({ state, onSelectMember }) {
   const [activeMemberData, setActiveMemberData] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+
   // const [loading, setLoading] = useState(false);
+  const itemsPerPage = 6;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginatedData = activeMemberData.slice(indexOfFirstItem, indexOfLastItem);
 
 
   const handleStatusChange = (event) => {
@@ -64,7 +68,7 @@ function ActiveMember({ state, onSelectMember }) {
 
 
 
-  const totalPages = Math.ceil(activeMemberData.length / pageSize);
+
 
 
   useEffect(() => {
@@ -197,21 +201,6 @@ function ActiveMember({ state, onSelectMember }) {
   }
 
 
-  const handlePageChange = (newPage) => {
-    if (newPage > 0 && newPage <= totalPages) setCurrentPage(newPage);
-  };
-
-  const handlePageSizeChange = (e) => {
-    setPageSize(Number(e.target.value));
-    setCurrentPage(1);
-  };
-
-
-  const paginatedData = activeMemberData.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
-
 
 
   // if (loading) {
@@ -330,7 +319,8 @@ function ActiveMember({ state, onSelectMember }) {
 
 
                 <span className="bg-#E8E8E8 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-                  {member.Joining_Date ? moment(member.Joining_Date).format('DD-MM-YYYY') : 'No date'}
+                  {/* {member.Joining_Date ? moment(member.Joining_Date).format('DD-MM-YYYY') : 'No date'} */}
+                  {moment(member.Joining_Date).format("DD MMM YYYY")}
                 </span>
 
               </div>
@@ -409,7 +399,7 @@ function ActiveMember({ state, onSelectMember }) {
 
 
                       {statusError.trim() !== "" && (
-                        <div className="mt-2 text-center text-red-500 text-[12px] font-medium font-Gilroy">
+                        <div className="mt-2 text-center text-red-500 text-[15px] font-medium font-Gilroy">
                           <span className="inline-block text-red-500 mb-1 font-Gilroy">{statusError}</span>
                         </div>
                       )}
@@ -434,44 +424,25 @@ function ActiveMember({ state, onSelectMember }) {
         </div>
 
         {activeMemberData.length > 5 && (
-          <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
-            <div className="relative">
-              <select
-                value={pageSize}
-                onChange={handlePageSizeChange}
-                style={{ color: 'blue', borderColor: 'blue' }}
-                className="border border-gray-300 px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer pr-8"
-              >
-                {[5, 10, 50, 100].map((size) => (
-                  <option key={size} value={size}>
-                    {size}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                <FaAngleDown size={15} style={{ color: 'blue' }} />
-              </div>
-            </div>
 
-            <div className="flex gap-2">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="px-4 py-2 border rounded-lg"
-              >
-                &lt;
-              </button>
-              <p className="text-gray-600 font-medium px-4 py-2">
-                {currentPage} of {totalPages}
-              </p>
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 border rounded-lg"
-              >
-                &gt;
-              </button>
-            </div>
+          <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+            <button
+              className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              &lt;
+
+            </button>
+            <span className="px-4 py-2 border rounded">{currentPage}</span>
+            <button
+              className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= activeMemberData.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={indexOfLastItem >= activeMemberData.length}
+            >
+              &gt;
+
+            </button>
           </div>
         )}
 
