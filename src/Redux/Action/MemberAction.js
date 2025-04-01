@@ -95,8 +95,9 @@ export async function RecordPaymentAction(params) {
     });
 }
 
-
-export async function GetTransactionsAction() {
-    let transaction = await AxiosConfig.post(`/transaction/get_transaction`);
-    return transaction
+export async function GetTransactionsAction(transactions) {
+    console.log("transactions",transactions);
+  return await AxiosConfig.post('/transaction/get_transaction',transactions, {
+      data: transactions
+    });
 }

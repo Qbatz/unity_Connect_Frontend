@@ -9,27 +9,24 @@ function Transactions({ state, member }) {
   const dispatch = useDispatch();
 
   const transactionList = state.Member.GetTransactionsList
-  console.log("transactionList",member);
   
+  console.log("transactionList", member);
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
   const totalPages = Math.ceil(transactionList.length / pageSize);
 
-     useEffect(() => {
-       
-          dispatch({
-            type: "GETTRANSACTIONSLIST",
-            payload: { member_id :  member.Id  },
-          });
-console.log("",member.Id);
-
-      }, [member?.Id]);
-
   useEffect(() => {
-    dispatch({ type: "GETTRANSACTIONSLIST" });
-  }, []);
+    if (member?.Id) {
+    dispatch({
+      type: "GETTRANSACTIONSLIST",
+      payload: { member_id: member.Id },
+    });
+  }
+   }, [member?.Id]);
+
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) setCurrentPage(newPage);
@@ -86,7 +83,7 @@ console.log("",member.Id);
                   <td className="p-4 font-Gilroy">₹{item.Amount.toLocaleString("en-IN")}</td>
                   <td className="p-4 font-Gilroy">
                     <span
-                      className={`px-3 py-1 text-sm rounded-full font-Gilroy ${item.status === "Success"
+                      className={`px-3 py-1 text-sm rounded-full font-Gilroy ${item.status === "+ Success"
                         ? "bg-green-200 text-green-700"
                         : "bg-[#FFDDDB]"
                         }`}

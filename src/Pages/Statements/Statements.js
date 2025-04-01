@@ -69,19 +69,19 @@ function Statement({ state }) {
       <div className="font-Gilroy font-base px-2 md:px-4 py-2 text-gray-900 mb-3 lg:-ml-2.5">Loan statement</div>
 
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <div className="min-w-max overflow-y-auto max-h-[700px]">
-            <table className="w-full text-left border-collapse">
+       
+          <div className="overflow-y-auto max-h-[700px]">
+            <table className="w-full text-left border-collapse min-w-max">
               <thead className="sticky top-0 bg-blue-50 z-10">
 
                 <tr className="bg-blue-50 border-b text-center">
                   <th className="pl-8 text-left" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }} >Member Name</th>
-                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan ID</th>
-                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Date</th>
-                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Amount</th>
-                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due Date</th>
-                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due</th>
-                  <th className="p-4" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Status</th>
+                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan ID</th>
+                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Date</th>
+                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Amount</th>
+                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due Date</th>
+                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due</th>
+                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Status</th>
                 </tr>
               </thead>
 
@@ -94,7 +94,7 @@ function Statement({ state }) {
                   </tr>
                 ) : (
                   currentStatement.map((item, index) => (
-                    <tr key={index} className="p-3 text-center">
+                    <tr key={index} className= "text-center">
                       <td className="p-2 flex text-start gap-3 pl-6">
                         <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
                         <span className="truncate mt-2">{item.User_Name}</span>
@@ -122,7 +122,7 @@ function Statement({ state }) {
                           {item.Status}
                         </span>
                       </td>
-                      <td className="p-3 relative">
+                      <td className="p-2 relative">
                         <button
                           onClick={() => toggleMenu(index)}
                           className={`text-gray-600 rounded-full p-2 shadow ${menuOpen === index ? "bg-blue-200" : "bg-white"
@@ -161,11 +161,11 @@ function Statement({ state }) {
             </table>
           </div>
 
-        </div>
+       
       </div>
-      <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+      <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
         <button
-          className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+          className={`px-4 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -174,7 +174,7 @@ function Statement({ state }) {
         </button>
         <span className="px-4 py-2 border rounded">{currentPage}</span>
         <button
-          className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= statementList.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+          className={`px-4 mx-2 border rounded ${indexOfLastItem >= statementList.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={indexOfLastItem >= statementList.length}
         >
