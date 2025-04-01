@@ -575,7 +575,7 @@ function ReportsTab({ state }) {
                     </div>
                   ))
                 ) : (
-                  <p className="text-red-500 font-Gilroy">No unsuccessful payments found</p>
+                  <p className="text-red-500 font-Gilroy text-center">No unsuccessful payments found</p>
                 )}
               </div>
             </div>
