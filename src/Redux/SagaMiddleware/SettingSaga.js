@@ -103,6 +103,7 @@ export function* SettingLoanID(action) {
 export function* SettingTransactionID(action) {
 
     const response = yield call(SettingTransactionIDAction, action.payload);
+    console.log("Saga received:", action.payload);
 
     var toastStyle = {
         backgroundColor: "#E6F6E6",
