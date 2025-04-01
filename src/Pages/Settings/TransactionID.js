@@ -81,7 +81,7 @@ function TransactionID({ state }) {
     setError(newError);
     if (!hasError) {
       dispatch({ type: "SETTINGSTRANSACTIONID", payload: { prefix, suffix } });
-      console.log("Payload Sent:", { Prefix: prefix, Suffix: suffix });
+ 
 
       localStorage.setItem("TransactionIDprefix", prefix);
       localStorage.setItem("TransactionIDsuffix", suffix);
