@@ -8,7 +8,6 @@ import editIcon from "../../Asset/Icons/edit_blue.svg";
 import deleteIcon from "../../Asset/Icons/Delete.svg";
 import ExpenseForm from './AddExpenses';
 import moment from "moment";
-import { FaAngleDown } from "react-icons/fa6";
 import { CalendarDays } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -26,7 +25,7 @@ function ExpensesList({ state }) {
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize] = useState(8);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
 
@@ -59,7 +58,7 @@ function ExpensesList({ state }) {
         if (!weekRange) return [];
 
         return ExpensesList.filter((expense) => {
-            if (!expense.Expense_Date) return false; // Prevent errors if the date is missing
+            if (!expense.Expense_Date) return false;
             const expenseDate = new Date(expense.Expense_Date);
             return expenseDate >= weekRange.start && expenseDate <= weekRange.end;
         });
@@ -164,10 +163,7 @@ function ExpensesList({ state }) {
         if (newPage > 0 && newPage <= totalPages) setCurrentPage(newPage);
     };
 
-    const handlePageSizeChange = (e) => {
-        setPageSize(Number(e.target.value));
-        setCurrentPage(1);
-    };
+
 
 
     if (loading) {
@@ -240,7 +236,7 @@ function ExpensesList({ state }) {
 
                 <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden mt-4 mx-6">
                     <div className="overflow-x-auto">
-                        <div className="overflow-y-auto max-h-[450px]">
+                        <div className="overflow-y-auto max-h-[550px]">
                             <table className="w-full text-left border-collapse">
                                 <thead className="sticky top-0 bg-[#F4F7FF] z-10">
                                     <tr className="bg-[#F4F7FF] border-b font-extralight text-sm font-Gilroy">
@@ -309,7 +305,7 @@ function ExpensesList({ state }) {
 
                                                 <td className="py-2 px-4">
                                                     <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
-                                                        {moment(item.Expense_Date).format("DD-MM-YYYY")}
+                                                        {moment(item.Expense_Date).format("DD-MMM-YYYY")}
                                                     </span>
                                                 </td>
                                                 <td className="py-2 px-4 font-Gilroy">
@@ -376,38 +372,24 @@ function ExpensesList({ state }) {
 
                 {filteredExpenses.length > 5 && (
                     <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
-                        <div className="relative">
-                            <select
-                                value={pageSize}
-                                onChange={handlePageSizeChange}
-                                style={{ color: 'blue', borderColor: 'blue' }}
-                                className="border px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer pr-8"
-                            >
-                                {[5, 10, 50, 100].map((size) => (
-                                    <option key={size} value={size}>
-                                        {size}
-                                    </option>
-                                ))}
-                            </select>
-                            <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                                <FaAngleDown size={15} style={{ color: 'blue' }} />
-                            </div>
-                        </div>
+
                         <div className="flex gap-2">
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className="px-4 py-1 border rounded-lg"
+
+                                className={`px-4 py-2 mx-2 border rounded ${filteredExpenses.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
                             >
                                 &lt;
                             </button>
-                            <p className="text-gray-600 font-medium px-4 py-1">
-                                {currentPage} of {totalPages}
-                            </p>
+                            <span className="px-4 py-2 border rounded">
+                                {currentPage}
+                            </span>
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-                                className="px-4 py-1 border rounded-lg"
+
+                                className={`px-4 py-2 mx-2 border rounded ${filteredExpenses.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
                             >
                                 &gt;
                             </button>
@@ -426,7 +408,7 @@ function ExpensesList({ state }) {
                         </div>
 
 
-                        <div className="text-center text-[14px] font-medium text-[#646464] font-Gilroy mt-[-10px]">
+                        <div className="text-center text-[14px] font-medium text-[#646464] font-Gilroy mt-[8px]">
                             Are you sure you want to delete this Member?
                         </div>
 

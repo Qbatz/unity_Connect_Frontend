@@ -9,6 +9,7 @@ import tick from '../../Asset/Icons/tick-circle.svg';
 import { MdError } from "react-icons/md";
 
 import Select from "react-select";
+import { ClipLoader } from "react-spinners";
 
 
 
@@ -37,7 +38,7 @@ function AddLoanForm({ state }) {
   const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
 
   const [approve, setApprove] = useState("");
-
+  const [loading, setLoading] = useState(true);
 
   const [interesttype, setInterestType] = useState("");
 
@@ -128,18 +129,27 @@ function AddLoanForm({ state }) {
 
   useEffect(() => {
     if (state.Loan?.statusCodeLoans === 200) {
+
       dispatch({ type: "CLEARLOAN" });
     }
   }, [state.Loan?.statusCodeLoans]);
 
 
+
   useEffect(() => {
-    dispatch({ type: "GET_LOAN" });
-  }, [dispatch]);
+    setLoading(true);
+    dispatch({
+      type: "GET_LOAN",
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
 
   useEffect(() => {
     if (state.Loan?.statusCodeLoans === 200) {
+
       dispatch({ type: "GET_LOAN" });
 
       setTimeout(() => {
@@ -417,6 +427,9 @@ function AddLoanForm({ state }) {
       boxShadow: "none",
       height: '60px',
       marginTop: '10px',
+      minHeight: "48px",
+      maxHeight: "auto",
+      overflowY: "auto",
       "&:hover": { borderColor: "#666" },
     }),
     placeholder: (base) => ({
@@ -455,6 +468,24 @@ function AddLoanForm({ state }) {
       ...base,
       cursor: "pointer",
     }),
+
+    valueContainer: (base) => ({
+      ...base,
+      display: "flex",
+      flexWrap: "wrap",
+    }),
+    multiValue: (base) => ({
+      ...base,
+      backgroundColor: "#E2E8F0",
+      borderRadius: "4px",
+      padding: "2px 4px",
+    }),
+    multiValueLabel: (base) => ({
+      ...base,
+      fontSize: "14px",
+      color: "#333",
+    }),
+
   };
 
 
@@ -467,6 +498,9 @@ function AddLoanForm({ state }) {
       boxShadow: "none",
       height: "60px",
       marginTop: "10px",
+      minHeight: "48px",
+      maxHeight: "auto",
+      overflowY: "auto",
       "&:hover": { borderColor: "#666" },
     }),
     menu: (base) => ({
@@ -499,8 +533,34 @@ function AddLoanForm({ state }) {
       ...base,
       cursor: "pointer",
     }),
+    valueContainer: (base) => ({
+      ...base,
+      display: "flex",
+      flexWrap: "wrap",
+    }),
+    multiValue: (base) => ({
+      ...base,
+      backgroundColor: "#E2E8F0",
+      borderRadius: "4px",
+      padding: "2px 4px",
+    }),
+    multiValueLabel: (base) => ({
+      ...base,
+      fontSize: "14px",
+      color: "#333",
+    }),
+
   };
 
+
+
+  if (loading) {
+    return (
+      <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
+        <ClipLoader color="#7f00ff" loading={loading} size={30} />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -962,6 +1022,12 @@ function AddLoanForm({ state }) {
                   styles={customLoanStyles}
                   isSearchable={true}
                   menuShouldScrollIntoView={true}
+                  isValidNewOption={() => false}
+                  onInputChange={(inputValue, { action }) => {
+                    if (action === "input-change" && /\d/.test(inputValue)) {
+                      return "";
+                    }
+                  }}
                 />
 
                 {loanTypeError && (
@@ -1203,7 +1269,7 @@ function AddLoanForm({ state }) {
                         </div>
 
 
-                        <p className="text-black font-semibold text-base font-Gilroy font-semibold">
+                        <p style={{ marginTop: '-30px' }} className="text-black font-semibold text-base font-Gilroy font-semibold">
 
                           Loan amount: ₹{loan.Loan_Amount ? Number(loan.Loan_Amount).toLocaleString('en-IN') : "0"}
                         </p>

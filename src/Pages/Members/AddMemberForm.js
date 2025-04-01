@@ -189,7 +189,7 @@ function MemberModal({ state, memberData, onClose }) {
             <input
                 ref={ref}
                 type="text"
-                className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
+                className="w-[260px] border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
                 placeholder="DD-MM-YYYY"
                 value={value}
                 onClick={onClick}
@@ -197,7 +197,7 @@ function MemberModal({ state, memberData, onClose }) {
             />
             <CalendarDays
                 size={20}
-                className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+                className="absolute right-3 top-3 text-gray-500 cursor-pointer ml-4"
                 onClick={onClick}
             />
         </div>
@@ -207,8 +207,9 @@ function MemberModal({ state, memberData, onClose }) {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-lg relative overflow-y-auto">
-                <div className="flex items-center justify-between border-b pb-2 mb-2">
+            <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-xl max-h-[98vh] overflow-y-auto">
+
+                <div className="flex items-center justify-between border-b pb-2 mb-2 bg-white z-10 sticky top-0">
                     <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">
                         {memberData ? "Edit Member" : "Add a Member"}
                     </p>
@@ -217,7 +218,7 @@ function MemberModal({ state, memberData, onClose }) {
                     </button>
                 </div>
 
-                <div className="space-y-1 mt-2">
+                <div className="space-y-2 mt-2 h-[600px]">
                     <div className="flex gap-4 ">
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID
@@ -318,6 +319,7 @@ function MemberModal({ state, memberData, onClose }) {
                             onChange={(date) => handleChange("joiningDate", date)}
                             dateFormat="dd-MM-yyyy"
                             customInput={<CustomInput />}
+
                         />
                         {errors.joiningDate && (
                             <p className="text-red-500 flex items-center gap-1 text-xs">
@@ -362,10 +364,10 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
                     )}
 
-                    <div>
+                    <div className="sticky bottom-0 bg-white py-2 z-10">
                         <button
                             type="submit"
-                            className="mt-2 w-full bg-black text-white p-2 rounded-3xl font-Gilroy font-semibold text-sm"
+                            className="mt-4 w-full bg-black text-white p-2 rounded-3xl font-Gilroy font-semibold text-sm"
                             onClick={handleSubmit}
                         >
                             {memberData ? "Save Changes" : "Add Member"}
