@@ -46,12 +46,6 @@ const SignInReducer = (state = initialState, action) => {
             return { ...state, errorEmail: '', statusCode: 0 };
         case 'CLEAR_ERROR_PASSWORD':
             return { ...state, errorPassword: '', statusCode: 0 };
-        case 'SIGNIN-INFO':
-            return {
-                ...state, TransactionIDprefix: action.payload.transactions[0].Prefix,
-                TransactionIDsuffix: action.payload.transactions[0].Suffix, statusCodeTransactionID: action.payload.statusCode
-            }
-
         case 'PROFILE_DETAILS_LIST':
             return { ...state, profileDetailsList: action.payload.data[0], profileDetailsStatusCode: action.payload.statusCode }
         case 'PROFILE_DETAILS_ERROR':
