@@ -45,12 +45,6 @@ const SettingReducer = (state = initialState, action) => {
             ...state, TransactionIDprefix: action.payload.Prefix,
             TransactionIDsuffix: action.payload.Suffix, statusCodeTransactionID: action.payload.statusCode
          }
-
-      case 'SIGNIN-INFO':
-         return {
-            ...state, TransactionIDprefix: action.payload.transactions[0].Prefix,
-            TransactionIDsuffix: action.payload.transactions[0].Suffix, statusCodeTransactionID: action.payload.statusCode
-         }
       case 'CLEAR_STATUS_CODE_TRANSACTION_ID':
          return { ...state, statusCodeTransactionID: 0 }
       case "CLEAR_MEMBER_ID_ERROR":

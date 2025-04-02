@@ -28,7 +28,8 @@ const SignInReducer = (state = initialState, action) => {
             return {
                 ...state, signinsuccessstatuscode: action.payload.statusCode, JWTtoken: action.payload.token,
                 members: action.payload.members,
-                loans: action.payload.loans, transactions: action.payload.transactions
+                loans: action.payload.loans,
+                transactions: action.payload.transactions
             }
         case 'REMOVE_LOGIN_STATUS_CODE':
             return { ...state, signinsuccessstatuscode: 0 }
@@ -45,7 +46,6 @@ const SignInReducer = (state = initialState, action) => {
             return { ...state, errorEmail: '', statusCode: 0 };
         case 'CLEAR_ERROR_PASSWORD':
             return { ...state, errorPassword: '', statusCode: 0 };
-
         case 'PROFILE_DETAILS_LIST':
             return { ...state, profileDetailsList: action.payload.data[0], profileDetailsStatusCode: action.payload.statusCode }
         case 'PROFILE_DETAILS_ERROR':
