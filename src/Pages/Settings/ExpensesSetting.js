@@ -19,7 +19,7 @@ function ExpensesSetting({ state }) {
   const [subCategoryName, setSubCategoryName] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubCategory, setIsSubCategory] = useState(false);
-  const [setErrorMessage] = useState("");
+  const [errormsg, setErrorMessage] = useState("");
   const [subCategories, setSubCategories] = useState([]);
 
   const [categoryError, setCategoryError] = useState("")
@@ -159,6 +159,12 @@ function ExpensesSetting({ state }) {
               {categoryError && (
                 <p className="text-red-500 flex items-center gap-1 text-sm mt-3">
                   <MdError /> {categoryError}
+                </p>
+              )}
+
+              {errormsg && (
+                <p className="text-red-500 flex items-center gap-1 text-sm mt-3">
+                  <MdError /> {errormsg}
                 </p>
               )}
 
