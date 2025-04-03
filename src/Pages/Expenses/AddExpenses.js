@@ -116,6 +116,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
 
+
     const hasChanges = () => {
 
         if (!expensesdata) return true;
@@ -135,17 +136,23 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     };
 
 
+
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
 
         if (!hasChanges()) {
             setFormError("No changes detected");
+            console.log('error', formError)
             return;
         }
 
 
-        if (validateForm()) {
+
+
+        if (validateForm() && hasChanges) {
             const payload = {
                 name: merchantName,
                 category_id: category,

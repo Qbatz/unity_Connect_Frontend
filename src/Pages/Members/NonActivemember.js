@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import moment from "moment";
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
+import { MdError } from "react-icons/md";
 function NonActiveMember({ state }) {
 
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ function NonActiveMember({ state }) {
 
   const totalPages = Math.ceil(NonactiveMemberData.length / pageSize);
 
-  const formattedDate = moment(NonactiveMemberData.Joining_Date).format("DD-MM-YYYY");
+
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
       setNonActiveMemberData(state.Member.NonActiveMemberdata)
@@ -160,6 +161,12 @@ function NonActiveMember({ state }) {
     currentPage * pageSize
   );
 
+  const handleCloseStatus = () => {
+    setChangePopup(false)
+    setStatusError("")
+    setStatus("")
+  }
+
 
 
   return (
@@ -270,7 +277,8 @@ function NonActiveMember({ state }) {
 
 
                 <span className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-                  {formattedDate}
+
+                  {moment(member.Joining_Date).format("DD MMM YYYY")}
                 </span>
               </div>
 
@@ -315,7 +323,7 @@ function NonActiveMember({ state }) {
                     <div className="flex justify-between items-center">
                       <h2 className="text-[20px] font-semibold font-Gilroy">Change Status</h2>
                       <button
-                        onClick={() => setChangePopup(false)}
+                        onClick={handleCloseStatus}
                         className=""
                       >
                         <img src={closecircle} alt="Close" className="" />
@@ -346,10 +354,12 @@ function NonActiveMember({ state }) {
                       </div>
 
                       {statusError.trim() !== "" && (
-                        <div className="mt-2 text-center text-red-500 text-[12px] font-medium font-gilroy">
-                          <span className="inline-block text-red-500 mb-1"></span> {statusError}
+                        <div className="mt-4 text-center text-red-500 text-[15px] font-medium font-Gilroy">
+
+                          <MdError className="text-sm inline-block text-red-500 mb-1 font-Gilroy" /> {statusError}
                         </div>
                       )}
+
                     </div>
 
 

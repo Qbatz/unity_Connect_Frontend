@@ -7,7 +7,7 @@ import CloseCircle from "../../Asset/Icons/close-circle.svg";
 import { MdError } from "react-icons/md";
 import moment from "moment";
 import { CalendarDays } from "lucide-react";
-
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { FaAngleDown } from "react-icons/fa6";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -202,35 +202,30 @@ function MemberStatements({ state, member }) {
                       {item.Status}
                     </span>
                   </td>
+
                   <td className="p-4 relative">
                     <button
-                      className="text-gray-600 text-xl"
+
+                      className={`cursor-pointer h-9 w-9 border border-gray-300 rounded-full flex justify-center items-center 
+      bg-white ${showOptions === index ? "!bg-blue-100" : ""}`}
                       onClick={() => {
                         setShowOptions(showOptions === index ? null : index);
                         setSelectedStatement(item);
                       }}
-
-
                     >
-                      ⋮
+                      <PiDotsThreeOutlineVerticalFill size={20} />
                     </button>
-
 
                     {showOptions === index && (
                       <div
-
                         ref={popupRef}
-                        className="absolute right-14  top-4 bg-white w-40 border border-gray-200 rounded-lg shadow-lg z-10 w-[180px]"
+                        className="absolute right-20 top-4 bg-white w-[180px] border border-gray-200 rounded-lg shadow-lg z-10"
                       >
                         <button
                           className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200"
                           onClick={() => setIsModalOpen(true)}
                         >
-                          <img
-                            src={RecordPaymentIcon}
-                            alt="Record Payment"
-                            className="h-4 w-4"
-                          />
+                          <img src={RecordPaymentIcon} alt="Record Payment" className="h-4 w-4" />
                           Record Payment
                         </button>
                       </div>

@@ -96,10 +96,9 @@ function MemberID({ state }) {
   useEffect(() => {
     if (state.Settings.error === "Prefix and Suffix already Exist") {
       setErrorMessage(state.Settings.error);
-      setTimeout(() => {
-        setErrorMessage("");
-        dispatch({ type: "CLEAR_MEMBER_ID_ERROR" });
-      }, 1000);
+
+      dispatch({ type: "CLEAR_MEMBER_ID_ERROR" });
+
     }
   }, [state.Settings.error]);
 

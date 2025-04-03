@@ -5,6 +5,7 @@ import ExpensesIcon from "../../Asset/Icons/ExpensesIcon.svg";
 import ThreeDotMore from "../../Asset/Icons/ThreeDotMore.svg";
 import CloseCircleIcon from "../../Asset/Icons/close-circle.svg";
 import PropTypes from "prop-types";
+import { MdError } from "react-icons/md";
 
 function ExpensesSetting({ state }) {
 
@@ -18,18 +19,24 @@ function ExpensesSetting({ state }) {
   const [subCategoryName, setSubCategoryName] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubCategory, setIsSubCategory] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [setErrorMessage] = useState("");
+  const [subCategories, setSubCategories] = useState([]);
+
+  const [categoryError, setCategoryError] = useState("")
+  const [subcategoryError, setSubCategoryError] = useState("")
+
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!categoryName && !isSubCategory) {
-      setErrorMessage("Please add a category name");
+      setCategoryError("Please add a category name");
       return;
     }
 
-    if (isSubCategory && !subCategoryName) {
-      setErrorMessage("Please add a sub-category name");
+    if (isSubCategory && subCategories.length === 0) {
+      setSubCategoryError("Please add at least one sub-category");
       return;
     }
 
@@ -38,11 +45,12 @@ function ExpensesSetting({ state }) {
     );
 
     if (categoryExists) {
-      setErrorMessage("Sub Category Name Already Exist");
+      setErrorMessage("Category name already exists");
       return;
     }
 
-    setErrorMessage("");
+    setCategoryError("");
+    setSubCategoryError("")
 
     const payload = {
       category_Name: categoryName,
@@ -78,14 +86,19 @@ function ExpensesSetting({ state }) {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentExpenses = expensesetting.slice(indexOfFirstItem, indexOfLastItem);
-  const [subCategories, setSubCategories] = useState([]);
 
 
+  const handleNewAddSubCategory = () => {
+    if (subCategoryName.trim() === "") {
+      setErrorMessage("Please enter a sub-category name");
+      return;
+    }
 
-
-  const handleNewAddSubCategory = (categoryName) => {
-    setSubCategories([...subCategories, categoryName])
+    setSubCategories((prev) => [...prev, subCategoryName]);
+    setSubCategoryName("");
   };
+
+
 
   return (
     <div className="container mx-auto mt-5">
@@ -114,13 +127,19 @@ function ExpensesSetting({ state }) {
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center  bg-black bg-opacity-50">
-          <div className={`bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300 `}>
+          <div className="bg-white w-[464px] rounded-[40px] p-6 shadow-lg transition-all duration-300">
+
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold font-Gilroy">Add new category</h2>
               <img
                 alt=""
                 src={CloseCircleIcon}
-                onClick={() => setIsModalOpen(false)}
+
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setSubCategoryError("")
+
+                }}
                 className="w-32 h-32 cursor-pointer"
               />
             </div>
@@ -136,6 +155,12 @@ function ExpensesSetting({ state }) {
                 placeholder="Enter category name"
                 className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
               />
+
+              {categoryError && (
+                <p className="text-red-500 flex items-center gap-1 text-sm mt-3">
+                  <MdError /> {categoryError}
+                </p>
+              )}
 
               <div className="flex items-center mt-7 cursor-pointer">
                 <input
@@ -187,9 +212,12 @@ function ExpensesSetting({ state }) {
                 </div>
               )}
             </div>
-            {errorMessage && (
-              <p className="text-red-500 text-sm font-medium mt-2">{errorMessage}</p>
+            {subcategoryError && (
+              <p className="text-red-500 flex items-center gap-1 text-sm mt-3">
+                <MdError /> {subcategoryError}
+              </p>
             )}
+
             <button
               onClick={handleSubmit}
               className="mt-10 pt-[20px] pr-[40px] pb-[20px] pl-[40px] w-full h-59 bg-black text-white
@@ -204,7 +232,7 @@ function ExpensesSetting({ state }) {
 
       <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentExpenses.map((category, index) => (
-          <div key={index} className="w-300 h-300 border border-[#E7E7E7] bg-[#F4F7FF] flex flex-col rounded-3xl">
+          <div key={index} className="w-[330px] h-[180px]  bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
               <p className="text-darkGray text-base font-semibold leading-[19.09px] ml-2 font-Gilroy">
@@ -213,7 +241,7 @@ function ExpensesSetting({ state }) {
               <div className="flex-grow"></div>
               <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
             </div>
-            <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
+            <div className="w-[290px] mx-auto border-t border-[#E7E7E7]"></div>
 
             {category.subcategory?.map((sub, subIndex) => (
 
