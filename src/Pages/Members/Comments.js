@@ -11,10 +11,14 @@ function CommentSection({ state, member }) {
   const [comment, setComment] = useState("");
   const [localComments, setLocalComments] = useState([]);
 
-  const formattedDate = moment(member.Joining_Date).format("DD-MM-YYYY");
+  const formattedDate = moment(member.Joining_Date).format("DD-MM-YYYY, hh:mm A");
+
   const isApiCalled = useRef(false);
 
   const commentSectionRef = useRef(null);
+
+
+
 
   useEffect(() => {
 
@@ -75,7 +79,7 @@ function CommentSection({ state, member }) {
               <div className="flex flex-col">
                 <h3 className="font-semibold text-gray-900 font-Gilroy">{member.User_Name}</h3>
                 <p className="text-sm text-gray-500 font-Gilroy mt-1">
-                  {formattedDate}. 9.30AM
+                  {formattedDate}
                 </p>
 
                 <div style={{ marginLeft: '-70px' }} className="mt-2   p-2  inline-block ">

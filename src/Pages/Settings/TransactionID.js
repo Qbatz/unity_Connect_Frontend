@@ -5,11 +5,13 @@ import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 
 function TransactionID({ state }) {
+
+
   const dispatch = useDispatch();
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
   const [error, setError] = useState({ prefix: "", suffix: "" });
-  const [errorMessage, setErrorMessage] = useState("");
+
   const [isCreated, setIsCreated] = useState(false);
 
   useEffect(() => {
@@ -31,7 +33,7 @@ function TransactionID({ state }) {
       setPrefix(value);
       setError((prev) => ({ ...prev, prefix: "" }));
     } else {
-      setError((prev) => ({ ...prev, prefix: "Prefix should contain only letters." }));
+      setError((prev) => ({ ...prev, prefix: "Prefix should contain only letters" }));
     }
   };
 
@@ -41,7 +43,7 @@ function TransactionID({ state }) {
       setSuffix(value);
       setError((prev) => ({ ...prev, suffix: "" }));
     } else {
-      setError((prev) => ({ ...prev, suffix: "Suffix should contain only numbers." }));
+      setError((prev) => ({ ...prev, suffix: "Suffix should contain only numbers" }));
     }
   };
 
@@ -70,18 +72,18 @@ function TransactionID({ state }) {
     let hasError = false;
 
     if (!prefix) {
-      newError.prefix = "Prefix is required.";
+      newError.prefix = "Prefix is required";
       hasError = true;
     }
     if (!suffix) {
-      newError.suffix = "Suffix is required.";
+      newError.suffix = "Suffix is required";
       hasError = true;
     }
 
     setError(newError);
     if (!hasError) {
       dispatch({ type: "SETTINGSTRANSACTIONID", payload: { prefix, suffix } });
- 
+
 
       localStorage.setItem("TransactionIDprefix", prefix);
       localStorage.setItem("TransactionIDsuffix", suffix);
@@ -89,14 +91,8 @@ function TransactionID({ state }) {
     }
   };
 
-  useEffect(() => {
-    if (state.Settings.error === "Prefix and Suffix already Exist") {
-      setErrorMessage(state.Settings.error);
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 1000);
-    }
-  }, [state.Settings.error]);
+
+
 
   return (
     <div className="container mx-auto mt-10">
@@ -154,9 +150,12 @@ function TransactionID({ state }) {
         </button>
       </div>
 
-      {errorMessage && (
-        <p className="text-red-500 text-sm text-center font-Gilroy">{errorMessage}</p>
-      )}
+
+      <div>
+        {state.Settings.error === "Prefix and suffix Already Exists" && (
+          <p className="text-red-500 text-sm text-center font-Gilroy">{state.Settings.error}</p>
+        )}
+      </div>
     </div>
   );
 }

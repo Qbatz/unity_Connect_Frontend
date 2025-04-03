@@ -15,6 +15,7 @@ import AddMemberForm from "./AddMemberForm";
 import MemberDetails from './MemberDetails';
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
+import { MdError } from "react-icons/md";
 // import { ClipLoader } from "react-spinners";
 
 
@@ -38,6 +39,7 @@ function ActiveMember({ state, onSelectMember }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   // const [loading, setLoading] = useState(false);
+
   const itemsPerPage = 6;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -203,6 +205,7 @@ function ActiveMember({ state, onSelectMember }) {
 
 
 
+
   // if (loading) {
   //   return (
   //     <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
@@ -319,8 +322,8 @@ function ActiveMember({ state, onSelectMember }) {
 
 
                 <span className="bg-#E8E8E8 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
-                  {/* {member.Joining_Date ? moment(member.Joining_Date).format('DD-MM-YYYY') : 'No date'} */}
-                  {moment(member.Joining_Date).format("DD MMM YYYY")}
+
+                  {moment(member.Joining_Date).format("DD-MMM-YYYY")}
                 </span>
 
               </div>
@@ -399,8 +402,9 @@ function ActiveMember({ state, onSelectMember }) {
 
 
                       {statusError.trim() !== "" && (
-                        <div className="mt-2 text-center text-red-500 text-[15px] font-medium font-Gilroy">
-                          <span className="inline-block text-red-500 mb-1 font-Gilroy">{statusError}</span>
+                        <div className="mt-4 text-center text-red-500 text-[15px] font-medium font-Gilroy">
+
+                          <MdError className="text-sm inline-block text-red-500 mb-1 font-Gilroy" /> {statusError}
                         </div>
                       )}
                     </div>
@@ -424,10 +428,9 @@ function ActiveMember({ state, onSelectMember }) {
         </div>
 
         {activeMemberData.length > 5 && (
-
-          <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+          <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
             <button
-              className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+              className={`px-4 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
             >
@@ -436,7 +439,7 @@ function ActiveMember({ state, onSelectMember }) {
             </button>
             <span className="px-4 py-2 border rounded">{currentPage}</span>
             <button
-              className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= activeMemberData.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+              className={`px-4 mx-2 border rounded ${indexOfLastItem >= activeMemberData.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={indexOfLastItem >= activeMemberData.length}
             >

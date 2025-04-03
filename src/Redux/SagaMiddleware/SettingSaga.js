@@ -103,7 +103,7 @@ export function* SettingLoanID(action) {
 export function* SettingTransactionID(action) {
 
     const response = yield call(SettingTransactionIDAction, action.payload);
-    console.log("Saga received:", action.payload);
+
 
     var toastStyle = {
         backgroundColor: "#E6F6E6",
@@ -154,6 +154,21 @@ function* SettingAddLoanPage(action) {
     try {
         const response = yield call(SettingAddLoan, action.payload);
 
+        var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "300px",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "13px",
+        };
+
         if (response?.status === 200 || response?.statusCode === 200) {
             yield put({
                 type: "SETTINGADDLOAN",
@@ -166,10 +181,16 @@ function* SettingAddLoanPage(action) {
                 },
             });
 
-            toast.success("Loan added successfully!", {
+            toast.success(response.data.message, {
                 position: "bottom-center",
                 autoClose: 2000,
                 hideProgressBar: true,
+                closeButton: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                style: toastStyle,
             });
         } else {
             toast.error("Failed to add loan");

@@ -2,46 +2,36 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { FaAngleDown } from "react-icons/fa6";
+
 
 function Transactions({ state, member }) {
 
   const dispatch = useDispatch();
 
   const transactionList = state.Member.GetTransactionsList
-  
+
   console.log("transactionList", member);
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
 
-  const totalPages = Math.ceil(transactionList.length / pageSize);
+  const itemsPerPage = 5;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginatedData = transactionList.slice(indexOfFirstItem, indexOfLastItem);
+
+
 
   useEffect(() => {
     if (member?.Id) {
-    dispatch({
-      type: "GETTRANSACTIONSLIST",
-      payload: { member_id: member.Id },
-    });
-  }
-   }, [member?.Id]);
+      dispatch({
+        type: "GETTRANSACTIONSLIST",
+        payload: { member_id: member.Id },
+      });
+    }
+  }, [member]);
 
 
-  const handlePageChange = (newPage) => {
-    if (newPage > 0 && newPage <= totalPages) setCurrentPage(newPage);
-  };
-
-  const handlePageSizeChange = (e) => {
-    setPageSize(Number(e.target.value));
-    setCurrentPage(1);
-  };
-
-
-  const paginatedData = transactionList.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
 
 
   return (
@@ -99,44 +89,25 @@ function Transactions({ state, member }) {
       </div>
 
       {transactionList.length > 5 && (
-        <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
-          <div className="relative">
-            <select
-              value={pageSize}
-              onChange={handlePageSizeChange}
-              style={{ color: 'blue', borderColor: 'blue' }}
-              className="border border-gray-300 px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer pr-8"
-            >
-              {[5, 10, 50, 100].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-            <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-              <FaAngleDown size={15} style={{ color: 'blue' }} />
-            </div>
-          </div>
 
-          <div className="flex gap-2">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="px-4 py-2 border rounded-lg"
-            >
-              &lt;
-            </button>
-            <p className="text-gray-600 font-medium px-4 py-2">
-              {currentPage} of {totalPages}
-            </p>
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 border rounded-lg"
-            >
-              &gt;
-            </button>
-          </div>
+        <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &lt;
+
+          </button>
+          <span className="px-4 py-2 border rounded">{currentPage}</span>
+          <button
+            className={`px-4 py-2 mx-2 border rounded ${indexOfLastItem >= transactionList.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={indexOfLastItem >= transactionList.length}
+          >
+            &gt;
+
+          </button>
         </div>
       )}
     </div>

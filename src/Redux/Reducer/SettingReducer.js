@@ -53,6 +53,10 @@ const SettingReducer = (state = initialState, action) => {
       case "CLEAR_LOAN_ID_ERROR":
          return { ...state, error: state.currentComponent === "MemberID" ? state.error : "" };
 
+         
+      case "CLEAR_TRANSACTION_ID_ERROR":
+         return { ...state, error: state.currentComponent === "TransactionID" ? state.error : "" };
+
       default:
          return state;
    }

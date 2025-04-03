@@ -155,7 +155,7 @@ function MemberModal({ state, memberData, onClose }) {
             user_name: userName,
             email_id: email,
             mobile_no: mobileNo,
-            joining_date: joiningDate,
+            joining_date: formattedDate,
             address: address,
             file: file
         };
@@ -165,7 +165,7 @@ function MemberModal({ state, memberData, onClose }) {
             user_name: userName,
             email_id: email,
             mobile_no: mobileNo,
-            joining_date: joiningDate,
+            joining_date: formattedDate,
             address: address,
             id: memberData.Id,
             file: file ? file : undefined,
@@ -309,7 +309,7 @@ function MemberModal({ state, memberData, onClose }) {
                     </div>
 
                     <div>
-                        <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-3">Joining Date
+                        <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-1">Joining Date
                             <span className="text-red-500 text-xl">*</span>
                         </label>
 
@@ -330,12 +330,12 @@ function MemberModal({ state, memberData, onClose }) {
 
 
                     <div className="mb-2">
-                        <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-3">Address
+                        <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-2">Address
                             <span className="text-red-500 text-xl">*</span>
                         </label>
                         <textarea
                             data-testid='input-member-address'
-                            className="w-full p-2 border rounded-lg h-10 text-sm mb-1"
+                            className="w-full p-2 border rounded-lg h-14 text-sm mb-1"
                             placeholder="Enter Address"
                             value={address}
                             onChange={(e) => handleChange("address", e.target.value)}
@@ -357,12 +357,14 @@ function MemberModal({ state, memberData, onClose }) {
                         <p className="font-medium text-xs font-Gilroy mb-3">Note: File should be .JPG, .PDF, .PNG (max 2MB)</p>
                     </div>
 
+
                     {noChanges && (
                         <div className="flex items-center justify-center mt-8 text-red-500 text-sm font-semibold">
                             <MdError className="text-sm mr-2" />
                             <p>{noChanges}</p>
                         </div>
                     )}
+
 
                     <div className="sticky bottom-0 bg-white py-2 z-10">
                         <button
@@ -373,6 +375,7 @@ function MemberModal({ state, memberData, onClose }) {
                             {memberData ? "Save Changes" : "Add Member"}
                         </button>
                     </div>
+
                 </div>
 
             </div>

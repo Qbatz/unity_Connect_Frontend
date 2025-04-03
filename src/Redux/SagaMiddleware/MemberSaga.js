@@ -337,10 +337,10 @@ function* handleRecordPayment(payload) {
 }
 
 
-function* handleGetTransactions() {
+function* handleGetTransactions(action) {
 
 
-    const response = yield call(GetTransactionsAction);
+    const response = yield call(GetTransactionsAction, action.payload);
 
     if (response.statusCode === 200 || response.status === 200) {
 
