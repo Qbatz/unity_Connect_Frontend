@@ -31,6 +31,7 @@ const ProfileDetails = ({ state }) => {
     });
 
     const [showPassword, setShowPassword] = useState(false);
+    const [showNewPassword, setNewShowPassword] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [noChangesMessage, setNoChangesMessage] = useState('');
@@ -62,14 +63,14 @@ const ProfileDetails = ({ state }) => {
         let isValid = true;
 
         if (!formData.firstName) {
-            tempErrors.firstName = 'First name is required.';
+            tempErrors.firstName = 'First name is required';
             isValid = false;
         } else {
             tempErrors.firstName = '';
         }
 
         if (!formData.lastName) {
-            tempErrors.lastName = 'Last name is required.';
+            tempErrors.lastName = 'Last name is required';
             isValid = false;
         } else {
             tempErrors.lastName = '';
@@ -77,7 +78,7 @@ const ProfileDetails = ({ state }) => {
 
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         if (!formData.email || !emailPattern.test(formData.email)) {
-            tempErrors.email = 'Please enter a valid email address.';
+            tempErrors.email = 'Please enter a valid email address';
             isValid = false;
         } else {
             tempErrors.email = '';
@@ -85,7 +86,7 @@ const ProfileDetails = ({ state }) => {
 
         const mobileNoPattern = /^[0-9]{10}$/;
         if (!formData.mobileNo || !mobileNoPattern.test(formData.mobileNo)) {
-            tempErrors.mobileNo = 'Please enter a valid 10-digit mobile number.';
+            tempErrors.mobileNo = 'Please enter a valid 10-digit mobile number';
             isValid = false;
         } else {
             tempErrors.mobileNo = '';
@@ -101,21 +102,21 @@ const ProfileDetails = ({ state }) => {
         let isValid = true;
 
         if (!currentPassword) {
-            tempErrors.currentPassword = 'Current password is required.';
+            tempErrors.currentPassword = 'Current password is required';
             isValid = false;
         } else {
             tempErrors.currentPassword = '';
         }
 
         if (!newPassword) {
-            tempErrors.newPassword = 'New password is required.';
+            tempErrors.newPassword = 'New password is required';
             isValid = false;
         } else {
             tempErrors.newPassword = '';
         }
 
         if (newPassword === currentPassword) {
-            tempErrors.bothPassword = 'New password cannot be the same as the current password.';
+            tempErrors.bothPassword = 'New password cannot be the same as the current password';
             isValid = false;
         } else {
             tempErrors.bothPassword = '';
@@ -160,7 +161,7 @@ const ProfileDetails = ({ state }) => {
             EditPayload.mobile_no === state.Mobile_No &&
             !selectedImage
         ) {
-            setNoChangesMessage("No changes detected.");
+            setNoChangesMessage("No changes detected");
             return;
         }
 
@@ -208,6 +209,10 @@ const ProfileDetails = ({ state }) => {
         setShowPassword(!showPassword);
     };
 
+    const toggleNewPasswordVisibility = () => {
+        setNewShowPassword(!showNewPassword);
+    };
+
     const handlePasswordSubmit = (e) => {
         e.preventDefault();
 
@@ -218,6 +223,8 @@ const ProfileDetails = ({ state }) => {
             };
             dispatch({ type: 'UPDATEPASSWORD', payload: PasswordPayload });
         }
+        setCurrentPassword("")
+        setNewPassword("")
     };
 
     const handleCurrentPasswordChange = (e) => {
@@ -270,17 +277,20 @@ const ProfileDetails = ({ state }) => {
         <div className="min-h-screen bg-white p-4 flex flex-col items-start">
             <p className="font-Gilroy font-semibold text-2xl leading-none tracking-normal mb-6 -mt-5 ml-5">Account settings</p>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6  w-full">
                 <img
                     src={selectedImage || state.Profile}
                     alt="Profile"
-                    className="w-[120px] h-[120px] rounded-full"
+                    className="w-[120px] h-[120px] rounded-full object-cover object-top pl-[28px]"
                 />
 
+
                 <div className="flex flex-col text-start">
-                    <p className="font-Gilroy font-semibold text-xl tracking-normal mb-2">
+
+                    <p className="font-Gilroy font-semibold text-xl tracking-normal mb-2 whitespace-nowrap">
                         {state.First_Name + " " + state.Last_Name}
                     </p>
+
                     <p className="font-Gilroy font-medium text-xs tracking-normal text-gray-500">
                         JPG or PNG up to 5MB
                     </p>
@@ -324,12 +334,7 @@ const ProfileDetails = ({ state }) => {
             {activeTab === "editProfile" && (
                 <>
                     <h3 className="font-Gilroy font-semibold text-lg mb-4">Profile details</h3>
-                    {noChangesMessage && (
-                        <div className="flex items-center text-red-500 text-xs mb-4 font-Gilroy">
-                            <MdError className="mr-1" />
-                            {noChangesMessage}
-                        </div>
-                    )}
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6 w-full max-w-2xl">
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">First Name</label>
@@ -407,6 +412,12 @@ const ProfileDetails = ({ state }) => {
                             )}
                         </div>
                     </div>
+                    {noChangesMessage && (
+                        <div className="flex items-center text-red-500 text-sm mb-4 font-Gilroy">
+                            <MdError className="mr-1" />
+                            {noChangesMessage}
+                        </div>
+                    )}
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"
                         onClick={handleSubmit}
                     >Save changes</button>
@@ -453,16 +464,16 @@ const ProfileDetails = ({ state }) => {
                                 <input
                                     className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md pr-10"
                                     data-testid="input-password"
-                                    type={showPassword ? "text" : "password"}
+                                    type={showNewPassword ? "text" : "password"}
                                     placeholder="********"
                                     value={newPassword}
                                     onChange={handleNewPasswordChange}
                                 />
                                 <span
                                     className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                                    onClick={togglePasswordVisibility}
+                                    onClick={toggleNewPasswordVisibility}
                                 >
-                                    {showPassword ? (
+                                    {showNewPassword ? (
                                         <EyeIcon className="w-5 h-5 text-gray-500" />
                                     ) : (
                                         <EyeSlashIcon className="w-5 h-5 text-gray-500" />
@@ -505,26 +516,26 @@ const ProfileDetails = ({ state }) => {
             <div className={`fixed inset-0 flex items-center justify-center ${logoutFormShow ? "visible" : "hidden"} bg-black bg-opacity-50`}>
                 <div className="bg-white rounded-lg shadow-lg w-[388px] h-[200px] p-6">
                     <div className="flex justify-center border-b-0">
-                        <h2 className="text-[18px] font-semibold text-[#222222] text-center flex-1">
+                        <h2 className="text-[18px] font-semibold text-[#222222] text-center flex-1 font-Gilroy">
                             Logout?
                         </h2>
                     </div>
 
-                    <div className="text-center text-[14px] text-[#646464] font-medium mt-[20px]">
+                    <div className="text-center text-[16px] text-[#646464] font-medium mt-[18px] mb-4 font-Gilroy">
                         Are you sure you want to Logout?
                     </div>
 
                     <div className="flex justify-center border-t-0 mt-[10px] space-x-4">
                         <button
                             data-testid='button-close-logout'
-                            className="w-[160px] h-[52px] rounded-lg border border-[#7F00FF] text-[#7F00FF] font-semibold text-[14px] bg-white"
+                            className="w-[160px] h-[52px]font-Gilroy rounded-lg border border-[#7F00FF] text-[#7F00FF] font-semibold text-[16px] bg-white"
                             onClick={handleCloseLogout}
                         >
                             Cancel
                         </button>
                         <button
                             data-testid='button-logout'
-                            className="w-[160px] h-[52px] rounded-lg bg-[#7F00FF] text-white font-semibold text-[14px]"
+                            className="w-[160px] h-[52px] font-Gilroy rounded-lg bg-[#7F00FF] text-white font-semibold text-[16px]"
                             onClick={handleConfirmLogout}
                         >
                             Logout

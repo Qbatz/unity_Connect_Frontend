@@ -30,13 +30,21 @@ function ExpensesSetting({ state }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+
+    if (isSubCategory && subCategoryName.trim()) {
+      setSubCategories((prev) => [...prev, subCategoryName.trim()]);
+      setSubCategoryName("");
+    }
+
+  
+
     if (!categoryName && !isSubCategory) {
       setCategoryError("Please add a category name");
       return;
     }
 
     if (isSubCategory && subCategories.length === 0) {
-      setSubCategoryError("Please add at least one sub-category");
+      setSubCategoryError("Please add at least one sub-category.");
       return;
     }
 
@@ -50,7 +58,8 @@ function ExpensesSetting({ state }) {
     }
 
     setCategoryError("");
-    setSubCategoryError("")
+    setSubCategoryError("");
+    setErrorMessage("");
 
     const payload = {
       category_Name: categoryName,
@@ -61,6 +70,11 @@ function ExpensesSetting({ state }) {
       type: "SETTING_ADD_EXPENSES",
       payload: payload,
     });
+
+    setCategoryName("");
+    setSubCategories([]);
+    setIsSubCategory(false);
+
   };
 
   useEffect(() => {
@@ -70,15 +84,23 @@ function ExpensesSetting({ state }) {
       setSubCategoryName("");
       setIsModalOpen(false);
     }
-  }, [statusCode, dispatch]);
+  }, [statusCode]);
+
+ 
+
 
   const handlecategoryName = (e) => setCategoryName(e.target.value);
-  const handleSubCategoryName = (e) => setSubCategoryName(e.target.value);
+
 
   useEffect(() => {
     dispatch({ type: "SETTING_GET_EXPENSES" });
-  }, [dispatch]);
+  }, []);
 
+  useEffect(() => {
+    if (isSubCategory && subCategories.length > 0) {
+      setSubCategoryError("");
+    }
+  }, [subCategories, isSubCategory]);
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,15 +110,34 @@ function ExpensesSetting({ state }) {
   const currentExpenses = expensesetting.slice(indexOfFirstItem, indexOfLastItem);
 
 
+
+
   const handleNewAddSubCategory = () => {
-    if (subCategoryName.trim() === "") {
-      setErrorMessage("Please enter a sub-category name");
+    if (!subCategoryName.trim()) {
+      setSubCategoryError("Sub-category name cannot be empty.");
       return;
     }
 
-    setSubCategories((prev) => [...prev, subCategoryName]);
+    setSubCategories((prev) => {
+      const updatedSubCategories = [...prev, subCategoryName.trim()];
+     
+      return updatedSubCategories;
+    });
+
     setSubCategoryName("");
+    setSubCategoryError("");
   };
+
+
+
+
+  const handleCheckboxChange = (e) => {
+    setIsSubCategory(e.target.checked);
+    if (!e.target.checked) {
+      setSubCategories([]);
+    }
+  };
+
 
 
 
@@ -150,6 +191,7 @@ function ExpensesSetting({ state }) {
                 onChange={(e) => {
                   handlecategoryName(e);
                   setErrorMessage("");
+                  setCategoryError("")
                 }} value={categoryName}
                 type="text"
                 placeholder="Enter category name"
@@ -174,10 +216,8 @@ function ExpensesSetting({ state }) {
                   id="makeSubCategory"
                   className="w-5 h-5"
                   checked={isSubCategory}
-                  onChange={() => {
-                    setIsSubCategory(!isSubCategory);
-                    setErrorMessage("");
-                  }}
+
+                  onChange={handleCheckboxChange}
                 />
                 <label
                   htmlFor="makeSubCategory"
@@ -188,16 +228,38 @@ function ExpensesSetting({ state }) {
 
               </div>
 
+
               {isSubCategory && (
                 <div className="mt-2">
+                  <label className="text-black text-sm font-medium font-Gilroy text-lg">
+                    Sub Category <span className="text-red-500 text-[20px]">*</span>
+                  </label>
+
+
+                  <input
+                    type="text"
+                    placeholder="Enter sub-category name"
+                    value={subCategoryName}
+                    onChange={(e) => {
+                    
+                      setSubCategoryName(e.target.value);
+                    }}
+                    className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
+                  />
+
+
+
+
+
                   <div
                     className="flex justify-between w-310 mx-auto px-2 pb-5 pt-1 font-Gilroy font-medium text-sm text-[#222222] cursor-pointer"
-                    onClick={() =>
-                      handleNewAddSubCategory(subCategoryName)
-                    }
+                    onClick={handleNewAddSubCategory}
+
                   >
                     + Add Sub-category
                   </div>
+
+
                   {subCategories?.map((sub, subIndex) => (
                     <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pt-2">
                       <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
@@ -205,18 +267,9 @@ function ExpensesSetting({ state }) {
                       </p>
                     </div>
                   ))}
-                  <label className="text-black text-sm font-medium font-Gilroy text-lg">Sub Category <span className="text-red-500 text-[20px]">*</span></label>
-                  <input
-                    type="text"
-                    placeholder="Select a category"
-                    onChange={(e) => {
-                      handleSubCategoryName(e);
-                      setErrorMessage("");
-                    }}
-                    className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
-                  />
                 </div>
               )}
+
             </div>
             {subcategoryError && (
               <p className="text-red-500 flex items-center gap-1 text-sm mt-3">
@@ -238,7 +291,7 @@ function ExpensesSetting({ state }) {
 
       <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentExpenses.map((category, index) => (
-          <div key={index} className="w-[330px] h-[180px]  bg-[#F4F7FF] flex flex-col rounded-3xl">
+          <div key={index} className="w-[330px] h-[180px] bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
               <p className="text-darkGray text-base font-semibold leading-[19.09px] ml-2 font-Gilroy">
@@ -247,31 +300,29 @@ function ExpensesSetting({ state }) {
               <div className="flex-grow"></div>
               <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
             </div>
+
             <div className="w-[290px] mx-auto border-t border-[#E7E7E7]"></div>
 
-            {category.subcategory?.map((sub, subIndex) => (
 
-              <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pb-5 pt-5">
-                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Sub-category </p>
-                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{sub.subcategory}</p>
-              </div>
-            ))}
+            <div className="overflow-y-auto max-h-[98px] px-2">
+              {category.subcategory?.map((sub, subIndex) => (
+                <div key={subIndex} className="flex justify-between mx-auto py-2">
+                  <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
+                  <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub.subcategory}</p>
+                </div>
+              ))}
 
-            {subCategories[category.category_Id]?.map((sub, subIndex) => (
-              <div key={subIndex} className="flex justify-between w-310 mx-auto px-2 pt-5">
-                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">
-                  Sub-category
-                </p>
-                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
-                  {sub}
-                </p>
-              </div>
-            ))}
-
+              {subCategories[category.category_Id]?.map((sub, subIndex) => (
+                <div key={subIndex} className="flex justify-between mx-auto py-2">
+                  <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
+                  <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub}</p>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
-
       </div>
+
 
 
 

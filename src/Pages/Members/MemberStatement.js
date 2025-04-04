@@ -34,7 +34,7 @@ function MemberStatements({ state, member }) {
   const [currentPage, setCurrentPage] = useState(1);
 
 
-  const itemsPerPage = 6;
+  const itemsPerPage = 3;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const paginatedData = Statement.slice(indexOfFirstItem, indexOfLastItem);
@@ -164,10 +164,10 @@ function MemberStatements({ state, member }) {
 
       </div>
       <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden">
-        <div className="overflow-y-auto h-[240px]">
-          <table className="w-full text-left border-collapse min-w-max">
-            <thead className="sticky top-0 bg-[#F4F7FF] z-10">
-              <tr className="bg-[#F4F7FF] border-b  text-sm font-Gilroy text-[#939393]">
+        <div className="min-w-max max-h-[250px]">
+          <table className="w-full text-left border-collapse">
+            <thead className="sticky top-0 bg-[#F4F7FF] z-10 ">
+              <tr className="bg-[#F4F7FF]text-sm font-Gilroy text-[#939393] border-b border-gray-300">
                 <th className="p-4 font-Gilroy font-normal">Statement</th>
                 <th className="p-4 font-Gilroy font-normal">Due Date</th>
                 <th className="p-4 font-Gilroy font-normal">Loan Amount</th>
@@ -175,6 +175,7 @@ function MemberStatements({ state, member }) {
                 <th className="p-4 font-Gilroy font-normal">Paid Amount</th>
                 <th className="p-4 font-Gilroy font-normal">Status</th>
                 <th className="p-4 font-Gilroy font-normal"></th>
+
               </tr>
             </thead>
 

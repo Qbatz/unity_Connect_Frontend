@@ -25,7 +25,7 @@ function ExpensesList({ state }) {
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(8);
+    const [pageSize] = useState(7);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
 
@@ -371,30 +371,31 @@ function ExpensesList({ state }) {
 
 
                 {filteredExpenses.length > 5 && (
-                    <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
 
+                    <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
                         <div className="flex gap-2">
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-
-                                className={`px-4 py-2 mx-2 border rounded ${filteredExpenses.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+                                className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"
+                                    }`}
                             >
                                 &lt;
                             </button>
-                            <span className="px-4 py-2 border rounded">
-                                {currentPage}
-                            </span>
+
+                            <span className="px-4 py-2 border rounded">{currentPage}</span>
+
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-
-                                className={`px-4 py-2 mx-2 border rounded ${filteredExpenses.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+                                className={`px-4 py-2 mx-2 border rounded ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"
+                                    }`}
                             >
                                 &gt;
                             </button>
                         </div>
                     </div>
+
                 )}
 
             </div>

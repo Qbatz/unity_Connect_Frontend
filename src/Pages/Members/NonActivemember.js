@@ -23,9 +23,13 @@ function NonActiveMember({ state }) {
   const [status, setStatus] = useState("");
   const [statusError, setStatusError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+
 
   const [NonactiveMemberData, setNonActiveMemberData] = useState([]);
+  const itemsPerPage = 6;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginatedData = NonactiveMemberData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleStatusChange = (e) => setStatus(e.target.value);
   const handleChangeStatusClick = (memberId) => {
@@ -47,7 +51,7 @@ function NonActiveMember({ state }) {
 
   const popupRef = useRef(null);
 
-  const totalPages = Math.ceil(NonactiveMemberData.length / pageSize);
+
 
 
   useEffect(() => {
@@ -147,19 +151,9 @@ function NonActiveMember({ state }) {
 
   };
 
-  const handlePageChange = (newPage) => {
-    if (newPage > 0 && newPage <= totalPages) setCurrentPage(newPage);
-  };
 
-  const handlePageSizeChange = (e) => {
-    setPageSize(Number(e.target.value));
-    setCurrentPage(1);
-  };
 
-  const paginatedData = NonactiveMemberData.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
+
 
   const handleCloseStatus = () => {
     setChangePopup(false)
@@ -381,44 +375,24 @@ function NonActiveMember({ state }) {
 
 
         {NonactiveMemberData.length > 5 && (
-          <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
-            <div className="relative">
-              <select
-                value={pageSize}
-                onChange={handlePageSizeChange}
-                style={{ color: 'blue', borderColor: 'blue' }}
-                className="border border-gray-300 px-4 py-1 rounded-lg appearance-none focus:outline-none cursor-pointer pr-8"
-              >
-                {[5, 10, 50, 100].map((size) => (
-                  <option key={size} value={size}>
-                    {size}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                <FaAngleDown size={15} style={{ color: 'blue' }} />
-              </div>
-            </div>
+          <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
+            <button
+              className={`px-4 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              &lt;
 
-            <div className="flex gap-2">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="px-4 py-2 border rounded-lg"
-              >
-                &lt;
-              </button>
-              <p className="text-gray-600 font-medium px-4 py-2">
-                {currentPage} of {totalPages}
-              </p>
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 border rounded-lg"
-              >
-                &gt;
-              </button>
-            </div>
+            </button>
+            <span className="px-4 py-2 border rounded">{currentPage}</span>
+            <button
+              className={`px-4 mx-2 border rounded ${indexOfLastItem >= NonactiveMemberData.length ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={indexOfLastItem >= NonactiveMemberData.length}
+            >
+              &gt;
+
+            </button>
           </div>
         )}
       </div>

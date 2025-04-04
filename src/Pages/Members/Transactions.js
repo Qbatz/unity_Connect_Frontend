@@ -10,12 +10,12 @@ function Transactions({ state, member }) {
 
   const transactionList = state.Member.GetTransactionsList
 
-  console.log("transactionList", member);
+
 
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 4;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const paginatedData = transactionList.slice(indexOfFirstItem, indexOfLastItem);
@@ -40,13 +40,14 @@ function Transactions({ state, member }) {
       <div className="bg-[#F4F7FF] shadow-md rounded-xl overflow-hidden">
         <div className="min-w-max overflow-y-auto max-h-[320px]">
           <table className="w-full text-left border-collapse">
-            <thead className="sticky top-0 bg-[#F4F7FF] z-10">
-              <tr className="bg-[#F4F7FF] text-[#939393] border-b font-light text-sm font-Gilroy">
+            <thead className="sticky top-0 bg-[#F4F7FF] z-10 border-b border-gray-300">
+              <tr className="bg-[#F4F7FF] text-[#939393]  font-light text-sm font-Gilroy">
                 <th className="p-4 font-Gilroy font-normal">Transactions</th>
                 <th className="p-4 font-Gilroy font-normal">Date & Time</th>
                 <th className="p-4 font-Gilroy font-normal">Transaction Id</th>
                 <th className="p-4 font-Gilroy font-normal">Amount</th>
                 <th className="p-4 font-Gilroy font-normal">Status</th>
+
               </tr>
             </thead>
             <tbody>
