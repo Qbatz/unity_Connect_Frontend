@@ -36,7 +36,7 @@ function ExpensesSetting({ state }) {
       setSubCategoryName("");
     }
 
-    console.log("Final Sub Categories:", subCategories);
+  
 
     if (!categoryName && !isSubCategory) {
       setCategoryError("Please add a category name");
@@ -75,7 +75,6 @@ function ExpensesSetting({ state }) {
     setSubCategories([]);
     setIsSubCategory(false);
 
-    console.log("Form submitted successfully!");
   };
 
   useEffect(() => {
@@ -85,11 +84,9 @@ function ExpensesSetting({ state }) {
       setSubCategoryName("");
       setIsModalOpen(false);
     }
-  }, [statusCode, dispatch]);
+  }, [statusCode]);
 
-  useEffect(() => {
-    console.log("Sub Categories:", subCategories);
-  }, [subCategories]);
+ 
 
 
   const handlecategoryName = (e) => setCategoryName(e.target.value);
@@ -97,7 +94,7 @@ function ExpensesSetting({ state }) {
 
   useEffect(() => {
     dispatch({ type: "SETTING_GET_EXPENSES" });
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (isSubCategory && subCategories.length > 0) {
@@ -123,7 +120,7 @@ function ExpensesSetting({ state }) {
 
     setSubCategories((prev) => {
       const updatedSubCategories = [...prev, subCategoryName.trim()];
-      console.log("Updated Sub Categories:", updatedSubCategories);
+     
       return updatedSubCategories;
     });
 
@@ -244,7 +241,7 @@ function ExpensesSetting({ state }) {
                     placeholder="Enter sub-category name"
                     value={subCategoryName}
                     onChange={(e) => {
-                      console.log("Typing:", e.target.value);
+                    
                       setSubCategoryName(e.target.value);
                     }}
                     className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
