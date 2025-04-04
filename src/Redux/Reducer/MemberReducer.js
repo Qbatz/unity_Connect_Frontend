@@ -45,6 +45,9 @@ const MemberListReducer = (state = initialState, action) => {
         case 'CLEAR_STATUS_CODE_MEMBER_LIST':
             return { ...state, statusCodeMemberList: 0 }
 
+        case 'UPDATE_STATUS_CODE': 
+            return {...state, statusCodeMemberList: action.payload}
+
         case 'DELETE_MEMBER':
             return { ...state, deleteMemberStatusCode: action.payload.statusCode }
         case 'CLEAR_DELETE_MEMBER':

@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
-jest.useFakeTimers()
+
 describe('checks for active members', () => {
      const mockStore = configureStore()
         const store = mockStore({
@@ -67,7 +67,6 @@ describe('checks for active members', () => {
     
         </Provider>)
 
-        jest.advanceTimersByTime(2000);
         // const buttonAddMember = screen.getByTestId('button-add-member')
         // expect(buttonAddMember).toBeInTheDocument();
         const buttonToggleMenu = screen.getByTestId('button-toggle-menu0');

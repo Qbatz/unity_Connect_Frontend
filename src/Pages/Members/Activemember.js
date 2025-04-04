@@ -16,7 +16,7 @@ import MemberDetails from './MemberDetails';
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
-// import { ClipLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 
 
@@ -38,7 +38,7 @@ function ActiveMember({ state, onSelectMember }) {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const itemsPerPage = 6;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -75,7 +75,7 @@ function ActiveMember({ state, onSelectMember }) {
 
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
-      // setLoading(false);
+      setLoading(false);
 
       setActiveMemberData(state.Member.ActiveMemberdata);
 
@@ -89,22 +89,11 @@ function ActiveMember({ state, onSelectMember }) {
 
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 201) {
-
+      setLoading(false)
       setActiveMemberData([])
     }
 
   }, [state.Member.statusCodeMemberList])
-
-
-  useEffect(() => {
-    // setLoading(true);
-
-    dispatch({ type: 'MEMBERLIST' });
-
-  }, []);
-
-
-
 
   useEffect(() => {
 
@@ -206,13 +195,13 @@ function ActiveMember({ state, onSelectMember }) {
 
 
 
-  // if (loading) {
-  //   return (
-  //     <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
-  //       <ClipLoader color="#7f00ff" loading={loading} size={30} />
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
+        <ClipLoader color="#7f00ff" loading={loading} size={30} />
+      </div>
+    );
+  }
 
 
 

@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ActiveMember from "./Activemember";
 import NonActiveMember from "./NonActivemember";
 import AddMemberForm from "./AddMemberForm";
 import MemberDetails from "./MemberDetails";
+import { useDispatch } from "react-redux";
 
 const Members = () => {
   const [activeTab, setActiveTab] = useState("Active members");
   const [selectedMemberdetails, setSelectedMemberdetails] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+
+  const dispatch = useDispatch()
 
 
   const handleClickAddMember = () => {
@@ -22,6 +25,10 @@ const Members = () => {
     setShowModal(false);
 
   }
+
+  useEffect(() => {
+    dispatch({ type: 'MEMBERLIST' });
+  }, [])
 
 
   return (

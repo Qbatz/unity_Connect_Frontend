@@ -18,6 +18,7 @@ function* handleMemberList() {
 
     } else if (response.status === 201 || response.statusCode === 201) {
 
+        yield put({type: 'UPDATE_STATUS_CODE', payload: response.status})
         yield put({ type: 'ERROR', payload: response.data.message });
     }
     if (response) {
