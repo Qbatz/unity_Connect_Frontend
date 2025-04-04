@@ -47,6 +47,11 @@ const ProfileDetails = ({ state }) => {
     }, []);
 
     useEffect(() => {
+        setNoChangesMessage("");
+    }, [activeTab]);
+
+
+    useEffect(() => {
         setFormData((prev) => ({
             ...prev,
             firstName: state.First_Name || "",
@@ -144,6 +149,26 @@ const ProfileDetails = ({ state }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        let tempErrors = {};
+
+        if (!formData.firstName) {
+            tempErrors.firstName = 'First name is required';
+        }
+        if (!formData.lastName) {
+            tempErrors.lastName = 'Last name is required';
+        }
+        if (!formData.email) {
+            tempErrors.email = 'Email address is required';
+        }
+        if (!formData.mobileNo) {
+            tempErrors.mobileNo = 'Mobile number is required';
+        }
+
+        if (Object.keys(tempErrors).length > 0) {
+            setErrors(tempErrors);
+            return;
+        }
 
         const EditPayload = {
             id: state.Id,
@@ -346,7 +371,7 @@ const ProfileDetails = ({ state }) => {
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
                             {errors.firstName && (
-                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                <p className="text-red-500 text-sm flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
                                     {errors.firstName}
                                 </p>
@@ -359,10 +384,10 @@ const ProfileDetails = ({ state }) => {
                                 name="lastName"
                                 value={formData.lastName}
                                 onChange={handleChange}
-                                className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
+                                className="font-Gilroy font-medium text-sm border rounded-xl p-3 w-full max-w-md"
                             />
                             {errors.lastName && (
-                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                <p className="text-red-500 text-sm flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
                                     {errors.lastName}
                                 </p>
@@ -378,7 +403,7 @@ const ProfileDetails = ({ state }) => {
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
                             {errors.email && (
-                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                <p className="text-red-500 text-sm flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
                                     {errors.email}
                                 </p>
@@ -405,7 +430,7 @@ const ProfileDetails = ({ state }) => {
 
 
                             {errors.mobileNo && (
-                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
+                                <p className="text-red-500 text-sm flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
                                     {errors.mobileNo}
                                 </p>

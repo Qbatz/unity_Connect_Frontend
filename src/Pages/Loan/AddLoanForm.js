@@ -20,7 +20,9 @@ function AddLoanForm({ state }) {
   const members = state.Member?.ActiveMemberdata || [];
 
 
-  const loans = state.Loan.getLoanTab || [];
+  const [loans, setLoans] = useState(state.Loan?.getLoanTab || []);
+
+
   const loanGetSetting = state;
 
 
@@ -106,7 +108,11 @@ function AddLoanForm({ state }) {
     setMemberError('');
   };
 
+  useEffect(() => {
+    setLoans(state?.Loan?.getLoanTab)
+    setpaginatedActiveLoans(state.Loan?.getLoanTab?.filter(loan => !loan.Loan_Type && !loan.Loan_Status).slice(indexOfFirstActive, indexOfLastActive))
 
+  }, [state.Loan.getLoanTab])
 
 
   useEffect(() => {
@@ -131,6 +137,7 @@ function AddLoanForm({ state }) {
     if (state.Loan?.statusCodeLoans === 200) {
 
       dispatch({ type: "CLEARLOAN" });
+
     }
   }, [state.Loan?.statusCodeLoans]);
 
@@ -149,9 +156,9 @@ function AddLoanForm({ state }) {
 
   useEffect(() => {
     if (state.Loan?.statusCodeLoans === 200) {
-
       dispatch({ type: "GET_LOAN" });
 
+      dispatch({ type: "SETTINGS_GET_LOAN" });
       setTimeout(() => {
         dispatch({ type: "CLEARLOAN" })
       }, 500)
@@ -221,12 +228,20 @@ function AddLoanForm({ state }) {
 
   const [selectedLoan, setSelectedLoan] = useState(null);
 
+
+
   const handleApproval = (loan, selectedMember) => {
     setApprove({ ...loan, ...selectedMember });
 
+
+
     setIsApprovePopupOpen(true);
     setSelectedLoan(loan);
+
   }
+
+
+
   const approvalSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
@@ -290,7 +305,7 @@ function AddLoanForm({ state }) {
 
   const indexOfLastRejected = currentPageApproved * itemsPerPage;
   const indexOfFirstRejected = indexOfLastApproved - itemsPerPage;
-  const paginatedRejectedLoans = loans.filter(loan => loan.Loan_Status === 'Reject').slice(indexOfFirstRejected, indexOfLastRejected);
+  const paginatedRejectedLoans = loans?.length > 0 && loans?.filter(loan => loan?.Loan_Status === 'Reject').slice(indexOfFirstRejected, indexOfLastRejected);
 
 
 
@@ -298,10 +313,10 @@ function AddLoanForm({ state }) {
 
   const indexOfLastActive = currentPageActive * itemsPerPage;
   const indexOfFirstActive = indexOfLastActive - itemsPerPage;
-  const paginatedActiveLoans = loans.filter(loan => !loan.Loan_Type).slice(indexOfFirstActive, indexOfLastActive);
+  const [paginatedActiveLoans, setpaginatedActiveLoans] = useState(loans?.length > 0 && loans?.filter(loan => !loan?.Loan_Type && !loan.Loan_Status).slice(indexOfFirstActive, indexOfLastActive));
 
 
-  const paginatedApprovedLoans = loans.filter(loan => loan.Loan_Type).slice(indexOfFirstApproved, indexOfLastApproved);
+  const paginatedApprovedLoans = loans?.length > 0 && loans?.filter(loan => loan.Loan_Type).slice(indexOfFirstApproved, indexOfLastApproved);
 
 
   const options = members.map((member) => ({
@@ -562,6 +577,10 @@ function AddLoanForm({ state }) {
     );
   }
 
+
+
+
+
   return (
     <>
       <div className="container mx-auto mt-5 p-4 ">
@@ -722,7 +741,8 @@ function AddLoanForm({ state }) {
 
               {paginatedActiveLoans?.length > 0 ? (
                 paginatedActiveLoans?.map((loan) => {
-                  const selectedMember = members?.find((member) => String(member.Id) === String(loan.Member_Id)) || null;
+
+                  const selectedMember = members?.find(member => String(member.Id) === String(loan.Member_Id)) || null;
 
                   return (loan.Loan_Type === null && loan.Loan_Status !== "Reject") && (
                     <div
@@ -866,7 +886,7 @@ function AddLoanForm({ state }) {
                   );
                 })
               ) : (
-                <p className="text-red-500">No Loan Data Available</p>
+                <p className="text-red-500">Loan Data Not Available</p>
               )}
 
             </div>
@@ -886,12 +906,12 @@ function AddLoanForm({ state }) {
                 </button>
                 <span className="px-4 py-2 border rounded">{currentPageActive}</span>
                 <button
-                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastActive >= loans.filter(loan => !loan.Loan_Type).length
+                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastActive >= loans?.filter(loan => !loan.Loan_Type).length
                     ? "opacity-50 cursor-not-allowed"
                     : "bg-[#F4F7FF] text-black"
                     }`}
                   onClick={() => setCurrentPageActive(currentPageActive + 1)}
-                  disabled={indexOfLastActive >= loans.filter(loan => !loan.Loan_Type).length}
+                  disabled={indexOfLastActive >= loans?.filter(loan => !loan.Loan_Type).length}
                 >
                   &gt;
                 </button>
@@ -923,7 +943,7 @@ function AddLoanForm({ state }) {
 
               </div>
               <div className="w-full border border-[#E7E7E7] mx-auto my-2 mb-4"></div>
-
+              No
 
 
 
@@ -1050,13 +1070,18 @@ function AddLoanForm({ state }) {
 
               <div className="mt-4">
                 <label className="text-black text-sm font-medium font-Gilroy">Loan Amount<span className="text-red-500 text-[20px]">*</span></label>
+
                 <input
                   value={eligibleLoanAmount}
                   onChange={(e) => {
                     const value = e.target.value.replace(/[^0-9]/g, "");
-                    setEligibleLoanAmount(value);
+                    if (value !== "" && Number(value) > selectedLoan.Loan_Amount) {
 
-                    setLoanAmountError("")
+                      setLoanAmountError(`Loan amount cannot exceed ₹ ${selectedLoan.Loan_Amount}`);
+                    } else {
+                      setLoanAmountError("");
+                    }
+                    setEligibleLoanAmount(value);
                   }}
                   type="text"
                   placeholder="Enter approved loan amount"
@@ -1214,12 +1239,12 @@ function AddLoanForm({ state }) {
                 </button>
                 <span className="px-4 py-2 border rounded">{currentPageApproved}</span>
                 <button
-                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length
+                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans?.filter(loan => loan.Loan_Type).length
                     ? "opacity-50 cursor-not-allowed"
                     : "bg-[#F4F7FF] text-black"
                     }`}
                   onClick={() => setCurrentPageApproved(currentPageApproved + 1)}
-                  disabled={indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length}
+                  disabled={indexOfLastApproved >= loans?.filter(loan => loan.Loan_Type).length}
                 >
                   &gt;
                 </button>
@@ -1334,12 +1359,12 @@ function AddLoanForm({ state }) {
                 </button>
                 <span className="px-4 py-2 border rounded">{currentPageApproved}</span>
                 <button
-                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length
+                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans?.filter(loan => loan.Loan_Type).length
                     ? "opacity-50 cursor-not-allowed"
                     : "bg-[#F4F7FF] text-black"
                     }`}
                   onClick={() => setCurrentPageApproved(currentPageApproved + 1)}
-                  disabled={indexOfLastApproved >= loans.filter(loan => loan.Loan_Type).length}
+                  disabled={indexOfLastApproved >= loans?.filter(loan => loan.Loan_Type).length}
                 >
                   &gt;
                 </button>

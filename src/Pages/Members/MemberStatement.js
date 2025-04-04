@@ -40,7 +40,7 @@ function MemberStatements({ state, member }) {
   const paginatedData = Statement.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  const formattedDueDate = moment(Statement.Due_Date).format("DD-MMM-YYYY");
+
 
 
   useEffect(() => {
@@ -171,6 +171,7 @@ function MemberStatements({ state, member }) {
                 <th className="p-4 font-Gilroy font-normal">Statement</th>
                 <th className="p-4 font-Gilroy font-normal">Due Date</th>
                 <th className="p-4 font-Gilroy font-normal">Loan Amount</th>
+                <th className="p-4 font-Gilroy font-normal">Interest Amount</th>
                 <th className="p-4 font-Gilroy font-normal">Pending</th>
                 <th className="p-4 font-Gilroy font-normal">Paid Amount</th>
                 <th className="p-4 font-Gilroy font-normal">Status</th>
@@ -184,13 +185,14 @@ function MemberStatements({ state, member }) {
 
                 <tr key={index}>
 
-                  <td className="p-4 font-Gilroy">{`Repayment ${formattedDueDate}`}</td>
+                  <td className="p-4 font-Gilroy">{`Repayment ${moment(item.Due_Date).format("DD-MMM-YYYY")}`}</td>
                   <td className="p-4">
                     <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
-                      {formattedDueDate}
+                      {moment(item.Due_Date).format("DD-MMM-YYYY")}
                     </span>
                   </td>
                   <td className="p-4 font-Gilroy">{item.Loan_Amount}</td>
+                  <td className="p-4 font-Gilroy">{item.Intrest_Amount}</td>
                   <td className="p-4 font-Gilroy">{item.Pending_Amount}</td>
                   <td className="p-4 font-Gilroy">{item.Paid_Amount}</td>
                   <td className="p-4 font-Gilroy">
@@ -359,7 +361,7 @@ function MemberStatements({ state, member }) {
         </div>
       )}
 
-      {Statement.length > 5 && (
+      {Statement.length > 3 && (
 
         <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
           <button

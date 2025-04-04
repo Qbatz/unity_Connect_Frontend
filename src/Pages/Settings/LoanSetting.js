@@ -46,7 +46,7 @@ function LoanSetting({ state }) {
 
 
   const ordinalOptions = ["1st", "2nd", "3rd", "4th", "5th"];
-  const [selectedDate, setSelectedDate] = useState(null);
+
 
 
   const [loanNameError, setLoanNameError] = useState("");
@@ -151,7 +151,7 @@ function LoanSetting({ state }) {
     setSelectedMonthlyType("Select Monthly Type");
     setSelectedOrdinal("1st");
     setSelectedDay("Select a day");
-    setSelectedDate("");
+
     setSelectedDueCount("");
     setIsModalOpen(false);
     setLoanNameError("");
@@ -197,6 +197,16 @@ function LoanSetting({ state }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentLoans = allLoans.slice(indexOfFirstItem, indexOfLastItem);
 
+
+  const handleDate = (date) => {
+    const formattedDate = new Date(date).toLocaleDateString("en-GB");
+
+
+    setSelectedDueDate(formattedDate);
+  };
+
+
+
   return (
     <div className="container mx-auto">
       <div className="flex items-center justify-between w-full">
@@ -233,7 +243,7 @@ function LoanSetting({ state }) {
                   setDueTypeError('');
                   setDueCountError('');
                   setInterestError('');
-                  setSelectedDate('')
+
                   setSelectedLoanName('')
                   setSelectedOption('')
                   setSelectedWeekDay('')
@@ -483,8 +493,8 @@ function LoanSetting({ state }) {
                 <div className="mt-2 relative" >
                   <DatePicker
                     ref={datePickerRef}
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
+                    selected={selectedDueDate}
+                    onChange={(date) => handleDate(date)}
                     dateFormat="dd-MM-yyyy"
                     placeholderText="Select a date"
                     className="cursor-pointer w-[410px] h-[60px] border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
@@ -582,7 +592,7 @@ function LoanSetting({ state }) {
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
               <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
-                {moment(loan.Due_On).format("DD-MMM-YYYY")}
+                {loan.Due_On}
               </p>
             </div>
 
