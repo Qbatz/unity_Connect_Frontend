@@ -12,7 +12,7 @@ import { MdError } from "react-icons/md";
 
 function CreateAccount({ state }) {
 
-  
+
 
 
   const dispatch = useDispatch()
@@ -88,16 +88,23 @@ function CreateAccount({ state }) {
   };
 
   const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value.trim());
-    setErrors((prev) => ({ ...prev, firstName: "" }));
-    setFirstNameError('');
+    const value = e.target.value;
+    if (/^[A-Za-z\s]*$/.test(value)) {
+      setFirstName(value.trim());
+      setErrors((prev) => ({ ...prev, firstName: "" }));
+      setFirstNameError('');
+    }
   };
 
   const handleLastNameChange = (e) => {
-    setLastName(e.target.value.trim());
-    setErrors((prev) => ({ ...prev, lastName: "" }));
-    setLastNameError('');
+    const value = e.target.value;
+    if (/^[A-Za-z\s]*$/.test(value)) {
+      setLastName(value.trim());
+      setErrors((prev) => ({ ...prev, lastName: "" }));
+      setLastNameError('');
+    }
   };
+
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value.trim();
@@ -157,7 +164,7 @@ function CreateAccount({ state }) {
     if (!confirmPassword.trim()) {
       newErrors.confirmPassword = "Confirm Password is required";
     } else if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
+      newErrors.confirmPassword = "Password do not match";
     }
 
     setErrors(newErrors);
@@ -301,22 +308,23 @@ function CreateAccount({ state }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">First Name</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">First Name  <span className="text-red-500 text-xl">*</span></label>
               <input type="text" data-testid='input-fname' placeholder="First name" className="w-full p-3 border border-gray-300 rounded-xl"
-                value={firstName} onChange={handleFirstNameChange}
+                value={firstName}
+                onChange={handleFirstNameChange}
               />
 
               {isSubmitted && firstNameError &&
-               
+
                 <div className="flex items-center text-red-500 text-sm mt-1">
-                  <MdError className="mr-1 text-base" /> 
+                  <MdError className="mr-1 text-base" />
                   <span data-testid='fname-error'>{firstNameError}</span>
                 </div>
               }
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Last Name</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Last Name <span className="text-red-500 text-xl"></span></label>
               <input type="text" data-testid='input-lname' placeholder="Last name" className="w-full p-3 border border-gray-300 rounded-xl"
                 value={lastName} onChange={handleLastNameChange}
               />
@@ -329,7 +337,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Email ID</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Email ID  <span className="text-red-500 text-xl">*</span></label>
               <input data-testid='input-email'
                 autoComplete='new-email'
                 autoCorrect='off'
@@ -352,7 +360,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Mobile number</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Mobile number  <span className="text-red-500 text-xl">*</span></label>
               <div className="flex items-center border border-gray-300 rounded-xl bg-white p-3 w-full">
                 <select className="outline-none bg-transparent mr-2">
                   <option>+91</option>
@@ -385,7 +393,7 @@ function CreateAccount({ state }) {
 
             <div>
               <label className="font-Gilroy font-medium text-sm leading-4 mt-2">
-                Password
+                Password  <span className="text-red-500 text-xl">*</span>
               </label>
               <div className="relative">
                 <input
@@ -428,7 +436,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Confirm Password</label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Confirm Password  <span className="text-red-500 text-xl">*</span></label>
               <div className="flex items-center border border-gray-300 rounded-xl p-3 bg-white">
                 <input data-testid='con-password' type={showConfirmPassword ? "text" : "password"} className="flex-1 w-full pr-1  outline-none bg-transparent text-gray-900"
                   placeholder="Confirm your password" value={confirmPassword} onChange={handleConfirmPasswordChange}

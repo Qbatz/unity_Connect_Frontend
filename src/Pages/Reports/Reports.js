@@ -9,7 +9,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { ClipLoader } from "react-spinners";
-import { MdError } from "react-icons/md";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { CalendarDays } from "lucide-react";
 
 
 function ReportsTab({ state }) {
@@ -21,6 +24,8 @@ function ReportsTab({ state }) {
   const dropdownRef1 = useRef(null);
   const dropdownRef2 = useRef(null);
   const popupRef = useRef(null);
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
 
   const [loading, setLoading] = useState(true);
   const [unpaidStart, setUnpaidStart] = useState("");
@@ -56,8 +61,7 @@ function ReportsTab({ state }) {
   const SuccesspdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/SuccessfulPayments_1742624503148.pdf";
   const SuccessexcelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_success1742624503227.xlsx";
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 5;
+
 
   useEffect(() => {
     setLoading(true);
@@ -256,11 +260,7 @@ function ReportsTab({ state }) {
 
 
 
-  const goToPage = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
+
 
   return (
     <>
@@ -322,55 +322,69 @@ function ReportsTab({ state }) {
                     </div>
                   )}
                   {showPopup === 2 && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                      <div ref={popupRef} className="bg-white p-6 rounded-lg shadow-lg w-[320px]">
-                        <h2 className="text-lg font-semibold mb-4 text-center">Select Date Range</h2>
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
+                      <div ref={popupRef} className="bg-white p-6 rounded-lg shadow-lg w-[350px]">
+                        <h2 className="text-lg font-semibold mb-4 text-center font-Gilroy">Select Date Range</h2>
                         <div className="mb-3">
-                          <label className="block text-sm font-medium">Start Date</label>
-
-                          <input
-                            type="date"
-                            value={paidStart}
-                            onChange={(e) => {
-                              setPaidStart(e.target.value);
-                              setPaidStartError("");
-                            }}
-                            className="w-full border border-gray-300 rounded-lg p-2 cursor-pointer"
-                          />
+                          <label className="block text-sm font-semibold mb-3 font-Gilroy">Start Date</label>
+                          <div className="relative">
+                            <DatePicker
+                              selected={paidStart}
+                              onChange={(date) => {
+                                setPaidStart(date);
+                                setPaidStartError("");
+                              }}
+                              className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
+                              dateFormat="dd-MM-yyyy"
+                              placeholderText="Select start date"
+                              ref={startDateRef}
+                            />
+                            <CalendarDays
+                              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                              onClick={() => startDateRef.current.setOpen(true)}
+                            />
+                          </div>
                           {paidStartError && (
                             <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                              <MdError className="text-red-500" />
                               {paidStartError}
                             </p>
                           )}
                         </div>
+
                         <div className="mb-3">
-                          <label className="block text-sm font-medium">End Date</label>
-                          <input
-                            type="date"
-                            value={paidEnd}
-                            onChange={(e) => {
-                              setPaidEnd(e.target.value);
-                              setPaidEndError("");
-                            }}
-                            className="w-full border border-gray-300 rounded-lg p-2 cursor-pointer"
-                          />
+                          <label className="block text-sm font-semibold mb-3 font-Gilroy">End Date</label>
+                          <div className="relative">
+                            <DatePicker
+                              selected={paidEnd}
+                              onChange={(date) => {
+                                setPaidEnd(date);
+                                setPaidEndError("");
+                              }}
+                              className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
+                              dateFormat="dd-MM-yyyy"
+                              placeholderText="Select end date"
+                              ref={endDateRef}
+                            />
+                            <CalendarDays
+                              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                              onClick={() => endDateRef.current.setOpen(true)}
+                            />
+                          </div>
                           {paidEndError && (
                             <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                              <MdError className="text-red-500" />
                               {paidEndError}
                             </p>
                           )}
                         </div>
                         <div className="flex justify-end gap-2 mt-4">
                           <button
-                            className="bg-gray-200 px-4 py-2 rounded-lg"
+                            className="bg-gray-200 px-4 py-2 rounded-lg "
                             onClick={() => setShowPopup(false)}
                           >
                             Cancel
                           </button>
                           <button
-                            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                            className="bg-blue-500 text-white px-4 py-2 rounded-lg font-Gilroy"
                             onClick={handleApply}
                           >
                             Apply
@@ -477,56 +491,69 @@ function ReportsTab({ state }) {
                   )}
 
                   {showPopup === 1 && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                      <div ref={popupRef} className="bg-white p-6 rounded-lg shadow-lg w-[320px]">
-                        <h2 className="text-lg font-semibold mb-4 text-center">Select Date Range</h2>
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
+                      <div ref={popupRef} className="bg-white p-6 rounded-lg shadow-lg w-[350px]">
+                        <h2 className="text-lg font-semibold mb-4 text-center font-Gilroy">Select Date Range</h2>
                         <div className="mb-3">
-                          <label className="block text-sm font-medium">Start Date</label>
-
-                          <input
-                            type="date"
-                            value={unpaidStart}
-                            onChange={(e) => {
-                              setUnpaidStart(e.target.value);
-                              setUnpaidStartError("");
-                            }}
-
-                            className="w-full border border-gray-300 rounded-lg p-2 cursor-pointer"
-                          />
+                          <label className="block text-sm font-semibold font-Gilroy mb-3">Start Date</label>
+                          <div className="relative">
+                            <DatePicker
+                              selected={unpaidStart}
+                              onChange={(date) => {
+                                setUnpaidStart(date);
+                                setUnpaidStartError("");
+                              }}
+                              className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
+                              dateFormat="dd-MM-yyyy"
+                              placeholderText="Select start date"
+                              ref={startDateRef}
+                            />
+                            <CalendarDays
+                              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                              onClick={() => startDateRef.current.setOpen(true)}
+                            />
+                          </div>
                           {unpaidStartError && (
                             <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                              <MdError className="text-red-500" />
                               {unpaidStartError}
                             </p>
                           )}
                         </div>
+
                         <div className="mb-3">
-                          <label className="block text-sm font-medium">End Date</label>
-                          <input
-                            type="date"
-                            value={unpaidEnd}
-                            onChange={(e) => {
-                              setUnpaidEnd(e.target.value);
-                              setUnpaidEndError("");
-                            }}
-                            className="w-full border border-gray-300 rounded-lg p-2 cursor-pointer"
-                          />
+                          <label className="block text-sm font-semibold font-Gilroy mb-3">End Date</label>
+                          <div className="relative">
+                            <DatePicker
+                              selected={unpaidEnd}
+                              onChange={(date) => {
+                                setUnpaidEnd(date);
+                                setUnpaidEndError("");
+                              }}
+                              className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
+                              dateFormat="dd-MM-yyyy"
+                              placeholderText="Select end date"
+                              ref={endDateRef}
+                            />
+                            <CalendarDays
+                              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                              onClick={() => endDateRef.current.setOpen(true)}
+                            />
+                          </div>
                           {unpaidEndError && (
                             <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                              <MdError className="text-red-500" />
                               {unpaidEndError}
                             </p>
                           )}
                         </div>
                         <div className="flex justify-end gap-2 mt-4">
                           <button
-                            className="bg-gray-200 px-4 py-2 rounded-lg"
+                            className="bg-gray-200 px-4 py-2 rounded-lg font-Gilroy"
                             onClick={() => setShowPopup(false)}
                           >
                             Cancel
                           </button>
                           <button
-                            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                            className="bg-blue-500 text-white px-4 py-2 rounded-lg font-Gilroy"
                             onClick={handleApply}
                           >
                             Apply
@@ -585,27 +612,7 @@ function ReportsTab({ state }) {
 
         </div>
 
-        <div className="fixed bottom-0 left-0 w-full bg-white flex justify-end space-x-2 p-4 shadow-md">
 
-          <button
-            onClick={() => goToPage(currentPage - 1)}
-            className="w-10 h-10 border border-gray-300 rounded flex items-center justify-center hover:bg-gray-100"
-          >
-            &lt;
-          </button>
-
-          <div className="w-10 h-10 border border-gray-300 rounded flex items-center justify-center">
-            {currentPage}
-          </div>
-
-          <button
-            onClick={() => goToPage(currentPage + 1)}
-            className="w-10 h-10 bg-blue-100 border border-gray-300 rounded flex items-center justify-center"
-          >
-            &gt;
-          </button>
-
-        </div>
 
 
       </div>
