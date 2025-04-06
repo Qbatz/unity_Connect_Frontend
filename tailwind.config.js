@@ -31,7 +31,8 @@ module.exports = {
      
       colors: {
         darkGray: "#222222",
-        grayCustom: "#939393",
+        '#939393': "#939393",
+        '#222222' : '#222222',
       },
       lineHeight: {
         '18.83': '18.83px', 

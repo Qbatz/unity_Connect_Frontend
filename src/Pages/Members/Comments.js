@@ -13,7 +13,7 @@ function CommentSection({ state, member }) {
 
 
 
-  const isApiCalled = useRef(false);
+
 
   const commentSectionRef = useRef(null);
 
@@ -28,11 +28,10 @@ function CommentSection({ state, member }) {
   }, [localComments]);
 
   useEffect(() => {
-    if (member?.Id && !isApiCalled.current) {
-      dispatch({ type: "GETCOMMENTS", payload: { id: member.Id } });
-      isApiCalled.current = true;
-    }
-  }, [member?.Id]);
+
+    dispatch({ type: "GETCOMMENTS", payload: { id: member.Id } });
+
+  }, []);
 
   useEffect(() => {
     if (state.Member.getComment) {
@@ -42,10 +41,18 @@ function CommentSection({ state, member }) {
 
   useEffect(() => {
     if (state.Member.statusCodeForAddComment === 200) {
+
       dispatch({ type: "GETCOMMENTS", payload: { id: member.Id } });
-      dispatch({ type: "CLEAR_STATUS_CODE_GET_COMMENTS" });
+
+
+      dispatch({ type: "CLEAR_STATUS_CODE_ADD_COMMENTS" });
     }
   }, [state.Member.statusCodeForAddComment]);
+
+
+
+
+
 
   const handleSubmit = () => {
     if (!comment.trim()) return;
@@ -77,10 +84,10 @@ function CommentSection({ state, member }) {
 
 
               <div className="flex flex-col">
-                <h3 className="font-semibold text-gray-900 font-Gilroy">{member.User_Name}</h3>
-                <p className="text-sm text-gray-500 font-Gilroy mt-1">
+                <h3 className="font-semibold text-[#222222] font-Gilroy">{member.User_Name}</h3>
+                <p className="text-sm font-medium text-[#939393] font-Gilroy mt-1">
 
-                  {moment(item.Created_At).format("DD-MM-YYYY, hh:mm A")}
+                  {moment(item.Created_At).format("DD MMM YYYY . hh:mm A")}
                 </p>
 
                 <div style={{ marginLeft: '-70px' }} className="mt-2   p-2  inline-block ">
@@ -93,18 +100,22 @@ function CommentSection({ state, member }) {
 
 
 
-      <div className="mt-10 border p-4 rounded-lg flex items-center">
-        <input
-          type="text"
-          placeholder="Add comment..."
-          className="w-full bg-transparent outline-none text-gray-700 px-2 font-Gilroy"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <button onClick={handleSubmit} className="bg-black text-white p-2 rounded-full">
-          <PiPaperPlaneRightFill />
-        </button>
+
+      <div className="fixed bottom-6 left-[260px] right-4 z-50 px-6 py-4"> {/* Adjust left based on sidebar width */}
+        <div className="flex items-center bg-white rounded-lg px-4 py-2 border border-gray-200 h-[70px]">
+          <input
+            type="text"
+            placeholder="Add comment..."
+            className="w-full bg-transparent outline-none text-gray-700 px-2 font-Gilroy"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <button onClick={handleSubmit} className="bg-black text-white p-2 rounded-full">
+            <PiPaperPlaneRightFill />
+          </button>
+        </div>
       </div>
+
     </div>
   );
 }
