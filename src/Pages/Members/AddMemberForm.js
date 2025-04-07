@@ -189,7 +189,7 @@ function MemberModal({ state, memberData, onClose }) {
             <input
                 ref={ref}
                 type="text"
-                className="w-[260px] border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer"
+                className="w-[260px] border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer font-Gilroy"
                 placeholder="DD-MM-YYYY"
                 value={value}
                 onClick={onClick}
@@ -227,7 +227,7 @@ function MemberModal({ state, memberData, onClose }) {
                             <input
                                 data-testid='input-member-id'
                                 type="text"
-                                className="w-full p-2 h-10 border rounded-lg text-sm mb-3"
+                                className="w-full p-2 h-10 border rounded-lg text-sm mb-3 font-Gilroy"
                                 value={state?.Member?.GetMemberId?.memberId || ''}
                                 readOnly
                             />
@@ -245,7 +245,7 @@ function MemberModal({ state, memberData, onClose }) {
                             <input
                                 data-testid='input-user-name'
                                 type="text"
-                                className="w-full p-2 h-10 border rounded-lg text-sm mb-1"
+                                className="w-full p-2 h-10 border rounded-lg text-sm mb-1 font-Gilroy"
                                 placeholder="Enter User Name"
                                 value={userName}
                                 onChange={(e) => {
@@ -271,7 +271,7 @@ function MemberModal({ state, memberData, onClose }) {
                             <input
                                 data-testid='input-member-email'
                                 type="email"
-                                className="w-full p-2 h-10 border rounded-lg text-sm mb-1"
+                                className="w-full p-2 h-10 border rounded-lg text-sm mb-1 font-Gilroy"
                                 placeholder="Enter Email"
                                 value={email}
                                 onChange={(e) => handleChange("email", e.target.value)}
@@ -290,7 +290,7 @@ function MemberModal({ state, memberData, onClose }) {
                             <input
                                 data-testid='input-member-phone'
                                 type="text"
-                                className="w-full p-2 h-10 border rounded-lg text-sm mb-1"
+                                className="w-full p-2 h-10 border rounded-lg text-sm mb-1 font-Gilroy"
                                 placeholder="Enter Mobile No"
                                 value={mobileNo}
                                 onChange={(e) => {
@@ -335,7 +335,7 @@ function MemberModal({ state, memberData, onClose }) {
                         </label>
                         <textarea
                             data-testid='input-member-address'
-                            className="w-full p-2 border rounded-lg h-14 text-sm mb-1"
+                            className="w-full p-2 border rounded-lg h-14 text-sm mb-1 font-Gilroy"
                             placeholder="Enter Address"
                             value={address}
                             onChange={(e) => handleChange("address", e.target.value)}
@@ -359,7 +359,7 @@ function MemberModal({ state, memberData, onClose }) {
 
 
                     {noChanges && (
-                        <div className="flex items-center justify-center mt-8 text-red-500 text-sm font-semibold">
+                        <div className="flex items-center justify-center mt-8 text-red-500 text-sm font-semibold font-Gilroy">
                             <MdError className="text-sm mr-2" />
                             <p>{noChanges}</p>
                         </div>

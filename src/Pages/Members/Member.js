@@ -4,12 +4,14 @@ import NonActiveMember from "./NonActivemember";
 import AddMemberForm from "./AddMemberForm";
 import MemberDetails from "./MemberDetails";
 import { useDispatch } from "react-redux";
+import { ClipLoader } from "react-spinners";
 
-const Members = () => {
+function Members ({loader}) {
   const [activeTab, setActiveTab] = useState("Active members");
   const [selectedMemberdetails, setSelectedMemberdetails] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [isLoading, setIsLoading] = useState(loader);
 
   const dispatch = useDispatch()
 
@@ -27,8 +29,18 @@ const Members = () => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     dispatch({ type: 'MEMBERLIST' });
+    
   }, [])
+
+   if (loader) {
+      return (
+        <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
+          <ClipLoader color="#7f00ff" loading={loader} size={30} />
+        </div>
+      );
+    }
 
 
   return (

@@ -411,7 +411,7 @@ function ReportsTab({ state }) {
                             <span className="bg-[#D9E9FF] text-black px-3 py-1 rounded-full text-[14px] font-Gilroy font-medium">
                               {report.Member_Id}
                             </span>
-                            <span className="bg-orange-100 text-black px-3 py-1 rounded-full text-sm">
+                            <span className="bg-orange-100 text-black px-3 py-1 rounded-full text-sm font-Gilroy">
                               {report.Status}
                             </span>
                           </div>
@@ -419,10 +419,10 @@ function ReportsTab({ state }) {
                       </div>
 
                       <div className="text-right">
-                        <p className="text-lg font-semibold text-[green]">
+                        <p className="text-lg font-semibold text-[green] font-Gilroy">
                           +₹{report.Amount.toLocaleString('en-IN')}
                         </p>
-                        <p className="text-[#939393] text-xs">
+                        <p className="text-[#939393] text-xs font-Gilroy">
                           {new Date(report.Transaction_Date).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",
@@ -580,7 +580,7 @@ function ReportsTab({ state }) {
                             <span className="bg-[#D9E9FF] text-black px-3 py-1 rounded-full text-[14px] font-Gilroy font-medium">
                               {report.Member_Id}
                             </span>
-                            <span className="bg-orange-100 text-black px-3 py-1 rounded-full text-sm">
+                            <span className="bg-orange-100 text-black px-3 py-1 rounded-full text-sm font-Gilroy">
                               {report.Status}
                             </span>
                           </div>
@@ -588,10 +588,10 @@ function ReportsTab({ state }) {
                       </div>
 
                       <div className="text-right">
-                        <p className="text-lg font-semibold text-[black]">
+                        <p className="text-lg font-semibold text-[black] font-Gilroy">
                           ₹{report.Pending_Amount.toLocaleString('en-IN')}
                         </p>
-                        <p className="text-[#939393] text-xs">
+                        <p className="text-[#939393] text-xs font-Gilroy">
                           {new Date(report.Due_Date).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",

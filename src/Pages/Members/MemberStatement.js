@@ -188,7 +188,7 @@ function MemberStatements({ state, member }) {
                   <td className="p-4 font-Gilroy">{`Repayment ${moment(item.Due_Date).format("DD-MMM-YYYY")}`}</td>
                   <td className="p-4">
                     <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
-                      {moment(item.Due_Date).format("DD-MMM-YYYY")}
+                      {moment(item.Due_Date).format("DD MMM YYYY")}
                     </span>
                   </td>
                   <td className="p-4 font-Gilroy">{item.Loan_Amount}</td>
@@ -222,10 +222,10 @@ function MemberStatements({ state, member }) {
                     {showOptions === index && (
                       <div
                         ref={popupRef}
-                        className="absolute right-20 top-4 bg-white w-[180px] border border-gray-200 rounded-lg shadow-lg z-10"
+                        className="absolute right-20 top-2 bg-white w-[180px] border border-gray-200 rounded-lg shadow-lg z-10"
                       >
                         <button
-                          className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200"
+                          className="flex items-center gap-2 w-full px-2 py-2 font-Gilroy border-b border-gray-200"
                           onClick={() => setIsModalOpen(true)}
                         >
                           <img src={RecordPaymentIcon} alt="Record Payment" className="h-4 w-4" />

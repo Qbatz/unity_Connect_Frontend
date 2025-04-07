@@ -17,6 +17,7 @@ import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 import { ClipLoader } from "react-spinners";
+import Members from "./Member";
 
 
 
@@ -312,7 +313,7 @@ function ActiveMember({ state, onSelectMember }) {
 
                 <span className="bg-#E8E8E8 text-gray-700 text-sm px-3 py-1 rounded-xl font-Gilroy">
 
-                  {moment(member.Joining_Date).format("DD-MMM-YYYY")}
+                  {moment(member.Joining_Date).format("DD MMM YYYY")}
                 </span>
 
               </div>
@@ -441,7 +442,7 @@ function ActiveMember({ state, onSelectMember }) {
         {showModal && <AddMemberForm memberData={selectedMember} onClose={handleOnClose} />}
         {!showMembers && <MemberDetails member={memberdetail} onClick={() => closeDetails} />}
 
-
+        <Members loader={loading}/>
       </div>
     </>
   );
