@@ -32,7 +32,7 @@ function ExpensesList({ state }) {
     const dispatch = useDispatch();
     const popupRef = useRef(null);
     const containerRef = useRef(null);
-   
+
 
     const ExpensesList = state.Expenses.getexpenses || [];
 
@@ -123,33 +123,13 @@ function ExpensesList({ state }) {
             const rect = popupRefs.current[openIndex].getBoundingClientRect();
 
             setDropdownPosition({
-                top: rect.bottom + window.scrollY, // full screen scroll
+                top: rect.bottom + window.scrollY,
                 left: rect.left + window.scrollX,
             });
         }
     }, [openIndex]);
 
-    // useEffect(() => {
-    //     if (openIndex !== null) {
-    //         const clickedSpan = document.querySelector(`[data-index-span="${openIndex}"]`);
-    //         if (clickedSpan && containerRef.current) {
-    //             const rect = clickedSpan.getBoundingClientRect();
-    //             const containerRect = containerRef.current.getBoundingClientRect();
-    //             let top;
-    //             if (openIndex === 0) { // Check if it's the first row
-    //               top = rect.top - containerRect.top + window.scrollY - 100; // Adjust 100 as needed
-    //             }
-    //             else{
-    //               top = rect.bottom - containerRect.top + window.scrollY;
-    //             }
 
-    //             setDropdownPosition({
-    //                 top: top,
-    //                 left: rect.left - containerRect.left + window.scrollX,
-    //             });
-    //         }
-    //     }
-    // }, [openIndex, containerRef]); // Add containerRef as a dependency
 
     const handledots = (event, index) => {
         event.stopPropagation();
@@ -219,7 +199,7 @@ function ExpensesList({ state }) {
     return (
         <>
             <div className="p-4" ref={containerRef}>
-                {/* Added containerRef here */}
+
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-semibold font-Gilroy p-6">Expenses</h2>
                     <div className="flex items-center gap-3">
@@ -328,7 +308,7 @@ function ExpensesList({ state }) {
 
                                                             {item.sub_cat.length > 1 && openIndex === index && (
                                                                 <div
-                                                                    className="fixed bg-white w-[150px] shadow-md border border-gray-200 rounded-md z-[1000] max-h-[150px] overflow-y-auto"
+                                                                    className="fixed bg-white w-[150px] shadow-md border border-gray-200 rounded-md z-[1000] max-h-[150px] overflow-y-auto custom-scroll"
 
                                                                     style={{
                                                                         top: dropdownPosition.top,
