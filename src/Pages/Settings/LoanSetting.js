@@ -9,7 +9,7 @@ import { MdError } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays } from "lucide-react";
-import moment from "moment";
+
 function LoanSetting({ state }) {
 
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ function LoanSetting({ state }) {
   const dayOptions = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
   const [selectedLoanName, setSelectedLoanName] = useState("");
-  const [selectedDueDate, setSelectedDueDate] = useState("");
+  const [selectedDueDate, setSelectedDueDate] = useState(new Date());
   const [selectedDueCount, setSelectedDueCount] = useState("");
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedInterest, setSelectedInterest] = useState("Select a day");
@@ -198,12 +198,17 @@ function LoanSetting({ state }) {
   const currentLoans = allLoans.slice(indexOfFirstItem, indexOfLastItem);
 
 
+
+
   const handleDate = (date) => {
-    const formattedDate = new Date(date).toLocaleDateString("en-GB");
+    if (date instanceof Date && !isNaN(date)) {
+      setSelectedDueDate(date);
+    } else {
+      setSelectedDueDate(null);
+    }
 
-
-    setSelectedDueDate(formattedDate);
   };
+
 
 
 
@@ -253,6 +258,7 @@ function LoanSetting({ state }) {
                   setSelectedDueCount('')
                   setSelectedInterest('')
                   setSelectedOrdinal("")
+                  setSelectedDueDate("")
                 }}
                 className="w-32 h-32 cursor-pointer"
               />
@@ -283,23 +289,22 @@ function LoanSetting({ state }) {
                   <p >{loanNameError}</p>
                 </div>
               )}
-              <div className="relative w-full mt-5" ref={dropdownRef}>
-                <label className="text-black text-sm font-Gilroy font-medium text-lg">Due on <span className="text-red-500 text-[20px]">*</span></label>
 
+
+              <div className="relative w-full mt-5">
+                <label className="text-black text-sm font-Gilroy font-medium text-lg">Due on <span className="text-red-500 text-[20px]">*</span></label>
                 <div
                   className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
                   onClick={() => {
                     setIsOpen(!isOpen);
                     setDueTypeError("");
                   }}
+
                 >
-                  <span
-                    className={`text-base font-Gilroy font-medium ${selectedOption === "Select a due type" ? "text-gray-400" : "text-black"
-                      }`}
-                  >
+                  <span className={`text-base font-Gilroy font-medium ${selectedOption === "Select a due type" ? "text-gray-400" : "text-black"}`}>
                     {selectedOption}
                   </span>
-                  <ChevronDown className="w-5 h-5 text-gray-500" />
+                  <ChevronDown className="w-5 h-5  text-gray-500" />
                 </div>
                 {dueTypeError && (
                   <div className="flex items-center text-red-500 text-sm mt-1">
@@ -312,15 +317,14 @@ function LoanSetting({ state }) {
                   <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg max-h-[90px] overflow-y-auto">
                     {options.map((option, index) => (
                       <div
+
                         key={index}
                         className="px-4 py-3 text-black text-base font-Gilroy font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setSelectedOption(option);
                           setIsOpen(false);
-
                           if (option === "Daily") {
-                            setSelectedWeekDay("Select a due type");
-                            setSelectedMonthlyType("Select Monthly Type");
                             setSelectedDueDate("Daily");
                           }
                         }}
@@ -332,16 +336,12 @@ function LoanSetting({ state }) {
                 )}
               </div>
 
-
               {selectedOption === "Weekly" && (
-                <div className="relative w-full mt-3" ref={dropdownRef}>
+                <div className="relative w-full mt-3">
                   <label className="text-black text-sm  font-Gilroy font-medium text-lg">Due Type</label>
                   <div
                     className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
-                    onClick={() => {
-
-                      setIsWeekDropdownOpen(!isWeekDropdownOpen);
-                    }}
+                    onClick={() => setIsWeekDropdownOpen(!isWeekDropdownOpen)}
 
                   >
                     <span className={`text-base font-Gilroy font-medium ${selectedWeekDay === "Select a due type" ? "text-gray-400" : "text-black"}`}>
@@ -355,14 +355,13 @@ function LoanSetting({ state }) {
                       {weeklyOptions.map((day, index) => (
                         <div
                           key={index}
-                          className="px-4 py-3 text-black text-base font-Gilroy font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
-                          onClick={() => {
+                          className="px-4 py-3 text-black text-base font-Gilroy font-medium cursor-pointer border-b last:border-b-0 border-gray-300  hover:bg-#F4F7FF"
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setSelectedWeekDay(day);
-                            setSelectedOption("Weekly");
                             setIsWeekDropdownOpen(false);
-                            setSelectedDueDate(moment().format("YYYY-MM-DD"));
+                            setSelectedDueDate(day);
                           }}
-
 
                         >
                           {day}
@@ -375,7 +374,7 @@ function LoanSetting({ state }) {
 
 
               {selectedOption === "Monthly" && (
-                <div className="relative w-full mt-3" ref={dropdownRef}>
+                <div className="relative w-full mt-3">
                   <label className="text-black text-sm font-Gilroy font-medium text-lg">Monthly Type</label>
                   <div
                     className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
@@ -388,15 +387,16 @@ function LoanSetting({ state }) {
                   </div>
 
                   {isMonthlyDropdownOpen && (
-                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg ">
+                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg">
                       {monthlyOptions.map((type, index) => (
                         <div
                           key={index}
-                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
-                          onClick={() => {
+                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                          onClick={(e) => {
+                            e.stopPropagation();
+
                             setSelectedMonthlyType(type);
                             setIsMonthlyDropdownOpen(false);
-                            setSelectedOption("Monthly");
                           }}
                         >
                           {type}
@@ -410,8 +410,10 @@ function LoanSetting({ state }) {
 
 
 
+
+
               {selectedMonthlyType === "Day" && (
-                <div className="relative w-full mt-3 flex gap-2" ref={dropdownRef}>
+                <div className="relative w-full mt-3 flex gap-2">
 
 
 
@@ -429,11 +431,11 @@ function LoanSetting({ state }) {
                       </div>
 
                       {isOrdinalDropdownOpen && (
-                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10 max-h-[90px] overflow-y-auto">
+                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
                           {ordinalOptions.map((ordinal, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-[#F4F7FF]"
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
                               onClick={() => {
                                 setSelectedOrdinal(ordinal);
                                 setIsOrdinalDropdownOpen(false);
@@ -459,11 +461,11 @@ function LoanSetting({ state }) {
                       </div>
 
                       {isDayDropdownOpen && (
-                        <div className="absolute left-0 top-full mt-1 w-[320px] bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10 max-h-[90px] overflow-y-auto">
+                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
                           {dayOptions.map((day, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 font-Gilroy hover:bg-[#F4F7FF]"
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
                               onClick={() => {
                                 setSelectedDay(day);
                                 setIsDayDropdownOpen(false);
@@ -486,21 +488,20 @@ function LoanSetting({ state }) {
 
 
 
-
-
               {selectedMonthlyType === "Date" && (
 
                 <div className="mt-2 relative" >
+                  <label className="text-black text-sm font-Gilroy font-medium text-lg">Due</label>
                   <DatePicker
                     ref={datePickerRef}
                     selected={selectedDueDate}
-                    onChange={(date) => handleDate(date)}
+                    onChange={handleDate}
                     dateFormat="dd-MM-yyyy"
                     placeholderText="Select a date"
-                    className="cursor-pointer w-[410px] h-[60px] border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
+                    className="cursor-pointer w-[410px] h-[60px]  mt-4 border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
                   />
                   <div
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                    className="absolute right-4 top-[70px] transform -translate-y-1/2 text-gray-500 cursor-pointer"
                     onClick={() => datePickerRef.current.setFocus()}
                   >
                     <CalendarDays size={20} />

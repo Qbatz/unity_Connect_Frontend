@@ -299,7 +299,7 @@ const ProfileDetails = ({ state }) => {
 
 
     return (
-        <div className="min-h-screen bg-white p-4 flex flex-col items-start">
+        <div className=" bg-white p-4 flex flex-col items-start">
             <p className="font-Gilroy font-semibold text-2xl leading-none tracking-normal mb-6 -mt-5 ml-5">Account settings</p>
 
             <div className="flex items-center gap-6  w-full">
