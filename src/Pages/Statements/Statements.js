@@ -66,15 +66,15 @@ function Statement({ state }) {
     <div className="p-8">
       <p className="font-Gilroy font-medium text-sm md:text-2xl mb-4 mt-1 ml-12 lg:ml-1 text-gray-700">Statements</p>
 
-      <div className="font-Gilroy font-base px-2 md:px-4 py-2 text-gray-900 mb-3 lg:-ml-2.5">Loan statement</div>
+      <div className="font-Gilroy text-base px-2 md:px-4 py-2 text-gray-900 mb-3 lg:-ml-2.5">Loan statement</div>
 
       <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
        
-          <div className="overflow-y-auto max-h-[700px]">
+          <div className="overflow-y-auto max-h-[800px]">
             <table className="w-full text-left border-collapse min-w-max">
               <thead className="sticky top-0 bg-blue-50 z-10">
 
-                <tr className="bg-blue-50 border-b text-center">
+                <tr className="bg-blue-50 border-b text-center font-Gilroy">
                   <th className="pl-8 text-left" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }} >Member Name</th>
                   <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan ID</th>
                   <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Date</th>
@@ -97,7 +97,7 @@ function Statement({ state }) {
                     <tr key={index} className= "text-center">
                       <td className="p-2 flex text-start gap-3 pl-6">
                         <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
-                        <span className="truncate mt-2">{item.User_Name}</span>
+                        <span className="truncate mt-2 text-[#222222] font-Gilroy font-semibold">{item.User_Name}</span>
                       </td>
                       <td className="p-2">
                         <span className="bg-orange-100 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
@@ -109,16 +109,16 @@ function Statement({ state }) {
                           {moment(item.loan_date).format("DD MMM YYYY")}
                         </span>
                       </td>
-                      <td className="p-2">₹{item.Loan_Amount.toLocaleString('en-IN')}</td>
+                      <td className="p-2 font-Gilroy">₹{item.Loan_Amount.toLocaleString('en-IN')}</td>
 
                       <td className="p-2">
                         <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
                           {moment(item.Due_Date).format("DD MMM YYYY")}
                         </span>
                       </td>
-                      <td className="p-2">₹{item.Due.toLocaleString('en-IN')}</td>
+                      <td className="p-2 font-Gilroy">₹{item.Due.toLocaleString('en-IN')}</td>
                       <td className="p-2">
-                        <span className={`px-3 py-1.5 rounded-full text-black ${item.Status === "Paid" ? "bg-emerald-100 px-6" : "bg-red-100"}`}>
+                        <span className={`px-3 py-1.5 rounded-full text-black font-Gilroy ${item.Status === "Paid" ? "bg-emerald-100 px-6" : "bg-red-100"}`}>
                           {item.Status}
                         </span>
                       </td>

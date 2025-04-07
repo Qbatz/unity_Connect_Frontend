@@ -23,14 +23,16 @@ function ExpensesList({ state }) {
     const [openIndex, setOpenIndex] = useState(null);
     const [deletePopup, setDeletePopup] = useState(null);
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(7);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
-
+    const popupRefs = useRef([]);
     const dispatch = useDispatch();
     const popupRef = useRef(null);
+    const containerRef = useRef(null);
+
 
     const ExpensesList = state.Expenses.getexpenses || [];
 
@@ -93,12 +95,18 @@ function ExpensesList({ state }) {
         }
     };
 
+
+
     useEffect(() => {
         document.addEventListener("click", handleClickOutside);
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
+
+
+
+
 
     useEffect(() => {
         setLoading(true);
@@ -109,6 +117,19 @@ function ExpensesList({ state }) {
             setLoading(false);
         }, 1000);
     }, []);
+
+    useEffect(() => {
+        if (openIndex !== null && popupRefs.current[openIndex]) {
+            const rect = popupRefs.current[openIndex].getBoundingClientRect();
+
+            setDropdownPosition({
+                top: rect.bottom + window.scrollY,
+                left: rect.left + window.scrollX,
+            });
+        }
+    }, [openIndex]);
+
+
 
     const handledots = (event, index) => {
         event.stopPropagation();
@@ -177,8 +198,7 @@ function ExpensesList({ state }) {
 
     return (
         <>
-            <div className="p-4">
-
+            <div className="p-4" ref={containerRef}>
 
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-semibold font-Gilroy p-6">Expenses</h2>
@@ -276,10 +296,9 @@ function ExpensesList({ state }) {
 
 
 
-                                                <td className="py-2 px-6  font-Gilroy relative">
+                                                <td className="py-2 px-8 relative">
                                                     {item.sub_cat?.length > 0 ? (
-                                                        <div className="relative" ref={popupRef}>
-
+                                                        <div className="relative inline-block" ref={(el) => (popupRefs.current[index] = el)}>
                                                             <span
                                                                 className="truncate cursor-pointer bg-[#FFEFCF] text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy flex items-center justify-center whitespace-nowrap"
                                                                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
@@ -287,19 +306,32 @@ function ExpensesList({ state }) {
                                                                 {item.sub_cat[0]?.Subcategory_Name}
                                                             </span>
 
-
                                                             {item.sub_cat.length > 1 && openIndex === index && (
-                                                                <div className="absolute left-0 top-full mt-1 w-48 bg-white border border-gray-300 shadow-md rounded-md z-[50] max-h-[150px] overflow-y-auto">
+                                                                <div
+                                                                    className="fixed bg-white w-[150px] shadow-md border border-gray-200 rounded-md z-[1000] max-h-[150px] overflow-y-auto custom-scroll"
+
+                                                                    style={{
+                                                                        top: dropdownPosition.top,
+                                                                        left: dropdownPosition.left,
+                                                                    }}
+                                                                >
                                                                     {item.sub_cat.slice(1).map((sub, i) => (
-                                                                        <div key={i} className="p-2 hover:bg-gray-100 truncate">
+                                                                        <div
+                                                                            key={i}
+                                                                            className="p-2 hover:bg-gray-100 truncate cursor-pointer text-sm"
+                                                                        >
                                                                             {sub.Subcategory_Name}
                                                                         </div>
                                                                     ))}
                                                                 </div>
                                                             )}
                                                         </div>
-                                                    ) : "-"}
+                                                    ) : (
+                                                        "-"
+                                                    )}
                                                 </td>
+
+
 
 
 
@@ -323,7 +355,7 @@ function ExpensesList({ state }) {
                                                 <td className="py-2 px-4 relative">
                                                     <div
                                                         className={`cursor-pointer h-9 w-9 border border-gray-300 rounded-full flex justify-center items-center 
-                                                        bg-white ${openMenu === index ? "!bg-blue-100" : ""}`}
+                                 bg-white ${openMenu === index ? "!bg-blue-100" : ""}`}
                                                         onClick={(event) => handledots(event, index)}
                                                     >
                                                         <PiDotsThreeOutlineVerticalFill />
@@ -331,6 +363,7 @@ function ExpensesList({ state }) {
 
                                                     {openMenu === index && (
                                                         <div
+                                                            ref={popupRef}
                                                             style={{
                                                                 position: 'fixed',
                                                                 top: `${popupPosition.top}px`,
@@ -444,3 +477,4 @@ ExpensesList.propTypes = {
 };
 
 export default connect(mapStateToProps)(ExpensesList);
+

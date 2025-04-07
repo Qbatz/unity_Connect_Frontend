@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-
+import moment from "moment";
 
 function Transactions({ state, member }) {
 
@@ -57,11 +57,8 @@ function Transactions({ state, member }) {
 
                   <td className="p-4">
                     <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
-                      {new Date(item.Transaction_Date).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric"
-                      })}
+
+                      {moment(item.Created_At).format("DD MMM YYYY . hh:mm A")}
                     </span>
                   </td>
 
