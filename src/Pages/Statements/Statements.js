@@ -9,7 +9,7 @@ import ProfileIcon from '../../Asset/Icons/ProfileIcon.svg';
 // import RecordPayment from "../../Asset/Icons/RecordPayment.svg";
 import moment from "moment";
 import { ClipLoader } from "react-spinners";
-
+import EmptyState from '../../Asset/Images/Empty-State.jpg'
 
 function Statement({ state }) {
 
@@ -67,34 +67,33 @@ function Statement({ state }) {
       <p className="font-Gilroy font-medium text-sm md:text-2xl mb-4 mt-1 ml-12 lg:ml-1 text-gray-700">Statements</p>
 
       <div className="font-Gilroy text-base px-2 md:px-4 py-2 text-gray-900 mb-3 lg:-ml-2.5">Loan statement</div>
-
-      <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
-       
-          <div className="overflow-y-auto max-h-[800px]">
-            <table className="w-full text-left border-collapse min-w-max">
-              <thead className="sticky top-0 bg-blue-50 z-10">
-
-                <tr className="bg-blue-50 border-b text-center font-Gilroy">
-                  <th className="pl-8 text-left" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }} >Member Name</th>
-                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan ID</th>
-                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Date</th>
-                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Amount</th>
-                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due Date</th>
-                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due</th>
-                  <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {currentStatement.length === 0 ? (
-                  <tr>
-                    <td colSpan="8" className="text-center text-red-500 font-Gilroy py-4">
-                      No data available
-                    </td>
+      <div>
+        {currentStatement.length === 0 ? (
+          <div className="flex flex-col items-center justify-center">
+            <div className="w-64 h-64">
+              <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+            </div>
+            <p className="text-violet-600 text-lg text-center font-Gilroy">Loan Data Not Available</p>
+          </div>
+        ) : (
+          <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
+            <div className="overflow-y-auto max-h-[800px]">
+              <table className="w-full text-left border-collapse min-w-max">
+                <thead className="sticky top-0 bg-blue-50 z-10">
+                  <tr className="bg-blue-50 border-b text-center font-Gilroy">
+                    <th className="pl-8 text-left" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Member Name</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan ID</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Date</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Amount</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due Date</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Status</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}></th>
                   </tr>
-                ) : (
-                  currentStatement.map((item, index) => (
-                    <tr key={index} className= "text-center">
+                </thead>
+                <tbody>
+                  {currentStatement.map((item, index) => (
+                    <tr key={index} className="text-center">
                       <td className="p-2 flex text-start gap-3 pl-6">
                         <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
                         <span className="truncate mt-2 text-[#222222] font-Gilroy font-semibold">{item.User_Name}</span>
@@ -110,7 +109,6 @@ function Statement({ state }) {
                         </span>
                       </td>
                       <td className="p-2 font-Gilroy">₹{item.Loan_Amount.toLocaleString('en-IN')}</td>
-
                       <td className="p-2">
                         <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
                           {moment(item.Due_Date).format("DD MMM YYYY")}
@@ -125,44 +123,23 @@ function Statement({ state }) {
                       <td className="p-2 relative">
                         <button
                           onClick={() => toggleMenu(index)}
-                          className={`text-gray-600 rounded-full p-2 shadow ${menuOpen === index ? "bg-blue-200" : "bg-white"
-                            }`}
+                          className={`text-gray-600 rounded-full p-2 shadow ${menuOpen === index ? "bg-blue-200" : "bg-white"}`}
                         >
                           <FiMoreVertical size={16} />
                         </button>
-
-                        {/* {menuOpen === index && (
-                          <div  
-                            ref={popupRef}
-                            className={`absolute right-20 my-auto ${index === 0 ? "top-full" : "bottom-full"} bg-white border border-gray-200 rounded-lg shadow-lg z-50 w-[180px]`} >
-                            <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
-                              <img src={RecordPayment} alt="Record Payment" className="h-4 w-4" />
-                              Record Payment
-                            </button>
-                            <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
-                              <img src={editIcon} alt="Edit" className="h-4 w-4" />
-                              Edit
-                            </button>
-                            <button className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy">
-                              <img src={trashRed} alt="Delete" className="h-4 w-4" />
-                              Delete
-                            </button>
-                          </div>
-                        )} */}
-
-
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-
-
-            </table>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-
-       
+        )}
       </div>
+
+
+
+
       <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
         <button
           className={`px-4 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
