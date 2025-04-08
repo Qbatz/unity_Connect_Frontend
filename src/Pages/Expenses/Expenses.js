@@ -12,7 +12,7 @@ import { CalendarDays } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ClipLoader } from "react-spinners";
-
+import EmptyState from '../../Asset/Images/Empty-State.jpg'
 
 
 function ExpensesList({ state }) {
@@ -23,16 +23,14 @@ function ExpensesList({ state }) {
     const [openIndex, setOpenIndex] = useState(null);
     const [deletePopup, setDeletePopup] = useState(null);
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(7);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
-    const popupRefs = useRef([]);
+
     const dispatch = useDispatch();
     const popupRef = useRef(null);
-    const containerRef = useRef(null);
-
 
     const ExpensesList = state.Expenses.getexpenses || [];
 
@@ -95,18 +93,12 @@ function ExpensesList({ state }) {
         }
     };
 
-
-
     useEffect(() => {
         document.addEventListener("click", handleClickOutside);
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
-
-
-
-
 
     useEffect(() => {
         setLoading(true);
@@ -117,19 +109,6 @@ function ExpensesList({ state }) {
             setLoading(false);
         }, 1000);
     }, []);
-
-    useEffect(() => {
-        if (openIndex !== null && popupRefs.current[openIndex]) {
-            const rect = popupRefs.current[openIndex].getBoundingClientRect();
-
-            setDropdownPosition({
-                top: rect.bottom + window.scrollY,
-                left: rect.left + window.scrollX,
-            });
-        }
-    }, [openIndex]);
-
-
 
     const handledots = (event, index) => {
         event.stopPropagation();
@@ -198,7 +177,8 @@ function ExpensesList({ state }) {
 
     return (
         <>
-            <div className="p-4" ref={containerRef}>
+            <div className="p-4">
+
 
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-semibold font-Gilroy p-6">Expenses</h2>
@@ -254,149 +234,146 @@ function ExpensesList({ state }) {
                 </div>
 
 
-                <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden mt-4 mx-6">
-                    <div className="overflow-x-auto">
-                        <div className="overflow-y-auto max-h-[550px]">
-                            <table className="w-full text-left border-collapse">
-                                <thead className="sticky top-0 bg-[#F4F7FF] z-10">
-                                    <tr className="bg-[#F4F7FF] border-b font-extralight text-sm font-Gilroy">
-                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Merchant</th>
-                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Category</th>
-                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Sub-Category</th>
-                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Expense Date</th>
-                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Amount</th>
-                                        <th className="p-4 font-Gilroy text-lightgray font-normal">Mode of payment</th>
-                                        <th className="p-4 font-Gilroy text-lightgray font-normal"></th>
-                                    </tr>
-                                </thead>
+                <div className="">
+                    {paginatedData.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center">
 
-                                <tbody>
+                            <div className="w-64 h-64">
+                                <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+                            </div>
 
-                                    {paginatedData.length === 0 ? (
-                                        <tr>
-                                            <td colSpan="8" className="text-center text-red-500 font-Gilroy py-4">
-                                                No data available
-                                            </td>
-                                        </tr>
-                                    ) : (
-                                        paginatedData?.map((item, index) => (
-                                            <tr key={index}>
-
-                                                <td className="py-2 px-4 flex items-center gap-2 truncate">
-                                                    <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
-                                                    <span className="truncate text-[#222222] p-1 font-Gilroy font-semibold">{item.Name}</span>
-                                                </td>
-
-
-                                                <td className="py-2 px-4 ">
-                                                    <div className="bg-[#FFEFCF] text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy flex items-center justify-center whitespace-nowrap">
-                                                        {item.Category_Name}
-                                                    </div>
-                                                </td>
-
-
-
-                                                <td className="py-2 px-8 relative">
-                                                    {item.sub_cat?.length > 0 ? (
-                                                        <div className="relative inline-block" ref={(el) => (popupRefs.current[index] = el)}>
-                                                            <span
-                                                                className="truncate cursor-pointer bg-[#FFEFCF] text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy flex items-center justify-center whitespace-nowrap"
-                                                                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                                                            >
-                                                                {item.sub_cat[0]?.Subcategory_Name}
-                                                            </span>
-
-                                                            {item.sub_cat.length > 1 && openIndex === index && (
-                                                                <div
-                                                                    className="fixed bg-white w-[150px] shadow-md border border-gray-200 rounded-md z-[1000] max-h-[150px] overflow-y-auto custom-scroll"
-
-                                                                    style={{
-                                                                        top: dropdownPosition.top,
-                                                                        left: dropdownPosition.left,
-                                                                    }}
-                                                                >
-                                                                    {item.sub_cat.slice(1).map((sub, i) => (
-                                                                        <div
-                                                                            key={i}
-                                                                            className="p-2 hover:bg-gray-100 truncate cursor-pointer text-sm"
-                                                                        >
-                                                                            {sub.Subcategory_Name}
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    ) : (
-                                                        "-"
-                                                    )}
-                                                </td>
-
-
-
-
-
-                                                <td className="py-2 px-4">
-                                                    <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
-                                                        {moment(item.Expense_Date).format("DD-MMM-YYYY")}
-                                                    </span>
-                                                </td>
-                                                <td className="py-2 px-4 font-Gilroy">
-                                                    ₹{item.Expense_Amount.toLocaleString("en-IN")}
-                                                </td>
-
-
-
-                                                <td className="py-2 px-4">
-                                                    <span className="bg-[#D9E9FF] text-gray-700 px-4 py-2 rounded-full text-sm font-Gilroy min-w-[120px] text-center inline-block">
-                                                        {item.Mode_of_Payment}
-                                                    </span>
-                                                </td>
-
-                                                <td className="py-2 px-4 relative">
-                                                    <div
-                                                        className={`cursor-pointer h-9 w-9 border border-gray-300 rounded-full flex justify-center items-center 
-                                 bg-white ${openMenu === index ? "!bg-blue-100" : ""}`}
-                                                        onClick={(event) => handledots(event, index)}
-                                                    >
-                                                        <PiDotsThreeOutlineVerticalFill />
-                                                    </div>
-
-                                                    {openMenu === index && (
-                                                        <div
-                                                            ref={popupRef}
-                                                            style={{
-                                                                position: 'fixed',
-                                                                top: `${popupPosition.top}px`,
-                                                                left: `${popupPosition.left}px`,
-                                                                right: '110px',
-                                                                zIndex: 50,
-
-                                                            }}
-                                                            className="absolute  top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[130px]">
-                                                            <button
-                                                                onClick={() => handleEditclick(item)}
-                                                                className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy rounded-lg"
-                                                            >
-                                                                <img src={editIcon} alt="Edit" className="h-4 w-4" />
-                                                                Edit
-                                                            </button>
-                                                            <button
-                                                                className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy rounded-lg"
-                                                                onClick={() => handleDeleteclick(index)}
-                                                            >
-                                                                <img src={deleteIcon} alt="Delete" className="h-4 w-4" />
-                                                                Delete
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        ))
-                                    )}
-                                </tbody>
-                            </table>
+                            <p className="text-violet-600 text-lg text-center font-Gilroy">
+                                Loan Data Not Available
+                            </p>
                         </div>
-                    </div>
+
+                    ) : (
+                        <div className="shadow-md rounded-xl overflow-hidden mt-4 mx-6">
+                            <div className="overflow-x-auto">
+                                <div className="overflow-y-auto max-h-[550px]">
+                                    <table className="w-full text-left border-collapse bg-#F4F7FF ">
+                                        <thead className="sticky top-0 bg-[#F4F7FF] z-10">
+                                            <tr className="bg-[#F4F7FF] border-b font-extralight text-sm font-Gilroy">
+                                                <th className="p-4 font-Gilroy text-lightgray font-normal">Merchant</th>
+                                                <th className="p-4 font-Gilroy text-lightgray font-normal">Category</th>
+                                                <th className="p-4 font-Gilroy text-lightgray font-normal">Sub-Category</th>
+                                                <th className="p-4 font-Gilroy text-lightgray font-normal">Expense Date</th>
+                                                <th className="p-4 font-Gilroy text-lightgray font-normal">Amount</th>
+                                                <th className="p-4 font-Gilroy text-lightgray font-normal">Mode of payment</th>
+                                                <th className="p-4 font-Gilroy text-lightgray font-normal"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {paginatedData?.map((item, index) => (
+                                                <tr key={index}>
+
+                                                    <td className="py-2 px-4 flex items-center gap-2 truncate">
+                                                        <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
+                                                        <span className="truncate text-[#222222] p-1 font-Gilroy font-semibold">{item.Name}</span>
+                                                    </td>
+
+
+                                                    <td className="py-2 px-4 ">
+                                                        <div className="bg-[#FFEFCF] text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy flex items-center justify-center whitespace-nowrap">
+                                                            {item.Category_Name}
+                                                        </div>
+                                                    </td>
+
+
+
+                                                    <td className="py-2 px-6  font-Gilroy relative">
+                                                        {item.sub_cat?.length > 0 ? (
+                                                            <div className="relative" ref={popupRef}>
+
+                                                                <span
+                                                                    className="truncate cursor-pointer bg-[#FFEFCF] text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy flex items-center justify-center whitespace-nowrap"
+                                                                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                                                                >
+                                                                    {item.sub_cat[0]?.Subcategory_Name}
+                                                                </span>
+
+
+                                                                {item.sub_cat.length > 1 && openIndex === index && (
+                                                                    <div className="absolute left-0 top-full mt-1 w-48 bg-white border border-gray-300 shadow-md rounded-md z-[50] max-h-[150px] overflow-y-auto">
+                                                                        {item.sub_cat.slice(1).map((sub, i) => (
+                                                                            <div key={i} className="p-2 hover:bg-gray-100 truncate">
+                                                                                {sub.Subcategory_Name}
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        ) : "-"}
+                                                    </td>
+
+
+
+                                                    <td className="py-2 px-4">
+                                                        <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                                                            {moment(item.Expense_Date).format("DD-MMM-YYYY")}
+                                                        </span>
+                                                    </td>
+                                                    <td className="py-2 px-4 font-Gilroy">
+                                                        ₹{item.Expense_Amount.toLocaleString("en-IN")}
+                                                    </td>
+
+
+
+                                                    <td className="py-2 px-4">
+                                                        <span className="bg-[#D9E9FF] text-gray-700 px-4 py-2 rounded-full text-sm font-Gilroy min-w-[120px] text-center inline-block">
+                                                            {item.Mode_of_Payment}
+                                                        </span>
+                                                    </td>
+
+                                                    <td className="py-2 px-4 relative">
+                                                        <div
+                                                            className={`cursor-pointer h-9 w-9 border border-gray-300 rounded-full flex justify-center items-center 
+                                                        bg-white ${openMenu === index ? "!bg-blue-100" : ""}`}
+                                                            onClick={(event) => handledots(event, index)}
+                                                        >
+                                                            <PiDotsThreeOutlineVerticalFill />
+                                                        </div>
+
+                                                        {openMenu === index && (
+                                                            <div
+                                                                style={{
+                                                                    position: 'fixed',
+                                                                    top: `${popupPosition.top}px`,
+                                                                    left: `${popupPosition.left}px`,
+                                                                    right: '110px',
+                                                                    zIndex: 50,
+
+                                                                }}
+                                                                className="absolute  top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[130px]">
+                                                                <button
+                                                                    onClick={() => handleEditclick(item)}
+                                                                    className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy rounded-lg"
+                                                                >
+                                                                    <img src={editIcon} alt="Edit" className="h-4 w-4" />
+                                                                    Edit
+                                                                </button>
+                                                                <button
+                                                                    className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy rounded-lg"
+                                                                    onClick={() => handleDeleteclick(index)}
+                                                                >
+                                                                    <img src={deleteIcon} alt="Delete" className="h-4 w-4" />
+                                                                    Delete
+                                                                </button>
+                                                            </div>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {/* </tbody> */}
+                    {/* </table> */}
+
+
                 </div>
 
 
@@ -477,4 +454,3 @@ ExpensesList.propTypes = {
 };
 
 export default connect(mapStateToProps)(ExpensesList);
-

@@ -17,7 +17,7 @@ import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 // import { ClipLoader } from "react-spinners";
-
+import EmptyState from '../../Asset/Images/Empty-State.jpg'
 
 
 function ActiveMember({ state, onSelectMember }) {
@@ -222,7 +222,17 @@ function ActiveMember({ state, onSelectMember }) {
 
         <div>
           {state.Member.errormsg === "No members found" && (
-            <p className="text-red-500 text-sm text-center font-Gilroy">{state.Member.errormsg}</p>
+
+            <div className="flex flex-col items-center justify-center">
+
+              <div className="w-64 h-64">
+                <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+              </div>
+
+              <p className="text-violet-600 text-lg text-center font-Gilroy">
+                {state.Member.errormsg}
+              </p>
+            </div>
           )}
         </div>
         <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
