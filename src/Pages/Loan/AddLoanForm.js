@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import img1 from "../../Asset/Images/Memberone.svg";
 import tick from '../../Asset/Icons/tick-circle.svg';
 import { MdError } from "react-icons/md";
-
+import EmptyState from '../../Asset/Images/Empty-State.jpg'
 import Select from "react-select";
 import { ClipLoader } from "react-spinners";
 
@@ -749,7 +749,14 @@ function AddLoanForm({ state }) {
         {activeTab === "Active loan" && (
           <div>
 
-            <div className="active-loan max-h-[440px] overflow-y-auto p-5  scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+
+
+            <div
+              className={`active-loan max-h-[440px] overflow-y-auto p-5 scroll grid ${paginatedActiveLoans?.length > 0
+                ? "gap-6 grid-cols-1 md:grid-cols-2"
+                : "place-items-center"
+                }`}
+            >
 
               {paginatedActiveLoans?.length > 0 ? (
                 paginatedActiveLoans?.map((loan) => {
@@ -898,7 +905,17 @@ function AddLoanForm({ state }) {
                   );
                 })
               ) : (
-                <p className="text-red-500">Loan Data Not Available</p>
+                <div className="flex flex-col items-center justify-center">
+
+                  <div className="w-64 h-64">
+                    <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+                  </div>
+
+                  <p className="text-violet-600 text-lg text-center font-Gilroy">
+                    Loan Data Not Available
+                  </p>
+                </div>
+
               )}
 
             </div>
@@ -1119,8 +1136,14 @@ function AddLoanForm({ state }) {
         {activeTab === "Approved loan" && (
           <div>
 
-            <div className="active-loan max-h-[440px] overflow-y-auto p-5  scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
+
+            <div
+              className={`active-loan max-h-[440px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
+                ? "gap-6 grid-cols-1 md:grid-cols-2"
+                : "place-items-center"
+                }`}
+            >
               {paginatedApprovedLoans.length > 0 ? (
                 paginatedApprovedLoans.map((loan) => {
 
@@ -1230,7 +1253,17 @@ function AddLoanForm({ state }) {
                   );
                 })
               ) : (
-                <p className="text-red-500">No Loan Data Available</p>
+
+                <div className="flex flex-col items-center justify-center">
+
+                  <div className="w-64 h-64">
+                    <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+                  </div>
+
+                  <p className="text-violet-600 text-xl text-center font-Gilroy">
+                    No Loan Data Available
+                  </p>
+                </div>
               )}
 
             </div>
@@ -1269,8 +1302,14 @@ function AddLoanForm({ state }) {
 
           <div>
 
-            <div className="active-loan max-h-[440px] overflow-y-auto p-5  scroll gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 
+
+            <div
+              className={`active-loan max-h-[440px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
+                ? "gap-6 grid-cols-1 md:grid-cols-2"
+                : "place-items-center"
+                }`}
+            >
               {paginatedRejectedLoans.length > 0 ? (
                 paginatedRejectedLoans.map((loan) => {
 
@@ -1351,7 +1390,17 @@ function AddLoanForm({ state }) {
                   );
                 })
               ) : (
-                <p className="text-red-500">No Loan Data Available</p>
+                <div className="flex flex-col items-center justify-center">
+
+                  <div className="w-64 h-64">
+                    <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+                  </div>
+
+                  <p className="text-violet-600 text-xl text-center font-Gilroy">
+                    No Loan Data Available
+                  </p>
+                </div>
+
               )}
 
             </div>

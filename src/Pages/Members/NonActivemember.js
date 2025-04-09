@@ -14,6 +14,8 @@ import moment from "moment";
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
+import EmptyState from '../../Asset/Images/Empty-State.jpg'
+
 function NonActiveMember({ state }) {
 
   const dispatch = useDispatch();
@@ -50,8 +52,6 @@ function NonActiveMember({ state }) {
 
 
   const popupRef = useRef(null);
-
-
 
 
   useEffect(() => {
@@ -117,13 +117,10 @@ function NonActiveMember({ state }) {
 
   };
 
-
-
   const toggleMenu = (event, index) => {
     event.stopPropagation();
     setOpenMenu(openMenu === index ? null : index);
   };
-
 
 
   const handleClickOutside = (event) => {
@@ -141,18 +138,11 @@ function NonActiveMember({ state }) {
 
 
 
-
-
-
-
   const handleEditMemberClick = () => {
 
 
 
   };
-
-
-
 
 
   const handleCloseStatus = () => {
@@ -170,9 +160,14 @@ function NonActiveMember({ state }) {
 
         </div>
         {NonactiveMemberData.length === 0 ? (
-          <p>no data found</p>
+
+          <div className="w-64 h-64">
+            <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+            <p>No data found</p>
+          </div>
         ) : (
           <>
+
             <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               {paginatedData?.map((member, index) => (
                 <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
