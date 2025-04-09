@@ -36,7 +36,7 @@ function ExpensesSetting({ state }) {
       setSubCategoryName("");
     }
 
-  
+
 
     if (!categoryName && !isSubCategory) {
       setCategoryError("Please add a category name");
@@ -44,7 +44,7 @@ function ExpensesSetting({ state }) {
     }
 
     if (isSubCategory && subCategories.length === 0) {
-      setSubCategoryError("Please add at least one sub-category.");
+      setSubCategoryError("Please add at least one sub-category");
       return;
     }
 
@@ -86,7 +86,7 @@ function ExpensesSetting({ state }) {
     }
   }, [statusCode]);
 
- 
+
 
 
   const handlecategoryName = (e) => setCategoryName(e.target.value);
@@ -120,7 +120,7 @@ function ExpensesSetting({ state }) {
 
     setSubCategories((prev) => {
       const updatedSubCategories = [...prev, subCategoryName.trim()];
-     
+
       return updatedSubCategories;
     });
 
@@ -241,7 +241,7 @@ function ExpensesSetting({ state }) {
                     placeholder="Enter sub-category name"
                     value={subCategoryName}
                     onChange={(e) => {
-                    
+
                       setSubCategoryName(e.target.value);
                     }}
                     className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"

@@ -20,12 +20,12 @@ function ExpensesList({ state }) {
     const [openMenu, setOpenMenu] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
-    const [openIndex, setOpenIndex] = useState(null);
+
     const [deletePopup, setDeletePopup] = useState(null);
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(7);
+    const [pageSize] = useState(6);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
 
@@ -33,6 +33,7 @@ function ExpensesList({ state }) {
     const popupRef = useRef(null);
 
     const ExpensesList = state.Expenses.getexpenses || [];
+
 
 
 
@@ -89,7 +90,7 @@ function ExpensesList({ state }) {
     const handleClickOutside = (event) => {
         if (popupRef.current && !popupRef.current.contains(event.target)) {
             setOpenMenu(null);
-            setOpenIndex(null);
+
         }
     };
 
@@ -102,13 +103,22 @@ function ExpensesList({ state }) {
 
     useEffect(() => {
         setLoading(true);
+        const payload = {
+            startDate: selectedDate,
+            endDate: selectedDate
+        }
         dispatch({
             type: "GETEXPENSES",
+            payload: payload
         });
         setTimeout(() => {
             setLoading(false);
         }, 1000);
     }, []);
+
+
+
+
 
     const handledots = (event, index) => {
         event.stopPropagation();
@@ -279,32 +289,24 @@ function ExpensesList({ state }) {
                                                         </div>
                                                     </td>
 
-
-
-                                                    <td className="py-2 px-6  font-Gilroy relative">
+                                                    <td className="p-4 font-Gilroy relative">
                                                         {item.sub_cat?.length > 0 ? (
-                                                            <div className="relative" ref={popupRef}>
-
+                                                            <div className="relative">
                                                                 <span
-                                                                    className="truncate cursor-pointer bg-[#FFEFCF] text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy flex items-center justify-center whitespace-nowrap"
-                                                                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                                                                    className="truncate bg-[#FFEFCF] text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy flex items-center justify-center whitespace-nowrap"
                                                                 >
                                                                     {item.sub_cat[0]?.Subcategory_Name}
                                                                 </span>
 
-
-                                                                {item.sub_cat.length > 1 && openIndex === index && (
-                                                                    <div className="absolute left-0 top-full mt-1 w-48 bg-white border border-gray-300 shadow-md rounded-md z-[50] max-h-[150px] overflow-y-auto">
-                                                                        {item.sub_cat.slice(1).map((sub, i) => (
-                                                                            <div key={i} className="p-2 hover:bg-gray-100 truncate">
-                                                                                {sub.Subcategory_Name}
-                                                                            </div>
-                                                                        ))}
-                                                                    </div>
-                                                                )}
                                                             </div>
-                                                        ) : "-"}
+                                                        ) : (
+                                                            "-"
+                                                        )}
                                                     </td>
+
+
+
+
 
 
 
@@ -370,8 +372,7 @@ function ExpensesList({ state }) {
                             </div>
                         </div>
                     )}
-                    {/* </tbody> */}
-                    {/* </table> */}
+
 
 
                 </div>

@@ -72,6 +72,7 @@ function CreateAccount({ state }) {
 
       dispatch({ type: 'CLEAR_STATUS_CODE_CREATE_ACCOUNT' });
       dispatch({ type: 'CLEAR_EMAIL_ERROR' })
+      navigate('/sign-in');
     }
   }, [state.CreateAccount.statusCodeCreateAccount]);
 
@@ -309,7 +310,7 @@ function CreateAccount({ state }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="w-full">
               <label className="block font-Gilroy text-sm font-medium mb-2">First Name  <span className="text-red-500 text-xl">*</span></label>
-              <input type="text" data-testid='input-fname' placeholder="First name" className="w-full p-3 border border-gray-300 rounded-xl"
+              <input type="text" data-testid='input-fname' placeholder="First name" className="w-full p-3 border border-gray-300 rounded-xl font-Gilroy"
                 value={firstName}
                 onChange={handleFirstNameChange}
               />
@@ -318,20 +319,20 @@ function CreateAccount({ state }) {
 
                 <div className="flex items-center text-red-500 text-sm mt-1">
                   <MdError className="mr-1 text-base" />
-                  <span data-testid='fname-error'>{firstNameError}</span>
+                  <span data-testid='fname-error' className="font-Gilroy">{firstNameError}</span>
                 </div>
               }
             </div>
 
             <div className="w-full">
               <label className="block font-Gilroy text-sm font-medium mb-2">Last Name <span className="text-red-500 text-xl"></span></label>
-              <input type="text" data-testid='input-lname' placeholder="Last name" className="w-full p-3 border border-gray-300 rounded-xl"
+              <input type="text" data-testid='input-lname' placeholder="Last name" className="w-full p-3 border border-gray-300 rounded-xl font-Gilroy"
                 value={lastName} onChange={handleLastNameChange}
               />
               {isSubmitted && lastNameError &&
                 <div className="flex items-center text-red-500 text-sm mt-1">
                   <MdError className="mr-1 text-sm" />
-                  <span >{lastNameError}</span>
+                  <span className="font-Gilroy" >{lastNameError}</span>
                 </div>
               }
             </div>
@@ -341,19 +342,19 @@ function CreateAccount({ state }) {
               <input data-testid='input-email'
                 autoComplete='new-email'
                 autoCorrect='off'
-                type="email" placeholder="Email address" className="w-full p-3 border border-gray-300 rounded-xl"
+                type="email" placeholder="Email address" className="w-full p-3 border border-gray-300 rounded-xl font-Gilroy"
                 value={email} onChange={handleEmailChange}
               />
               {state.CreateAccount.emailError === "Email Id Already Exists" && (
                 <div className="flex items-center text-red-500 text-sm mt-1">
                   <MdError className="mr-1 text-sm" />
-                  <p data-testid='mobile-error' className="text-red-500 text-sm mt-1">{state.CreateAccount.emailError}</p>
+                  <p data-testid='mobile-error' className="text-red-500 text-sm mt-1 font-Gilroy">{state.CreateAccount.emailError}</p>
                 </div>
               )}
               {isSubmitted && emailError &&
                 <div className="flex items-center text-red-500 text-sm mt-1">
                   <MdError className="mr-1 text-sm" />
-                  <p data-testid='email-error' className="text-red-500 text-sm">
+                  <p data-testid='email-error' className="text-red-500 text-sm font-Gilroy">
                     {emailError}</p>
                 </div>
               }
@@ -368,7 +369,7 @@ function CreateAccount({ state }) {
                 <input
                   type="text"
                   data-testid='input-mobile'
-                  className="flex-1 outline-none bg-transparent"
+                  className="flex-1 outline-none bg-transparent font-Gilroy"
                   placeholder="9876543210"
                   value={mobileNumber}
                   onChange={handleMobileNumberChange}
@@ -378,13 +379,13 @@ function CreateAccount({ state }) {
               {state.CreateAccount.emailError === "Mobile Number Already Exists" && (
                 <div className="flex items-center text-red-500 text-sm mt-1">
                   <MdError className="mr-1 text-sm" />
-                  <p data-testid='mobile_error' className="text-red-500 text-sm mt-1">{state.CreateAccount.emailError}</p>
+                  <p data-testid='mobile_error' className="text-red-500 text-sm mt-1 font-Gilroy">{state.CreateAccount.emailError}</p>
                 </div>
               )}
               {isSubmitted && phoneError &&
                 <div className="flex items-center text-red-500 text-sm mt-1">
                   <MdError className="mr-1 text-sm" />
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm font-Gilroy">
                     {phoneError}</p>
                 </div>
               }
@@ -424,7 +425,7 @@ function CreateAccount({ state }) {
                 {isSubmitted && passwordErrors &&
                   <div className="flex items-center text-red-500 text-sm mt-1">
                     <MdError className="mr-1 text-sm" />
-                    <p className="text-red-500 text-sm">
+                    <p className="text-red-500 text-sm font-Gilroy">
                       {passwordErrors}</p>
                   </div>
                 }
@@ -438,7 +439,7 @@ function CreateAccount({ state }) {
             <div className="w-full">
               <label className="block font-Gilroy text-sm font-medium mb-2">Confirm Password  <span className="text-red-500 text-xl">*</span></label>
               <div className="flex items-center border border-gray-300 rounded-xl p-3 bg-white">
-                <input data-testid='con-password' type={showConfirmPassword ? "text" : "password"} className="flex-1 w-full pr-1  outline-none bg-transparent text-gray-900"
+                <input data-testid='con-password' type={showConfirmPassword ? "text" : "password"} className="flex-1 w-full pr-1  outline-none bg-transparent text-gray-900 font-Gilroy"
                   placeholder="Confirm your password" value={confirmPassword} onChange={handleConfirmPasswordChange}
                 />
                 <button data-testid='show-confirm-password' type="button" className="ml-2 focus:outline-none" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
@@ -448,13 +449,13 @@ function CreateAccount({ state }) {
               {isSubmitted && confirmPasswordError &&
                 <div className="flex items-center text-red-500 text-sm mt-1">
                   <MdError className="mr-1 text-sm" />
-                  <p className="text-red-500 text-sm">{confirmPasswordError}</p>
+                  <p className="text-red-500 text-sm font-Gilroy">{confirmPasswordError}</p>
                 </div>
               }
               {isSubmitted && bothPasswordError &&
                 <div className="flex items-center text-red-500 text-sm mt-1">
                   <MdError className="mr-1 text-sm" />
-                  <p className="text-red-500 text-sm">{bothPasswordError}</p>
+                  <p className="text-red-500 text-sm font-Gilroy">{bothPasswordError}</p>
                 </div>
               }
 
