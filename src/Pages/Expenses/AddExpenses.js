@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
-import { useState, useEffect, forwardRef } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
@@ -12,9 +11,8 @@ import Select from "react-select";
 
 function ExpenseForm({ onClose, state, expensesdata }) {
 
+
     const dispatch = useDispatch();
-
-
 
     const [merchantName, setMerchantName] = useState("");
     const [category, setCategory] = useState("");
@@ -23,12 +21,17 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     const [expenseAmount, setExpenseAmount] = useState("");
     const [description, setDescription] = useState("");
     const [formError, setFormError] = useState("");
+    const [subCategory, setSubCategory] = useState("");
+
+
+    const [subCategoryOptions, setSubCategoryOptions] = useState([]);
+
 
     const [errors, setErrors] = useState({});
 
 
-    const name = state.SettingExpenses.getExpenseData.data
 
+    const name = state.SettingExpenses.getExpenseData.data
 
 
 
@@ -41,6 +44,8 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     ];
 
     useEffect(() => {
+
+
         if (expensesdata) {
             setMerchantName(prev => expensesdata.Name || prev);
 
@@ -52,11 +57,49 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             });
             setPaymentMode(prev => expensesdata.Mode_of_Payment || prev);
             setExpenseDate(prev => expensesdata.Expense_Date || prev);
+
+
             setExpenseAmount(prev => expensesdata.Expense_Amount || prev);
             setDescription(prev => expensesdata.Description || prev);
 
+            setSubCategory(prev => {
+                const subCatObj = expensesdata.sub_cat?.[0];
+                const foundSubCategory = subCategoryOptions.find(
+                    (option) => option.label === subCatObj?.Subcategory_Name
+                );
+                return foundSubCategory ? foundSubCategory.value : prev;
+            });
+
         }
     }, [expensesdata]);
+
+
+
+    const categoryOptions = (name || []).map((item) => ({
+        value: item.category_Id,
+        label: item.category_Name,
+    }));
+
+
+
+    useEffect(() => {
+        if (
+            expensesdata &&
+            expensesdata.Subcategory_Name &&
+            subCategoryOptions.length > 0
+        ) {
+            const matchedSubCategory = subCategoryOptions.find(
+                (option) => option.label === expensesdata.Subcategory_Name
+            );
+
+            if (matchedSubCategory) {
+                setSubCategory(matchedSubCategory.value);
+            }
+        }
+    }, [expensesdata, subCategoryOptions]);
+
+
+
 
     useEffect(() => {
 
@@ -66,6 +109,21 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         });
 
     }, []);
+
+
+    useEffect(() => {
+        if (!name || !Array.isArray(name) || !category) return;
+
+        const selectedCategory = name.find((c) => c.category_Id === category);
+        const availableSubCategories = selectedCategory?.subcategory || [];
+
+        const options = availableSubCategories.map((sub) => ({
+            value: sub.subcategory_Id,
+            label: sub.subcategory,
+        }));
+
+        setSubCategoryOptions(options);
+    }, [category, name]);
 
 
 
@@ -78,6 +136,9 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
         if (!category) {
             newErrors.category = "Please select a category";
+        }
+        if (!subCategory) {
+            newErrors.subCategory = "Please select a subcategory";
         }
 
         if (!paymentMode) {
@@ -107,14 +168,6 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     };
 
 
-    const categoryOptions = (name || []).map((item) => ({
-        value: item.category_Id,
-        label: item.category_Name,
-    }));
-
-
-
-
 
 
     const hasChanges = () => {
@@ -125,9 +178,12 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         const expenseDateFormatted = expenseDate ? new Date(expenseDate).toISOString().split('T')[0] : null;
         const expenseDataDateFormatted = expensesdata.Expense_Date ? new Date(expensesdata.Expense_Date).toISOString().split('T')[0] : null;
 
+
         return (
             expensesdata.Name !== merchantName ||
             expensesdata.Category_Name !== category ||
+
+
             expensesdata.Mode_of_Payment !== paymentMode ||
             expenseDataDateFormatted !== expenseDateFormatted ||
             expensesdata.Expense_Amount !== expenseAmount ||
@@ -137,30 +193,33 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
 
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
 
         if (!hasChanges()) {
             setFormError("No changes detected");
-            console.log('error', formError)
+
             return;
         }
 
 
-
+        const formatDate = (date) => {
+            return date.toLocaleDateString("en-CA");
+        };
 
         if (validateForm() && hasChanges) {
             const payload = {
                 name: merchantName,
                 category_id: category,
+
                 mode_of_payment: paymentMode,
-                expense_date: expenseDate,
+                expense_date: formatDate(expenseDate),
+
                 expense_amount: expenseAmount,
                 description: description,
             };
+
 
             const Editpayload = {
                 ...payload,
@@ -184,7 +243,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             <input
                 ref={ref}
                 type="text"
-                className="w-[300px]  p-2 h-10 border border-gray-300 rounded-lg text-sm cursor-pointer pl-4 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-[300px]  p-2 h-10 border border-gray-300 rounded-lg text-sm cursor-pointer pl-4 focus:outline-none focus:ring-1 focus:ring-black"
                 placeholder="DD-MM-YYYY"
                 value={value}
                 onClick={onClick}
@@ -192,7 +251,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             />
             <CalendarDays
                 size={20}
-                className="absolute text-[#292D32] right-3 top-3  cursor-pointer"
+                className="absolute text-[#292D32] right-3 top-3  cursor-pointer"
                 onClick={onClick}
             />
         </div>
@@ -219,39 +278,37 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
                 <div className="mt-2 space-y-3">
-
-                    <div>
-                        <label className="block  mb-2 font-Gilroy">
-                            Merchant Name <span className="text-red-500 text-[20px]">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={merchantName}
-
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                if (/^[A-Za-z\s]*$/.test(value)) {
-                                    setMerchantName(value);
-                                    if (errors.merchantName) {
-                                        setErrors((prevErrors) => ({ ...prevErrors, merchantName: "" }));
-                                    }
-                                }
-                            }}
-                            placeholder="Enter name"
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
-                        />
-                        {errors.merchantName && (
-                            <div className="flex items-center text-red-500 text-sm mt-1">
-                                <MdError className="mr-1 text-base" />
-                                <p >{errors.merchantName}</p>
-                            </div>
-                        )}
-                    </div>
-
-
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block  mb-2 font-Gilroy">
+                            <label className="block  mb-2 font-Gilroy">
+                                Merchant Name <span className="text-red-500 text-[20px]">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                value={merchantName}
+
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^[A-Za-z\s]*$/.test(value)) {
+                                        setMerchantName(value);
+                                        if (errors.merchantName) {
+                                            setErrors((prevErrors) => ({ ...prevErrors, merchantName: "" }));
+                                        }
+                                    }
+                                }}
+                                placeholder="Enter name"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                            />
+                            {errors.merchantName && (
+                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                    <MdError className="mr-1 text-base" />
+                                    <p >{errors.merchantName}</p>
+                                </div>
+                            )}
+                        </div>
+
+                        <div>
+                            <label className="block  mb-2 font-Gilroy">
                                 Category <span className="text-red-500 text-[20px]">*</span>
                             </label>
 
@@ -313,9 +370,74 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 </div>
                             )}
                         </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block mb-2 font-Gilroy">
+                                Sub Category <span className="text-red-500 text-[20px]">*</span>
+                            </label>
+                            <Select
+                                value={
+                                    subCategoryOptions.find((option) => option.value === subCategory) || null
+                                }
+                                onChange={(selectedOption) => {
+                                    setSubCategory(selectedOption?.value);
+                                    if (errors.subCategory) {
+                                        setErrors((prevErrors) => ({ ...prevErrors, subCategory: "" }));
+                                    }
+                                }}
+                                options={subCategoryOptions}
+                                placeholder="Select a subcategory"
+                                isSearchable
+                                className="w-full"
+                                menuShouldScrollIntoView={false}
+                                menuPlacement="auto"
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        borderColor: "#D1D5DB",
+                                        borderRadius: "8px",
+                                        padding: "4px",
+                                        boxShadow: "none",
+                                        cursor: "pointer",
+                                        "&:hover": { borderColor: "#666" },
+                                        minHeight: "40px"
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                    }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                        scrollbarWidth: "thin",
+                                        "&::-webkit-scrollbar": { width: "6px" },
+                                        "&::-webkit-scrollbar-thumb": {
+                                            backgroundColor: "#888",
+                                            borderRadius: "4px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb:hover": {
+                                            backgroundColor: "#555",
+                                        },
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" })
+                                }}
+                            />
+
+                            {errors.subCategory && (
+                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                    <MdError className="mr-1 text-base" />
+                                    <p>{errors.subCategory}</p>
+                                </div>
+                            )}
+                        </div>
+
 
                         <div>
-                            <label className="block  mb-2 font-Gilroy">
+                            <label className="block  mb-2 font-Gilroy">
                                 Mode of payment <span className="text-red-500 text-[20px]">*</span>
                             </label>
 
@@ -377,7 +499,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block  mb-2 font-Gilroy">
+                            <label className="block  mb-2 font-Gilroy">
                                 Expense date <span className="text-red-500 text-[20px]">*</span>
                             </label>
 
@@ -406,7 +528,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
                         <div>
-                            <label className="block  mb-2 font-Gilroy">
+                            <label className="block  mb-2 font-Gilroy">
                                 Expense amount <span className="text-red-500 text-[20px]">*</span>
                             </label>
                             <input
@@ -433,7 +555,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
                     <div>
-                        <label className="block  mb-2 font-Gilroy">
+                        <label className="block  mb-2 font-Gilroy">
                             Description
                         </label>
                         <textarea
@@ -484,3 +606,4 @@ ExpenseForm.propTypes = {
 };
 
 export default connect(mapsToProps)(ExpenseForm);
+

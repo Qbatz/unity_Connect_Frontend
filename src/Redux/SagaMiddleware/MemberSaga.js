@@ -19,6 +19,7 @@ function* handleMemberList() {
     } else if (response.status === 201 || response.statusCode === 201) {
 
         yield put({ type: 'ERROR', payload: response.data.message });
+        yield put({ type: 'NON-ERROR', payload: response.data.message });
     }
     if (response) {
         refreshToken(response);

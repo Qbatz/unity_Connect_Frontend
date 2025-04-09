@@ -4,9 +4,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 
-function* handleExpenses() {
+function* handleExpenses(action) {
 
-    const response = yield call(ExpensesGetAction);
+    const response = yield call(ExpensesGetAction,action.payload);
 
 
 

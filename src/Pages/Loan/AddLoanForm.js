@@ -38,6 +38,7 @@ function AddLoanForm({ state }) {
   const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
   const [memberLoanType, setMemberLoanType] = useState("");
   const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
+  const [witnessOptions, setWitnessOptions] = useState([]);
 
   const [approve, setApprove] = useState("");
   const [loading, setLoading] = useState(true);
@@ -184,7 +185,7 @@ function AddLoanForm({ state }) {
 
   const handleAddWitness = () => {
     if (selectedWitnesses.length === 0) {
-      setWitnessError("No changes detected. Please select at least one witness.");
+      setWitnessError("No changes detected. Please select at least one witness");
       return;
     }
 
@@ -212,6 +213,7 @@ function AddLoanForm({ state }) {
   };
 
 
+
   const handleAddNewWitness = (loan) => {
     setIsWitnessModalOpen(true);
     setVitDetails({ ...loan });
@@ -221,8 +223,23 @@ function AddLoanForm({ state }) {
       : [];
 
     setSelectedWitnesses(existingWitnesses);
-    setInitialWitnesses(existingWitnesses);
+    setInitialWitnesses([]);
+
+
+    const memberId = loan.Member_Id;
+    const witnessOptions = members
+      ?.filter((member) => String(member.Id) !== String(memberId))
+      .map((member) => ({
+        value: member.Id,
+        label: member.User_Name,
+      }));
+
+    setWitnessOptions(witnessOptions);
   };
+
+
+
+
 
 
 
@@ -324,12 +341,7 @@ function AddLoanForm({ state }) {
     label: member.User_Name,
   }));
 
-  const witnessOptions = members
-    .filter((member) => member.Id !== memberId)
-    .map((member) => ({
-      value: member.Id,
-      label: member.User_Name,
-    }));
+
 
 
   const loanOptions = loanGetSetting?.SettingLoan?.getLoan?.loans?.map((loan) => ({
@@ -943,10 +955,6 @@ function AddLoanForm({ state }) {
 
               </div>
               <div className="w-full border border-[#E7E7E7] mx-auto my-2 mb-4"></div>
-              No
-
-
-
               <div className="relative">
                 <label className="text-black text-sm font-medium font-Gilroy text-lg">
                   Witnesses Names
