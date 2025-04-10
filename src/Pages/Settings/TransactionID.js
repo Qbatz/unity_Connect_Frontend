@@ -4,6 +4,7 @@ import { useDispatch, connect } from "react-redux";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 
+
 function TransactionID({ state }) {
 
 
@@ -11,15 +12,16 @@ function TransactionID({ state }) {
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
   const [error, setError] = useState({ prefix: "", suffix: "" });
-
-  const [isCreated, setIsCreated] = useState(false);
+  const [id, setId] = useState('');
+  
 
   useEffect(() => {
     if (state.Settings.statusCodeTransactionID === 200) {
+      setId('');
       setPrefix('');
       setSuffix('');
       dispatch({ type: "CLEAR_STATUS_CODE_TRANSACTION_ID" });
-      setIsCreated(true);
+      ;
     }
 
     return () => {
@@ -50,14 +52,18 @@ function TransactionID({ state }) {
   useEffect(() => {
     const storedPrefix = localStorage.getItem("TransactionIDprefix") || state.Settings?.TransactionIDprefix || "";
     const storedSuffix = localStorage.getItem("TransactionIDsuffix") || state.Settings?.TransactionIDsuffix || "";
-
-
+    const storedId = localStorage.getItem("TransactionId") || state.Settings?.TransactionId || "";
+  
+    setId(storedId)
     setPrefix(storedPrefix);
     setSuffix(storedSuffix);
 
     if (state.Settings.statusCodeTransactionID === 200) {
-      localStorage.setItem("TransactionIDprefix", prefix);
-      localStorage.setItem("TransactionIDsuffix", suffix);
+   
+      
+      localStorage.setItem("TransactionId", storedId);
+      localStorage.setItem("TransactionIDprefix", storedPrefix);
+      localStorage.setItem("TransactionIDsuffix", storedSuffix);
       dispatch({ type: 'CLEAR_STATUS_CODE_TRANSACTION_ID' });
     }
 
@@ -65,6 +71,13 @@ function TransactionID({ state }) {
       dispatch({ type: 'CLEAR_ERROR' });
     };
   }, [state.Settings.statusCodeTransactionID]);
+
+
+  useEffect(() => {
+    if (state.SignIn.transactions.length > 0) {
+      setId(state.SignIn.transactions[0].Id)
+    }
+  }, [state.SignIn.transactions])
 
 
   const handleSave = () => {
@@ -82,12 +95,14 @@ function TransactionID({ state }) {
 
     setError(newError);
     if (!hasError) {
-      dispatch({ type: "SETTINGSTRANSACTIONID", payload: { prefix, suffix } });
+      
+      
+      dispatch({ type: "SETTINGSTRANSACTIONID", payload: { id, prefix, suffix } });
 
-
+      localStorage.setItem("TransactionId", id);
       localStorage.setItem("TransactionIDprefix", prefix);
       localStorage.setItem("TransactionIDsuffix", suffix);
-      setIsCreated(true);
+   
     }
   };
 
@@ -100,7 +115,7 @@ function TransactionID({ state }) {
       <p className="text-lightgray font-Gilroy text-sm font-normal mt-3">
         Set up the prefix and suffix for Transaction ID
       </p>
-      <div className="mt-6 grid grid-cols-4 gap-[150px]">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="w-[280px]">
           <label className="block text-sm font-Gilroy font-medium">Prefix</label>
           <input
@@ -108,7 +123,7 @@ function TransactionID({ state }) {
             placeholder="Prefix"
             value={prefix}
             onChange={handlePrefix}
-            disabled={isCreated}
+
           />
           {error.prefix && (
             <div className="flex items-center text-red-500 text-sm mt-1">
@@ -124,7 +139,7 @@ function TransactionID({ state }) {
             placeholder="Suffix"
             value={suffix}
             onChange={handleSuffix}
-            disabled={isCreated}
+
           />
           {error.suffix && (
             <div className="flex items-center text-red-500 text-sm mt-1">

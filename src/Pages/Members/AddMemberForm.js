@@ -69,11 +69,10 @@ function MemberModal({ state, memberData, onClose }) {
         let tempErrors = {};
         if (!memberId) tempErrors.memberId = "Member Id is required";
         if (!userName) tempErrors.userName = "User Name is required";
-        if (!email) {
-            tempErrors.email = "Email is required";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             tempErrors.email = "Enter a valid email address";
         }
+        
         if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
         if (!mobileNo) {
             tempErrors.mobileNo = "Mobile number is required";
@@ -266,7 +265,7 @@ function MemberModal({ state, memberData, onClose }) {
                     <div className="flex gap-4">
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email Address
-                                <span className="text-red-500 text-xl">*</span>
+                               
                             </label>
                             <input
                                 data-testid='input-member-email'

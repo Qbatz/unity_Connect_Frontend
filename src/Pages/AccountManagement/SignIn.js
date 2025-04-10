@@ -14,6 +14,8 @@ import PropTypes from 'prop-types';
 
 
 const SignIn = ({ state }) => {
+ 
+  
 
   const navigate = useNavigate();
 
@@ -34,25 +36,34 @@ const SignIn = ({ state }) => {
       cookies.set('UnityConnectToken', token, { path: '/' });
 
       const memberData = state.SignIn.members?.[0] || {};
+     
+      
 
-      if (memberData.Prefix && memberData.Suffix) {
+      if (memberData.Prefix && memberData.Suffix && memberData.id) {
         localStorage.setItem("MemberIDprefix", memberData.Prefix);
         localStorage.setItem("MemberIdsuffix", memberData.Suffix);
+        localStorage.setItem("MemberId", memberData.id);
       }
 
 
       const loanData = state.SignIn.loans?.[0] || {};
+     
+      
 
-      if (loanData.Prefix && loanData.Suffix) {
+      if (loanData.Prefix && loanData.Suffix &&loanData.id) {
         localStorage.setItem("LoanIDprefix", loanData.Prefix);
         localStorage.setItem("LoanIDsuffix", loanData.Suffix);
+        localStorage.setItem("LoanID", loanData.id);
       }
 
       const transactionData = state.SignIn.transactions?.[0] || {};
+     
+      
 
-      if (transactionData.Prefix && transactionData.Suffix) {
+      if (transactionData.Prefix && transactionData.Suffix &&transactionData.id) {
         localStorage.setItem("TransactionIDprefix", transactionData.Prefix);
         localStorage.setItem("TransactionIdsuffix", transactionData.Suffix);
+        localStorage.setItem("TransactionId", transactionData.Id);
       }
 
       const encryptDataLogin = encryptData(JSON.stringify(true));
