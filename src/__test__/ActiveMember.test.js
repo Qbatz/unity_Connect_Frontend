@@ -21,7 +21,7 @@ describe('checks for active members', () => {
         render(
             <Provider store={store}>
                   <MemoryRouter>
-                <Activemember />
+                <Activemember setLoading={jest.fn()} />
                 </MemoryRouter>
             </Provider>
         )
@@ -62,7 +62,7 @@ describe('checks for active members', () => {
 
         render(<Provider store={store}>
             <MemoryRouter>
-                <Activemember />
+                <Activemember setLoading={jest.fn()} />
             </MemoryRouter>
     
         </Provider>)
