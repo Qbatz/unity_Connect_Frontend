@@ -38,7 +38,7 @@ function AddLoanForm({ state }) {
   const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
   const [memberLoanType, setMemberLoanType] = useState("");
   const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
-  const [witnessOptions, setWitnessOptions] = useState([]);
+
 
   const [approve, setApprove] = useState("");
   const [loading, setLoading] = useState(true);
@@ -61,7 +61,7 @@ function AddLoanForm({ state }) {
   const indexOfLastApproved = currentPageApproved * itemsPerPage;
   const indexOfFirstApproved = indexOfLastApproved - itemsPerPage;
 
-
+const [NewwitnessOptions,setNewWitnessOptions] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -227,16 +227,27 @@ function AddLoanForm({ state }) {
 
 
     const memberId = loan.Member_Id;
-    const witnessOptions = members
-      ?.filter((member) => String(member.Id) !== String(memberId))
-      .map((member) => ({
-        value: member.Id,
-        label: member.User_Name,
-      }));
+   
+   
 
-    setWitnessOptions(witnessOptions);
+    const updatedWitnessOptions = members
+    ?.filter((member) => String(member.Id) !== String(memberId))
+    .map((member) => ({
+      value: member.Id,
+      label: member.User_Name,
+    }));
+
+  setNewWitnessOptions(updatedWitnessOptions);
   };
 
+  const witnessOptions = members
+  ?.filter((member) => String(member.Id) !== String(memberId))
+  .map((member) => ({
+    value: member.Id,
+    label: member.User_Name,
+  }));
+
+console.log("wit",witnessOptions);
 
 
 
@@ -532,7 +543,7 @@ function AddLoanForm({ state }) {
     }),
     menu: (base) => ({
       ...base,
-      maxHeight: witnessOptions.length > 3 ? "150px" : "auto",
+      maxHeight: NewwitnessOptions.length > 3 ? "150px" : "auto",
       overflowY: "auto",
     }),
     indicatorSeparator: () => ({ display: "none" }),
@@ -977,7 +988,7 @@ function AddLoanForm({ state }) {
                   Witnesses Names
                 </label>
                 <Select
-                  value={witnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
+                  value={NewwitnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
 
                   onChange={(selectedOptions) => {
                     setSelectedWitnesses(selectedOptions.map((opt) => opt.value)); // This ensures removal works
@@ -986,7 +997,7 @@ function AddLoanForm({ state }) {
 
 
 
-                  options={witnessOptions}
+                  options={NewwitnessOptions}
                   placeholder="Select witnesses"
                   styles={customWitStyles}
                   isSearchable={true}

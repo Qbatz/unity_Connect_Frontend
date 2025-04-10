@@ -13,10 +13,7 @@ import { CalendarDays } from "lucide-react";
 
 
 function MemberModal({ state, memberData, onClose }) {
-
     const dispatch = useDispatch();
-
-
     const [memberId, setMemberId] = useState("");
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
@@ -28,8 +25,6 @@ function MemberModal({ state, memberData, onClose }) {
     const [errors, setErrors] = useState({});
     const [noChanges, setNoChanges] = useState("");
 
-
-
     useEffect(() => {
         if (memberData) {
             setMemberId(prev => memberData.Member_Id || prev);
@@ -38,10 +33,12 @@ function MemberModal({ state, memberData, onClose }) {
             setMobileNo(prev => memberData.Mobile_No || prev);
             setAddress(prev => memberData.Address || prev);
             setJoiningDate(prev => memberData.Joining_Date || prev);
-            setFile(prev => memberData.file || prev);
+
+            if (memberData.Document_Url) {
+                setShowImage(memberData.Document_Url);
+            }
         }
     }, [memberData]);
-
 
     useEffect(() => {
         dispatch({ type: 'GET_MEMBER_ID' });
@@ -54,33 +51,23 @@ function MemberModal({ state, memberData, onClose }) {
         }
     }, [state.Member.statusCodeForAddUser]);
 
-
-
-
     useEffect(() => {
         if (!memberData) {
             setMemberId(state?.Member?.GetMemberId?.memberId || '');
         }
     }, [state?.Member?.GetMemberId, memberData]);
 
-
-
     useEffect(() => {
         setNoChanges("");
-    }, [memberId, userName, email, mobileNo, address, joiningDate, file]);
+    }, [memberId, userName, mobileNo, address, joiningDate, file]);
 
     const formattedDate = joiningDate ? moment(joiningDate).format("YYYY-MM-DD") : "";
-
 
     const validate = () => {
         let tempErrors = {};
         if (!memberId) tempErrors.memberId = "Member Id is required";
         if (!userName) tempErrors.userName = "User Name is required";
-        if (!email) {
-            tempErrors.email = "Email is required";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            tempErrors.email = "Enter a valid email address";
-        }
+
         if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
         if (!mobileNo) {
             tempErrors.mobileNo = "Mobile number is required";
@@ -90,13 +77,10 @@ function MemberModal({ state, memberData, onClose }) {
         if (mobileNo.length > 10) {
             tempErrors.mobileNo = "Mobile number cannot exceed 10 digits";
         }
-
-
         if (!address) tempErrors.address = "Address is required";
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
     };
-
 
     const handleChange = (field, value) => {
         if (field === "memberId") setMemberId(value);
@@ -106,7 +90,6 @@ function MemberModal({ state, memberData, onClose }) {
         if (field === "mobileNo") setMobileNo(value);
         if (field === "address") setAddress(value);
         if (field === "file") setFile(value);
-
         setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     };
 
@@ -122,8 +105,6 @@ function MemberModal({ state, memberData, onClose }) {
         }
     };
 
-
-
     const handleClose = () => {
         onClose()
     }
@@ -132,21 +113,18 @@ function MemberModal({ state, memberData, onClose }) {
         e.preventDefault();
         setNoChanges("");
 
-
         const formatDate = (date) => date ? new Date(date).toISOString().split("T")[0] : "";
 
         const isFileChanged = file && file.name !== (memberData?.Document_Url || "");
 
         const isChanged = memberData && (
             (userName?.trim() || "") !== (memberData?.User_Name?.trim() || "") ||
-            (email?.trim() || "") !== (memberData?.Email_Id?.trim() || "") ||
+
             (String(mobileNo)?.trim() || "") !== (String(memberData?.Mobile_No)?.trim() || "") ||
             formatDate(joiningDate) !== formatDate(memberData?.Joining_Date) ||
             (address?.trim() || "") !== (memberData?.Address?.trim() || "") ||
             isFileChanged
         );
-
-
 
         if (memberData && !isChanged) {
             setNoChanges("No Changes Detected");
@@ -179,7 +157,6 @@ function MemberModal({ state, memberData, onClose }) {
             document_url: !file ? memberData?.Document_Url : undefined,
         };
 
-
         dispatch({
             type: 'MEMBERINFO',
             payload: memberData ? Editpayload : payload,
@@ -188,7 +165,6 @@ function MemberModal({ state, memberData, onClose }) {
         setFile(null);
         setNoChanges("");
         onClose();
-
     };
 
     const CustomInput = forwardRef(({ value, onClick }, ref) => (
@@ -211,11 +187,9 @@ function MemberModal({ state, memberData, onClose }) {
     ));
     CustomInput.displayName = "CustomInput";
 
-
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-xl max-h-[98vh] overflow-y-auto">
-
+            <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-xl max-h-[98vh] overflow-y-auto flex flex-col">
                 <div className="flex items-center justify-between border-b pb-2 mb-2 bg-white z-10 sticky top-0">
                     <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">
                         {memberData ? "Edit Member" : "Add a Member"}
@@ -225,7 +199,7 @@ function MemberModal({ state, memberData, onClose }) {
                     </button>
                 </div>
 
-                <div className="space-y-2 mt-2 h-[600px]">
+                <div className="space-y-2 mt-2 flex-grow overflow-y-auto pr-4">
                     <div className="flex gap-4 ">
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID
@@ -236,7 +210,6 @@ function MemberModal({ state, memberData, onClose }) {
                                 type="text"
                                 className="w-full p-2 h-10 border rounded-lg text-sm mb-3 font-Gilroy"
                                 value={memberData ? memberData.Member_Id : memberId}
-
                                 readOnly
                             />
                             {errors.memberId && (
@@ -274,7 +247,7 @@ function MemberModal({ state, memberData, onClose }) {
                     <div className="flex gap-4">
                         <div className="w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email Address
-                                <span className="text-red-500 text-xl">*</span>
+                                <span className="text-red-500 text-xl"></span>
                             </label>
                             <input
                                 data-testid='input-member-email'
@@ -320,14 +293,11 @@ function MemberModal({ state, memberData, onClose }) {
                         <label className="block font-medium text-sm font-Gilroy tracking-normal mb-1 mt-1">Joining Date
                             <span className="text-red-500 text-xl">*</span>
                         </label>
-
-
                         <DatePicker
                             selected={formattedDate ? new Date(formattedDate) : null}
                             onChange={(date) => handleChange("joiningDate", date)}
                             dateFormat="dd-MM-yyyy"
                             customInput={<CustomInput />}
-
                         />
                         {errors.joiningDate && (
                             <p className="text-red-500 flex items-center gap-1 text-xs">
@@ -335,7 +305,6 @@ function MemberModal({ state, memberData, onClose }) {
                             </p>
                         )}
                     </div>
-
 
                     <div className="mb-2">
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1 mt-2">Address
@@ -355,15 +324,41 @@ function MemberModal({ state, memberData, onClose }) {
                         )}
                     </div>
 
-                    <div className="">
+
+                    <div>
                         <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Add Documents</label>
                         <div className="border rounded-xl px-2 py-4 flex items-center justify-center relative w-28 h-20 mb-1">
-                            <input type="file" className="absolute inset-0 opacity-0 w-full h-full" onChange={handleFileChange} />
-                            {memberData && <img src={memberData.Document_Url} alt="" />}
-                            {showImage ? <img src={showImage} alt="Selected" /> : <AiOutlinePlus size={20} />}
+                            <input
+                                type="file"
+                                accept=".jpg,.jpeg,.png,.pdf"
+                                className="absolute inset-0 opacity-0 w-full h-full"
+                                onChange={handleFileChange}
+                            />
+
+                            {memberData && memberData.Document_Url && (
+                                <img src={memberData.Document_Url} alt="" />
+                            )}
+
+
+                            {showImage ? (
+                                file?.type === "application/pdf" || (!file && memberData?.Document_Url?.includes(".pdf")) ? (
+                                    <span className="text-xs font-normal px-1 break-all text-center">
+                                        {file?.name || memberData?.Document_Url?.split("/").pop()}
+                                    </span>
+                                ) : (
+                                    <img src={showImage || memberData?.Document_Url} alt="Selected" className="w-full h-full object-contain" />
+                                )
+                            ) : (
+                                <AiOutlinePlus size={20} />
+                            )}
+
+
                         </div>
-                        <p className="font-medium text-xs font-Gilroy mb-3">Note: File should be .JPG, .PDF, .PNG (max 2MB)</p>
+                        <p className="font-medium text-xs font-Gilroy mb-3">
+                            Note: File should be .JPG, .PDF, .PNG (max 2MB)
+                        </p>
                     </div>
+
 
 
                     {noChanges && (
@@ -372,20 +367,17 @@ function MemberModal({ state, memberData, onClose }) {
                             <p>{noChanges}</p>
                         </div>
                     )}
-
-
-                    <div className="sticky bottom-0 bg-white py-2 z-10">
-                        <button
-                            type="submit"
-                            className="mt-4 w-full bg-black text-white p-2 rounded-3xl font-Gilroy font-semibold text-sm"
-                            onClick={handleSubmit}
-                        >
-                            {memberData ? "Save Changes" : "Add Member"}
-                        </button>
-                    </div>
-
                 </div>
 
+                <div className="sticky bottom-0 bg-white py-2 z-10 mt-4">
+                    <button
+                        type="submit"
+                        className="w-full bg-black text-white p-2 rounded-3xl font-Gilroy font-semibold text-sm"
+                        onClick={handleSubmit}
+                    >
+                        {memberData ? "Save Changes" : "Add Member"}
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -406,4 +398,3 @@ MemberModal.propTypes = {
 };
 
 export default connect(mapsToProps)(MemberModal);
-

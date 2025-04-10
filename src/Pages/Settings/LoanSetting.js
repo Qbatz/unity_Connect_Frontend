@@ -387,11 +387,11 @@ function LoanSetting({ state }) {
                   </div>
 
                   {isMonthlyDropdownOpen && (
-                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg">
+                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg max-h-[90px] overflow-y-auto">
                       {monthlyOptions.map((type, index) => (
                         <div
                           key={index}
-                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
                           onClick={(e) => {
                             e.stopPropagation();
 
@@ -431,12 +431,13 @@ function LoanSetting({ state }) {
                       </div>
 
                       {isOrdinalDropdownOpen && (
-                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
+                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10 max-h-[90px] overflow-y-auto">
                           {ordinalOptions.map((ordinal, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
-                              onClick={() => {
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setSelectedOrdinal(ordinal);
                                 setIsOrdinalDropdownOpen(false);
                                 setSelectedDueDate(`${ordinal} ${selectedDay}`);
@@ -461,12 +462,13 @@ function LoanSetting({ state }) {
                       </div>
 
                       {isDayDropdownOpen && (
-                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
+                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10 max-h-[90px] overflow-y-auto">
                           {dayOptions.map((day, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
-                              onClick={() => {
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setSelectedDay(day);
                                 setIsDayDropdownOpen(false);
                                 setSelectedDueDate(`${selectedOrdinal} ${day}`);
@@ -579,7 +581,7 @@ function LoanSetting({ state }) {
 
       <div className="mt-5 max-h-[300px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentLoans?.map((loan, index) => (
-          <div key={index} className="w-[350px] h-[200px]  bg-[#F4F7FF] flex flex-col rounded-3xl">
+          <div key={index} className="w-[350px] h-[180px]  bg-[#F4F7FF] flex flex-col rounded-3xl">
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
               <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
@@ -590,12 +592,7 @@ function LoanSetting({ state }) {
             </div>
             <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
 
-            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
-              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
-                {loan.Due_On}
-              </p>
-            </div>
+
 
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
               <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>

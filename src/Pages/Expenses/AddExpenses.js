@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, forwardRef } from "react";
+import React, { useState, useEffect, forwardRef, useMemo } from "react";
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { useDispatch, connect } from "react-redux";
 import PropTypes from 'prop-types';
@@ -43,60 +43,53 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         { value: "Net Banking", label: "Net Banking" }
     ];
 
+
+
+    const categoryOptions = useMemo(() => (
+        (name || []).map((item) => ({
+            value: item.category_Id,
+            label: item.category_Name,
+        }))
+    ), [name]);
+
+
+
+
     useEffect(() => {
-
-
         if (expensesdata) {
-            setMerchantName(prev => expensesdata.Name || prev);
+            setMerchantName(expensesdata.Name || "");
 
-            setCategory(prev => {
-                const foundCategory = categoryOptions.find(
-                    (option) => option.label === expensesdata.Category_Name
-                );
-                return foundCategory ? foundCategory.value : prev;
-            });
-            setPaymentMode(prev => expensesdata.Mode_of_Payment || prev);
-            setExpenseDate(prev => expensesdata.Expense_Date || prev);
+            const foundCategory = categoryOptions.find(
+                (option) => option.label === expensesdata.Category_Name
+            );
+            if (foundCategory) {
+                setCategory(foundCategory.value);
+            }
 
-
-            setExpenseAmount(prev => expensesdata.Expense_Amount || prev);
-            setDescription(prev => expensesdata.Description || prev);
-
-            setSubCategory(prev => {
-                const subCatObj = expensesdata.sub_cat?.[0];
-                const foundSubCategory = subCategoryOptions.find(
-                    (option) => option.label === subCatObj?.Subcategory_Name
-                );
-                return foundSubCategory ? foundSubCategory.value : prev;
-            });
-
+            setPaymentMode(expensesdata.Mode_of_Payment || "");
+            setExpenseDate(expensesdata.Expense_Date || "");
+            setExpenseAmount(expensesdata.Expense_Amount || "");
+            setDescription(expensesdata.Description || "");
         }
-    }, [expensesdata]);
-
-
-
-    const categoryOptions = (name || []).map((item) => ({
-        value: item.category_Id,
-        label: item.category_Name,
-    }));
-
+    }, [expensesdata, categoryOptions]);
 
 
     useEffect(() => {
         if (
-            expensesdata &&
-            expensesdata.Subcategory_Name &&
-            subCategoryOptions.length > 0
+            expensesdata?.sub_cat?.length &&
+            subCategoryOptions.length
         ) {
-            const matchedSubCategory = subCategoryOptions.find(
-                (option) => option.label === expensesdata.Subcategory_Name
+            const foundSub = subCategoryOptions.find(
+                (opt) => opt.label === expensesdata.sub_cat[0].Subcategory_Name
             );
-
-            if (matchedSubCategory) {
-                setSubCategory(matchedSubCategory.value);
+            if (foundSub) {
+                setSubCategory(foundSub.value);
             }
         }
-    }, [expensesdata, subCategoryOptions]);
+    }, [subCategoryOptions, expensesdata]);
+
+
+
 
 
 
@@ -111,8 +104,9 @@ function ExpenseForm({ onClose, state, expensesdata }) {
     }, []);
 
 
+
     useEffect(() => {
-        if (!name || !Array.isArray(name) || !category) return;
+        if (!category || !Array.isArray(name)) return;
 
         const selectedCategory = name.find((c) => c.category_Id === category);
         const availableSubCategories = selectedCategory?.subcategory || [];
@@ -123,9 +117,17 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         }));
 
         setSubCategoryOptions(options);
+
+
+        if (expensesdata && expensesdata.sub_cat?.length > 0) {
+            const matched = options.find(
+                (option) => option.label === expensesdata.sub_cat[0].Subcategory_Name
+            );
+            if (matched) {
+                setSubCategory(matched.value);
+            }
+        }
     }, [category, name]);
-
-
 
     const validateForm = () => {
         const newErrors = {};
@@ -137,9 +139,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         if (!category) {
             newErrors.category = "Please select a category";
         }
-        if (!subCategory) {
-            newErrors.subCategory = "Please select a subcategory";
-        }
+
 
         if (!paymentMode) {
             newErrors.paymentMode = "Please select a payment mode";
@@ -205,8 +205,14 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
         const formatDate = (date) => {
-            return date.toLocaleDateString("en-CA");
+            const d = new Date(date);
+            if (isNaN(d)) {
+              
+                return "";
+            }
+            return d.toLocaleDateString("en-CA");
         };
+
 
         if (validateForm() && hasChanges) {
             const payload = {
@@ -215,7 +221,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                 mode_of_payment: paymentMode,
                 expense_date: formatDate(expenseDate),
-
+                subcategory_id: subCategory,
                 expense_amount: expenseAmount,
                 description: description,
             };
@@ -317,6 +323,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 value={categoryOptions?.find((option) => option.value === category) || null}
 
                                 onChange={(selectedOption) => {
+
                                     setCategory(selectedOption?.value);
                                     if (errors.category) {
                                         setErrors((prevErrors) => ({ ...prevErrors, category: "" }));

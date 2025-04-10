@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ActiveMember from "./Activemember";
 import NonActiveMember from "./NonActivemember";
 import AddMemberForm from "./AddMemberForm";
 import MemberDetails from "./MemberDetails";
+import { useDispatch } from "react-redux";
 
 const Members = () => {
   const [activeTab, setActiveTab] = useState("Active members");
   const [selectedMemberdetails, setSelectedMemberdetails] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+
+  const dispatch = useDispatch();
 
   const handleClickAddMember = () => {
 
@@ -22,6 +26,14 @@ const Members = () => {
     setShowModal(false);
 
   }
+
+
+  useEffect(() => {
+    setLoading(true);
+
+    dispatch({ type: 'MEMBERLIST' });
+
+  }, []);
 
 
   return (
@@ -66,16 +78,16 @@ const Members = () => {
       )}
 
       <div className="">
-      {!selectedMemberdetails ? (
-        activeTab === "Active members" ? (
-          <ActiveMember onSelectMember={setSelectedMemberdetails} />
+        {!selectedMemberdetails ? (
+          activeTab === "Active members" ? (
+            <ActiveMember onSelectMember={setSelectedMemberdetails} loading={loading} setLoading={setLoading} />
+          ) : (
+            <NonActiveMember onSelectMember={setSelectedMemberdetails} loading={loading} setLoading={setLoading} />
+          )
         ) : (
-          <NonActiveMember onSelectMember={setSelectedMemberdetails} />
-        )
-      ) : (
-        <MemberDetails member={selectedMemberdetails} onBack={() => setSelectedMemberdetails(null)} />
+          <MemberDetails member={selectedMemberdetails} onBack={() => setSelectedMemberdetails(null)} />
 
-      )
+        )
         }
 
         {showModal && <AddMemberForm memberData={selectedMember} onClose={handleOnClose} />}
