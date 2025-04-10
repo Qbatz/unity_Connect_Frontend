@@ -381,8 +381,8 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block mb-2 font-Gilroy">
-                                Sub Category <span className="text-red-500 text-[20px]">*</span>
+                            <label className="block  font-Gilroy">
+                                Sub Category <span className="text-red-500 text-[20px]"></span>
                             </label>
                             <Select
                                 value={
@@ -539,17 +539,19 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 Expense amount <span className="text-red-500 text-[20px]">*</span>
                             </label>
                             <input
-                                type="number"
-                                value={expenseAmount}
-                                onChange={(e) => {
-                                    setExpenseAmount(e.target.value);
-                                    if (errors.expenseAmount) {
-                                        setErrors((prevErrors) => ({ ...prevErrors, expenseAmount: "" }));
-                                    }
-                                }}
-                                placeholder="Enter expense amount"
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black cursor-pointer appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                            />
+  type="text"
+  value={expenseAmount}
+  onChange={(e) => {
+    const onlyNumbers = e.target.value.replace(/[^0-9.]/g, ""); 
+    setExpenseAmount(onlyNumbers);
+    if (errors.expenseAmount) {
+      setErrors((prevErrors) => ({ ...prevErrors, expenseAmount: "" }));
+    }
+  }}
+  placeholder="Enter expense amount"
+  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+/>
+
 
                             {errors.expenseAmount && (
                                 <div className="flex items-center text-red-500 text-sm mt-1">

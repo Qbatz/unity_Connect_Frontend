@@ -66,7 +66,12 @@ function NonActiveMember({ state, loading, setLoading }) {
   }, [state.Member.statusCodeMemberList])
 
 
+ useEffect(() => {
+   
 
+    dispatch({ type: 'MEMBERLIST' });
+
+  }, []);
 
 
 

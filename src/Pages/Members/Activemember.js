@@ -70,7 +70,12 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
 
 
 
+ useEffect(() => {
+   
 
+    dispatch({ type: 'MEMBERLIST' });
+
+  }, []);
 
 
   useEffect(() => {
