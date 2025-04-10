@@ -27,7 +27,7 @@ function ExpensesList({ state }) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(6);
-   
+
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
     const popupRef = useRef(null);
@@ -39,21 +39,21 @@ function ExpensesList({ state }) {
 
     const onChange = (values) => {
         setDates(values);
-    
-      
+
+
         if (values && values.length === 2) {
             const payload = {
                 startDate: values[0]?.format('YYYY-MM-DD'),
                 endDate: values[1]?.format('YYYY-MM-DD'),
             };
-    
+
             dispatch({
                 type: "GETEXPENSES",
                 payload: payload
             });
         }
     };
-    
+
 
     const totalPages = Math.max(1, Math.ceil(ExpensesList.length / pageSize));
 
@@ -93,10 +93,10 @@ function ExpensesList({ state }) {
 
     useEffect(() => {
         setLoading(true);
-      
+
         dispatch({
             type: "GETEXPENSES",
-           
+
         });
         setTimeout(() => {
             setLoading(false);

@@ -15,8 +15,8 @@ import closecircle from '../../Asset/Icons/close-circle.svg';
 import { FaAngleDown } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
-
-function NonActiveMember({ state }) {
+import { ClipLoader } from "react-spinners";
+function NonActiveMember({ state, loading, setLoading }) {
 
   const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(null);
@@ -56,6 +56,7 @@ function NonActiveMember({ state }) {
 
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 200) {
+      setLoading(false);
       setNonActiveMemberData(state.Member.NonActiveMemberdata)
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
     }
@@ -65,8 +66,11 @@ function NonActiveMember({ state }) {
   }, [state.Member.statusCodeMemberList])
 
 
-  useEffect(() => {
+ useEffect(() => {
+   
+
     dispatch({ type: 'MEMBERLIST' });
+
   }, []);
 
 
@@ -149,6 +153,14 @@ function NonActiveMember({ state }) {
     setChangePopup(false)
     setStatusError("")
     setStatus("")
+  }
+
+  if (loading) {
+    return (
+      <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
+        <ClipLoader color="#7f00ff" loading={loading} size={30} />
+      </div>
+    );
   }
 
 
@@ -241,7 +253,7 @@ function NonActiveMember({ state }) {
                         {member.Email_Id}
                       </p>
                       <p className="flex items-center gap-2 font-Gilroy">
-                        <img src={call} className="text-gray-500" alt="call" />
+                        <img src={call} className="text-gray-500" alt="call" /> +91{" "}
                         {member.Mobile_No
                         }
                       </p>
@@ -405,5 +417,7 @@ const mapsToProps = (stateInfo) => {
 }
 NonActiveMember.propTypes = {
   state: PropTypes.object,
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
 };
 export default connect(mapsToProps)(NonActiveMember)

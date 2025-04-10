@@ -10,7 +10,7 @@ import { MdError } from "react-icons/md";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
 import Select from "react-select";
 import { ClipLoader } from "react-spinners";
-import { FaEllipsisH} from "react-icons/fa";
+import { FaEllipsisH } from "react-icons/fa";
 import editIcon from "../../Asset/Icons/edit_blue.svg";
 
 
@@ -39,7 +39,7 @@ function AddLoanForm({ state }) {
   const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
   const [memberLoanType, setMemberLoanType] = useState("");
   const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
-  const [witnessOptions, setWitnessOptions] = useState([]);
+
 
   const [approve, setApprove] = useState("");
   const [loading, setLoading] = useState(true);
@@ -62,9 +62,10 @@ function AddLoanForm({ state }) {
   const indexOfLastApproved = currentPageApproved * itemsPerPage;
   const indexOfFirstApproved = indexOfLastApproved - itemsPerPage;
 
+  const [NewwitnessOptions, setNewWitnessOptions] = useState("")
   const [openMenu, setOpenMenu] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
- 
+
   const [createFrom, setCreateFrom] = useState()
 
   const handledots = (event, index) => {
@@ -78,15 +79,15 @@ function AddLoanForm({ state }) {
     });
   };
 
-  const handleEditclick = (item,loan) => {
- 
-    
+  const handleEditclick = (item, loan) => {
+
+
     setIsModalOpen(true);
     setCreateFrom("edit");
-   
+
     setOpenMenu(null);
 
-    setMemberId(item.User_Name|| "");
+    setMemberId(item.User_Name || "");
     setSelectedWitnesses(loan.Witness_Details[0].User_Name || []);
     setLoanAmount(loan.Loan_Amount || "");
   };
@@ -256,15 +257,26 @@ function AddLoanForm({ state }) {
 
 
     const memberId = loan.Member_Id;
-    const witnessOptions = members
+
+
+
+    const updatedWitnessOptions = members
       ?.filter((member) => String(member.Id) !== String(memberId))
       .map((member) => ({
         value: member.Id,
         label: member.User_Name,
       }));
 
-    setWitnessOptions(witnessOptions);
+    setNewWitnessOptions(updatedWitnessOptions);
   };
+
+  const witnessOptions = members
+    ?.filter((member) => String(member.Id) !== String(memberId))
+    .map((member) => ({
+      value: member.Id,
+      label: member.User_Name,
+    }));
+
 
 
 
@@ -336,7 +348,7 @@ function AddLoanForm({ state }) {
 
   const handleReject = (loan) => {
     if (!loan) {
-      console.error("Loan ID is missing.");
+      console.error("Loan ID is missing");
       return;
     }
 
@@ -561,7 +573,7 @@ function AddLoanForm({ state }) {
     }),
     menu: (base) => ({
       ...base,
-      maxHeight: witnessOptions.length > 3 ? "150px" : "auto",
+      maxHeight: NewwitnessOptions.length > 3 ? "150px" : "auto",
       overflowY: "auto",
     }),
     indicatorSeparator: () => ({ display: "none" }),
@@ -623,13 +635,13 @@ function AddLoanForm({ state }) {
         <div>
           <div className="flex items-center  justify-between w-full pl-5 pr-5">
             <p className="font-Gilroy font-semibold text-2xl text-black">Loan Request</p>
-        
+
             <button
               className="bg-black text-white py-3 px-4 rounded-full text-base font-Gilroy font-medium"
               onClick={() => {
                 setIsModalOpen(true);
                 setCreateFrom("create");
-               
+
                 setSelectedWitnesses([]);
                 setMemberId("");
                 setLoanAmount("");
@@ -767,7 +779,7 @@ function AddLoanForm({ state }) {
 
               </div>
 
-            
+
               <button
                 onClick={handleSubmit}
                 className="mt-10 pt-[20px] pr-[40px] pb-[20px] pl-[40px] w-full h-59 bg-black text-white rounded-60 text-base font-Gilroy font-medium"
@@ -848,7 +860,7 @@ function AddLoanForm({ state }) {
                                 }}
                                 className="absolute  top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[130px]">
                                 <button
-                                  onClick={() => handleEditclick(selectedMember,loan)}
+                                  onClick={() => handleEditclick(selectedMember, loan)}
                                   className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy rounded-lg"
                                 >
                                   <img src={editIcon} alt="Edit" className="h-4 w-4" />
@@ -1043,7 +1055,7 @@ function AddLoanForm({ state }) {
                   Witnesses Names
                 </label>
                 <Select
-                  value={witnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
+                  value={NewwitnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
 
                   onChange={(selectedOptions) => {
                     setSelectedWitnesses(selectedOptions.map((opt) => opt.value)); // This ensures removal works
@@ -1052,7 +1064,7 @@ function AddLoanForm({ state }) {
 
 
 
-                  options={witnessOptions}
+                  options={NewwitnessOptions}
                   placeholder="Select witnesses"
                   styles={customWitStyles}
                   isSearchable={true}

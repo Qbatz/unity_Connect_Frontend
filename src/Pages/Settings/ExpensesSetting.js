@@ -27,15 +27,15 @@ function ExpensesSetting({ state }) {
 
 
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
 
+    let updatedSubCategories = [...subCategories];
     if (isSubCategory && subCategoryName.trim()) {
-      setSubCategories((prev) => [...prev, subCategoryName.trim()]);
-      setSubCategoryName("");
+      updatedSubCategories.push(subCategoryName.trim());
     }
-
 
 
     if (!categoryName && !isSubCategory) {
@@ -43,10 +43,12 @@ function ExpensesSetting({ state }) {
       return;
     }
 
-    if (isSubCategory && subCategories.length === 0) {
+
+    if (isSubCategory && updatedSubCategories.length === 0) {
       setSubCategoryError("Please add at least one sub-category");
       return;
     }
+
 
     const categoryExists = expensesetting.some(
       (category) => category.category_Name.toLowerCase() === categoryName.toLowerCase()
@@ -57,24 +59,28 @@ function ExpensesSetting({ state }) {
       return;
     }
 
+
     setCategoryError("");
     setSubCategoryError("");
     setErrorMessage("");
 
+
     const payload = {
       category_Name: categoryName,
-      sub_Category: subCategories,
+      sub_Category: updatedSubCategories,
     };
+
 
     dispatch({
       type: "SETTING_ADD_EXPENSES",
       payload: payload,
     });
 
+
     setCategoryName("");
     setSubCategories([]);
+    setSubCategoryName("");
     setIsSubCategory(false);
-
   };
 
   useEffect(() => {
@@ -114,7 +120,7 @@ function ExpensesSetting({ state }) {
 
   const handleNewAddSubCategory = () => {
     if (!subCategoryName.trim()) {
-      setSubCategoryError("Sub-category name cannot be empty.");
+      setSubCategoryError("Sub-category name cannot be empty");
       return;
     }
 
