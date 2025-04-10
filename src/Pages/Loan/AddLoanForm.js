@@ -79,7 +79,7 @@ function AddLoanForm({ state }) {
   };
 
   const handleEditclick = (item,loan) => {
-    console.log('item',item.User_Name,loan.Witness_Details[0].User_Name,loan.Loan_Amount);
+ 
     
     setIsModalOpen(true);
     setCreateFrom("edit");
@@ -795,8 +795,7 @@ function AddLoanForm({ state }) {
                 paginatedActiveLoans?.map((loan, index) => {
 
                   const selectedMember = members?.find(member => String(member.Id) === String(loan.Member_Id)) || null;
-{console.log("selectedMember",selectedMember);
-}
+
                   return (loan.Loan_Type === null && loan.Loan_Status !== "Reject") && (
                     <div
                       key={loan.Loan_Id}
