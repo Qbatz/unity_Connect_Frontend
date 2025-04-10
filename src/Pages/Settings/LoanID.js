@@ -10,10 +10,12 @@ function LoanID({ state }) {
   const [suffix, setSuffix] = useState("");
   const [error, setError] = useState({ prefix: "", suffix: "" });
   const [errorMessage, setErrorMessage] = useState("");
+  const [id, setId] = useState('');
 
   useEffect(() => {
 
     if (state.Settings.statusCodeLoanID === 200) {
+      setId('');
       setPrefix('');
       setSuffix('');
       dispatch({ type: "CLEAR_STATUS_CODE_LOAN_ID" });
@@ -49,11 +51,17 @@ function LoanID({ state }) {
   useEffect(() => {
     const storedPrefix = localStorage.getItem("LoanIDprefix") || state.Settings?.LoanIDprefix || "";
     const storedSuffix = localStorage.getItem("LoanIDsuffix") || state.Settings?.LoanIDsuffix || "";
-
+    const storedId = localStorage.getItem("LoanID") || state.Settings?.LoanID || "";
+    
+    
+    setId(storedId);
     setPrefix(storedPrefix);
     setSuffix(storedSuffix);
 
     if (state.Settings.statusCodeLoanID === 200) {
+     
+      
+      localStorage.setItem("LoanID", id);
       localStorage.setItem("LoanIDprefix", prefix);
       localStorage.setItem("LoanIdsuffix", suffix);
       dispatch({ type: 'CLEAR_STATUS_CODE_LOAN_ID' });
@@ -64,7 +72,11 @@ function LoanID({ state }) {
     };
   }, [state.Settings.statusCodeLoanID]);
 
-
+  useEffect(() => {
+    if (state.SignIn.loans.length > 0) {
+      setId(state.SignIn.loans[0].Id)
+    }
+  }, [state.SignIn.loans])
 
   const handleSave = () => {
     let newError = { prefix: "", suffix: "" };
@@ -81,7 +93,7 @@ function LoanID({ state }) {
 
     setError(newError);
     if (!hasError) {
-      const payload = { prefix, suffix };
+      const payload = { id,prefix, suffix };
       dispatch({ type: "SETTINGSLOANID", payload });
       localStorage.setItem("LoanIDprefix", prefix);
       localStorage.setItem("LoanIDsuffix", suffix);
@@ -103,7 +115,7 @@ function LoanID({ state }) {
       <p className="text-lightgray font-Gilroy text-sm font-normal mt-3">
         Set up the prefix and suffix for Loan ID
       </p>
-      <div className="mt-6 grid grid-cols-4 gap-[150px]">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="w-[280px]">
           <label className="block text-sm font-Gilroy font-medium">Prefix</label>
           <input

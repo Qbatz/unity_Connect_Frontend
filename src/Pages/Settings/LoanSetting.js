@@ -214,24 +214,30 @@ function LoanSetting({ state }) {
 
   return (
     <div className="container mx-auto">
-      <div className="flex items-center justify-between w-full">
-        <div>
-          <p className="font-Gilroy font-semibold text-xl text-black">Loan</p>
-          <p className="mt-5 text-gray-500 text-sm font-Gilroy font-medium">
+      <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between w-full gap-4 sm:gap-0">
+        <div className="px-4 sm:px-6 lg:px-0 mt-4 sm:mt-6">
+          <p className="font-Gilroy font-semibold text-lg sm:text-xl text-black">
+            Loan
+          </p>
+          <p className="mt-3 sm:mt-5 text-gray-500 text-sm sm:text-base font-Gilroy font-medium">
             Set up the loan type and manage them
           </p>
         </div>
-        <button
-          className="bg-black font-Gilroy text-white w-[155px] rounded-[60px] text-base font-medium pt-[16px] pr-[20px]
-                    pb-[16px] pl-[20px]"
-          onClick={() => {
-            setIsModalOpen(true);
 
-          }}
-        >
-          + Loan type
-        </button>
+        <div className="px-4 sm:px-0 mt-2 sm:mt-0 w-full sm:w-auto flex justify-center sm:justify-start">
+          <button
+            className="w-full max-w-[300px] sm:w-[155px] bg-black font-Gilroy text-white text-sm sm:text-base font-medium py-[14px] sm:py-[16px] px-[20px] rounded-[60px]"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
+            + Loan type
+          </button>
+        </div>
+
+
       </div>
+
 
       {isModalOpen && (
         <div className="fixed inset-0 flex  items-center  justify-center bg-black bg-opacity-50">
@@ -574,12 +580,9 @@ function LoanSetting({ state }) {
         </div>
 
       )}
-
-
-
       <div className="mt-5 max-h-[300px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentLoans?.map((loan, index) => (
-          <div key={index} className="w-[350px] h-[200px]  bg-[#F4F7FF] flex flex-col rounded-3xl">
+          <div key={index} className="w-full max-w-sm h-[200px] bg-[#F4F7FF] flex flex-col rounded-3xl mx-auto">
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
               <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
@@ -588,29 +591,22 @@ function LoanSetting({ state }) {
               <div className="flex-grow"></div>
               <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
             </div>
-            <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
 
-            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
-              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
-                {loan.Due_On}
-              </p>
-            </div>
+            <div className="w-[90%] mx-auto border-t border-[#E7E7E7]"></div>
 
-            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+            <div className="flex justify-between w-[90%] mx-auto px-2 pt-5">
               <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
             </div>
 
-
-
-            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+            <div className="flex justify-between w-[90%] mx-auto px-2 pt-5">
               <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
             </div>
           </div>
         ))}
       </div>
+
 
       {allLoans.length > 0 && (
         <div className="flex justify-end mt-[150px]">
