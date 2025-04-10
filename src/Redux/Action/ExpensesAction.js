@@ -2,7 +2,7 @@ import AxiosConfig from '../../WebService/AxiosConfig';
 
 export async function ExpensesGetAction(user) {
 
-    return await AxiosConfig.post('/expense/get_expenses',user, {
+    return await AxiosConfig.post('/expense/get_expenses', user,  {
         data: user
     });
 }

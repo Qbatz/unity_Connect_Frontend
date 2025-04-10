@@ -54,9 +54,16 @@ function MemberModal({ state, memberData, onClose }) {
         }
     }, [state.Member.statusCodeForAddUser]);
 
+
+
+
     useEffect(() => {
-        setMemberId(state?.Member?.GetMemberId?.memberId || '');
-    }, [state.Member.GetMemberId]);
+        if (!memberData) {
+            setMemberId(state?.Member?.GetMemberId?.memberId || '');
+        }
+    }, [state?.Member?.GetMemberId, memberData]);
+
+
 
     useEffect(() => {
         setNoChanges("");
@@ -227,7 +234,8 @@ function MemberModal({ state, memberData, onClose }) {
                                 data-testid='input-member-id'
                                 type="text"
                                 className="w-full p-2 h-10 border rounded-lg text-sm mb-3 font-Gilroy"
-                                value={state?.Member?.GetMemberId?.memberId || ''}
+                                value={memberData ? memberData.Member_Id : memberId}
+
                                 readOnly
                             />
                             {errors.memberId && (

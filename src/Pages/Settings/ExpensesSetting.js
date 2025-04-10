@@ -44,7 +44,7 @@ function ExpensesSetting({ state }) {
     }
 
     if (isSubCategory && subCategories.length === 0) {
-      setSubCategoryError("Please add at least one sub-category.");
+      setSubCategoryError("Please add at least one sub-category");
       return;
     }
 
