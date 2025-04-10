@@ -26,8 +26,8 @@ function ExpensesList({ state }) {
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(6);
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [pageSize] = useState(6);
+   
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
     const popupRef = useRef(null);
@@ -93,13 +93,10 @@ function ExpensesList({ state }) {
 
     useEffect(() => {
         setLoading(true);
-        const payload = {
-            startDate: selectedDate,
-            endDate: selectedDate
-        }
+      
         dispatch({
             type: "GETEXPENSES",
-            payload: payload
+           
         });
         setTimeout(() => {
             setLoading(false);
