@@ -168,7 +168,7 @@ function MemberStatements({ state, member }) {
           <table className="w-full text-left border-collapse">
             <thead className="sticky top-0 bg-[#F4F7FF] z-10 ">
               <tr className="bg-[#F4F7FF]text-sm font-Gilroy text-[#939393] border-b border-gray-300">
-                <th className="p-4 font-Gilroy font-normal">Statement</th>
+                <th className="p-4 font-Gilroy font-normal">Serial Number</th>
                 <th className="p-4 font-Gilroy font-normal">Due Date</th>
                 <th className="p-4 font-Gilroy font-normal">Loan Amount</th>
                 <th className="p-4 font-Gilroy font-normal">Due Amount</th>
@@ -186,7 +186,9 @@ function MemberStatements({ state, member }) {
 
                 <tr key={index}>
 
-                  <td className="p-4 font-Gilroy">{`Repayment ${moment(item.Due_Date).format("DD-MMM-YYYY")}`}</td>
+                 
+                  <td className="p-2 pl-4 text-sm font-Gilroy text-center">{index + 1}</td>
+
                   <td className="p-4">
                     <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
                       {moment(item.Due_Date).format("DD MMM YYYY")}

@@ -12,10 +12,12 @@ function MemberID({ state }) {
   const [suffix, setSuffix] = useState("");
   const [error, setError] = useState({ prefix: "", suffix: "" });
   const [errorMessage, setErrorMessage] = useState("");
+  const [id, setId] = useState('');
+
 
   useEffect(() => {
     if (state.Settings.statusCodeMemberID === 200) {
-
+      setId('');
       setPrefix('');
       setSuffix('');
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_ID' });
@@ -48,11 +50,13 @@ function MemberID({ state }) {
   useEffect(() => {
     const storedPrefix = localStorage.getItem("MemberIDprefix") || state.Settings?.MemberIDprefix || "";
     const storedSuffix = localStorage.getItem("MemberIdsuffix") || state.Settings?.MemberIdsuffix || "";
-
+    const storedMemberid = localStorage.getItem("MemberId") || state.Settings?.MemberId || "";
+    setId(storedMemberid)
     setPrefix(storedPrefix);
     setSuffix(storedSuffix);
 
     if (state.Settings.statusCodeMemberID === 200) {
+      localStorage.setItem("MemberId", id);
       localStorage.setItem("MemberIDprefix", prefix);
       localStorage.setItem("MemberIdsuffix", suffix);
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_ID' });
@@ -62,6 +66,13 @@ function MemberID({ state }) {
       dispatch({ type: 'CLEAR_ERROR' });
     };
   }, [state.Settings.statusCodeMemberID]);
+
+
+  useEffect(() => {
+    if (state.SignIn.members?.length > 0) {
+      setId(state.SignIn.members[0]?.Id)
+    }
+  }, [state.SignIn.members])
 
 
 
@@ -81,7 +92,8 @@ function MemberID({ state }) {
 
     setError(newError);
     if (!hasError) {
-      const payload = { prefix, suffix };
+      const payload = { id, prefix, suffix };
+      
 
       dispatch({ type: 'SETTINGSMEMBERID', payload });
 
@@ -110,7 +122,7 @@ function MemberID({ state }) {
         Set up the prefix and suffix for Member ID
       </p>
 
-      <div className="mt-6 grid grid-cols-4 gap-[150px]">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
         <div className="w-[280px]">
           <label className="block text-sm font-Gilroy font-medium">Prefix</label>
           <input

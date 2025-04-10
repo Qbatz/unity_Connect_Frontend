@@ -9,10 +9,11 @@ import deleteIcon from "../../Asset/Icons/Delete.svg";
 import ExpenseForm from './AddExpenses';
 import moment from "moment";
 import { CalendarDays } from "lucide-react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ClipLoader } from "react-spinners";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
+import { DatePicker } from 'antd';
+import 'dayjs/locale/en';
 
 
 function ExpensesList({ state }) {
@@ -26,50 +27,39 @@ function ExpensesList({ state }) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(6);
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [loading, setLoading] = useState(true);
 
+    const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
     const popupRef = useRef(null);
 
     const ExpensesList = state.Expenses.getexpenses || [];
 
+    const { RangePicker } = DatePicker;
+    const [dates, setDates] = useState([]);
+
+    const onChange = (values) => {
+        setDates(values);
 
 
+        if (values && values.length === 2) {
+            const payload = {
+                startDate: values[0]?.format('YYYY-MM-DD'),
+                endDate: values[1]?.format('YYYY-MM-DD'),
+            };
 
-
-    const getWeekRange = (date) => {
-        if (!date) return null;
-
-        const start = new Date(date);
-        start.setDate(date.getDate() - start.getDay());
-        start.setHours(0, 0, 0, 0);
-
-        const end = new Date(start);
-        end.setDate(start.getDate() + 6);
-        end.setHours(23, 59, 59, 999);
-
-        return { start, end };
+            dispatch({
+                type: "GETEXPENSES",
+                payload: payload
+            });
+        }
     };
 
-    const filteredExpenses = useMemo(() => {
-        if (!selectedDate || !ExpensesList) return [];
 
-        const weekRange = getWeekRange(selectedDate);
-        if (!weekRange) return [];
-
-        return ExpensesList.filter((expense) => {
-            if (!expense.Expense_Date) return false;
-            const expenseDate = new Date(expense.Expense_Date);
-            return expenseDate >= weekRange.start && expenseDate <= weekRange.end;
-        });
-    }, [selectedDate, ExpensesList]);
-
-    const totalPages = Math.max(1, Math.ceil(filteredExpenses.length / pageSize));
+    const totalPages = Math.max(1, Math.ceil(ExpensesList.length / pageSize));
 
     const paginatedData = useMemo(() => {
-        return filteredExpenses.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-    }, [filteredExpenses, currentPage, pageSize]);
+        return ExpensesList.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+    }, [ExpensesList, currentPage, pageSize]);
 
     useEffect(() => {
         if (currentPage > totalPages) {
@@ -103,13 +93,10 @@ function ExpensesList({ state }) {
 
     useEffect(() => {
         setLoading(true);
-        const payload = {
-            startDate: selectedDate,
-            endDate: selectedDate
-        }
+
         dispatch({
             type: "GETEXPENSES",
-            payload: payload
+
         });
         setTimeout(() => {
             setLoading(false);
@@ -193,46 +180,18 @@ function ExpensesList({ state }) {
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-semibold font-Gilroy p-6">Expenses</h2>
                     <div className="flex items-center gap-3">
-
-                        <div className="relative ">
-                            <DatePicker
-                                selected={selectedDate}
-                                onChange={(date) => setSelectedDate(date)}
-
-                                dateFormat="dd MMM yyyy"
-                                popperClassName="!z-50 !absolute"
-                                calendarClassName="rounded-lg border shadow-lg"
-                                renderCustomHeader={({
-                                    date,
-                                    decreaseMonth,
-                                    increaseMonth,
-                                }) => (
-                                    <div className="flex justify-between items-center px-4 py-2 border-b ">
-                                        <button onClick={decreaseMonth}>&lt;</button>
-                                        <span className="font-semibold">
-                                            {date.toLocaleDateString("en-GB", {
-                                                month: "long",
-                                                year: "numeric",
-                                            })}
-                                        </span>
-                                        <button onClick={increaseMonth}>&gt;</button>
-                                    </div>
-                                )}
-                                customInput={
-                                    <button className="flex items-center gap-2 border border-gray-300 bg-[#F2F4F8] text-black py-3 px-4 rounded-full text-base font-Gilroy shadow-md">
-                                        <CalendarDays size={20} className="text-gray-600" />
-                                        <span className="text-sm">
-                                            Week ({moment(getWeekRange(selectedDate).start).format("DD MMM")} - {moment(getWeekRange(selectedDate).end).format("DD MMM")})
-                                        </span>
-
-                                    </button>
-                                }
+                        <div className="relative">
+                            <RangePicker
+                                value={dates}
+                                onChange={onChange}
+                                format="DD MMM YYYY"
+                                allowClear
+                                placeholder={['Start date', 'End date']}
+                                className="rounded-full shadow-md px-4 py-2 border border-gray-300 bg-[#F2F4F8] text-black font-Gilroy"
+                                suffixIcon={<CalendarDays size={16} className="text-gray-600" />}
+                                popupClassName="!z-50"
                             />
                         </div>
-
-
-
-
 
                         <button
                             className="bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium mr-4"
@@ -381,7 +340,7 @@ function ExpensesList({ state }) {
 
 
 
-                {filteredExpenses.length > 5 && (
+                {ExpensesList.length > 5 && (
 
                     <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
                         <div className="flex gap-2">

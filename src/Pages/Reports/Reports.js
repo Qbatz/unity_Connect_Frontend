@@ -287,12 +287,14 @@ function ReportsTab({ state }) {
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
+                 
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(SuccesspdfURL, "Unsuccessful_Payments.pdf")}
+                    onClick={() => window.open(SuccesspdfURL, "_blank")}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
+
                 </div>
 
                 <div ref={dropdownRef2} className="relative" >

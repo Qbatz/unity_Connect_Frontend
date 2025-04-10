@@ -207,7 +207,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         const formatDate = (date) => {
             const d = new Date(date);
             if (isNaN(d)) {
-              
+
                 return "";
             }
             return d.toLocaleDateString("en-CA");
@@ -539,18 +539,18 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 Expense amount <span className="text-red-500 text-[20px]">*</span>
                             </label>
                             <input
-  type="text"
-  value={expenseAmount}
-  onChange={(e) => {
-    const onlyNumbers = e.target.value.replace(/[^0-9.]/g, ""); 
-    setExpenseAmount(onlyNumbers);
-    if (errors.expenseAmount) {
-      setErrors((prevErrors) => ({ ...prevErrors, expenseAmount: "" }));
-    }
-  }}
-  placeholder="Enter expense amount"
-  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
-/>
+                                type="text"
+                                value={expenseAmount}
+                                onChange={(e) => {
+                                    const onlyNumbers = e.target.value.replace(/[^0-9.]/g, "");
+                                    setExpenseAmount(onlyNumbers);
+                                    if (errors.expenseAmount) {
+                                        setErrors((prevErrors) => ({ ...prevErrors, expenseAmount: "" }));
+                                    }
+                                }}
+                                placeholder="Enter expense amount"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                            />
 
 
                             {errors.expenseAmount && (

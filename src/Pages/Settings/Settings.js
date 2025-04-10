@@ -17,8 +17,9 @@ const Settings = () => {
       >
         Settings
       </h2>
+      <div className="flex flex-col lg:flex-row w-full gap-3 lg:gap-[125px] justify-center items-center lg:items-center">
 
-      <div className="border-b border-gray-300 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 md:gap-10 lg:gap-[125px] scrollbar-hide justify-center">
+       
         {["Member ID", "Loan ID", "Transaction ID", "Loan", "Expenses", "Payment"].map((tab) => (
           <button
             key={tab}

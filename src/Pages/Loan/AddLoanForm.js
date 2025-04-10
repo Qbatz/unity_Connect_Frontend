@@ -10,7 +10,8 @@ import { MdError } from "react-icons/md";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
 import Select from "react-select";
 import { ClipLoader } from "react-spinners";
-
+import { FaEllipsisH } from "react-icons/fa";
+import editIcon from "../../Asset/Icons/edit_blue.svg";
 
 
 function AddLoanForm({ state }) {
@@ -61,7 +62,36 @@ function AddLoanForm({ state }) {
   const indexOfLastApproved = currentPageApproved * itemsPerPage;
   const indexOfFirstApproved = indexOfLastApproved - itemsPerPage;
 
-const [NewwitnessOptions,setNewWitnessOptions] = useState("")
+  const [NewwitnessOptions, setNewWitnessOptions] = useState("")
+  const [openMenu, setOpenMenu] = useState(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
+  const [createFrom, setCreateFrom] = useState()
+
+  const handledots = (event, index) => {
+    event.stopPropagation();
+    setOpenMenu(openMenu === index ? null : index);
+
+    const rect = event.target.getBoundingClientRect();
+    setPopupPosition({
+      top: rect.top + window.scrollY + rect.height - 0,
+      left: rect.left + window.scrollX - 130,
+    });
+  };
+
+  const handleEditclick = (item, loan) => {
+
+
+    setIsModalOpen(true);
+    setCreateFrom("edit");
+
+    setOpenMenu(null);
+
+    setMemberId(item.User_Name || "");
+    setSelectedWitnesses(loan.Witness_Details[0].User_Name || []);
+    setLoanAmount(loan.Loan_Amount || "");
+  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -227,27 +257,27 @@ const [NewwitnessOptions,setNewWitnessOptions] = useState("")
 
 
     const memberId = loan.Member_Id;
-   
-   
+
+
 
     const updatedWitnessOptions = members
+      ?.filter((member) => String(member.Id) !== String(memberId))
+      .map((member) => ({
+        value: member.Id,
+        label: member.User_Name,
+      }));
+
+    setNewWitnessOptions(updatedWitnessOptions);
+  };
+
+  const witnessOptions = members
     ?.filter((member) => String(member.Id) !== String(memberId))
     .map((member) => ({
       value: member.Id,
       label: member.User_Name,
     }));
 
-  setNewWitnessOptions(updatedWitnessOptions);
-  };
 
-  const witnessOptions = members
-  ?.filter((member) => String(member.Id) !== String(memberId))
-  .map((member) => ({
-    value: member.Id,
-    label: member.User_Name,
-  }));
-
-console.log("wit",witnessOptions);
 
 
 
@@ -318,7 +348,7 @@ console.log("wit",witnessOptions);
 
   const handleReject = (loan) => {
     if (!loan) {
-      console.error("Loan ID is missing.");
+      console.error("Loan ID is missing");
       return;
     }
 
@@ -599,22 +629,19 @@ console.log("wit",witnessOptions);
       </div>
     );
   }
-
-
-
-
-
   return (
     <>
       <div className="container mx-auto mt-5 p-4 ">
         <div>
           <div className="flex items-center  justify-between w-full pl-5 pr-5">
             <p className="font-Gilroy font-semibold text-2xl text-black">Loan Request</p>
+
             <button
               className="bg-black text-white py-3 px-4 rounded-full text-base font-Gilroy font-medium"
-
               onClick={() => {
                 setIsModalOpen(true);
+                setCreateFrom("create");
+
                 setSelectedWitnesses([]);
                 setMemberId("");
                 setLoanAmount("");
@@ -622,6 +649,7 @@ console.log("wit",witnessOptions);
             >
               + Create Request
             </button>
+
           </div>
         </div>
 
@@ -648,7 +676,11 @@ console.log("wit",witnessOptions);
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold font-Gilroy">Add a loan request</h2>
+                <h2 className="text-xl font-semibold font-Gilroy">
+                  {createFrom === "edit" ? "Edit a loan request" : "Add a loan request"}
+                </h2>
+
+
                 <img
                   src={CloseCircleIcon}
                   alt="Close"
@@ -747,12 +779,14 @@ console.log("wit",witnessOptions);
 
               </div>
 
+
               <button
                 onClick={handleSubmit}
                 className="mt-10 pt-[20px] pr-[40px] pb-[20px] pl-[40px] w-full h-59 bg-black text-white rounded-60 text-base font-Gilroy font-medium"
               >
-                Add loan request
+                {createFrom === "edit" ? "Update loan request" : "Add loan request"}
               </button>
+
             </div>
           </div>
         )}
@@ -770,7 +804,7 @@ console.log("wit",witnessOptions);
             >
 
               {paginatedActiveLoans?.length > 0 ? (
-                paginatedActiveLoans?.map((loan) => {
+                paginatedActiveLoans?.map((loan, index) => {
 
                   const selectedMember = members?.find(member => String(member.Id) === String(loan.Member_Id)) || null;
 
@@ -799,12 +833,45 @@ console.log("wit",witnessOptions);
                           </div>
                         </div>
 
-                        <p
-                          style={{ marginTop: '-30px' }}
-                          className="text-black font-semibold text-base font-Gilroy"
-                        >
-                          Loan amount: ₹{loan.Loan_Amount ? Number(loan.Loan_Amount).toLocaleString('en-IN') : "0"}
-                        </p>
+                        <div className="flex items-center justify-between gap-x-4">
+                          <div className="flex items-center gap-2">
+                            <p className="text-black font-semibold text-base font-Gilroy">
+                              Loan amount: ₹{loan.Loan_Amount ? Number(loan.Loan_Amount).toLocaleString('en-IN') : "0"}
+                            </p>
+                          </div>
+                          <div className="flex items-center">
+                            <div
+                              className={`cursor-pointer h-9 w-9 border border-gray-300 rounded-full flex justify-center items-center 
+                                                        bg-white ${openMenu === index ? "!bg-blue-100" : ""}`}
+                              onClick={(event) => handledots(event, index)}
+                            >
+                              <FaEllipsisH className="text-gray-600 text-sm"
+                                onClick={(event) => handledots(event, index)} />
+                            </div>
+                            {openMenu === index && (
+                              <div
+                                style={{
+                                  position: 'fixed',
+                                  top: `${popupPosition.top}px`,
+                                  left: `${popupPosition.left}px`,
+                                  right: '110px',
+                                  zIndex: 50,
+
+                                }}
+                                className="absolute  top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[130px]">
+                                <button
+                                  onClick={() => handleEditclick(selectedMember, loan)}
+                                  className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy rounded-lg"
+                                >
+                                  <img src={editIcon} alt="Edit" className="h-4 w-4" />
+                                  Edit
+                                </button>
+
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
 
 
 

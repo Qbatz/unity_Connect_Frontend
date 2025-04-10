@@ -149,28 +149,31 @@ function ExpensesSetting({ state }) {
 
   return (
     <div className="container mx-auto mt-5">
-      <div className="flex items-center justify-between w-full ">
-        <div>
-          <p className="font-Gilroy font-semibold text-xl text-black">Expenses</p>
-          <p className="mt-5 text-gray-500 text-sm font-medium">
+      <div className="flex flex-col sm:flex-row items-center sm:items-center sm:justify-between w-full">
+        <div className="px-4 sm:px-6 lg:px-0 mt-4 sm:mt-6">
+          <p className="font-Gilroy font-semibold text-lg sm:text-xl text-black">Expenses</p>
+          <p className="mt-3 sm:mt-5 text-gray-500 text-sm sm:text-base font-Gilroy font-medium">
             Set up expenses by creating categories
           </p>
         </div>
-        <button
-          className="bg-black text-white w-[155px] rounded-[60px] font-Gilroy text-base font-medium pt-[16px] pr-[20px] pb-[16px] pl-[20px]"
-          onClick={() => {
-            setIsModalOpen(true);
-            setCategoryName("");
-            setSubCategoryName("");
-            setSubCategories([]);
-            setIsSubCategory(false);
-            setErrorMessage("");
-          }}
 
-        >
-          + Add category
-        </button>
+        <div className="px-4 sm:px-0 mt-4 sm:mt-0 w-full sm:w-auto flex justify-center sm:justify-start">
+          <button
+            className="w-full max-w-[300px] sm:w-[155px] bg-black font-Gilroy text-white text-sm sm:text-base font-medium py-[14px] sm:py-[16px] px-[20px] rounded-[60px]"
+            onClick={() => {
+              setIsModalOpen(true);
+              setCategoryName("");
+              setSubCategoryName("");
+              setSubCategories([]);
+              setIsSubCategory(false);
+              setErrorMessage("");
+            }}
+          >
+            + Add category
+          </button>
+        </div>
       </div>
+
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center  bg-black bg-opacity-50">
@@ -295,9 +298,12 @@ function ExpensesSetting({ state }) {
       )}
 
 
-      <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentExpenses.map((category, index) => (
-          <div key={index} className="w-[330px] h-[180px] bg-[#F4F7FF] flex flex-col rounded-3xl">
+          <div
+            key={index}
+            className="w-full max-w-[330px] h-[180px] bg-[#F4F7FF] flex flex-col rounded-3xl mx-auto"
+          >
             <div className="flex items-center px-4 py-4">
               <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
               <p className="text-darkGray text-base font-semibold leading-[19.09px] ml-2 font-Gilroy">
@@ -307,8 +313,7 @@ function ExpensesSetting({ state }) {
               <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
             </div>
 
-            <div className="w-[290px] mx-auto border-t border-[#E7E7E7]"></div>
-
+            <div className="w-[90%] mx-auto border-t border-[#E7E7E7]"></div>
 
             <div className="overflow-y-auto max-h-[98px] px-2">
               {category.subcategory?.map((sub, subIndex) => (
@@ -328,6 +333,7 @@ function ExpensesSetting({ state }) {
           </div>
         ))}
       </div>
+
 
 
 
