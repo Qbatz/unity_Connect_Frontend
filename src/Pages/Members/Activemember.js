@@ -471,5 +471,7 @@ const mapsToProps = (stateInfo) => {
 ActiveMember.propTypes = {
   state: PropTypes.object,
   onSelectMember: PropTypes.func,
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
 };
 export default connect(mapsToProps)(ActiveMember)

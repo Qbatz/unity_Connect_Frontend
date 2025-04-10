@@ -412,5 +412,7 @@ const mapsToProps = (stateInfo) => {
 }
 NonActiveMember.propTypes = {
   state: PropTypes.object,
+  loading: PropTypes.bool,
+  setLoading: PropTypes.func,
 };
 export default connect(mapsToProps)(NonActiveMember)
