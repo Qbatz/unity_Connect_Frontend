@@ -26,8 +26,6 @@ function AddLoanForm({ state }) {
   const [editLoanId, setEditLoanId] = useState(null);
 
   const loanGetSetting = state;
-
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [vitDetails, setVitDetails] = useState({});
   const [memberId, setMemberId] = useState("");
