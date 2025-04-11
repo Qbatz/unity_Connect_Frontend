@@ -5,7 +5,8 @@ export const initialState = {
     addexpenses: '',
     statusCodeAddExpenses: 0,
     deleteExpensesStatusCode: 0,
-    errormsg: ''
+    errormsg: '',
+    totalExpense: ''
 }
 
 const ExpensesReducer = (state = initialState, action) => {
@@ -16,9 +17,10 @@ const ExpensesReducer = (state = initialState, action) => {
 
         case 'GET_EXPENSES':
             return {
-                ...state, getexpenses: action.payload.response.data
+                ...state, getexpenses: action.payload.response.data,
+                totalExpense: action.payload.totalExpense,
 
-                , statusCodeExpenses: action.payload.statusCode
+                statusCodeExpenses: action.payload.statusCode
             }
         case 'CLEAR_STATUS_CODE_GET_EXPENSES':
             return { ...state, statusCodeExpenses: 0 }

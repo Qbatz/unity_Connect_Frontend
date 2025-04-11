@@ -16,7 +16,7 @@ function MemberDetails({ member, onBack }) {
 
   return (
     <>
-      <div className="">
+      <div className="px-4 sm:px-6 md:px-8 lg:px-3">
         <button onClick={onBack} className="mb-4 text-blue-500 font-Gilroy text-xl">
           ← Back
         </button>

@@ -8,10 +8,16 @@ import Cookies from 'universal-cookie';
 function* SuccessReportSaga(action) {
     try {
         const response = yield call(SuccessReportsAction, action.payload);
+
+
         if (response.status === 200) {
             yield put({
                 type: "SUCCESSREPORT",
-                payload: { response: response.data.reports || response.data || [], statusCodeLoan: response.status },
+                payload: {
+                    response: response.data.reports || response.data || [],
+                    statusCodeLoan: response.status,
+                    total_Received_Amount: response.data.total_Received_Amount || 0
+                },
             });
         }
 
