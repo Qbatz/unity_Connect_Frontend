@@ -87,11 +87,21 @@ function MemberModal({ state, memberData, onClose }) {
         if (field === "userName") setUserName(value);
         if (field === "email") setEmail(value);
         if (field === "joiningDate") setJoiningDate(value);
-        if (field === "mobileNo") setMobileNo(value);
+
         if (field === "address") setAddress(value);
         if (field === "file") setFile(value);
         setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     };
+
+    const handleMobileChange = (e) => {
+        dispatch({ type: 'CLEAR_PHONE_ERROR' });
+        const value = e.target.value;
+        if (/^\d*$/.test(value) && value.length <= 10) {
+            setMobileNo(value);
+            setErrors((prevErrors) => ({ ...prevErrors, mobileNo: "" }));
+        }
+    };
+
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -274,13 +284,14 @@ function MemberModal({ state, memberData, onClose }) {
                                 className="w-full p-2 h-10 border rounded-lg text-sm mb-1 font-Gilroy"
                                 placeholder="Enter Mobile No"
                                 value={mobileNo}
-                                onChange={(e) => {
-                                    const value = e.target.value;
-                                    if (/^\d*$/.test(value) && value.length <= 10) {
-                                        handleChange("mobileNo", value);
-                                    }
-                                }}
+                                onChange={handleMobileChange}
                             />
+                            {state.Member.phoneError === "Mobile Number Already Exists" && (
+                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                    <MdError className="mr-1 text-sm" />
+                                    <p className="text-red-500 text-sm mt-1 font-Gilroy">{state.Member.phoneError}</p>
+                                </div>
+                            )}
                             {errors.mobileNo && (
                                 <p className="text-red-500 flex items-center gap-1 text-xs">
                                     <MdError className="text-xs" /> {errors.mobileNo}

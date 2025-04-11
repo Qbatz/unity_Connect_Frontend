@@ -19,7 +19,7 @@ function* handleMemberList() {
     } else if (response.status === 201 || response.statusCode === 201) {
 
         yield put({ type: 'ERROR', payload: response.data.message });
-        yield put({ type: 'NON-ERROR', payload: response.data.message });
+
     }
     if (response) {
         refreshToken(response);
@@ -148,10 +148,8 @@ function* handleAddMember(datum) {
             },
         });
 
-    } else if (response.statusCode === 202) {
+    } else if (response.statusCode === 201) {
         yield put({ type: 'PHONE_ERROR', payload: response.message });
-    } else if (response.statusCode === 203) {
-        yield put({ type: 'EMAIL_ERROR', payload: response.message });
     }
     if (response) {
         refreshToken(response);

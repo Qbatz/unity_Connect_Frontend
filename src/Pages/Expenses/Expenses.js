@@ -34,6 +34,8 @@ function ExpensesList({ state }) {
 
     const ExpensesList = state.Expenses.getexpenses || [];
 
+    const totalExpense = state.Expenses.totalExpense;
+
     const { RangePicker } = DatePicker;
     const [dates, setDates] = useState([]);
 
@@ -180,6 +182,11 @@ function ExpensesList({ state }) {
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-semibold font-Gilroy p-6">Expenses</h2>
                     <div className="flex items-center gap-3">
+                        <div className="bg-white px-4 py-2 mr-2 font-Gilroy rounded-md shadow-md border border-gray-200 text-sm font-semibold text-gray-800">
+                            Total Expense : ₹{totalExpense}
+                        </div>
+
+
                         <div className="relative">
                             <RangePicker
                                 value={dates}

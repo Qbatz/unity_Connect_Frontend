@@ -69,8 +69,7 @@ const MemberListReducer = (state = initialState, action) => {
         case 'CLEAR_PHONE_ERROR':
             return { ...state, phoneError: '' }
 
-        case 'EMAIL_ERROR':
-            return { ...state, emailError: action.payload }
+
 
         case 'GET_MEMBER_ID_SUCCESSS':
             return { ...state, GetMemberId: action.payload.response, statusCodeForMemberId: action.payload.response }

@@ -164,10 +164,11 @@ function MemberStatements({ state, member }) {
 
       </div>
       <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden">
-        <div className="min-w-max max-h-[250px]">
-          <table className="w-full text-left border-collapse">
-            <thead className="sticky top-0 bg-[#F4F7FF] z-10 ">
-              <tr className="bg-[#F4F7FF]text-sm font-Gilroy text-[#939393] border-b border-gray-300">
+
+        <div className="w-full overflow-x-auto max-h-[320px]">
+          <table className="min-w-[640px] w-full text-left border-collapse">
+            <thead className="sticky top-0 bg-[#F4F7FF] z-10 border-b border-gray-300">
+              <tr className="text-[#939393] font-light text-sm font-Gilroy">
                 <th className="p-4 font-Gilroy font-normal">Serial Number</th>
                 <th className="p-4 font-Gilroy font-normal">Due Date</th>
                 <th className="p-4 font-Gilroy font-normal">Loan Amount</th>
@@ -186,11 +187,12 @@ function MemberStatements({ state, member }) {
 
                 <tr key={index}>
 
-                 
+
                   <td className="p-2 pl-4 text-sm font-Gilroy text-center">{index + 1}</td>
 
-                  <td className="p-4">
-                    <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-Gilroy">
+
+                  <td className="p-0 text-sm">
+                    <span className="bg-gray-200 text-gray-700 lg:px-3 lg:py-1 sm:px-0 sm:py-0 md:px-0 md:py-0 rounded-full font-Gilroy">
                       {moment(item.Due_Date).format("DD MMM YYYY")}
                     </span>
                   </td>
@@ -246,8 +248,8 @@ function MemberStatements({ state, member }) {
 
 
           </table>
-
         </div>
+
       </div>
 
       {isModalOpen && (

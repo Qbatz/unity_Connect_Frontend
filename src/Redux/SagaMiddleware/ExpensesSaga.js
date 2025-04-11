@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 function* handleExpenses(action) {
 
-    const response = yield call(ExpensesGetAction,action.payload);
+    const response = yield call(ExpensesGetAction, action.payload);
 
 
 
@@ -14,7 +14,11 @@ function* handleExpenses(action) {
     if (response.statusCode === 200 || response.status === 200) {
         yield put({
             type: 'GET_EXPENSES',
-            payload: { response: response.data, statusCode: response.statusCode || response.status },
+            payload: {
+                response: response.data, statusCode: response.statusCode || response.status,
+                totalExpense: response.data.totalExpense || 0
+
+            },
         });
 
     } else if (response.status === 201 || response.statusCode === 201) {
