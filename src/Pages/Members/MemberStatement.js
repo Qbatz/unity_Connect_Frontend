@@ -171,6 +171,7 @@ function MemberStatements({ state, member }) {
                 <th className="p-4 font-Gilroy font-normal">Serial Number</th>
                 <th className="p-4 font-Gilroy font-normal">Due Date</th>
                 <th className="p-4 font-Gilroy font-normal">Loan Amount</th>
+                <th className="p-4 font-Gilroy font-normal">Due Amount</th>
                 <th className="p-4 font-Gilroy font-normal">Interest Amount</th>
                 <th className="p-4 font-Gilroy font-normal">Pending</th>
                 <th className="p-4 font-Gilroy font-normal">Paid Amount</th>
@@ -194,6 +195,8 @@ function MemberStatements({ state, member }) {
                     </span>
                   </td>
                   <td className="p-4 font-Gilroy">{item.Loan_Amount}</td>
+                  <td className="p-4 font-Gilroy">{item.Due_Amount}</td>
+
                   <td className="p-4 font-Gilroy">{item.Intrest_Amount}</td>
                   <td className="p-4 font-Gilroy">{item.Pending_Amount}</td>
                   <td className="p-4 font-Gilroy">{item.Paid_Amount}</td>

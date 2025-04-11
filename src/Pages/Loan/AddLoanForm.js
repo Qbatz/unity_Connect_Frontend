@@ -25,14 +25,6 @@ function AddLoanForm({ state }) {
 
   const [editLoanId, setEditLoanId] = useState(null);
 
-
-  useEffect(() => {
-    console.log("Final editLoanId:", editLoanId);
-  }, [editLoanId]);
-
-
-
-
   const loanGetSetting = state;
 
 
@@ -48,7 +40,7 @@ function AddLoanForm({ state }) {
   const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
   const [memberLoanType, setMemberLoanType] = useState("");
   const [eligibleLoanAmount, setEligibleLoanAmount] = useState("");
-  const [witnessOptions, setWitnessOptions] = useState([]);
+
 
   const [approve, setApprove] = useState("");
   const [loading, setLoading] = useState(true);
@@ -71,6 +63,7 @@ function AddLoanForm({ state }) {
   const indexOfLastApproved = currentPageApproved * itemsPerPage;
   const indexOfFirstApproved = indexOfLastApproved - itemsPerPage;
 
+  const [NewwitnessOptions, setNewWitnessOptions] = useState("")
   const [openMenu, setOpenMenu] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [formError, setFormError] = useState("");
@@ -91,7 +84,7 @@ function AddLoanForm({ state }) {
 
 
   const handleEditclick = (item, loan, Loan_Id) => {
-  
+
     setEditLoanId(Loan_Id)
     setIsModalOpen(true);
     setCreateFrom("edit");
@@ -139,6 +132,7 @@ function AddLoanForm({ state }) {
 
 
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -182,7 +176,7 @@ function AddLoanForm({ state }) {
       ...payload,
       id: editLoanId,
     };
-   
+
 
     dispatch({
       type: 'LOAN_ADD',
@@ -322,15 +316,26 @@ function AddLoanForm({ state }) {
 
 
     const memberId = loan.Member_Id;
-    const witnessOptions = members
+
+
+
+    const updatedWitnessOptions = members
       ?.filter((member) => String(member.Id) !== String(memberId))
       .map((member) => ({
         value: member.Id,
         label: member.User_Name,
       }));
 
-    setWitnessOptions(witnessOptions);
+    setNewWitnessOptions(updatedWitnessOptions);
   };
+
+  const witnessOptions = members
+    ?.filter((member) => String(member.Id) !== String(memberId))
+    .map((member) => ({
+      value: member.Id,
+      label: member.User_Name,
+    }));
+
 
 
 
@@ -402,7 +407,7 @@ function AddLoanForm({ state }) {
 
   const handleReject = (loan) => {
     if (!loan) {
-      console.error("Loan ID is missing.");
+      console.error("Loan ID is missing");
       return;
     }
 
@@ -627,7 +632,7 @@ function AddLoanForm({ state }) {
     }),
     menu: (base) => ({
       ...base,
-      maxHeight: witnessOptions.length > 3 ? "150px" : "auto",
+      maxHeight: NewwitnessOptions.length > 3 ? "150px" : "auto",
       overflowY: "auto",
     }),
     indicatorSeparator: () => ({ display: "none" }),
@@ -690,11 +695,13 @@ function AddLoanForm({ state }) {
           <div className="flex items-center  justify-between w-full pl-5 pr-5">
             <p className="font-Gilroy font-semibold text-2xl text-black">Loan Request</p>
 
+
             <button
               className="bg-black text-white py-3 px-4 rounded-full text-base font-Gilroy font-medium"
               onClick={() => {
                 setIsModalOpen(true);
                 setCreateFrom("create");
+
 
                 setSelectedWitnesses([]);
                 setMemberId("");
@@ -870,7 +877,7 @@ function AddLoanForm({ state }) {
                 paginatedActiveLoans?.map((loan, index) => {
 
                   const selectedMember = members?.find(member => String(member.Id) === String(loan.Member_Id)) || null;
-                  console.log("loan", loan);
+
 
                   return (loan.Loan_Type === null && loan.Loan_Status !== "Reject") && (
                     <div
@@ -1119,7 +1126,7 @@ function AddLoanForm({ state }) {
                   Witnesses Names
                 </label>
                 <Select
-                  value={witnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
+                  value={NewwitnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
 
                   onChange={(selectedOptions) => {
                     setSelectedWitnesses(selectedOptions.map((opt) => opt.value)); // This ensures removal works
@@ -1128,7 +1135,7 @@ function AddLoanForm({ state }) {
 
 
 
-                  options={witnessOptions}
+                  options={NewwitnessOptions}
                   placeholder="Select witnesses"
                   styles={customWitStyles}
                   isSearchable={true}

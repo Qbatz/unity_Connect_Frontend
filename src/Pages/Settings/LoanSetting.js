@@ -394,11 +394,11 @@ function LoanSetting({ state }) {
                   </div>
 
                   {isMonthlyDropdownOpen && (
-                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg">
+                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg max-h-[90px] overflow-y-auto">
                       {monthlyOptions.map((type, index) => (
                         <div
                           key={index}
-                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
                           onClick={(e) => {
                             e.stopPropagation();
 
@@ -438,12 +438,13 @@ function LoanSetting({ state }) {
                       </div>
 
                       {isOrdinalDropdownOpen && (
-                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
+                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10 max-h-[90px] overflow-y-auto">
                           {ordinalOptions.map((ordinal, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
-                              onClick={() => {
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setSelectedOrdinal(ordinal);
                                 setIsOrdinalDropdownOpen(false);
                                 setSelectedDueDate(`${ordinal} ${selectedDay}`);
@@ -468,12 +469,13 @@ function LoanSetting({ state }) {
                       </div>
 
                       {isDayDropdownOpen && (
-                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
+                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10 max-h-[90px] overflow-y-auto">
                           {dayOptions.map((day, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
-                              onClick={() => {
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setSelectedDay(day);
                                 setIsDayDropdownOpen(false);
                                 setSelectedDueDate(`${selectedOrdinal} ${day}`);
