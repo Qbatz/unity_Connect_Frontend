@@ -15,9 +15,8 @@ function LoanID({ state }) {
   useEffect(() => {
 
     if (state.Settings.statusCodeLoanID === 200) {
-      setId('');
-      setPrefix('');
-      setSuffix('');
+
+      setErrorMessage("");
       dispatch({ type: "CLEAR_STATUS_CODE_LOAN_ID" });
     }
 
@@ -28,6 +27,7 @@ function LoanID({ state }) {
 
   const handlePrefix = (e) => {
     const value = e.target.value;
+    setErrorMessage('')
     if (/^[A-Za-z]*$/.test(value)) {
       setPrefix(value);
       setError((prev) => ({ ...prev, prefix: "" }));
@@ -38,6 +38,7 @@ function LoanID({ state }) {
 
   const handleSuffix = (e) => {
     const value = e.target.value;
+    setErrorMessage('')
     if (/^\d*$/.test(value)) {
       setSuffix(value);
       setError((prev) => ({ ...prev, suffix: "" }));
@@ -52,31 +53,38 @@ function LoanID({ state }) {
     const storedPrefix = localStorage.getItem("LoanIDprefix") || state.Settings?.LoanIDprefix || "";
     const storedSuffix = localStorage.getItem("LoanIDsuffix") || state.Settings?.LoanIDsuffix || "";
     const storedId = localStorage.getItem("LoanID") || state.Settings?.LoanID || "";
-    
-    
+
+ 
+
     setId(storedId);
     setPrefix(storedPrefix);
     setSuffix(storedSuffix);
 
+  }, []);
+
+
+  useEffect(() => {
     if (state.Settings.statusCodeLoanID === 200) {
-     
-      
+
+
       localStorage.setItem("LoanID", id);
       localStorage.setItem("LoanIDprefix", prefix);
       localStorage.setItem("LoanIdsuffix", suffix);
       dispatch({ type: 'CLEAR_STATUS_CODE_LOAN_ID' });
     }
-
     return () => {
       dispatch({ type: 'CLEAR_ERROR' });
     };
-  }, [state.Settings.statusCodeLoanID]);
+
+  }, [state.Settings.statusCodeLoanID]
+  )
 
   useEffect(() => {
     if (state.SignIn.loans.length > 0) {
       setId(state.SignIn.loans[0].Id)
     }
   }, [state.SignIn.loans])
+
 
   const handleSave = () => {
     let newError = { prefix: "", suffix: "" };
@@ -92,11 +100,25 @@ function LoanID({ state }) {
     }
 
     setError(newError);
-    if (!hasError) {
-      const payload = { id,prefix, suffix };
+
+    if (hasError) return;
+    const storedId = localStorage.getItem("LoanID") || "";
+    const storedPrefix = localStorage.getItem("LoanIDprefix") || "";
+    const storedSuffix = localStorage.getItem("LoanIDsuffix") || "";
+
+
+    if (prefix === storedPrefix && suffix === storedSuffix) {
+      setErrorMessage("Prefix and Suffix already exist");
+      return;
+    }
+    else {
+
+      setErrorMessage("");
+      const payload = { id, prefix, suffix };
       dispatch({ type: "SETTINGSLOANID", payload });
       localStorage.setItem("LoanIDprefix", prefix);
       localStorage.setItem("LoanIDsuffix", suffix);
+      localStorage.setItem("LoanID", storedId)
     }
   };
 
@@ -115,50 +137,51 @@ function LoanID({ state }) {
       <p className="text-lightgray font-Gilroy text-sm font-normal mt-3">
         Set up the prefix and suffix for Loan ID
       </p>
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="w-[280px]">
-          <label className="block text-sm font-Gilroy font-medium">Prefix</label>
-          <input
-            className="border p-2 mt-4 text-sm font-Gilroy rounded-xl w-full h-14"
-            placeholder="Prefix"
-            value={prefix}
-            onChange={handlePrefix}
-          />
-          {error.prefix && (
-            <div className="flex items-center text-red-500 text-sm mt-1">
-              <MdError className="mr-1 text-sm" />
-              <p>{error.prefix}</p>
-            </div>
-          )}
-        </div>
-        <div className="w-[280px]">
-          <label className="block text-sm font-Gilroy font-medium">Suffix</label>
-          <input
-            className="border p-2 mt-4  text-sm font-Gilroy rounded-xl w-full h-14"
-            placeholder="Suffix"
-            value={suffix}
-            onChange={handleSuffix}
-          />
-          {error.suffix && (
-            <div className="flex items-center text-red-500 text-sm mt-1">
-              <MdError className="mr-1 text-sm" />
-              <p>{error.suffix}</p>
-            </div>
-          )}
-        </div>
-        <div className="w-[280px]">
-          <label className="block text-sm  font-Gilroy font-medium">Preview</label>
-          <input
-            className="border p-2 rounded-xl  text-sm font-Gilroy mt-4 w-full bg-[#F4F7FF] h-14"
-            placeholder="Preview"
-            value={`${prefix}${suffix}`}
-            disabled
-          />
+      <div className="flex justify-center  lg:justify-start">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2  md:grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="w-[280px]">
+            <label className="block text-sm font-Gilroy font-medium">Prefix</label>
+            <input
+              className="border p-2 mt-4 text-sm font-Gilroy rounded-xl w-full h-14"
+              placeholder="Prefix"
+              value={prefix}
+              onChange={handlePrefix}
+            />
+            {error.prefix && (
+              <div className="flex items-center text-red-500 text-sm mt-1">
+                <MdError className="mr-1 text-sm" />
+                <p>{error.prefix}</p>
+              </div>
+            )}
+          </div>
+          <div className="w-[280px]">
+            <label className="block text-sm font-Gilroy font-medium">Suffix</label>
+            <input
+              className="border p-2 mt-4  text-sm font-Gilroy rounded-xl w-full h-14"
+              placeholder="Suffix"
+              value={suffix}
+              onChange={handleSuffix}
+            />
+            {error.suffix && (
+              <div className="flex items-center text-red-500 text-sm mt-1">
+                <MdError className="mr-1 text-sm" />
+                <p>{error.suffix}</p>
+              </div>
+            )}
+          </div>
+          <div className="w-[280px]">
+            <label className="block text-sm  font-Gilroy font-medium">Preview</label>
+            <input
+              className="border p-2 rounded-xl  text-sm font-Gilroy mt-4 w-full bg-[#F4F7FF] h-14"
+              placeholder="Preview"
+              value={`${prefix}${suffix}`}
+              disabled
+            />
+          </div>
         </div>
       </div>
-
       <div className="mt-6 flex justify-end">
-        <button onClick={handleSave} className="bg-black text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium">
+        <button onClick={handleSave} className="bg-black text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium ">
           Save changes
         </button>
       </div>

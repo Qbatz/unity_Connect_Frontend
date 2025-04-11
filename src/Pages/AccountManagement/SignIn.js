@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 
 
 const SignIn = ({ state }) => {
- 
-  
+
+
 
   const navigate = useNavigate();
 
@@ -36,33 +36,30 @@ const SignIn = ({ state }) => {
       cookies.set('UnityConnectToken', token, { path: '/' });
 
       const memberData = state.SignIn.members?.[0] || {};
-     
-      
 
-      if (memberData.Prefix && memberData.Suffix && memberData.id) {
+
+
+      if (memberData.Prefix && memberData.Suffix && memberData.Id) {
         localStorage.setItem("MemberIDprefix", memberData.Prefix);
         localStorage.setItem("MemberIdsuffix", memberData.Suffix);
-        localStorage.setItem("MemberId", memberData.id);
+        localStorage.setItem("MemberId", memberData.Id);
       }
 
 
       const loanData = state.SignIn.loans?.[0] || {};
-     
-      
-
-      if (loanData.Prefix && loanData.Suffix &&loanData.id) {
+      if (loanData.Prefix && loanData.Suffix && loanData.Id) {
         localStorage.setItem("LoanIDprefix", loanData.Prefix);
         localStorage.setItem("LoanIDsuffix", loanData.Suffix);
-        localStorage.setItem("LoanID", loanData.id);
+        localStorage.setItem("LoanID", loanData.Id);
       }
 
       const transactionData = state.SignIn.transactions?.[0] || {};
-     
-      
 
-      if (transactionData.Prefix && transactionData.Suffix &&transactionData.id) {
+
+
+      if (transactionData.Prefix && transactionData.Suffix && transactionData.Id) {
         localStorage.setItem("TransactionIDprefix", transactionData.Prefix);
-        localStorage.setItem("TransactionIdsuffix", transactionData.Suffix);
+        localStorage.setItem("TransactionIDsuffix", transactionData.Suffix);
         localStorage.setItem("TransactionId", transactionData.Id);
       }
 

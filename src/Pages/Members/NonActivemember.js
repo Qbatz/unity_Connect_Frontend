@@ -173,9 +173,15 @@ function NonActiveMember({ state, loading, setLoading }) {
         </div>
         {NonactiveMemberData.length === 0 ? (
 
-          <div className="w-64 h-64">
-            <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
-            <p>No data found</p>
+          <div className="flex flex-col items-center justify-center">
+
+            <div className="w-64 h-64">
+              <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+            </div>
+
+            <p className="text-violet-600 text-lg text-center font-Gilroy">
+             No Data Found 
+            </p>
           </div>
         ) : (
           <>

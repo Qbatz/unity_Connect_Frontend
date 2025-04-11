@@ -17,9 +17,7 @@ function MemberID({ state }) {
 
   useEffect(() => {
     if (state.Settings.statusCodeMemberID === 200) {
-      setId('');
-      setPrefix('');
-      setSuffix('');
+
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_ID' });
 
     }
@@ -30,6 +28,7 @@ function MemberID({ state }) {
 
   const handlePrefix = (e) => {
     const value = e.target.value;
+    setErrorMessage('')
     if (/^[A-Za-z]*$/.test(value)) {
       setPrefix(value);
       setError((prev) => ({ ...prev, prefix: "" }));
@@ -39,6 +38,7 @@ function MemberID({ state }) {
   };
   const handleSuffix = (e) => {
     const value = e.target.value;
+    setErrorMessage('')
     if (/^\d*$/.test(value)) {
       setSuffix(value);
       setError((prev) => ({ ...prev, suffix: "" }));
@@ -55,6 +55,10 @@ function MemberID({ state }) {
     setPrefix(storedPrefix);
     setSuffix(storedSuffix);
 
+
+  }, []);
+
+  useEffect(() => {
     if (state.Settings.statusCodeMemberID === 200) {
       localStorage.setItem("MemberId", id);
       localStorage.setItem("MemberIDprefix", prefix);
@@ -65,7 +69,7 @@ function MemberID({ state }) {
     return () => {
       dispatch({ type: 'CLEAR_ERROR' });
     };
-  }, [state.Settings.statusCodeMemberID]);
+  }, [state.Settings.statusCodeMemberID])
 
 
   useEffect(() => {
@@ -74,10 +78,7 @@ function MemberID({ state }) {
     }
   }, [state.SignIn.members])
 
-
-
   const handleSave = () => {
-
     let newError = { prefix: "", suffix: "" };
     let hasError = false;
 
@@ -91,19 +92,27 @@ function MemberID({ state }) {
     }
 
     setError(newError);
-    if (!hasError) {
+
+    if (hasError) return;
+    const storedId = localStorage.getItem("MemberID") || "";
+    const storedPrefix = localStorage.getItem("MemberIDprefix") || "";
+    const storedSuffix = localStorage.getItem("MemberIDsuffix") || "";
+
+
+    if (prefix === storedPrefix && suffix === storedSuffix) {
+      setErrorMessage("Prefix and Suffix already exist");
+      return;
+    }
+    else {
+
+      setErrorMessage("");
       const payload = { id, prefix, suffix };
-      
-
-      dispatch({ type: 'SETTINGSMEMBERID', payload });
-
+      dispatch({ type: "SETTINGSMEMBERID", payload });
       localStorage.setItem("MemberIDprefix", prefix);
-      localStorage.setItem("MemberIdsuffix", suffix);
+      localStorage.setItem("MemberIDsuffix", suffix);
+      localStorage.setItem("MemberID", storedId)
     }
   };
-
-
-
 
   useEffect(() => {
     if (state.Settings.error === "Prefix and Suffix already Exist") {
@@ -121,49 +130,49 @@ function MemberID({ state }) {
       <p className="text-lightgray font-Gilroy text-sm font-normal mt-3">
         Set up the prefix and suffix for Member ID
       </p>
-
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
-        <div className="w-[280px]">
-          <label className="block text-sm font-Gilroy font-medium">Prefix</label>
-          <input
-            className="border p-2 text-sm font-Gilroy mt-4 rounded-xl w-full h-14"
-            placeholder="Prefix"
-            value={prefix}
-            onChange={handlePrefix}
-          />
-          {error.prefix && (
-            <div className="flex items-center text-red-500 text-sm mt-1">
-              <MdError className="mr-1 text-sm" />
-              <p >{error.prefix}</p>
-            </div>
-          )}
-        </div>
-        <div className="w-[280px]">
-          <label className="block text-sm font-Gilroy font-medium">Suffix</label>
-          <input
-            className="border p-2 mt-4 text-sm font-Gilroy rounded-xl w-full h-14"
-            placeholder="Suffix"
-            value={suffix}
-            onChange={handleSuffix}
-          />
-          {error.suffix && (
-            <div className="flex items-center text-red-500 text-sm mt-1">
-              <MdError className="mr-1 text-sm" />
-              <p>{error.suffix}</p>
-            </div>
-          )}
-        </div>
-        <div className="w-[280px]">
-          <label className="block text-sm font-Gilroy text-sm font-Gilroy font-medium">Preview</label>
-          <input
-            className="border p-2 rounded-xl mt-4 w-full bg-[#F4F7FF] h-14"
-            placeholder="Preview"
-            value={`${prefix}${suffix}`}
-            disabled
-          />
+      <div className="flex justify-center  lg:justify-start">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1  lg:grid-cols-3 gap-6 ">
+          <div className="w-[280px]">
+            <label className="block text-sm font-Gilroy font-medium">Prefix</label>
+            <input
+              className="border p-2 text-sm font-Gilroy mt-4 rounded-xl w-full h-14"
+              placeholder="Prefix"
+              value={prefix}
+              onChange={handlePrefix}
+            />
+            {error.prefix && (
+              <div className="flex items-center text-red-500 text-sm mt-1">
+                <MdError className="mr-1 text-sm" />
+                <p >{error.prefix}</p>
+              </div>
+            )}
+          </div>
+          <div className="w-[280px]">
+            <label className="block text-sm font-Gilroy font-medium">Suffix</label>
+            <input
+              className="border p-2 mt-4 text-sm font-Gilroy rounded-xl w-full h-14"
+              placeholder="Suffix"
+              value={suffix}
+              onChange={handleSuffix}
+            />
+            {error.suffix && (
+              <div className="flex items-center text-red-500 text-sm mt-1">
+                <MdError className="mr-1 text-sm" />
+                <p>{error.suffix}</p>
+              </div>
+            )}
+          </div>
+          <div className="w-[280px]">
+            <label className="block text-sm font-Gilroy text-sm font-Gilroy font-medium">Preview</label>
+            <input
+              className="border p-2 rounded-xl mt-4 w-full bg-[#F4F7FF] h-14"
+              placeholder="Preview"
+              value={`${prefix}${suffix}`}
+              disabled
+            />
+          </div>
         </div>
       </div>
-
 
       <div className="mt-6 flex justify-end">
         <button onClick={handleSave} className="bg-black text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium">
