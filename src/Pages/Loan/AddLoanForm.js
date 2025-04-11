@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import CloseCircleIcon from '../../Asset/Icons/close-circle.svg';
@@ -10,7 +10,7 @@ import { MdError } from "react-icons/md";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
 import Select from "react-select";
 import { ClipLoader } from "react-spinners";
-import { FaEllipsisH} from "react-icons/fa";
+import { FaEllipsisH } from "react-icons/fa";
 import editIcon from "../../Asset/Icons/edit_blue.svg";
 
 
@@ -22,6 +22,15 @@ function AddLoanForm({ state }) {
 
 
   const [loans, setLoans] = useState(state.Loan?.getLoanTab || []);
+
+  const [editLoanId, setEditLoanId] = useState(null);
+
+
+  useEffect(() => {
+    console.log("Final editLoanId:", editLoanId);
+  }, [editLoanId]);
+
+
 
 
   const loanGetSetting = state;
@@ -64,7 +73,7 @@ function AddLoanForm({ state }) {
 
   const [openMenu, setOpenMenu] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
- 
+  const [formError, setFormError] = useState("");
   const [createFrom, setCreateFrom] = useState()
 
   const handledots = (event, index) => {
@@ -78,22 +87,65 @@ function AddLoanForm({ state }) {
     });
   };
 
-  const handleEditclick = (item,loan) => {
- 
-    
+  const initialEditValues = useRef({});
+
+
+  const handleEditclick = (item, loan, Loan_Id) => {
+  
+    setEditLoanId(Loan_Id)
     setIsModalOpen(true);
     setCreateFrom("edit");
-   
     setOpenMenu(null);
 
-    setMemberId(item.User_Name|| "");
-    setSelectedWitnesses(loan.Witness_Details[0].User_Name || []);
-    setLoanAmount(loan.Loan_Amount || "");
+
+    const selectedMemberOption = options.find(opt => opt.label === item.User_Name);
+
+    const memberValue = selectedMemberOption?.value || "";
+
+    const witnessValues = loan.Witness_Details.map(w => {
+      const match = witnessOptions.find(opt => opt.label === w.User_Name);
+      return match?.value;
+    }).filter(Boolean);
+    setSelectedWitnesses(witnessValues);
+
+    const loanAmt = loan.Loan_Amount || "";
+
+
+    initialEditValues.current = {
+      memberId: memberValue,
+      selectedWitnesses: witnessValues,
+      loanAmount: loanAmt,
+    };
+
+
+    setMemberId(memberValue);
+    setSelectedWitnesses(witnessValues);
+    setLoanAmount(loanAmt);
+
+
   };
+
+  const hasChanges = () => {
+    if (createFrom !== "edit") return true;
+
+    const original = initialEditValues.current;
+
+    return (
+      memberId !== original.memberId ||
+      loanAmount !== original.loanAmount ||
+      JSON.stringify(selectedWitnesses.sort()) !== JSON.stringify(original.selectedWitnesses.sort())
+    );
+  };
+
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!hasChanges()) {
+      setFormError("No changes detected");
+      return;
+    }
 
     let isValid = true;
 
@@ -120,23 +172,37 @@ function AddLoanForm({ state }) {
 
     if (!isValid) return;
 
-
-
     const payload = {
       member_id: parseInt(memberId),
-      widness_ids: selectedWitnesses.length > 0 ? selectedWitnesses : [],
-      loan_amount: parseFloat(loanAmount)
+      widness_ids: selectedWitnesses,
+      loan_amount: parseFloat(loanAmount),
     };
 
+    const Editpayload = {
+      ...payload,
+      id: editLoanId,
+    };
+   
+
     dispatch({
-      type: "LOAN_ADD",
-      payload,
+      type: 'LOAN_ADD',
+      payload: createFrom ? Editpayload : payload,
     });
 
+    setIsModalOpen(false);
+    setCreateFrom("add");
+    setLoanAmount("");
+    setSelectedWitnesses([]);
+    setMemberId("");
+    setEditLoanId(null);
     setLoanAmountError('');
     setWitnessError('');
     setMemberError('');
+    setFormError("");
+
   };
+
+
 
   useEffect(() => {
     setLoans(state?.Loan?.getLoanTab)
@@ -331,7 +397,7 @@ function AddLoanForm({ state }) {
     setLoanAmountError('');
     setWitnessError('');
     setMemberError('');
-
+    setFormError("");
   }
 
   const handleReject = (loan) => {
@@ -623,13 +689,13 @@ function AddLoanForm({ state }) {
         <div>
           <div className="flex items-center  justify-between w-full pl-5 pr-5">
             <p className="font-Gilroy font-semibold text-2xl text-black">Loan Request</p>
-        
+
             <button
               className="bg-black text-white py-3 px-4 rounded-full text-base font-Gilroy font-medium"
               onClick={() => {
                 setIsModalOpen(true);
                 setCreateFrom("create");
-               
+
                 setSelectedWitnesses([]);
                 setMemberId("");
                 setLoanAmount("");
@@ -691,6 +757,7 @@ function AddLoanForm({ state }) {
                     setMemberId(selectedOption ? selectedOption.value : "");
 
                     setMemberError("");
+                    setFormError("");
                   }}
                   options={options}
                   placeholder="Select a member"
@@ -725,6 +792,7 @@ function AddLoanForm({ state }) {
                   onChange={(selectedOptions) => {
                     setSelectedWitnesses(selectedOptions ? selectedOptions.map((opt) => opt.value) : []);
                     setWitnessError("");
+                    setFormError("");
                   }}
                   options={witnessOptions}
                   placeholder="Select witnesses"
@@ -751,7 +819,7 @@ function AddLoanForm({ state }) {
 
                     const value = e.target.value.replace(/[^0-9]/g, "");
                     setLoanAmount(value);
-
+                    setFormError("");
                     setLoanAmountError('');
                   }}
                   type="text"
@@ -766,8 +834,15 @@ function AddLoanForm({ state }) {
                 )}
 
               </div>
+              {formError && (
+                <div className="flex items-center justify-center text-red-500 text-sm mt-6">
+                  <MdError className="mr-1 text-base" />
+                  <p >
+                    {formError}
+                  </p>
+                </div>
+              )}
 
-            
               <button
                 onClick={handleSubmit}
                 className="mt-10 pt-[20px] pr-[40px] pb-[20px] pl-[40px] w-full h-59 bg-black text-white rounded-60 text-base font-Gilroy font-medium"
@@ -786,7 +861,7 @@ function AddLoanForm({ state }) {
 
             <div
               className={`active-loan max-h-[440px] overflow-y-auto p-5 scroll grid ${paginatedActiveLoans?.length > 0
-                ? "gap-6 grid-cols-1 md:grid-cols-2"
+                ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >
@@ -795,6 +870,7 @@ function AddLoanForm({ state }) {
                 paginatedActiveLoans?.map((loan, index) => {
 
                   const selectedMember = members?.find(member => String(member.Id) === String(loan.Member_Id)) || null;
+                  console.log("loan", loan);
 
                   return (loan.Loan_Type === null && loan.Loan_Status !== "Reject") && (
                     <div
@@ -848,7 +924,7 @@ function AddLoanForm({ state }) {
                                 }}
                                 className="absolute  top-10 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-[130px]">
                                 <button
-                                  onClick={() => handleEditclick(selectedMember,loan)}
+                                  onClick={() => handleEditclick(selectedMember, loan, loan.Loan_Id)}
                                   className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy rounded-lg"
                                 >
                                   <img src={editIcon} alt="Edit" className="h-4 w-4" />
@@ -1206,7 +1282,7 @@ function AddLoanForm({ state }) {
 
             <div
               className={`active-loan max-h-[440px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
-                ? "gap-6 grid-cols-1 md:grid-cols-2"
+                ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >
@@ -1372,7 +1448,7 @@ function AddLoanForm({ state }) {
 
             <div
               className={`active-loan max-h-[440px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
-                ? "gap-6 grid-cols-1 md:grid-cols-2"
+                ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >

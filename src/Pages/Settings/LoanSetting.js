@@ -9,6 +9,7 @@ import { MdError } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays } from "lucide-react";
+import EmptyState from '../../Asset/Images/Empty-State.jpg'
 
 function LoanSetting({ state }) {
 
@@ -581,30 +582,44 @@ function LoanSetting({ state }) {
 
       )}
       <div className="mt-5 max-h-[300px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {currentLoans?.map((loan, index) => (
-          <div key={index} className="w-full max-w-sm h-[200px] bg-[#F4F7FF] flex flex-col rounded-3xl mx-auto">
-            <div className="flex items-center px-4 py-4">
-              <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
-              <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
-                {loan.Loan_Name}
-              </p>
-              <div className="flex-grow"></div>
-              <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
+        {currentLoans && currentLoans.length > 0 ? (
+          currentLoans.map((loan, index) => (
+            <div key={index} className="w-full max-w-sm h-[200px] bg-[#F4F7FF] flex flex-col rounded-3xl mx-auto">
+              <div className="flex items-center px-4 py-4">
+                <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
+                <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
+                  {loan.Loan_Name}
+                </p>
+                <div className="flex-grow"></div>
+                <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
+              </div>
+
+              <div className="w-[90%] mx-auto border-t border-[#E7E7E7]"></div>
+
+              <div className="flex justify-between w-[90%] mx-auto px-2 pt-5">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
+                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
+              </div>
+
+              <div className="flex justify-between w-[90%] mx-auto px-2 pt-5">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
+                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full flex flex-col items-center justify-center h-[300px]">
+
+            <div className="w-64 h-64">
+              <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
             </div>
 
-            <div className="w-[90%] mx-auto border-t border-[#E7E7E7]"></div>
-
-            <div className="flex justify-between w-[90%] mx-auto px-2 pt-5">
-              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
-              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
-            </div>
-
-            <div className="flex justify-between w-[90%] mx-auto px-2 pt-5">
-              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
-              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
-            </div>
+            <p className="text-violet-600 text-lg text-center font-Gilroy">
+              No Data Found
+            </p>
           </div>
-        ))}
+        )}
+
       </div>
 
 

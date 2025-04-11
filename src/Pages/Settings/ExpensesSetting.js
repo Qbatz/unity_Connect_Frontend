@@ -6,6 +6,7 @@ import ThreeDotMore from "../../Asset/Icons/ThreeDotMore.svg";
 import CloseCircleIcon from "../../Asset/Icons/close-circle.svg";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
+import EmptyState from '../../Asset/Images/Empty-State.jpg'
 
 function ExpensesSetting({ state }) {
 
@@ -293,7 +294,8 @@ function ExpensesSetting({ state }) {
 
 
       <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {currentExpenses.map((category, index) => (
+      {currentExpenses && currentExpenses.length > 0 ? (
+        currentExpenses.map((category, index) => (
           <div
             key={index}
             className="w-full max-w-[330px] h-[180px] bg-[#F4F7FF] flex flex-col rounded-3xl mx-auto"
@@ -325,7 +327,19 @@ function ExpensesSetting({ state }) {
               ))}
             </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <div className="col-span-full flex flex-col items-center justify-center h-[300px]">
+
+          <div className="w-64 h-64">
+            <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+          </div>
+
+          <p className="text-violet-600 text-lg text-center font-Gilroy">
+            No Data Found
+          </p>
+        </div>
+      )}
       </div>
 
 

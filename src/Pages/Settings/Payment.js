@@ -16,9 +16,9 @@ const Payment = () => {
 
       <div>
 
-        <div className="border border-purple-600 rounded-2xl p-4 flex justify-between items-center shadow-md mt-4">
-          <div className="flex items-center gap-4">
-            <img src={paymenticon} className="mt-[-35px]" alt="Payment Icon" />
+        <div className="border border-purple-600 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center shadow-md mt-4">
+          <div className="flex items-start sm:items-center gap-4 w-full">
+          <img src={paymenticon} className="mt-1 w-10 h-10" alt="Payment Icon" />
             <div>
               <p className="text-black font-semibold font-Gilroy text-base">
                 Bank account ending in 2456
@@ -40,7 +40,7 @@ const Payment = () => {
             </div>
           </div>
 
-          <div className="flex items-center space-x-1 mt-[-60px]">
+          <div className="flex items-center space-x-1 mt-4 sm:mt-0">
             <img src={Tick} alt="tick" className="w-4 h-4" />
             <span className="text-green-600 font-semibold font-Gilroy text-base">
               Primary account
@@ -50,9 +50,9 @@ const Payment = () => {
         </div>
 
 
-        <div className="border border-gray-300 rounded-2xl p-4 flex justify-between items-center shadow-md mt-12">
-          <div className="flex items-center gap-4">
-            <img src={paymenticon} className="mt-[-35px]" alt="Payment Icon" />
+        <div className="border border-gray-300 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center shadow-md mt-8">
+          <div className="flex items-start sm:items-center gap-4 w-full">
+          <img src={paymenticon} className="mt-1 w-10 h-10" alt="Payment Icon" />
             <div>
               <p className="text-black font-semibold font-Gilroy text-base">
                 Bank account ending in 4566
@@ -82,7 +82,7 @@ const Payment = () => {
 
 
         <div className="mt-6 flex justify-end">
-          <button className="bg-lightgray text-white py-4 px-8 rounded-full text-base font-Gilroy font-medium">
+          <button className="bg-lightgray text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium w-full sm:w-auto">
             Save changes
           </button>
         </div>
