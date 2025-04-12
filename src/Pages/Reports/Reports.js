@@ -275,7 +275,7 @@ function ReportsTab({ state }) {
           <div className="flex flex-col lg:flex-row gap-6 mt-8">
 
             <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full w-1/2">
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex flex-col md:flex-row md:justify-between items-center md:items-center gap-3 mb-4">
                 <h2 className="text-lg font-semibold leading-[100%] tracking-[0%] font-Gilroy flex items-center gap-2">
                   <img src={paymentreceived} alt='paymentreceived' className="h-[24px] w-[24px]" />
                   Payments Received
@@ -442,7 +442,7 @@ function ReportsTab({ state }) {
             </div>
 
             <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full w-1/2">
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex flex-col md:flex-row md:justify-between items-center md:items-center gap-3 mb-4">
                 <h2 className="text-lg xs:text-xs font-semibold font-Gilroy flex items-center gap-2">
                   <img src={unsuccessfullpayment} alt='unsuccesfullpayment' className="h-[24px] w-[24px]" />
                   Unsuccessful Payments

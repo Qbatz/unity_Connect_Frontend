@@ -690,17 +690,16 @@ function AddLoanForm({ state }) {
     <>
       <div className="container mx-auto mt-5 p-4 ">
         <div>
-          <div className="flex items-center  justify-between w-full pl-5 pr-5">
-            <p className="font-Gilroy font-semibold text-2xl text-black">Loan Request</p>
-
+          <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between w-full px-4 sm:px-5 gap-3 sm:gap-0">
+            <p className="font-Gilroy font-semibold text-2xl text-black">
+              Loan Request
+            </p>
 
             <button
               className="bg-black text-white py-3 px-4 rounded-full text-base font-Gilroy font-medium"
               onClick={() => {
                 setIsModalOpen(true);
                 setCreateFrom("create");
-
-
                 setSelectedWitnesses([]);
                 setMemberId("");
                 setLoanAmount("");
@@ -708,32 +707,35 @@ function AddLoanForm({ state }) {
             >
               + Create Request
             </button>
-
           </div>
+
         </div>
 
-        <div data-testid='Loans-tab' className="mt-5 pl-5 pr-5 flex overflow-x-auto whitespace-nowrap flex-nowrap gap-10 scrollbar-hide">
+        <div
+          data-testid="Loans-tab"
+          className="mt-5 px-4 sm:px-5 flex flex-col sm:flex-row overflow-x-auto sm:overflow-visible whitespace-nowrap sm:whitespace-normal gap-4 sm:gap-10"
+        >
           {["Active loan", "Approved loan", "Rejected loan"].map((tab, index) => (
             <button
               data-testid={`button-tab-${index}`}
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${activeTab === tab ? "text-black font-medium" : "text-[#939393]"
+              className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative ${activeTab === tab ? "text-black font-medium" : "text-[#939393]"
                 }`}
             >
               {tab}
               <span
-                className={`container absolute left-1/2 bottom-0 h-[2px] lg:w-[130px] 
-          transition-all transform -translate-x-1/2 ${activeTab === tab ? "bg-black" : "bg-transparent"}
-        `}
+                className={`absolute left-1/2 bottom-0 h-[2px] w-[100px] sm:w-[130px] transform -translate-x-1/2 transition-all ${activeTab === tab ? "bg-black" : "bg-transparent"
+                  }`}
               ></span>
             </button>
           ))}
         </div>
 
+
         {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white w-464 rounded-40 p-6 shadow-lg transition-all duration-300">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+            <div className="bg-white w-full sm:w-[90%] md:w-[80%] lg:w-[464px] rounded-2xl p-6 shadow-lg transition-all duration-300 max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold font-Gilroy">
                   {createFrom === "edit" ? "Edit a loan request" : "Add a loan request"}
@@ -883,7 +885,7 @@ function AddLoanForm({ state }) {
                       className="w-full  bg-[#F4F7FF] flex flex-col rounded-2xl p-4 shadow-md"
                     >
 
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col xs:flex-row items-center justify-between">
                         <div className="flex items-center">
                           <img
                             src={img1}
@@ -982,15 +984,14 @@ function AddLoanForm({ state }) {
 
 
 
-                      <div className="mt-10 flex items-center justify-between">
-                        <div className="font-Gilroy font-medium text-base text-[#222222] cursor-pointer"
+                      <div className="mt-10 flex flex-row max-[370px]:flex-col items-center justify-between gap-4 max-[370px]:gap-4">
+                        <div className="font-Gilroy font-medium text-base text-[#222222] cursor-pointer max-[370px]:w-fullter"
                           onClick={() => handleAddNewWitness(loan)}
                         >+ Add witness</div>
 
 
-                        <div className="flex gap-3">
-                          <button className="border border-black text-[#222222] py-3 px-8 rounded-full text-base font-Gilroy
-                           font-medium cursor-pointer "
+                        <div className="flex sm:flex-row flex-col max-[370px]:w-full gap-3">
+                          <button className="w-full sm:w-auto border border-black text-[#222222] py-3 px-6 rounded-full text-base font-Gilroy font-medium cursor-pointer "
 
                             onClick={() => {
                               setisRejectPopupOpen(true);
@@ -1002,7 +1003,7 @@ function AddLoanForm({ state }) {
 
 
 
-                          <button className="bg-black text-white py-3 px-8 rounded-full text-base font-Gilroy font-medium cursor-pointer"
+                          <button className="w-full sm:w-auto bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium cursor-pointer"
 
                             onClick={() => handleApproval(loan, selectedMember)}
                           >
@@ -1102,7 +1103,7 @@ function AddLoanForm({ state }) {
 
 
         {isWitnessModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999] p-4">
             <div className="bg-white w-[400px] rounded-2xl p-6 shadow-lg">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold font-Gilroy">Add New  Witnesses</h2>
@@ -1127,7 +1128,7 @@ function AddLoanForm({ state }) {
                   value={NewwitnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
 
                   onChange={(selectedOptions) => {
-                    setSelectedWitnesses(selectedOptions.map((opt) => opt.value)); // This ensures removal works
+                    setSelectedWitnesses(selectedOptions.map((opt) => opt.value)); 
                     setWitnessError("");
                   }}
 
@@ -1302,7 +1303,7 @@ function AddLoanForm({ state }) {
                       className="w-full  bg-[#F4F7FF] flex flex-col rounded-2xl p-4 shadow-md"
                     >
 
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col xs:flex-row items-center justify-between">
                         <div className="flex items-center">
                           <img
                             src={img1}
@@ -1322,7 +1323,7 @@ function AddLoanForm({ state }) {
                         </div>
 
                         <p
-                          style={{ marginTop: '-30px' }}
+                          style={{ marginTop: '' }}
                           className="text-black font-semibold text-base font-Gilroy"
                         >
                           Loan amount: ₹{loan.Approved_Amount ? Number(loan.Approved_Amount).toLocaleString('en-IN') : "0"}
@@ -1468,7 +1469,7 @@ function AddLoanForm({ state }) {
                       className="w-full  bg-[#F4F7FF] flex flex-col rounded-2xl p-4 shadow-md"
                     >
 
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col xs:flex-row items-center justify-between">
                         <div className="flex items-center">
                           <img
                             src={img1}
@@ -1488,7 +1489,7 @@ function AddLoanForm({ state }) {
                         </div>
 
 
-                        <p style={{ marginTop: '-30px' }} className="text-black font-semibold text-base font-Gilroy font-semibold">
+                        <p style={{ marginTop: '' }} className="text-black font-semibold text-base font-Gilroy font-semibold">
 
                           Loan amount: ₹{loan.Loan_Amount ? Number(loan.Loan_Amount).toLocaleString('en-IN') : "0"}
                         </p>
@@ -1552,7 +1553,7 @@ function AddLoanForm({ state }) {
 
             </div>
             {paginatedRejectedLoans.length > 0 && (
-              <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+              <div className="fixed bottom-0 left-0 w-full px-4 py-3 bg-white shadow-md z-50">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                     }`}

@@ -107,7 +107,10 @@ module.exports = {
         'lightgray' :'#939393',
         
 
-      }
+      },
+      screens: {
+        'xs': '430px',
+      },
     },
   },
   plugins: [],
