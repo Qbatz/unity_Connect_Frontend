@@ -130,9 +130,9 @@ function MemberID({ state }) {
       <p className="text-lightgray font-Gilroy text-sm font-normal mt-3">
         Set up the prefix and suffix for Member ID
       </p>
-      <div className="flex justify-center  lg:justify-start">
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1  lg:grid-cols-3 gap-6 ">
-          <div className="w-[280px]">
+      <div className="mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="w-full">
             <label className="block text-sm font-Gilroy font-medium">Prefix</label>
             <input
               className="border p-2 text-sm font-Gilroy mt-4 rounded-xl w-full h-14"
@@ -147,7 +147,7 @@ function MemberID({ state }) {
               </div>
             )}
           </div>
-          <div className="w-[280px]">
+          <div className="w-full">
             <label className="block text-sm font-Gilroy font-medium">Suffix</label>
             <input
               className="border p-2 mt-4 text-sm font-Gilroy rounded-xl w-full h-14"
@@ -162,7 +162,7 @@ function MemberID({ state }) {
               </div>
             )}
           </div>
-          <div className="w-[280px]">
+          <div className="w-full">
             <label className="block text-sm font-Gilroy text-sm font-Gilroy font-medium">Preview</label>
             <input
               className="border p-2 rounded-xl mt-4 w-full bg-[#F4F7FF] h-14"

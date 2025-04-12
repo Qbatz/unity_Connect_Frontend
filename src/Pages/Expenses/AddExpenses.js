@@ -266,8 +266,8 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
-            <div className="bg-white w-full max-w-2xl p-6 rounded-2xl shadow-lg relative">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999] p-4 sm:p-6">
+            <div className="bg-white w-full max-w-2xl p-4 sm:p-6 rounded-2xl shadow-lg relative overflow-y-auto max-h-[95vh]">
 
                 <button
                     className="absolute top-4 right-4 text-gray-500 hover:text-black"
@@ -277,14 +277,14 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                 </button>
 
 
-                <h2 className="text-xl font-semibold text-gray-800 text-left font-Gilroy">
+                <h2 className="text-xl font-semibold text-gray-800 text-left font-Gilroy mt-2 sm:mt-0">
                     {expensesdata ? "Edit an expense" : "Add an expense"}
                 </h2>
                 <div className="border-b mt-4"></div>
 
 
-                <div className="mt-2 space-y-3">
-                    <div className="grid grid-cols-2 gap-4">
+                <div className=" space-y-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block  mb-2 font-Gilroy">
                                 Merchant Name <span className="text-red-500 text-[20px]">*</span>
@@ -379,7 +379,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block  font-Gilroy">
                                 Sub Category <span className="text-red-500 text-[20px]"></span>
@@ -504,7 +504,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                     </div>
 
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block  mb-2 font-Gilroy">
                                 Expense date <span className="text-red-500 text-[20px]">*</span>

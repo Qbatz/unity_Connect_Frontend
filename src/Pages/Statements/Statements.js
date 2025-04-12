@@ -4,9 +4,6 @@ import { useDispatch, connect } from "react-redux";
 import { FiMoreVertical } from "react-icons/fi";
 import PropTypes from 'prop-types';
 import ProfileIcon from '../../Asset/Icons/ProfileIcon.svg';
-// import editIcon from "../../Asset/Icons/edit_blue.svg";
-// import trashRed from "../../Asset/Icons/trashRed.svg";
-// import RecordPayment from "../../Asset/Icons/RecordPayment.svg";
 import moment from "moment";
 import { ClipLoader } from "react-spinners";
 import { MdSort } from "react-icons/md";
@@ -79,44 +76,45 @@ function Statement({ state }) {
 
   return (
     <div className="p-8">
-      <p className="font-Gilroy font-medium text-sm md:text-2xl mb-4 mt-1 ml-12 lg:ml-1 text-gray-700">Statements</p>
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <p className="font-Gilroy font-medium text-sm md:text-2xl mb-4 mt-1 ml-12 lg:ml-1 text-gray-700">Statements</p>
 
 
-      <div className="flex items-center justify-between mb-4">
-        <div className="font-Gilroy text-base px-2 md:px-4  text-gray-900 mb-3 lg:-ml-2.5">Loan statement</div>
+        <div className="flex items-center justify-between mb-4 px-4 sm:px-0">
+          <div className="font-Gilroy text-base px-2 md:px-4  text-gray-900 mb-3 lg:-ml-2.5">Loan statement</div>
 
-        <div className="relative right-14" ref={popupRef}>
-          <button
-            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-            className=" p-1 font-Gilroy rounded-full border border-gray-300 bg-[#F2F4F8]"
-          >
+          <div className="relative " ref={popupRef}>
+            <button
+              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+              className=" p-1 font-Gilroy rounded-full border border-gray-300 bg-[#F2F4F8]"
+            >
 
-            <MdSort size={30} />
+              <MdSort size={30} />
 
 
-          </button>
+            </button>
 
-          {showFilterDropdown && (
-            <div className="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-md z-50">
-              {["All", "Paid", "Unpaid"].map(option => (
-                <button
-                  key={option}
-                  onClick={() => {
-                    setFilterStatus(option);
-                    setShowFilterDropdown(false);
-                  }}
-                  className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-Gilroy ${filterStatus === option ? "bg-blue-100 font-semibold" : ""
-                    }`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          )}
+            {showFilterDropdown && (
+              <div className="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-md z-50">
+                {["All", "Paid", "Unpaid"].map(option => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setFilterStatus(option);
+                      setShowFilterDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-Gilroy ${filterStatus === option ? "bg-blue-100 font-semibold" : ""
+                      }`}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
         </div>
-
       </div>
-
       <div>
         {currentStatement.length === 0 ? (
           <div className="flex flex-col items-center justify-center">
@@ -183,26 +181,7 @@ function Statement({ state }) {
                           <FiMoreVertical size={16} />
                         </button>
 
-                        {/* {menuOpen === index && (
-                          <div  
-                            ref={popupRef}
-                            className={`absolute right-20 my-auto ${index === 0 ? "top-full" : "bottom-full"} bg-white border border-gray-200 rounded-lg shadow-lg z-50 w-[180px]`} >
-                            <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
-                              <img src={RecordPayment} alt="Record Payment" className="h-4 w-4" />
-                              Record Payment
-                            </button>
-                            <button className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy border-b border-gray-200">
-                              <img src={editIcon} alt="Edit" className="h-4 w-4" />
-                              Edit
-                            </button>
-                            <button className="flex items-center gap-2 w-full px-3 py-2 text-red-600 font-Gilroy">
-                              <img src={trashRed} alt="Delete" className="h-4 w-4" />
-                              Delete
-                            </button>
-                          </div>
-                        )} */}
-
-
+                       
                       </td>
                     </tr>
                   )

@@ -34,7 +34,7 @@ function ExpensesList({ state }) {
 
     const ExpensesList = state.Expenses.getexpenses || [];
 
-    const totalExpense = state.Expenses.totalExpense;
+   
 
     const { RangePicker } = DatePicker;
     const [dates, setDates] = useState([]);
@@ -178,30 +178,27 @@ function ExpensesList({ state }) {
         <>
             <div className="p-4">
 
+                <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-0 mb-4">
+               
+                    <h2 className="text-2xl font-semibold font-Gilroy px-6 sm:px-0">Expenses</h2>
 
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-semibold font-Gilroy p-6">Expenses</h2>
-                    <div className="flex items-center gap-3">
-                        <div className="bg-white px-4 py-2 mr-2 font-Gilroy rounded-md shadow-md border border-gray-200 text-sm font-semibold text-gray-800">
-                            Total Expense : ₹{totalExpense}
-                        </div>
-
-
-                        <div className="relative">
+                  
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 sm:px-0">
+                        <div className="relative w-full sm:w-auto">
                             <RangePicker
                                 value={dates}
                                 onChange={onChange}
                                 format="DD MMM YYYY"
                                 allowClear
                                 placeholder={['Start date', 'End date']}
-                                className="rounded-full shadow-md px-4 py-2 border border-gray-300 bg-[#F2F4F8] text-black font-Gilroy"
+                                className="w-full sm:w-auto rounded-full shadow-md px-4 py-2 border border-gray-300 bg-[#F2F4F8] text-black font-Gilroy"
                                 suffixIcon={<CalendarDays size={16} className="text-gray-600" />}
                                 popupClassName="!z-50"
                             />
                         </div>
 
                         <button
-                            className="bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium mr-4"
+                            className="w-full sm:w-auto bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium"
                             onClick={handleClickExpenses}
                         >
                             + Add an expense
