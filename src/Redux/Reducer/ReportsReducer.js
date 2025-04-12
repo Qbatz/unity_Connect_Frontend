@@ -3,14 +3,22 @@ export const initialState = {
     unsuccessreport: [],
     statusCodeSuccess: 0,
     statusCodeUnSuccess: 0,
+    total_Received_Amount: ''
+   
+
 };
 
 const ReportReducer = (state = initialState, action) => {
+    console.log("action",action.payload);
+    
+    
     switch (action.type) {
  
        case "SUCCESSREPORT":
             return {
-                ...state, successreport: action.payload.response.data, statusCodeSuccess: action.payload.statusCode };
+                ...state, successreport: action.payload.response.data,
+                total_Received_Amount: action.payload.total_Received_Amount,
+                 statusCodeSuccess: action.payload.statusCode };
         case 'CLEAR_STATUS_CODE_SUCCESSREPORT':
             return { ...state, statusCodeSuccess: 0 }
 

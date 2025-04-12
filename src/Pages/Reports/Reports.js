@@ -20,6 +20,9 @@ function ReportsTab({ state }) {
   const dispatch = useDispatch();
 
   const Success = state.Report.successreport || [];
+  const totalAmount = state.Report.total_Received_Amount;
+
+
   const UnSuccess = state.Report.unsuccessreport || [];
   const dropdownRef1 = useRef(null);
   const dropdownRef2 = useRef(null);
@@ -287,7 +290,7 @@ function ReportsTab({ state }) {
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
-                 
+
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
                     onClick={() => window.open(SuccesspdfURL, "_blank")}
@@ -295,7 +298,12 @@ function ReportsTab({ state }) {
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
 
+                  <div className="bg-white px-4 py-2 mr-2 font-Gilroy rounded-md shadow-md border border-gray-200 text-sm font-semibold text-gray-800">
+                    Total Amout: ₹{totalAmount}
+                  </div>
+
                 </div>
+
 
                 <div ref={dropdownRef2} className="relative" >
                   <button
@@ -425,7 +433,7 @@ function ReportsTab({ state }) {
                           +₹{report.Amount.toLocaleString('en-IN')}
                         </p>
                         <p className="text-[#939393] text-xs font-Gilroy">
-                          {new Date(report.Transaction_Date).toLocaleDateString("en-GB", {
+                          {new Date(report.Created_At).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",
                             year: "numeric",

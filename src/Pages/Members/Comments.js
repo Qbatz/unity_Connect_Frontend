@@ -11,14 +11,7 @@ function CommentSection({ state, member }) {
   const [comment, setComment] = useState("");
   const [localComments, setLocalComments] = useState([]);
 
-
-
-
-
   const commentSectionRef = useRef(null);
-
-
-
 
   useEffect(() => {
 
@@ -101,7 +94,7 @@ function CommentSection({ state, member }) {
 
 
 
-      <div className="fixed bottom-6 left-[260px] right-4 z-50 px-6 py-4"> {/* Adjust left based on sidebar width */}
+      <div className="fixed bottom-6 lg:left-[260px] sm:left-[40px] xs:left-[0px] md:left-[300px] right-4 z-50 px-6 py-4"> {/* Adjust left based on sidebar width */}
         <div className="flex items-center bg-white rounded-lg px-4 py-2 border border-gray-200 h-[70px]">
           <input
             type="text"

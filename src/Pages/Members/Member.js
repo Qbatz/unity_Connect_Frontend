@@ -33,8 +33,14 @@ const Members = () => {
     setLoading(true);
 
     dispatch({ type: 'MEMBERLIST' });
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
 
   }, []);
+
+
 
 
   return (

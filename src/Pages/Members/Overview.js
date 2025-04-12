@@ -4,18 +4,14 @@ import { BsThreeDots } from "react-icons/bs";
 import call from "../../Asset/Icons/call.svg";
 import sms from "../../Asset/Icons/sms.svg";
 import building from "../../Asset/Icons/buildings.svg";
-import calender from '../../Asset/Icons/calendar-tick.svg';
-import profile from '../../Asset/Icons/profile.svg';
-import PropTypes from 'prop-types';
+import calender from "../../Asset/Icons/calendar-tick.svg";
+import profile from "../../Asset/Icons/profile.svg";
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FaFileExcel, FaFilePdf } from "react-icons/fa"
+import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 
 function Overview({ member }) {
-
-
   const dispatch = useDispatch();
-
-
   const isApiCalled = useRef(false);
 
   useEffect(() => {
@@ -29,49 +25,50 @@ function Overview({ member }) {
   }, [member?.Id]);
 
   return (
-    <div className="mt-6 px-4 md:px-0">
+    <div className="mt-6 px-4 sm:px-6 md:px-4 lg:px-2" >
+      <div className="flex flex-col md:flex-row gap-6">
 
-      <div className="flex flex-col gap-6 md:flex-row">
 
-
-        <div className="member-card bg-blue-50 p-4 md:p-6 rounded-2xl w-full md:w-1/2 shadow-md">
-          <div className="flex justify-between items-center mb-4 border-b">
-            <h3 className="text-lg font-semibold font-Gilroy mb-4">Basic Information</h3>
+        <div className="bg-blue-50 p-4 md:p-6 rounded-2xl w-full md:w-1/2 shadow-md">
+          <div className="flex justify-between items-center mb-4 border-b pb-2">
+            <h3 className="text-lg font-semibold font-Gilroy">Basic Information</h3>
             <BsThreeDots className="text-gray-500 cursor-pointer" />
           </div>
 
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-sm text-gray-700">
+
             <div className="flex flex-col">
               <span className="text-gray-500 text-xs font-medium mb-2 font-Gilroy">Subscription</span>
               <div className="flex items-center gap-2">
-                <img src={calender} alt="calender" className="w-5 h-5" />
+                <img src={calender} alt="calendar" className="w-5 h-5" />
                 <span className="text-gray-800 text-sm font-semibold font-Gilroy">Since April 2024</span>
               </div>
             </div>
+
 
             <div className="flex flex-col">
               <span className="text-gray-500 text-xs font-medium mb-2 font-Gilroy">Status</span>
               <div className="flex items-center gap-2">
                 <img src={profile} alt="profile" className="w-5 h-5" />
-                <span className="text-green-800 text-sm font-Gilroy font-semibold font-Gilroy">{member?.Status}</span>
-
+                <span className="text-green-800 text-sm font-semibold font-Gilroy">{member?.Status}</span>
               </div>
             </div>
+
 
             <div className="flex flex-col">
               <span className="text-gray-500 text-xs font-medium mb-2 font-Gilroy">Email</span>
               <div className="flex items-center gap-2">
                 <img src={sms} alt="sms" className="w-5 h-5" />
-                <span className="text-gray-800 text-sm font-semibold truncate font-Gilroy">{member?.Email_Id}</span>
+                <span className="text-gray-800 text-sm font-semibold break-all font-Gilroy">{member?.Email_Id}</span>
               </div>
             </div>
+
 
             <div className="flex flex-col">
               <span className="text-gray-500 text-xs font-medium mb-2 font-Gilroy">Mobile No</span>
               <div className="flex items-center gap-2">
                 <img src={call} alt="call" className="w-5 h-5" />
-                <span className="text-gray-800 text-sm font-semibold font-Gilroy">+91{" "}{member?.Mobile_No}</span>
+                <span className="text-gray-800 text-sm font-semibold font-Gilroy">+91 {member?.Mobile_No}</span>
               </div>
             </div>
           </div>
@@ -79,9 +76,9 @@ function Overview({ member }) {
 
           <div className="mt-4">
             <span className="text-gray-500 text-xs font-medium mb-2 font-Gilroy">Address</span>
-            <div className="flex items-center gap-2">
-              <img src={building} alt="building" className="w-5 h-5" />
-              <span className="text-gray-800 text-sm font-semibold truncate font-Gilroy">
+            <div className="flex items-start gap-2">
+              <img src={building} alt="building" className="w-5 h-5 mt-0.5" />
+              <span className="text-gray-800 text-sm font-semibold break-words font-Gilroy">
                 {member?.Address}
               </span>
             </div>
@@ -89,23 +86,27 @@ function Overview({ member }) {
         </div>
 
 
-        <div className="member-card bg-blue-50 p-4 rounded-2xl shadow-lg w-full md:w-1/2">
-          <div className="flex justify-between items-center mb-4 border-b">
-            <h3 className="text-lg font-semibold mb-4">Documents</h3>
+        <div className="bg-blue-50 p-4 md:p-6 rounded-2xl w-full md:w-1/2 shadow-md">
+          <div className="flex justify-between items-center mb-4 border-b pb-2">
+            <h3 className="text-lg font-semibold font-Gilroy">Documents</h3>
             <BsThreeDots className="text-gray-500 cursor-pointer" />
           </div>
 
-
-
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center min-h-[100px]">
             {member?.Document_Url ? (
               (() => {
                 const fileUrl = member.Document_Url;
-                const fileExtension = fileUrl.split('.').pop().toLowerCase();
+                const fileExtension = fileUrl.split(".").pop().toLowerCase();
 
-                if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(fileExtension)) {
-                  return <img src={fileUrl} alt="Document" className="w-[100px]" />;
-                } else if (fileExtension === 'pdf') {
+                if (["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(fileExtension)) {
+                  return (
+                    <img
+                      src={fileUrl}
+                      alt="Document"
+                      className="w-[100px] h-auto object-contain"
+                    />
+                  );
+                } else if (fileExtension === "pdf") {
                   return (
                     <a
                       href={fileUrl}
@@ -117,7 +118,7 @@ function Overview({ member }) {
                       <span className="text-sm mt-2">PDF Document</span>
                     </a>
                   );
-                } else if (['xls', 'xlsx', 'csv'].includes(fileExtension)) {
+                } else if (["xls", "xlsx", "csv"].includes(fileExtension)) {
                   return (
                     <a
                       href={fileUrl}
@@ -130,22 +131,20 @@ function Overview({ member }) {
                     </a>
                   );
                 } else {
-                  return <span className="text-gray-500 text-sm">Unsupported file format</span>;
+                  return (
+                    <span className="text-gray-500 text-sm">Unsupported file format</span>
+                  );
                 }
               })()
             ) : (
               <p className="text-gray-500 text-sm">No Document Available</p>
             )}
           </div>
-
-
         </div>
       </div>
     </div>
   );
 }
-
-
 
 Overview.propTypes = {
   member: PropTypes.object,

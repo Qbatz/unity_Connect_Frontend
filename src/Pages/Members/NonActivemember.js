@@ -66,8 +66,8 @@ function NonActiveMember({ state, loading, setLoading }) {
   }, [state.Member.statusCodeMemberList])
 
 
- useEffect(() => {
-   
+  useEffect(() => {
+
 
     dispatch({ type: 'MEMBERLIST' });
 
@@ -85,6 +85,7 @@ function NonActiveMember({ state, loading, setLoading }) {
 
   useEffect(() => {
     if (state.Member.statusCodeMemberList === 201) {
+      setLoading(false);
 
       setNonActiveMemberData([])
     }
@@ -186,7 +187,7 @@ function NonActiveMember({ state, loading, setLoading }) {
         ) : (
           <>
 
-            <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
               {paginatedData?.map((member, index) => (
                 <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
 
