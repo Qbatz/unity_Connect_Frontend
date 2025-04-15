@@ -18,7 +18,7 @@ const Payment = () => {
 
         <div className="border border-purple-600 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center shadow-md mt-4">
           <div className="flex items-start sm:items-center gap-4 w-full">
-          <img src={paymenticon} className="mt-1 w-10 h-10" alt="Payment Icon" />
+            <img src={paymenticon} className="mt-1 w-10 h-10" alt="Payment Icon" />
             <div>
               <p className="text-black font-semibold font-Gilroy text-base">
                 Bank account ending in 2456
@@ -26,17 +26,18 @@ const Payment = () => {
               <p className="text-gray-500 text-sm font-Gilroy font-medium mt-1">
                 IFSC code: SBIN004578945
               </p>
-              <div className="flex gap-4  text-sm mt-4">
-                <span className="cursor-pointer text-purple-400 font-Gilroy font-medium text-sm">
+              <div className="flex flex-wrap gap-4 text-purple-600 text-sm mt-4">
+                <span className="cursor-pointer font-Gilroy font-semibold hover:underline">
                   Set as default
                 </span>
-                <span className="cursor-pointer text-purple-600 font-Gilroy text-sm font-semibold">
+                <span className="cursor-pointer font-Gilroy font-semibold hover:underline">
                   Edit
                 </span>
-                <span className="cursor-pointer text-purple-400 font-Gilroy font-medium text-sm">
+                <span className="cursor-pointer font-Gilroy font-semibold hover:underline text-red-500">
                   Remove
                 </span>
               </div>
+
             </div>
           </div>
 
@@ -52,7 +53,7 @@ const Payment = () => {
 
         <div className="border border-gray-300 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center shadow-md mt-8">
           <div className="flex items-start sm:items-center gap-4 w-full">
-          <img src={paymenticon} className="mt-1 w-10 h-10" alt="Payment Icon" />
+            <img src={paymenticon} className="mt-1 w-10 h-10" alt="Payment Icon" />
             <div>
               <p className="text-black font-semibold font-Gilroy text-base">
                 Bank account ending in 4566
@@ -60,17 +61,18 @@ const Payment = () => {
               <p className="text-gray-500 text-sm font-Gilroy font-medium mt-1">
                 IFSC code: SBIN004578748
               </p>
-              <div className="flex gap-4 text-purple-600 text-sm mt-4">
-                <span className="cursor-pointer font-Gilroy font-semibold text-sm">
+              <div className="flex flex-wrap gap-4 text-purple-600 text-sm mt-4">
+                <span className="cursor-pointer font-Gilroy font-semibold hover:underline">
                   Set as default
                 </span>
-                <span className="cursor-pointer font-Gilroy text-sm font-semibold">
+                <span className="cursor-pointer font-Gilroy font-semibold hover:underline">
                   Edit
                 </span>
-                <span className="cursor-pointer font-Gilroy font-semibold text-sm">
+                <span className="cursor-pointer font-Gilroy font-semibold hover:underline text-red-500">
                   Remove
                 </span>
               </div>
+
             </div>
           </div>
         </div>

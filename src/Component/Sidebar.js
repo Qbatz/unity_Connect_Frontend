@@ -113,7 +113,7 @@ const Sidebar = ({ state }) => {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto pt-4 px-2 ">
+      <div className="flex-1 overflow-y-auto pt-2 px-2 ">
         {activeMenu === "Dashboard" && (
           <div data-testid='div-dashboard' className="bg-white mt-2" ></div>
         )}

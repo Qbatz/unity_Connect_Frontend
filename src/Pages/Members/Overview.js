@@ -25,11 +25,11 @@ function Overview({ member }) {
   }, [member?.Id]);
 
   return (
-    <div className="mt-6 px-4 sm:px-6 md:px-4 lg:px-2" >
+    <div className="mt-6 px-2 sm:px-2 md:px-4 lg:px-2" >
       <div className="flex flex-col md:flex-row gap-6">
 
 
-        <div className="bg-blue-50 p-4 md:p-6 rounded-2xl w-full md:w-1/2 shadow-md">
+        <div className="bg-blue-50 p-2 md:p-2 rounded-2xl w-full md:w-1/2 shadow-md">
           <div className="flex justify-between items-center mb-4 border-b pb-2">
             <h3 className="text-lg font-semibold font-Gilroy">Basic Information</h3>
             <BsThreeDots className="text-gray-500 cursor-pointer" />
@@ -76,7 +76,7 @@ function Overview({ member }) {
 
           <div className="mt-4">
             <span className="text-gray-500 text-xs font-medium mb-2 font-Gilroy">Address</span>
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-2 flex-wrap sm:flex-nowrap">
               <img src={building} alt="building" className="w-5 h-5 mt-0.5" />
               <span className="text-gray-800 text-sm font-semibold break-words font-Gilroy">
                 {member?.Address}

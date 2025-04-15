@@ -247,8 +247,9 @@ function LoanSetting({ state }) {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold font-Gilroy">Add new loan</h2>
               <img
-                alt="Close Circle icon"
                 src={CloseCircleIcon}
+                alt="Close Circle icon"
+
                 onClick={() => {
                   setIsModalOpen(false);
                   setLoanNameError("");
@@ -267,7 +268,7 @@ function LoanSetting({ state }) {
                   setSelectedOrdinal("")
                   setSelectedDueDate("")
                 }}
-                className="w-32 h-32 cursor-pointer"
+                className="w-8 h-8 cursor-pointer z-10 "
               />
             </div>
 
@@ -616,7 +617,7 @@ function LoanSetting({ state }) {
               <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
             </div>
 
-            <p className="text-violet-600 text-lg text-center font-Gilroy">
+            <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
               No Data Found
             </p>
           </div>
@@ -626,7 +627,7 @@ function LoanSetting({ state }) {
 
 
       {allLoans.length > 0 && (
-        <div className="flex justify-end mt-[150px]">
+        <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
           <button
             className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
             onClick={() => setCurrentPage(currentPage - 1)}

@@ -746,7 +746,7 @@ function AddLoanForm({ state }) {
                   src={CloseCircleIcon}
                   alt="Close"
                   onClick={handleClose}
-                  className="w-[24] h-[24] cursor-pointer"
+                  className="w-8 h-8 cursor-pointer"
                 />
               </div>
               <div className="w-full border border-[#E7E7E7] mx-auto"></div>
@@ -867,7 +867,7 @@ function AddLoanForm({ state }) {
 
 
             <div
-              className={`active-loan max-h-[440px] overflow-y-auto p-5 scroll grid ${paginatedActiveLoans?.length > 0
+              className={`active-loan max-h-[400px] overflow-y-auto p-5 scroll grid ${paginatedActiveLoans?.length > 0
                 ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
                 : "place-items-center"
                 }`}
@@ -1059,8 +1059,8 @@ function AddLoanForm({ state }) {
                     <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
                   </div>
 
-                  <p className="text-violet-600 text-lg text-center font-Gilroy">
-                    Loan Data Not Available
+                  <p className="text-violet-600 text-lg text-center font-medium font-Gilroy">
+                  No Data Found
                   </p>
                 </div>
 
@@ -1072,7 +1072,7 @@ function AddLoanForm({ state }) {
 
 
             {paginatedActiveLoans.length > 0 && (
-              <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+              <div className="w-full mt-6 flex justify-center md:justify-end px-4">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageActive === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                     }`}
@@ -1287,7 +1287,7 @@ function AddLoanForm({ state }) {
 
 
             <div
-              className={`active-loan max-h-[440px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
+              className={`active-loan max-h-[400px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
                 ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
                 : "place-items-center"
                 }`}
@@ -1408,15 +1408,15 @@ function AddLoanForm({ state }) {
                     <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
                   </div>
 
-                  <p className="text-violet-600 text-xl text-center font-Gilroy">
-                    No Loan Data Available
+                  <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
+                  No Data Found
                   </p>
                 </div>
               )}
 
             </div>
             {paginatedApprovedLoans.length > 0 && (
-              <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+              <div className="w-full mt-6 flex justify-center md:justify-end px-4">
 
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
@@ -1544,8 +1544,8 @@ function AddLoanForm({ state }) {
                     <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
                   </div>
 
-                  <p className="text-violet-600 text-xl text-center font-Gilroy">
-                    No Loan Data Available
+                  <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
+                  No Data Found
                   </p>
                 </div>
 
@@ -1553,7 +1553,7 @@ function AddLoanForm({ state }) {
 
             </div>
             {paginatedRejectedLoans.length > 0 && (
-              <div className="fixed bottom-0 left-0 w-full px-4 py-3 bg-white shadow-md z-50">
+              <div className="w-full mt-6 flex justify-center md:justify-end px-4">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                     }`}
