@@ -121,7 +121,7 @@ function Statement({ state }) {
             <div className="w-64 h-64">
               <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
             </div>
-            <p className="text-violet-600 text-lg text-center font-Gilroy">Loan Data Not Available</p>
+            <p className="text-violet-600 text-lg font-medium text-center font-Gilroy"> No Data Found</p>
           </div>
         ) : (
           <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">

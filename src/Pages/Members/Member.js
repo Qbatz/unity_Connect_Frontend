@@ -47,8 +47,8 @@ const Members = () => {
     <div className="container mx-auto mt-4">
 
       {!selectedMemberdetails && (
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-[24px] font-semibold font-Gilroy leading-[28.63px] text-black mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-0 mb-4 ">
+          <h2 className="text-[24px] font-semibold font-Gilroy leading-[28.63px] text-black ">
             Members
           </h2>
           <div data-testid='active-member-div' className="flex justify-end">
@@ -65,14 +65,16 @@ const Members = () => {
       )}
 
       {!selectedMemberdetails && (
-        <div data-testid='members-tab' className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide">
+        <div data-testid='members-tab'
+         className="mt-5 px-4 sm:px-5 flex flex-col sm:flex-row overflow-x-auto sm:overflow-visible whitespace-nowrap sm:whitespace-normal gap-4 sm:gap-10">
           {["Active members", "In active members"].map((tab, index) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               data-testid={`button-tab-${index}`}
-              className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${activeTab === tab ? "text-black font-semibold" : "text-[#939393]"
-                }`}
+              className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${
+                activeTab === tab ? "text-black font-semibold" : "text-[#939393]"
+              }`}
             >
               {tab}
               <span

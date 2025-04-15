@@ -451,7 +451,7 @@ function ReportsTab({ state }) {
 
             <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full w-1/2">
               <div className="flex flex-col md:flex-row md:justify-between items-center md:items-center gap-3 mb-4">
-                <h2 className="text-lg xs:text-xs font-semibold font-Gilroy flex items-center gap-2">
+                <h2 className="text-lg xs:text-xs lg:text-lg font-semibold font-Gilroy flex items-center gap-2">
                   <img src={unsuccessfullpayment} alt='unsuccesfullpayment' className="h-[24px] w-[24px]" />
                   Unsuccessful Payments
                 </h2>

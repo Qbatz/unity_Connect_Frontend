@@ -8,13 +8,13 @@ import editIcon from "../../Asset/Icons/edit_blue.svg";
 import deleteIcon from "../../Asset/Icons/Delete.svg";
 import ExpenseForm from './AddExpenses';
 import moment from "moment";
-import { CalendarDays } from "lucide-react";
+
 import "react-datepicker/dist/react-datepicker.css";
 import { ClipLoader } from "react-spinners";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
 import { DatePicker } from 'antd';
 import 'dayjs/locale/en';
-
+import './Expenses.css'
 
 function ExpensesList({ state }) {
 
@@ -34,7 +34,7 @@ function ExpensesList({ state }) {
 
     const ExpensesList = state.Expenses.getexpenses || [];
 
-   
+    const totalExpense = state.Expenses.totalExpense;
 
     const { RangePicker } = DatePicker;
     const [dates, setDates] = useState([]);
@@ -179,24 +179,28 @@ function ExpensesList({ state }) {
             <div className="p-4">
 
                 <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-0 mb-4">
-               
+
                     <h2 className="text-2xl font-semibold font-Gilroy px-6 sm:px-0">Expenses</h2>
 
-                  
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 sm:px-0">
-                        <div className="relative w-full sm:w-auto">
-                            <RangePicker
-                                value={dates}
-                                onChange={onChange}
-                                format="DD MMM YYYY"
-                                allowClear
-                                placeholder={['Start date', 'End date']}
-                                className="w-full sm:w-auto rounded-full shadow-md px-4 py-2 border border-gray-300 bg-[#F2F4F8] text-black font-Gilroy"
-                                suffixIcon={<CalendarDays size={16} className="text-gray-600" />}
-                                popupClassName="!z-50"
-                            />
-                        </div>
+                    <div className="bg-white px-4 py-2 mr-2 font-Gilroy rounded-md shadow-md border border-gray-200 text-sm font-semibold text-gray-800">
+                        Total Expense : ₹{totalExpense}
+                    </div>
+                    <div className="flex flex-col lg:flex-row items-center gap-4 px-6 sm:px-0">
 
+                        <div className="flex w-full sm:w-auto flex-col sm:flex-row justify-center items-center gap-2 relative z-10">
+
+                            <div className="w-full max-w-[240px]  relative z-10">
+                                <RangePicker
+                                    value={dates}
+                                    onChange={onChange}
+                                    format="DD/MM/YYYY"
+                                    style={{
+                                        width: '100%',
+                                        cursor: 'pointer',
+                                    }}
+                                />
+                            </div>
+                        </div>
                         <button
                             className="w-full sm:w-auto bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium"
                             onClick={handleClickExpenses}
@@ -215,8 +219,8 @@ function ExpensesList({ state }) {
                                 <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
                             </div>
 
-                            <p className="text-violet-600 text-lg text-center font-Gilroy">
-                                Loan Data Not Available
+                            <p className="text-violet-600 text-lg text-center font-medium font-Gilroy">
+                                No Data Found
                             </p>
                         </div>
 

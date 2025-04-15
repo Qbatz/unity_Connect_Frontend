@@ -180,7 +180,7 @@ function NonActiveMember({ state, loading, setLoading }) {
               <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
             </div>
 
-            <p className="text-violet-600 text-lg text-center font-Gilroy">
+            <p className="text-violet-600 text-lg  font-medium text-center font-Gilroy">
              No Data Found 
             </p>
           </div>
@@ -234,7 +234,7 @@ function NonActiveMember({ state, loading, setLoading }) {
                   )}
 
 
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col xs:flex-row items-start justify-between">
                     <img src={img1} alt='Member' className="rounded-full" />
                     <div>
                       <h3 className="font-semibold text-base font-Gilroy">{member.User_Name}</h3>
@@ -254,7 +254,7 @@ function NonActiveMember({ state, loading, setLoading }) {
 
 
                   <div className="mt-3 text-sm text-gray-700">
-                    <div className="flex justify-between">
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                       <p className="flex items-center gap-2 font-Gilroy">
                         <img src={sms} className="text-gray-500" alt="sms" />
                         {member.Email_Id}
@@ -333,7 +333,7 @@ function NonActiveMember({ state, loading, setLoading }) {
                             onClick={handleCloseStatus}
                             className=""
                           >
-                            <img src={closecircle} alt="Close" className="" />
+                            <img src={closecircle} alt="Close" className="w-8 h-8" />
                           </button>
                         </div>
 

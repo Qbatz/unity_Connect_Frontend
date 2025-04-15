@@ -260,8 +260,8 @@ function MemberStatements({ state, member }) {
               <p className="text-lg font-semibold text-center text-black">
                 Record payment
               </p>
-              <button onClick={handleClose} className="text-gray-500 hover:text-black">
-                <img src={CloseCircle} className="w-6 h-6" alt="CloseIcon" />
+              <button onClick={handleClose} className="text-gray-500 hover:text-black cursor-pointer">
+                <img src={CloseCircle} className="w-8 h-8" alt="CloseIcon" />
               </button>
             </div>
 

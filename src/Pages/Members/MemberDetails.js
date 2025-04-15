@@ -27,8 +27,8 @@ function MemberDetails({ member, onBack }) {
             <img src={img1} alt='Member' className="rounded-full" />
             <div>
               <h3 className="font-semibold text-xl font-Gilroy">{member?.User_Name}</h3>
-              <div className="flex gap-2 text-sm mt-1">
-                <span className="bg-blue-100 text-lg font-medium font-Gilroy  px-2 py-1 rounded-xl">
+              <div className="flex flex-wrap items-center gap-2 text-sm mt-1">
+                <span className="bg-blue-100 text-sm sm:text-base font-medium font-Gilroy px-3 py-1 rounded-xl break-all">
                   {member?.Member_Id
                   }
                 </span>
@@ -40,13 +40,14 @@ function MemberDetails({ member, onBack }) {
 
         </div>
 
-        <div className="flex overflow-x-auto whitespace-nowrap flex-nowrap gap-8 scrollbar-hide mt-6 pl-2">
+        <div className="mt-5 px-4 sm:px-5 flex flex-col sm:flex-row overflow-x-auto sm:overflow-visible whitespace-nowrap sm:whitespace-normal gap-4 sm:gap-10">
           {["Overview", "Comments", "Transactions", "Statements"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative min-w-max ${activeTab === tab ? "text-black font-medium" : "text-[#939393]"
-                }`}
+                className={`relative min-w-max pb-2 text-[16px] font-Gilroy transition-all ${
+        activeTab === tab ? "text-black font-medium" : "text-[#939393]"
+      }`}
             >
               {tab}
               <span

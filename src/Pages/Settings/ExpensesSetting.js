@@ -188,10 +188,11 @@ function ExpensesSetting({ state }) {
 
                 onClick={() => {
                   setIsModalOpen(false);
-                  setSubCategoryError("")
-
+                  setErrorMessage("");
+                  setSubCategoryError("");
+                  setCategoryError("");
                 }}
-                className="w-32 h-32 cursor-pointer"
+                className="w-8 h-8 cursor-pointer"
               />
             </div>
             <div className="w-full border border-[#E7E7E7] mx-auto"></div>
@@ -341,7 +342,7 @@ function ExpensesSetting({ state }) {
             <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
           </div>
 
-          <p className="text-violet-600 text-lg text-center font-Gilroy">
+          <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
             No Data Found
           </p>
         </div>

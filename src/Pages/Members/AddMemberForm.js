@@ -198,20 +198,20 @@ function MemberModal({ state, memberData, onClose }) {
     CustomInput.displayName = "CustomInput";
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-2 sm:px-4">
             <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-xl max-h-[98vh] overflow-y-auto flex flex-col">
                 <div className="flex items-center justify-between border-b pb-2 mb-2 bg-white z-10 sticky top-0">
                     <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">
                         {memberData ? "Edit Member" : "Add a Member"}
                     </p>
                     <button data-testid='button-close' className="text-gray-600" onClick={handleClose}>
-                        <img src={closecircle} alt="Close" className="w-6 h-6" />
+                        <img src={closecircle} alt="Close" className="w-8 h-8" />
                     </button>
                 </div>
 
-                <div className="space-y-2 mt-2 flex-grow overflow-y-auto pr-4">
-                    <div className="flex gap-4 ">
-                        <div className="w-1/2">
+                <div className="space-y-4 mt-2 flex-grow overflow-y-auto pr-2 sm:pr-4">
+                    <div className="flex flex-col md:flex-row gap-4">
+                        <div className="w-full md:w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Member ID
                                 <span className="text-red-500 text-xl"></span>
                             </label>
@@ -229,7 +229,7 @@ function MemberModal({ state, memberData, onClose }) {
                             )}
                         </div>
 
-                        <div className="w-1/2">
+                        <div className="w-full md:w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">User Name
                                 <span className="text-red-500 text-xl">*</span>
                             </label>
@@ -254,8 +254,8 @@ function MemberModal({ state, memberData, onClose }) {
                         </div>
                     </div>
 
-                    <div className="flex gap-4">
-                        <div className="w-1/2">
+                    <div className="flex flex-col md:flex-row gap-4">
+                        <div className="w-full md:w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Email Address
                                 <span className="text-red-500 text-xl"></span>
                             </label>
@@ -274,7 +274,7 @@ function MemberModal({ state, memberData, onClose }) {
                             )}
                         </div>
 
-                        <div className="w-1/2">
+                        <div className="w-full md:w-1/2">
                             <label className="block font-medium font-Gilroy text-sm tracking-normal mb-1">Mobile No
                                 <span className="text-red-500 text-xl">*</span>
                             </label>

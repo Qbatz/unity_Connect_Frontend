@@ -220,7 +220,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
       <div className="container">
 
         <div>
-          {state.Member.errormsg === "No members found" && (
+        {state.Member.errormsg && (
 
             <div className="flex flex-col items-center justify-center">
 
@@ -228,8 +228,8 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
                 <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
               </div>
 
-              <p className="text-violet-600 text-lg text-center font-Gilroy">
-                {state.Member.errormsg}
+              <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
+                No Data Found
               </p>
             </div>
           )}
@@ -382,7 +382,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
                       <h2 className="text-[20px] font-semibold font-Gilroy">Change Status</h2>
 
                       <button data-testid='button-close' className="text-gray-600" onClick={handleCloseStatus}>
-                        <img src={closecircle} alt="Close" className="" />
+                        <img src={closecircle} alt="Close" className="w-8 h-8" />
                       </button>
                     </div>
 

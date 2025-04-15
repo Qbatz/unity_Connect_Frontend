@@ -273,7 +273,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                     className="absolute top-4 right-4 text-gray-500 hover:text-black"
                     onClick={onClose}
                 >
-                    <img src={closecircle} alt="Close" className="" />
+                    <img src={closecircle} alt="Close" className="w-8 h-8" />
                 </button>
 
 
