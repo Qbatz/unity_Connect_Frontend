@@ -20,16 +20,21 @@ export const initialState = {
     members: [],
     loans: [],
     transactions: [],
+
+
 };
 const SignInReducer = (state = initialState, action) => {
+
+
 
     switch (action.type) {
         case 'SIGNIN-INFO':
             return {
                 ...state, signinsuccessstatuscode: action.payload.statusCode, JWTtoken: action.payload.token,
-                members: action.payload.members,
+
                 loans: action.payload.loans,
-                transactions: action.payload.transactions
+                members: action.payload.members,
+                transactions: action.payload.transactions,
             }
         case 'REMOVE_LOGIN_STATUS_CODE':
             return { ...state, signinsuccessstatuscode: 0 }
@@ -47,7 +52,14 @@ const SignInReducer = (state = initialState, action) => {
         case 'CLEAR_ERROR_PASSWORD':
             return { ...state, errorPassword: '', statusCode: 0 };
         case 'PROFILE_DETAILS_LIST':
-            return { ...state, profileDetailsList: action.payload.data[0], profileDetailsStatusCode: action.payload.statusCode }
+            return {
+                ...state,
+                profileDetailsList: action.payload.data[0],
+                loans: action.payload.loans,
+                members: action.payload.members,
+                transactions: action.payload.transactions,
+                profileDetailsStatusCode: action.payload.statusCode
+            }
         case 'PROFILE_DETAILS_ERROR':
             return { ...state, profileDetailsErrorMessage: '', }
         case 'CLEAR_PROFILE_DETAILS_ERROR':

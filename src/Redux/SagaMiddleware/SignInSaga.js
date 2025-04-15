@@ -61,24 +61,30 @@ export function* SignIn(action) {
 
 }
 
-export function* handleProfileDetails() {
+export function* handleProfileDetails(action) {
 
-    try {
-        const response = yield call(ProfileDetails);
 
-        if (response.status === 200 && response.data.statusCode === 200) {
-            yield put({
-                type: 'PROFILE_DETAILS_LIST',
-                payload: { data: response.data.user_details, statusCode: response.status }
-            });
-        } else if (response.status === 203) {
-            yield put({ type: 'PROFILE_DETAILS_ERROR', payload: response.data.message });
-        }
+    const response = yield call(ProfileDetails, action.payload);
 
-    } catch (error) {
-        console.error("failed", error);
 
+    if (response.status === 200 && response.data.statusCode === 200) {
+        yield put({
+            type: 'PROFILE_DETAILS_LIST',
+            payload: {
+                data: response.data.data,
+                statusCode: response.status,
+                loans: response.data.loans,
+                members: response.data.members,
+                transactions: response.data.transactions
+
+
+            }
+        });
+    } else if (response.status === 203) {
+        yield put({ type: 'PROFILE_DETAILS_ERROR', payload: response.data.message });
     }
+
+
 
 }
 

@@ -6,8 +6,6 @@ import { MdError } from "react-icons/md";
 
 
 function TransactionID({ state }) {
-
-
   const dispatch = useDispatch();
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
@@ -15,13 +13,20 @@ function TransactionID({ state }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [id, setId] = useState('');
 
+  const [originalPrefix, setOriginalPrefix] = useState("");
+  const [originalSuffix, setOriginalSuffix] = useState("");
+
+  const transactions = state.SignIn.transactions || [];
+
+  const TransactionData = transactions[0] || {};
 
   useEffect(() => {
     if (state.Settings.statusCodeTransactionID === 200) {
+      dispatch({ type: 'PROFILEDETAILS' });
 
-      setErrorMessage("");
+
       dispatch({ type: "CLEAR_STATUS_CODE_TRANSACTION_ID" });
-      ;
+      setErrorMessage("");
     }
 
     return () => {
@@ -53,29 +58,21 @@ function TransactionID({ state }) {
   };
 
   useEffect(() => {
-    const storedPrefix = localStorage.getItem("TransactionIDprefix") || state.Settings?.TransactionIDprefix || "";
-    const storedSuffix = localStorage.getItem("TransactionIDsuffix") || state.Settings?.TransactionIDsuffix || "";
-    const storedId = localStorage.getItem("TransactionId") || state.Settings?.TransactionId || "";
+    if (TransactionData && (TransactionData.Prefix || TransactionData.Suffix)) {
+      const loadedPrefix = TransactionData.Prefix || "";
+      const loadedSuffix = TransactionData.Suffix || "";
 
+      setPrefix(loadedPrefix);
+      setSuffix(loadedSuffix);
 
-    setId(storedId)
-    setPrefix(storedPrefix);
-    setSuffix(storedSuffix);
-  }, []);
+      setOriginalPrefix(loadedPrefix);
+      setOriginalSuffix(loadedSuffix);
 
-  useEffect(() => {
-    if (state.Settings.statusCodeTransactionID === 200) {
-
-
-      localStorage.setItem("TransactionId", id);
-      localStorage.setItem("TransactionIDprefix", prefix);
-      localStorage.setItem("TransactionIDsuffix", suffix);
-      dispatch({ type: 'CLEAR_STATUS_CODE_TRANSACTION_ID' });
+      setId(TransactionData.Id || "");
     }
-    return () => {
-      dispatch({ type: 'CLEAR_ERROR' });
-    };
-  }, [state.Settings.statusCodeTransactionID])
+  }, [TransactionData]);
+
+
 
 
   useEffect(() => {
@@ -103,24 +100,18 @@ function TransactionID({ state }) {
     setError(newError);
 
     if (hasError) return;
-    const storedId = localStorage.getItem("TransactionId") || "";
-    const storedPrefix = localStorage.getItem("TransactionIdprefix") || "";
-    const storedSuffix = localStorage.getItem("TransactionIdsuffix") || "";
-
-
-    if (prefix === storedPrefix && suffix === storedSuffix) {
-      setErrorMessage("Prefix and Suffix already exist");
+    if (prefix === originalPrefix && suffix === originalSuffix) {
+      setErrorMessage("Prefix and Suffix already Exist");
       return;
     }
-    else {
 
-      setErrorMessage("");
-      const payload = { id, prefix, suffix };
-      dispatch({ type: "SETTINGSTRANSACTIONID", payload });
-      localStorage.setItem("TransactionIdprefix", prefix);
-      localStorage.setItem("TransactionIdsuffix", suffix);
-      localStorage.setItem("TransactionId", storedId)
-    }
+
+
+    setErrorMessage("");
+    const payload = { id, prefix, suffix };
+    dispatch({ type: "SETTINGSTRANSACTIONID", payload });
+
+
   };
 
 
