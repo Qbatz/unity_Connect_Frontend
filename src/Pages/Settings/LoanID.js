@@ -12,12 +12,24 @@ function LoanID({ state }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [id, setId] = useState('');
 
+
+  const [originalPrefix, setOriginalPrefix] = useState("");
+  const [originalSuffix, setOriginalSuffix] = useState("");
+
+
+  const loans = state.SignIn.loans || [];
+
+  const LoanData = loans[0] || {};
+
+
+
+
   useEffect(() => {
 
     if (state.Settings.statusCodeLoanID === 200) {
-
-      setErrorMessage("");
+      dispatch({ type: 'PROFILEDETAILS' });
       dispatch({ type: "CLEAR_STATUS_CODE_LOAN_ID" });
+      setErrorMessage("");
     }
 
     return () => {
@@ -50,40 +62,21 @@ function LoanID({ state }) {
 
 
   useEffect(() => {
-    const storedPrefix = localStorage.getItem("LoanIDprefix") || state.Settings?.LoanIDprefix || "";
-    const storedSuffix = localStorage.getItem("LoanIDsuffix") || state.Settings?.LoanIDsuffix || "";
-    const storedId = localStorage.getItem("LoanID") || state.Settings?.LoanID || "";
+    if (LoanData && (LoanData.Prefix || LoanData.Suffix)) {
+      const loadedPrefix = LoanData.Prefix || "";
+      const loadedSuffix = LoanData.Suffix || "";
 
- 
-
-    setId(storedId);
-    setPrefix(storedPrefix);
-    setSuffix(storedSuffix);
-
-  }, []);
+      setPrefix(loadedPrefix);
+      setSuffix(loadedSuffix);
 
 
-  useEffect(() => {
-    if (state.Settings.statusCodeLoanID === 200) {
+      setOriginalPrefix(loadedPrefix);
+      setOriginalSuffix(loadedSuffix);
 
-
-      localStorage.setItem("LoanID", id);
-      localStorage.setItem("LoanIDprefix", prefix);
-      localStorage.setItem("LoanIdsuffix", suffix);
-      dispatch({ type: 'CLEAR_STATUS_CODE_LOAN_ID' });
+      setId(LoanData.Id || "");
     }
-    return () => {
-      dispatch({ type: 'CLEAR_ERROR' });
-    };
+  }, [LoanData]);
 
-  }, [state.Settings.statusCodeLoanID]
-  )
-
-  useEffect(() => {
-    if (state.SignIn.loans.length > 0) {
-      setId(state.SignIn.loans[0].Id)
-    }
-  }, [state.SignIn.loans])
 
 
   const handleSave = () => {
@@ -100,27 +93,22 @@ function LoanID({ state }) {
     }
 
     setError(newError);
-
     if (hasError) return;
-    const storedId = localStorage.getItem("LoanID") || "";
-    const storedPrefix = localStorage.getItem("LoanIDprefix") || "";
-    const storedSuffix = localStorage.getItem("LoanIDsuffix") || "";
 
 
-    if (prefix === storedPrefix && suffix === storedSuffix) {
-      setErrorMessage("Prefix and Suffix already exist");
+    if (prefix === originalPrefix && suffix === originalSuffix) {
+      setErrorMessage("Prefix and Suffix already Exist");
       return;
     }
-    else {
 
-      setErrorMessage("");
-      const payload = { id, prefix, suffix };
-      dispatch({ type: "SETTINGSLOANID", payload });
-      localStorage.setItem("LoanIDprefix", prefix);
-      localStorage.setItem("LoanIDsuffix", suffix);
-      localStorage.setItem("LoanID", storedId)
-    }
+    setErrorMessage("");
+    const payload = { id, prefix, suffix };
+    dispatch({ type: "SETTINGSLOANID", payload });
+
+    setOriginalPrefix(prefix);
+    setOriginalSuffix(suffix);
   };
+
 
   useEffect(() => {
     if (state.Settings.error === "Prefix and Suffix already Exist") {
@@ -204,3 +192,5 @@ LoanID.propTypes = {
 };
 
 export default connect(mapsToProps)(LoanID);
+
+

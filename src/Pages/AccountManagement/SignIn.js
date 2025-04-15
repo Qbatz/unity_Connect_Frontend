@@ -35,34 +35,6 @@ const SignIn = ({ state }) => {
       const cookies = new Cookies()
       cookies.set('UnityConnectToken', token, { path: '/' });
 
-      const memberData = state.SignIn.members?.[0] || {};
-
-
-
-      if (memberData.Prefix && memberData.Suffix && memberData.Id) {
-        localStorage.setItem("MemberIDprefix", memberData.Prefix);
-        localStorage.setItem("MemberIdsuffix", memberData.Suffix);
-        localStorage.setItem("MemberId", memberData.Id);
-      }
-
-
-      const loanData = state.SignIn.loans?.[0] || {};
-      if (loanData.Prefix && loanData.Suffix && loanData.Id) {
-        localStorage.setItem("LoanIDprefix", loanData.Prefix);
-        localStorage.setItem("LoanIDsuffix", loanData.Suffix);
-        localStorage.setItem("LoanID", loanData.Id);
-      }
-
-      const transactionData = state.SignIn.transactions?.[0] || {};
-
-
-
-      if (transactionData.Prefix && transactionData.Suffix && transactionData.Id) {
-        localStorage.setItem("TransactionIDprefix", transactionData.Prefix);
-        localStorage.setItem("TransactionIDsuffix", transactionData.Suffix);
-        localStorage.setItem("TransactionId", transactionData.Id);
-      }
-
       const encryptDataLogin = encryptData(JSON.stringify(true));
       localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
       setTimeout(() => {

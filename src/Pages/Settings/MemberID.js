@@ -13,13 +13,20 @@ function MemberID({ state }) {
   const [error, setError] = useState({ prefix: "", suffix: "" });
   const [errorMessage, setErrorMessage] = useState("");
   const [id, setId] = useState('');
+  const [originalPrefix, setOriginalPrefix] = useState("");
+  const [originalSuffix, setOriginalSuffix] = useState("");
 
+
+  const members = state.SignIn.members || [];
+
+  const MemberData = members[0] || {};
 
   useEffect(() => {
     if (state.Settings.statusCodeMemberID === 200) {
+      dispatch({ type: 'PROFILEDETAILS' });
 
       dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_ID' });
-
+      setErrorMessage("");
     }
     return () => {
       dispatch({ type: 'CLEAR_ERROR' })
@@ -46,30 +53,24 @@ function MemberID({ state }) {
       setError((prev) => ({ ...prev, suffix: "Suffix should contain only numbers" }));
     }
   };
-
   useEffect(() => {
-    const storedPrefix = localStorage.getItem("MemberIDprefix") || state.Settings?.MemberIDprefix || "";
-    const storedSuffix = localStorage.getItem("MemberIdsuffix") || state.Settings?.MemberIdsuffix || "";
-    const storedMemberid = localStorage.getItem("MemberId") || state.Settings?.MemberId || "";
-    setId(storedMemberid)
-    setPrefix(storedPrefix);
-    setSuffix(storedSuffix);
+    if (MemberData && (MemberData.Prefix || MemberData.Suffix)) {
+      const loadedPrefix = MemberData.Prefix || "";
+      const loadedSuffix = MemberData.Suffix || "";
+
+      setPrefix(loadedPrefix);
+      setSuffix(loadedSuffix);
 
 
-  }, []);
+      setOriginalPrefix(loadedPrefix);
+      setOriginalSuffix(loadedSuffix);
 
-  useEffect(() => {
-    if (state.Settings.statusCodeMemberID === 200) {
-      localStorage.setItem("MemberId", id);
-      localStorage.setItem("MemberIDprefix", prefix);
-      localStorage.setItem("MemberIdsuffix", suffix);
-      dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_ID' });
+      setId(MemberData.Id || "");
     }
+  }, [MemberData]);
 
-    return () => {
-      dispatch({ type: 'CLEAR_ERROR' });
-    };
-  }, [state.Settings.statusCodeMemberID])
+
+
 
 
   useEffect(() => {
@@ -94,24 +95,18 @@ function MemberID({ state }) {
     setError(newError);
 
     if (hasError) return;
-    const storedId = localStorage.getItem("MemberID") || "";
-    const storedPrefix = localStorage.getItem("MemberIDprefix") || "";
-    const storedSuffix = localStorage.getItem("MemberIDsuffix") || "";
 
-
-    if (prefix === storedPrefix && suffix === storedSuffix) {
-      setErrorMessage("Prefix and Suffix already exist");
+    if (prefix === originalPrefix && suffix === originalSuffix) {
+      setErrorMessage("Prefix and Suffix already Exist");
       return;
     }
-    else {
 
-      setErrorMessage("");
-      const payload = { id, prefix, suffix };
-      dispatch({ type: "SETTINGSMEMBERID", payload });
-      localStorage.setItem("MemberIDprefix", prefix);
-      localStorage.setItem("MemberIDsuffix", suffix);
-      localStorage.setItem("MemberID", storedId)
-    }
+    setErrorMessage("");
+    const payload = { id, prefix, suffix };
+    dispatch({ type: "SETTINGSMEMBERID", payload });
+    setOriginalPrefix(prefix);
+    setOriginalSuffix(suffix);
+
   };
 
   useEffect(() => {
