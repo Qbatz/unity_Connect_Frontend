@@ -59,7 +59,7 @@ jobs:
         run: npm run build --if-present
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: arn:aws:iam::211125359030:role/unityconnectdev-git
           role-session-name: GitHubActions
