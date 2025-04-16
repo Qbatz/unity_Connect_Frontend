@@ -24,7 +24,7 @@ const ReportReducer = (state = initialState, action) => {
             return { ...state, statusCodeSuccess: 0 }
 
         case "UNSUCCESSREPORT":
-            return { ...state, unsuccessreport: action.payload.response.data, statusCodeUnSuccess: action.payload.statusCode };
+            return { ...state, unsuccessreport: action.payload.response, statusCodeUnSuccess: action.payload.statusCode };
         case 'CLEAR_STATUS_CODE_UNSUCCESSREPORT':
             return { ...state, statusCodeUnSuccess: 0 }
 

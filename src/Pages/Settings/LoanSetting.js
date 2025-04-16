@@ -34,7 +34,7 @@ function LoanSetting({ state }) {
   const dayOptions = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
   const [selectedLoanName, setSelectedLoanName] = useState("");
-  const [selectedDueDate, setSelectedDueDate] = useState(new Date());
+  const [selectedDueDate, setSelectedDueDate] = useState(null);
   const [selectedDueCount, setSelectedDueCount] = useState("");
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedInterest, setSelectedInterest] = useState("Select a day");

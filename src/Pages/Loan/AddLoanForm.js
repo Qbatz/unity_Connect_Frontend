@@ -270,6 +270,29 @@ function AddLoanForm({ state }) {
 
 
 
+  const handleAddNewWitness = (loan) => {
+    setIsWitnessModalOpen(true);
+    setVitDetails({ ...loan });
+
+    const existingWitnesses = loan.Widness_Id
+      ? loan.Widness_Id.split(",").map(Number)
+      : [];
+
+    setSelectedWitnesses(existingWitnesses);
+    setInitialWitnesses(existingWitnesses);
+
+    const memberId = loan.Member_Id;
+
+    const updatedWitnessOptions = members
+      ?.filter((member) => String(member.Id) !== String(memberId))
+      .map((member) => ({
+        value: member.Id,
+        label: member.User_Name,
+      }));
+
+    setNewWitnessOptions(updatedWitnessOptions);
+  };
+
   const handleAddWitness = () => {
     if (selectedWitnesses.length === 0) {
       setWitnessError("No changes detected. Please select at least one witness");
@@ -284,16 +307,19 @@ function AddLoanForm({ state }) {
       return;
     }
 
+
+    const updatedWitnesses = [...new Set([...initialWitnesses, ...selectedWitnesses])];
+
     const witnessPayload = {
       id: vitDetails.Loan_Id,
       member_id: vitDetails.Member_Id,
-      widness_ids: selectedWitnesses,
+      widness_ids: updatedWitnesses,
     };
 
     dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
     dispatch({ type: "GET_LOAN" });
 
-    setInitialWitnesses([...selectedWitnesses]);
+    setInitialWitnesses(updatedWitnesses);
     setIsWitnessModalOpen(false);
     setSelectedWitnesses([]);
     setWitnessError("");
@@ -301,31 +327,6 @@ function AddLoanForm({ state }) {
 
 
 
-  const handleAddNewWitness = (loan) => {
-    setIsWitnessModalOpen(true);
-    setVitDetails({ ...loan });
-
-    const existingWitnesses = loan.Widness_Id
-      ? loan.Widness_Id.split(",").map(Number)
-      : [];
-
-    setSelectedWitnesses(existingWitnesses);
-    setInitialWitnesses([]);
-
-
-    const memberId = loan.Member_Id;
-
-
-
-    const updatedWitnessOptions = members
-      ?.filter((member) => String(member.Id) !== String(memberId))
-      .map((member) => ({
-        value: member.Id,
-        label: member.User_Name,
-      }));
-
-    setNewWitnessOptions(updatedWitnessOptions);
-  };
 
   const witnessOptions = members
     ?.filter((member) => String(member.Id) !== String(memberId))
@@ -1060,7 +1061,7 @@ function AddLoanForm({ state }) {
                   </div>
 
                   <p className="text-violet-600 text-lg text-center font-medium font-Gilroy">
-                  No Data Found
+                    No Data Found
                   </p>
                 </div>
 
@@ -1072,7 +1073,7 @@ function AddLoanForm({ state }) {
 
 
             {paginatedActiveLoans.length > 0 && (
-              <div className="w-full mt-6 flex justify-center md:justify-end px-4">
+              <div className="md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageActive === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                     }`}
@@ -1128,7 +1129,7 @@ function AddLoanForm({ state }) {
                   value={NewwitnessOptions.filter((opt) => selectedWitnesses.includes(opt.value))}
 
                   onChange={(selectedOptions) => {
-                    setSelectedWitnesses(selectedOptions.map((opt) => opt.value)); 
+                    setSelectedWitnesses(selectedOptions.map((opt) => opt.value));
                     setWitnessError("");
                   }}
 
@@ -1409,14 +1410,14 @@ function AddLoanForm({ state }) {
                   </div>
 
                   <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
-                  No Data Found
+                    No Data Found
                   </p>
                 </div>
               )}
 
             </div>
             {paginatedApprovedLoans.length > 0 && (
-              <div className="w-full mt-6 flex justify-center md:justify-end px-4">
+              <div className=" md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
 
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
@@ -1545,7 +1546,7 @@ function AddLoanForm({ state }) {
                   </div>
 
                   <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
-                  No Data Found
+                    No Data Found
                   </p>
                 </div>
 
@@ -1553,7 +1554,7 @@ function AddLoanForm({ state }) {
 
             </div>
             {paginatedRejectedLoans.length > 0 && (
-              <div className="w-full mt-6 flex justify-center md:justify-end px-4">
+              <div className="md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                     }`}
