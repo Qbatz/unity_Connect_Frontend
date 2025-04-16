@@ -57,12 +57,6 @@ function ReportsTab({ state }) {
     { label: "Customise", value: "customise" },
   ];
 
-  // const pdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/UnsuccessfulPayments_1742493051264.pdf";
-  // const excelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_Unsuccess1742493051476.xlsx";
-
-  console.log(state)
-
-
 
   useEffect(() => {
     setLoading(true);
