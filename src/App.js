@@ -61,11 +61,6 @@ function App({ isLogged_In }) {
     return () => clearInterval(interval);
   }, []);
 
-
-
-
-
-
   return (
     <div data-testid="parent">
 
@@ -93,10 +88,6 @@ function App({ isLogged_In }) {
           )}
         </Routes>
       </Router>
-
-    
-
-
 
 
     </div>

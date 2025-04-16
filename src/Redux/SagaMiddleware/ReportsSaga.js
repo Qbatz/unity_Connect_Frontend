@@ -9,15 +9,15 @@ function* SuccessReportSaga(action) {
     try {
         const response = yield call(SuccessReportsAction, action.payload);
 
-
-
+        console.log(response)
         if (response.status === 200) {
             yield put({
                 type: "SUCCESSREPORT",
                 payload: {
                     response: response.data.data || response.data || [],
                     statusCode: response.status || response.data.statusCode,
-                    total_Received_Amount: response.data.total_Received_Amount || 0
+                    total_Received_Amount: response.data.total_Received_Amount || 0,
+                    urls: response.data
                 },
             });
         }
@@ -38,7 +38,7 @@ function* UnSuccessReportSaga(action) {
         if (response.status === 200) {
             yield put({
                 type: "UNSUCCESSREPORT",
-                payload: { response: response.data.data || response.data || [], statusCode: response.status || response.data.statusCode },
+                payload: { response: response.data.data || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
             });
         }
 

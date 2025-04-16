@@ -322,13 +322,12 @@ function AddLoanForm({ state }) {
       return;
     }
 
-
     const updatedWitnesses = [...new Set([...initialWitnesses, ...selectedWitnesses])];
 
     const witnessPayload = {
       id: vitDetails.Loan_Id,
       member_id: vitDetails.Member_Id,
-      widness_ids: updatedWitnesses,
+      widness_ids: selectedWitnesses,
     };
 
     dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
