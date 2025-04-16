@@ -128,35 +128,50 @@ function AddLoanForm({ state }) {
     );
   };
 
+  const popupRef = useRef(null);
 
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setOpenMenu(null); 
+      }
+    }
+  
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openMenu]);
+  
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!hasChanges()) {
-      setFormError("No changes detected");
+      setFormError("No Changes Detected");
       return;
     }
 
     let isValid = true;
 
     if (!memberId) {
-      setMemberError("Please select a member");
+      setMemberError("Please Select a Member");
       isValid = false;
     } else {
       setMemberError("");
     }
 
     if (selectedWitnesses.length === 0) {
-      setWitnessError("Please select at least one witness");
+      setWitnessError("Please Select at Least One Witness");
       isValid = false;
     } else {
       setWitnessError("");
     }
 
     if (!loanAmount) {
-      setLoanAmountError("Please enter the loan amount");
+      setLoanAmountError("Please Enter the Loan Amount");
       isValid = false;
     } else {
       setLoanAmountError("");
@@ -781,7 +796,7 @@ function AddLoanForm({ state }) {
 
 
                 {memberError && (
-                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                  <p className="text-red-500 text-xs mt-1 flex items-center">
                     <MdError className="mr-1" /> {memberError}
                   </p>
                 )}
@@ -810,7 +825,7 @@ function AddLoanForm({ state }) {
                 />
 
                 {witnessError && (
-                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                  <p className="text-red-500 text-xs mt-1 flex items-center">
                     <MdError className="mr-1" /> {witnessError}
                   </p>
                 )}
@@ -835,14 +850,14 @@ function AddLoanForm({ state }) {
              focus:border-gray-400 focus:outline-none"
                 />
                 {loanAmountError && (
-                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                  <p className="text-red-500 text-xs mt-1 flex items-center">
                     <MdError className="mr-1" /> {loanAmountError}
                   </p>
                 )}
 
               </div>
               {formError && (
-                <div className="flex items-center justify-center text-red-500 text-sm mt-6">
+                <div className="flex items-center justify-center text-red-500 text-xs mt-6">
                   <MdError className="mr-1 text-base" />
                   <p >
                     {formError}
@@ -921,6 +936,7 @@ function AddLoanForm({ state }) {
                             </div>
                             {openMenu === index && (
                               <div
+                              ref={popupRef}
                                 style={{
                                   position: 'fixed',
                                   top: `${popupPosition.top}px`,
@@ -1224,7 +1240,7 @@ function AddLoanForm({ state }) {
                 />
 
                 {loanTypeError && (
-                  <p className="text-red-500 text-sm mt-1 flex items-center">
+                  <p className="text-red-500 text-xs mt-1 flex items-center">
                     <MdError className="mr-1" /> {loanTypeError}
                   </p>
                 )}
@@ -1261,7 +1277,7 @@ function AddLoanForm({ state }) {
                   className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-3 mt-2 font-Gilroy  focus:border-gray-400 focus:outline-none"
                 />
 
-                {loanAmountError && <p className="text-red-500 text-sm mt-1 flex items-center"><MdError className="mr-1" /> {loanAmountError}</p>}
+                {loanAmountError && <p className="text-red-500 text-xs mt-1 flex items-center"><MdError className="mr-1" /> {loanAmountError}</p>}
               </div>
 
               <div className="mt-5">
@@ -1453,7 +1469,7 @@ function AddLoanForm({ state }) {
 
 
             <div
-              className={`active-loan max-h-[440px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
+              className={`active-loan max-h-[400px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
                 ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
                 : "place-items-center"
                 }`}
@@ -1553,7 +1569,7 @@ function AddLoanForm({ state }) {
 
             </div>
             {paginatedRejectedLoans.length > 0 && (
-              <div className="w-full mt-6 flex justify-center md:justify-end px-4">
+              <div className="w-full mt-4 flex justify-center md:justify-end px-4">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                     }`}

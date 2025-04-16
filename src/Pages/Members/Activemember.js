@@ -53,7 +53,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
 
   const handleChangeStatusClick = (memberId) => {
     if (!status) {
-      setStatusError("Please select a status");
+      setStatusError("Please Select a Status");
     } else {
       setStatusError("");
       setChangePopup(null);
@@ -413,7 +413,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
                       {statusError.trim() !== "" && (
                         <div className="mt-4 text-center text-red-500 text-[15px] font-medium font-Gilroy">
 
-                          <MdError className="text-sm inline-block text-red-500 mb-1 font-Gilroy" /> {statusError}
+                          <MdError className="text-xs inline-block text-red-500 mb-1 font-Gilroy" /> {statusError}
                         </div>
                       )}
                     </div>

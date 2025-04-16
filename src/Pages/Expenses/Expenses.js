@@ -8,13 +8,12 @@ import editIcon from "../../Asset/Icons/edit_blue.svg";
 import deleteIcon from "../../Asset/Icons/Delete.svg";
 import ExpenseForm from './AddExpenses';
 import moment from "moment";
-
 import "react-datepicker/dist/react-datepicker.css";
 import { ClipLoader } from "react-spinners";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
 import { DatePicker } from 'antd';
 import 'dayjs/locale/en';
-import './Expenses.css'
+
 
 function ExpensesList({ state }) {
 
@@ -39,7 +38,7 @@ function ExpensesList({ state }) {
     const { RangePicker } = DatePicker;
     const [dates, setDates] = useState([]);
 
-    const onChange = (values) => {
+    const onDateChange = (values) => {
         setDates(values);
 
 
@@ -189,15 +188,14 @@ function ExpensesList({ state }) {
 
                         <div className="flex w-full sm:w-auto flex-col sm:flex-row justify-center items-center gap-2 relative z-10">
 
-                            <div className="w-full max-w-[240px]  relative z-10">
+
+                            <div className="flex flex-row sm:flex-col justify-center items-center gap-[2.5] w-full max-w-[240px] relative z-10">
                                 <RangePicker
                                     value={dates}
-                                    onChange={onChange}
+                                    onChange={onDateChange}
                                     format="DD/MM/YYYY"
-                                    style={{
-                                        width: '100%',
-                                        cursor: 'pointer',
-                                    }}
+                                    className="w-full cursor-pointer placeholder:text-[rgb(75,75,75)] placeholder:opacity-100"
+                                    dropdownClassName="max-h-[300px] overflow-y-auto border-2 border-[#c5c5c5] rounded-lg max-w-[60vw] overflow-x-auto"
                                 />
                             </div>
                         </div>

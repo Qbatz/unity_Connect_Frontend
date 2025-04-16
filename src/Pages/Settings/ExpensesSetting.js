@@ -210,13 +210,13 @@ function ExpensesSetting({ state }) {
               />
 
               {categoryError && (
-                <p className="text-red-500 flex items-center gap-1 text-sm mt-3">
+                <p className="text-red-500 flex items-center gap-1 text-xs mt-3">
                   <MdError /> {categoryError}
                 </p>
               )}
 
               {errormsg && (
-                <p className="text-red-500 flex items-center gap-1 text-sm mt-3">
+                <p className="text-red-500 flex items-center gap-1 text-xs mt-3">
                   <MdError /> {errormsg}
                 </p>
               )}
@@ -283,7 +283,7 @@ function ExpensesSetting({ state }) {
 
             </div>
             {subcategoryError && (
-              <p className="text-red-500 flex items-center gap-1 text-sm mt-3">
+              <p className="text-red-500 flex items-center gap-1 text-xs mt-3">
                 <MdError /> {subcategoryError}
               </p>
             )}
