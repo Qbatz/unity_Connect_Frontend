@@ -66,4 +66,11 @@ jobs:
           aws-region: ap-south-1
 
       - name: Deploy to S3
-        run: aws s3 sync ./build s3://unityconnectdev.s3remotica.com --delete
+        uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: --delete
+        env:
+         AWS_S3_BUCKET: s3://unityconnectdev.s3remotica.com
+         AWS_REGION: ap-south-1
+         SOURCE_DIR: ./build 
+        # run: aws s3 sync ./build s3://unityconnectdev.s3remotica.com --delete
