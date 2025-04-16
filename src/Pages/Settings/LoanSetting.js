@@ -204,15 +204,14 @@ function LoanSetting({ state }) {
 
 
   const handleDate = (date) => {
-    console.log("handleDate", date);
+   
     setSelectedDueDate(date);
 
 
 
   };
 
-  console.log("selectedDueDate", selectedDueDate);
-  console.log("Is valid date?", isValidDate(selectedDueDate));
+  
 
 
 
