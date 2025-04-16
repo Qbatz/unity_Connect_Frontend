@@ -86,8 +86,10 @@ function MemberStatements({ state, member }) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
     if (field === "loanAmount" || field === "paidAmount") {
-      const loan = parseFloat(field === "loanAmount" ? value : selectedStatement?.Loan_Amount) || 0;
+      const loan = parseFloat(field === "loanAmount" ? value : selectedStatement?.Due_Amount) || 0;
       const paid = parseFloat(field === "paidAmount" ? value : paidAmount) || 0;
+
+
       setPendingAmount((loan - paid).toString());
     }
 
@@ -137,6 +139,8 @@ function MemberStatements({ state, member }) {
 
   const handleClose = () => {
     setIsModalOpen(false);
+    setPendingAmount('')
+    setPaidAmount('')
     setErrors({});
   };
 

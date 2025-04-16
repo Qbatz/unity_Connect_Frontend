@@ -181,7 +181,7 @@ function NonActiveMember({ state, loading, setLoading }) {
             </div>
 
             <p className="text-violet-600 text-lg  font-medium text-center font-Gilroy">
-             No Data Found 
+              No Data Found
             </p>
           </div>
         ) : (
@@ -234,11 +234,11 @@ function NonActiveMember({ state, loading, setLoading }) {
                   )}
 
 
-                  <div className="flex flex-col xs:flex-row items-start justify-between">
+                  <div className="flex flex-col xs:flex-row items-start ">
                     <img src={img1} alt='Member' className="rounded-full" />
                     <div>
-                      <h3 className="font-semibold text-base font-Gilroy">{member.User_Name}</h3>
-                      <div className="flex gap-2 text-sm mt-1">
+                      <h3 className="font-semibold text-base font-Gilroy pl-2">{member.User_Name}</h3>
+                      <div className="flex gap-2 text-sm mt-1 pl-2">
                         <span className="bg-blue-100 text-sm font-medium font-Gilroy  px-2 py-1 rounded-xl">
                           {member.Member_Id
                           }
@@ -344,7 +344,7 @@ function NonActiveMember({ state, loading, setLoading }) {
                           </label>
                           <div className="relative">
                             <select
-                              className="border border-gray-300 text-[#4B4B4B] text-[16px] font-medium font-gilroy shadow-none h-[50px] rounded-xl w-full px-3 appearance-none"
+                              className="border border-gray-300 text-[#4B4B4B] text-[16px] font-medium font-gilroy shadow-none h-[50px] rounded-xl w-full px-3 appearance-none cursor-pointer"
                               value={status}
                               onChange={handleStatusChange}
                             >
@@ -355,13 +355,13 @@ function NonActiveMember({ state, loading, setLoading }) {
                               <option value="Inactive">In Active</option>
 
                             </select>
-                            <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                            <div className="absolute inset-y-0 right-3 flex items-center cursor-pointer">
                               <FaAngleDown size={15} />
                             </div>
                           </div>
 
                           {statusError.trim() !== "" && (
-                            <div className="mt-4 text-center text-red-500 text-[15px] font-medium font-Gilroy">
+                            <div className="mt-4 text-center text-red-500 text-[12px] font-medium font-Gilroy">
 
                               <MdError className="text-xs inline-block text-red-500 mb-1 font-Gilroy" /> {statusError}
                             </div>

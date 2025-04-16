@@ -220,7 +220,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
       <div className="container">
 
         <div>
-        {state.Member.errormsg && (
+          {state.Member.errormsg && (
 
             <div className="flex flex-col items-center justify-center">
 
@@ -393,7 +393,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
                       </label>
                       <div className="relative">
                         <select
-                          className="border border-gray-300 text-[#4B4B4B] text-[16px] font-medium font-Gilroy shadow-none h-[50px] rounded-xl w-full px-3 appearance-none"
+                          className="border border-gray-300 text-[#4B4B4B] text-[16px] font-medium font-Gilroy shadow-none h-[50px] rounded-xl w-full px-3 appearance-none cursor-pointer"
                           value={status}
                           onChange={handleStatusChange}
                         >
@@ -404,14 +404,14 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
 
                           <option value="Inactive">In active</option>
                         </select>
-                        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <div className="absolute inset-y-0 right-3 flex items-center cursor-pointer">
                           <FaAngleDown size={15} />
                         </div>
                       </div>
 
 
                       {statusError.trim() !== "" && (
-                        <div className="mt-4 text-center text-red-500 text-[15px] font-medium font-Gilroy">
+                        <div className="mt-4 text-center text-red-500 text-[12px] font-medium font-Gilroy">
 
                           <MdError className="text-xs inline-block text-red-500 mb-1 font-Gilroy" /> {statusError}
                         </div>
