@@ -133,31 +133,31 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         const newErrors = {};
 
         if (!merchantName.trim()) {
-            newErrors.merchantName = "Merchant name is required";
+            newErrors.merchantName = "Merchant Name is Required";
         }
 
         if (!category) {
-            newErrors.category = "Please select a category";
+            newErrors.category = "Please Select a Category";
         }
 
 
         if (!paymentMode) {
-            newErrors.paymentMode = "Please select a payment mode";
+            newErrors.paymentMode = "Please Select a Payment Mode";
         }
 
 
         if (!expenseDate) {
-            newErrors.expenseDate = "Please select a valid date";
+            newErrors.expenseDate = "Please Select a Valid Date";
         }
 
 
 
         if (!expenseAmount || isNaN(expenseAmount) || Number(expenseAmount) <= 0) {
-            newErrors.expenseAmount = "Enter a valid expense amount";
+            newErrors.expenseAmount = "Enter a Valid Expense Amount";
         }
 
         if (description.length > 200) {
-            newErrors.description = "Description cannot exceed 200 characters";
+            newErrors.description = "Description Cannot Exceed 200 Characters";
         }
 
 
@@ -306,7 +306,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
                             />
                             {errors.merchantName && (
-                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                <div className="flex items-center text-red-500 text-xs mt-1">
                                     <MdError className="mr-1 text-base" />
                                     <p >{errors.merchantName}</p>
                                 </div>
@@ -372,7 +372,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                             />
 
                             {errors.category && (
-                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                <div className="flex items-center text-red-500 text-xs mt-1">
                                     <MdError className="mr-1 text-base" />
                                     <p >{errors.category}</p>
                                 </div>
@@ -436,7 +436,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                             />
 
                             {errors.subCategory && (
-                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                <div className="flex items-center text-red-500 text-xs mt-1">
                                     <MdError className="mr-1 text-base" />
                                     <p>{errors.subCategory}</p>
                                 </div>
@@ -496,7 +496,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 }}
                             />
                             {errors.paymentMode && (
-                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                <div className="flex items-center text-red-500 text-xs mt-1">
                                     <MdError className="mr-1 text-base" />
                                     <p >{errors.paymentMode}</p>
                                 </div>
@@ -527,7 +527,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                             />
 
                             {errors.expenseDate && (
-                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                <div className="flex items-center text-red-500 text-xs mt-1">
                                     <MdError className="mr-1 text-base" />
                                     <p >{errors.expenseDate}</p>
                                 </div>
@@ -556,7 +556,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
                             {errors.expenseAmount && (
-                                <div className="flex items-center text-red-500 text-sm mt-1">
+                                <div className="flex items-center text-red-500 text-xs mt-1">
                                     <MdError className="mr-1 text-base" />
                                     <p >{errors.expenseAmount}</p>
                                 </div>
@@ -580,7 +580,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                         )}
                     </div>
                     {formError && (
-                        <div className="flex items-center justify-center text-red-500 text-sm mt-1">
+                        <div className="flex items-center justify-center text-red-500 text-xs mt-1">
                             <MdError className="mr-1 text-base" />
                             <p >
                                 {formError}

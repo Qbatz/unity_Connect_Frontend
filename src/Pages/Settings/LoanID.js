@@ -136,7 +136,7 @@ function LoanID({ state }) {
               onChange={handlePrefix}
             />
             {error.prefix && (
-              <div className="flex items-center text-red-500 text-sm mt-1">
+              <div className="flex items-center text-red-500 text-xs mt-1">
                 <MdError className="mr-1 text-sm" />
                 <p>{error.prefix}</p>
               </div>
@@ -151,7 +151,7 @@ function LoanID({ state }) {
               onChange={handleSuffix}
             />
             {error.suffix && (
-              <div className="flex items-center text-red-500 text-sm mt-1">
+              <div className="flex items-center text-red-500 text-xs mt-1">
                 <MdError className="mr-1 text-sm" />
                 <p>{error.suffix}</p>
               </div>
@@ -175,7 +175,7 @@ function LoanID({ state }) {
       </div>
 
       {errorMessage && (
-        <p className="text-red-500 text-sm text-center font-Gilroy">{errorMessage}</p>
+        <p className="text-red-500 text-xs text-center font-Gilroy">{errorMessage}</p>
       )}
     </div>
   );

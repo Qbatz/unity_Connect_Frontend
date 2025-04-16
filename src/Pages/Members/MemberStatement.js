@@ -141,6 +141,7 @@ function MemberStatements({ state, member }) {
     setIsModalOpen(false);
     setPendingAmount('')
     setPaidAmount('')
+    setErrors({});
   };
 
 
@@ -192,7 +193,10 @@ function MemberStatements({ state, member }) {
                 <tr key={index}>
 
 
-                  <td className="p-2 pl-4 text-sm font-Gilroy text-center">{index + 1}</td>
+                  <td className="p-2 pl-4 text-sm font-Gilroy text-center">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
+
 
 
                   <td className="p-0 text-sm">
@@ -341,7 +345,7 @@ function MemberStatements({ state, member }) {
                     <select
                       value={status}
                       onChange={(e) => handleInputChange("status", e.target.value)}
-                      className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none appearance-none"
+                      className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none appearance-none cursor-pointer"
                     >
                       <option value="">Select status</option>
                       <option value="Paid">Paid</option>

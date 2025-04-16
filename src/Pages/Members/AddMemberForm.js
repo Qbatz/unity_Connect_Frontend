@@ -65,19 +65,19 @@ function MemberModal({ state, memberData, onClose }) {
 
     const validate = () => {
         let tempErrors = {};
-        if (!memberId) tempErrors.memberId = "Member Id is required";
-        if (!userName) tempErrors.userName = "User Name is required";
+        if (!memberId) tempErrors.memberId = "Member Id is Required";
+        if (!userName) tempErrors.userName = "User Name is Required";
 
-        if (!joiningDate) tempErrors.joiningDate = "Joining Date is required";
+        if (!joiningDate) tempErrors.joiningDate = "Joining Date is Required";
         if (!mobileNo) {
-            tempErrors.mobileNo = "Mobile number is required";
+            tempErrors.mobileNo = "Mobile Number is Required";
         } else if (!/^\d{10}$/.test(mobileNo)) {
-            tempErrors.mobileNo = "Mobile number must be exactly 10 digits";
+            tempErrors.mobileNo = "Mobile Number Must be Exactly 10 Digits";
         }
         if (mobileNo.length > 10) {
-            tempErrors.mobileNo = "Mobile number cannot exceed 10 digits";
+            tempErrors.mobileNo = "Mobile Number Cannot Exceed 10 Digits";
         }
-        if (!address) tempErrors.address = "Address is required";
+        if (!address) tempErrors.address = "Address is Required";
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
     };
@@ -373,7 +373,7 @@ function MemberModal({ state, memberData, onClose }) {
 
 
                     {noChanges && (
-                        <div className="flex items-center justify-center mt-8 text-red-500 text-sm font-semibold font-Gilroy">
+                        <div className="flex items-center justify-center mt-8 text-red-500 text-xs font-semibold font-Gilroy">
                             <MdError className="text-sm mr-2" />
                             <p>{noChanges}</p>
                         </div>

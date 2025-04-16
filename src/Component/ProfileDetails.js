@@ -372,7 +372,7 @@ const ProfileDetails = ({ state }) => {
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
                             {errors.firstName && (
-                                <p className="text-red-500 text-sm flex items-center font-Gilroy mt-1">
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
                                     {errors.firstName}
                                 </p>
@@ -388,7 +388,7 @@ const ProfileDetails = ({ state }) => {
                                 className="font-Gilroy font-medium text-sm border rounded-xl p-3 w-full max-w-md"
                             />
                             {errors.lastName && (
-                                <p className="text-red-500 text-sm flex items-center font-Gilroy mt-1">
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
                                     {errors.lastName}
                                 </p>
@@ -404,7 +404,7 @@ const ProfileDetails = ({ state }) => {
                                 className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-md"
                             />
                             {errors.email && (
-                                <p className="text-red-500 text-sm flex items-center font-Gilroy mt-1">
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
                                     {errors.email}
                                 </p>
@@ -431,7 +431,7 @@ const ProfileDetails = ({ state }) => {
 
 
                             {errors.mobileNo && (
-                                <p className="text-red-500 text-sm flex items-center font-Gilroy mt-1">
+                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
                                     <MdError className="mr-1" />
                                     {errors.mobileNo}
                                 </p>
@@ -439,7 +439,7 @@ const ProfileDetails = ({ state }) => {
                         </div>
                     </div>
                     {noChangesMessage && (
-                        <div className="flex items-center text-red-500 text-sm mb-4 font-Gilroy">
+                        <div className="flex items-center text-red-500 text-xs mb-4 font-Gilroy">
                             <MdError className="mr-1" />
                             {noChangesMessage}
                         </div>

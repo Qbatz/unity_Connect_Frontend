@@ -9,7 +9,6 @@ import { MdError } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays } from "lucide-react";
-import EmptyState from '../../Asset/Images/Empty-State.jpg'
 
 function LoanSetting({ state }) {
 
@@ -21,7 +20,11 @@ function LoanSetting({ state }) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("Select a due type");
+  const placeholderOption = "Select a due type";
+  const [selectedOption, setSelectedOption] = useState(placeholderOption);
+
+
+
   const [selectedWeekDay, setSelectedWeekDay] = useState("Select a due type");
   const [isWeekDropdownOpen, setIsWeekDropdownOpen] = useState(false);
   const [selectedMonthlyType, setSelectedMonthlyType] = useState("Select Monthly Type");
@@ -58,7 +61,7 @@ function LoanSetting({ state }) {
 
 
 
-
+  const isValidDate = (d) => d instanceof Date && !isNaN(d);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -85,13 +88,14 @@ function LoanSetting({ state }) {
     let isValid = true;
 
     if (!selectedLoanName.trim()) {
-      setLoanNameError("Loan Name is required");
+      setLoanNameError("Loan Name is Required");
       isValid = false;
     } else {
       setLoanNameError("");
     }
 
-    if (selectedOption === "Select a due type") {
+
+    if (selectedOption === placeholderOption) {
       setDueTypeError("Please select a Due Type");
       isValid = false;
     } else {
@@ -99,22 +103,20 @@ function LoanSetting({ state }) {
     }
 
     if (!selectedDueCount.trim()) {
-      setDueCountError("Due Count is required");
+      setDueCountError("Due Count is Required");
       isValid = false;
     } else {
       setDueCountError("");
     }
 
     if (!selectedInterest.trim()) {
-      setInterestError("Interest is required");
+      setInterestError("Interest is Required");
       isValid = false;
     } else {
       setInterestError("");
     }
 
     if (!isValid) return;
-
-
 
 
     const payload = {
@@ -202,43 +204,37 @@ function LoanSetting({ state }) {
 
 
   const handleDate = (date) => {
-    if (date instanceof Date && !isNaN(date)) {
-      setSelectedDueDate(date);
-    } else {
-      setSelectedDueDate(null);
-    }
+   
+    setSelectedDueDate(date);
+
+
 
   };
 
+  
 
 
 
   return (
     <div className="container mx-auto">
-      <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between w-full gap-4 sm:gap-0">
-        <div className="px-4 sm:px-6 lg:px-0 mt-4 sm:mt-6">
-          <p className="font-Gilroy font-semibold text-lg sm:text-xl text-black">
-            Loan
-          </p>
-          <p className="mt-3 sm:mt-5 text-gray-500 text-sm sm:text-base font-Gilroy font-medium">
+      <div className="flex items-center justify-between w-full">
+        <div>
+          <p className="font-Gilroy font-semibold text-xl text-black">Loan</p>
+          <p className="mt-5 text-gray-500 text-sm font-Gilroy font-medium">
             Set up the loan type and manage them
           </p>
         </div>
+        <button
+          className="bg-black font-Gilroy text-white w-[155px] rounded-[60px] text-base font-medium pt-[16px] pr-[20px]
+                    pb-[16px] pl-[20px]"
+          onClick={() => {
+            setIsModalOpen(true);
 
-        <div className="px-4 sm:px-0 mt-2 sm:mt-0 w-full sm:w-auto flex justify-center sm:justify-start">
-          <button
-            className="w-full max-w-[300px] sm:w-[155px] bg-black font-Gilroy text-white text-sm sm:text-base font-medium py-[14px] sm:py-[16px] px-[20px] rounded-[60px]"
-            onClick={() => {
-              setIsModalOpen(true);
-            }}
-          >
-            + Loan type
-          </button>
-        </div>
-
-
+          }}
+        >
+          + Loan type
+        </button>
       </div>
-
 
       {isModalOpen && (
         <div className="fixed inset-0 flex  items-center  justify-center bg-black bg-opacity-50">
@@ -247,18 +243,17 @@ function LoanSetting({ state }) {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold font-Gilroy">Add new loan</h2>
               <img
-                src={CloseCircleIcon}
                 alt="Close Circle icon"
-
+                src={CloseCircleIcon}
                 onClick={() => {
                   setIsModalOpen(false);
                   setLoanNameError("");
                   setDueTypeError('');
                   setDueCountError('');
                   setInterestError('');
-
+                  setSelectedOption(placeholderOption);
                   setSelectedLoanName('')
-                  setSelectedOption('')
+                  // setSelectedOption('')
                   setSelectedWeekDay('')
                   setSelectedMonthlyType('')
                   setSelectedOrdinal('')
@@ -268,7 +263,7 @@ function LoanSetting({ state }) {
                   setSelectedOrdinal("")
                   setSelectedDueDate("")
                 }}
-                className="w-8 h-8 cursor-pointer z-10 "
+                className="w-32 h-32 cursor-pointer"
               />
             </div>
 
@@ -292,7 +287,7 @@ function LoanSetting({ state }) {
 
 
               {loanNameError && (
-                <div className="flex items-center text-red-500 text-sm mt-1">
+                <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">
                   <MdError className="mr-1 text-base" />
                   <p >{loanNameError}</p>
                 </div>
@@ -309,13 +304,16 @@ function LoanSetting({ state }) {
                   }}
 
                 >
-                  <span className={`text-base font-Gilroy font-medium ${selectedOption === "Select a due type" ? "text-gray-400" : "text-black"}`}>
+                  <span
+                    className={`text-base font-Gilroy font-medium ${selectedOption === placeholderOption ? "text-gray-400" : "text-black"
+                      }`}
+                  >
                     {selectedOption}
                   </span>
                   <ChevronDown className="w-5 h-5  text-gray-500" />
                 </div>
                 {dueTypeError && (
-                  <div className="flex items-center text-red-500 text-sm mt-1">
+                  <div className="flex items-center text-red-500 text-xs font-Gilroy mt-1">
                     <MdError className="mr-1 text-base" />
                     <p >{dueTypeError}</p>
                   </div>
@@ -333,7 +331,7 @@ function LoanSetting({ state }) {
                           setSelectedOption(option);
                           setIsOpen(false);
                           if (option === "Daily") {
-                            setSelectedDueDate("Daily");
+                            setSelectedDueDate(option);
                           }
                         }}
                       >
@@ -395,11 +393,11 @@ function LoanSetting({ state }) {
                   </div>
 
                   {isMonthlyDropdownOpen && (
-                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg max-h-[90px] overflow-y-auto">
+                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg">
                       {monthlyOptions.map((type, index) => (
                         <div
                           key={index}
-                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
+                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
                           onClick={(e) => {
                             e.stopPropagation();
 
@@ -439,13 +437,12 @@ function LoanSetting({ state }) {
                       </div>
 
                       {isOrdinalDropdownOpen && (
-                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10 max-h-[90px] overflow-y-auto">
+                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
                           {ordinalOptions.map((ordinal, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
-                              onClick={(e) => {
-                                e.stopPropagation();
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                              onClick={() => {
                                 setSelectedOrdinal(ordinal);
                                 setIsOrdinalDropdownOpen(false);
                                 setSelectedDueDate(`${ordinal} ${selectedDay}`);
@@ -470,13 +467,12 @@ function LoanSetting({ state }) {
                       </div>
 
                       {isDayDropdownOpen && (
-                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10 max-h-[90px] overflow-y-auto">
+                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
                           {dayOptions.map((day, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
-                              onClick={(e) => {
-                                e.stopPropagation();
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                              onClick={() => {
                                 setSelectedDay(day);
                                 setIsDayDropdownOpen(false);
                                 setSelectedDueDate(`${selectedOrdinal} ${day}`);
@@ -502,14 +498,17 @@ function LoanSetting({ state }) {
 
                 <div className="mt-2 relative" >
                   <label className="text-black text-sm font-Gilroy font-medium text-lg">Due</label>
+
                   <DatePicker
                     ref={datePickerRef}
-                    selected={selectedDueDate}
-                    onChange={handleDate}
+
+                    selected={isValidDate(selectedDueDate) ? selectedDueDate : null}
+                    onChange={(date) => handleDate(date)}
                     dateFormat="dd-MM-yyyy"
                     placeholderText="Select a date"
-                    className="cursor-pointer w-[410px] h-[60px]  mt-4 border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
+                    className="cursor-pointer w-[410px] h-[60px] mt-4 border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
                   />
+
                   <div
                     className="absolute right-4 top-[70px] transform -translate-y-1/2 text-gray-500 cursor-pointer"
                     onClick={() => datePickerRef.current.setFocus()}
@@ -539,7 +538,7 @@ function LoanSetting({ state }) {
                 />
 
                 {dueCountError && (
-                  <div className="flex items-center text-red-500 text-sm mt-1">
+                  <div className="flex items-center text-red-500 text-xs font-Gilroy mt-1">
                     <MdError className="mr-1 text-base" />
                     <p >{dueCountError}</p>
                   </div>
@@ -551,7 +550,7 @@ function LoanSetting({ state }) {
                 <label className="text-black font-Gilroy text-sm font-medium text-lg">Interest <span className="text-red-500 text-[20px]">*</span></label>
                 <input
                   type="text" value={selectedInterest}
-                  placeholder="Enter interest count"
+                  placeholder="Enter interest "
                   onChange={(e) => {
                     const value = e.target.value;
                     if (/^\d*$/.test(value)) {
@@ -564,7 +563,7 @@ function LoanSetting({ state }) {
                 />
 
                 {interestError && (
-                  <div className="flex items-center text-red-500 text-sm mt-1">
+                  <div className="flex items-center text-red-500 text-xs font-Gilroy mt-1">
                     <MdError className="mr-1 text-base" />
                     <p >{interestError}</p>
                   </div>
@@ -584,50 +583,46 @@ function LoanSetting({ state }) {
         </div>
 
       )}
+
+
+
       <div className="mt-5 max-h-[300px] overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {currentLoans && currentLoans.length > 0 ? (
-          currentLoans.map((loan, index) => (
-            <div key={index} className="w-full max-w-sm h-[200px] bg-[#F4F7FF] flex flex-col rounded-3xl mx-auto">
-              <div className="flex items-center px-4 py-4">
-                <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
-                <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
-                  {loan.Loan_Name}
-                </p>
-                <div className="flex-grow"></div>
-                <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
-              </div>
-
-              <div className="w-[90%] mx-auto border-t border-[#E7E7E7]"></div>
-
-              <div className="flex justify-between w-[90%] mx-auto px-2 pt-5">
-                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
-                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
-              </div>
-
-              <div className="flex justify-between w-[90%] mx-auto px-2 pt-5">
-                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
-                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
-              </div>
+        {currentLoans?.map((loan, index) => (
+          <div key={index} className="w-[350px] h-[200px]  bg-[#F4F7FF] flex flex-col rounded-3xl">
+            <div className="flex items-center px-4 py-4">
+              <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
+              <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
+                {loan.Loan_Name}
+              </p>
+              <div className="flex-grow"></div>
+              <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
             </div>
-          ))
-        ) : (
-          <div className="col-span-full flex flex-col items-center justify-center h-[300px]">
+            <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
 
-            <div className="w-64 h-64">
-              <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
+            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
+              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
+                {loan.Due_On}
+              </p>
             </div>
 
-            <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
-              No Data Found
-            </p>
+            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
+              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
+            </div>
+
+
+
+            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
+              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
+            </div>
           </div>
-        )}
-
+        ))}
       </div>
 
-
       {allLoans.length > 0 && (
-        <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+        <div className="flex justify-end mt-[150px]">
           <button
             className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
             onClick={() => setCurrentPage(currentPage - 1)}
