@@ -8,8 +8,6 @@ import Cookies from 'universal-cookie';
 function* SuccessReportSaga(action) {
     try {
         const response = yield call(SuccessReportsAction, action.payload);
-
-        console.log(response)
         if (response.status === 200) {
             yield put({
                 type: "SUCCESSREPORT",
