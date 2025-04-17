@@ -12,10 +12,12 @@ import changestatus from '../../Asset/Icons/ChangeStatusicon.svg';
 import PropTypes from 'prop-types';
 import moment from "moment";
 import closecircle from '../../Asset/Icons/close-circle.svg';
-import { FaAngleDown } from "react-icons/fa6";
+
 import { MdError } from "react-icons/md";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
 import { ClipLoader } from "react-spinners";
+
+import Select from 'react-select';
 function NonActiveMember({ state, loading, setLoading }) {
 
   const dispatch = useDispatch();
@@ -33,7 +35,19 @@ function NonActiveMember({ state, loading, setLoading }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const paginatedData = NonactiveMemberData.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleStatusChange = (e) => setStatus(e.target.value);
+  const statusOptions = [
+    { value: 'Active', label: 'Active' },
+    { value: 'Inactive', label: 'In active' }
+  ];
+
+
+  const handleStatusChange = (selectedOption) => {
+    if (selectedOption) {
+      setStatus(selectedOption.value);
+      setStatusError('');
+    }
+  };
+
   const handleChangeStatusClick = (memberId) => {
     if (!status) {
       setStatusError("Please select a status");
@@ -342,22 +356,55 @@ function NonActiveMember({ state, loading, setLoading }) {
                           <label className="text-[14px] text-[#222] font-medium font-Gilroy mb-2 block">
                             Change Status <span className="text-red-500 text-[20px]">*</span>
                           </label>
-                          <div className="relative">
-                            <select
-                              className="border border-gray-300 text-[#4B4B4B] text-[16px] font-medium font-gilroy shadow-none h-[50px] rounded-xl w-full px-3 appearance-none cursor-pointer"
-                              value={status}
-                              onChange={handleStatusChange}
-                            >
-                              <option value="" disabled selected>
-                                Select a status
-                              </option>
-                              <option value="Active">Active</option>
-                              <option value="Inactive">In Active</option>
 
-                            </select>
-                            <div className="absolute inset-y-0 right-3 flex items-center cursor-pointer">
-                              <FaAngleDown size={15} />
-                            </div>
+                          <div className="relative">
+                            <Select
+                              options={statusOptions}
+                              value={statusOptions.find(option => option.value === status)}
+                              onChange={(selectedOption) => handleStatusChange(selectedOption)}
+                              placeholder="Select a status"
+                              className="react-select-container"
+                              classNamePrefix="react-select"
+                              isSearchable={false}
+                              styles={{
+                                control: (base,) => ({
+                                  ...base,
+                                  height: '50px',
+                                  minHeight: '50px',
+                                  borderRadius: '12px',
+                                  borderColor: "#D1D5DB",
+                                  boxShadow: 'none',
+                                  '&:hover': { borderColor: '#D1D5DB' },
+                                  fontSize: '16px',
+                                  fontWeight: 500,
+                                  color: '#4B4B4B',
+                                  cursor: "pointer",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  maxHeight: statusOptions.length > 2 ? "110px" : "auto",
+                                  overflowY: statusOptions.length > 2 ? "auto" : "hidden",
+                                  borderRadius: '12px',
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  fontSize: '16px',
+                                  color: '#4B4B4B',
+                                }),
+                                singleValue: (base) => ({
+                                  ...base,
+                                  fontSize: '16px',
+                                  color: '#4B4B4B',
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  padding: 4,
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: 'none',
+                                }),
+                              }}
+                            />
                           </div>
 
                           {statusError.trim() !== "" && (

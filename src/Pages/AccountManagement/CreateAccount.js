@@ -113,12 +113,12 @@ function CreateAccount({ state }) {
     setErrors((prev) => ({ ...prev, password: "" }));
     setPasswordErrors('')
 
-    if (newPassword.length > 0) {
-      const errors = validatePassword(newPassword);
-      if (errors.length > 0) {
-        setPasswordErrors(errors.join(', '));
-      }
-    }
+    // if (newPassword.length > 0) {
+    //   const errors = validatePassword(newPassword);
+    //   if (errors.length > 0) {
+    //     setPasswordErrors(errors.join(', '));
+    //   }
+    // }
   };
 
   const handleConfirmPasswordChange = (e) => {
@@ -129,9 +129,9 @@ function CreateAccount({ state }) {
     setConfirmPasswordError('');
     setBothPasswordError('');
 
-    if (isSubmitted && !newConfirmPassword) {
-      setConfirmPasswordError('Please enter confirm password');
-    }
+    // if (isSubmitted && !newConfirmPassword) {
+    //   setConfirmPasswordError('Please enter confirm password');
+    // }
 
     if (password && newConfirmPassword && password !== newConfirmPassword) {
       setBothPasswordError('Passwords do not match');
@@ -144,26 +144,26 @@ function CreateAccount({ state }) {
   const validateForm = () => {
     let newErrors = {};
 
-    if (!firstName.trim()) newErrors.firstName = "First name is required";
+    // if (!firstName.trim()) newErrors.firstName = "First name is required";
    
     if (!email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = "";
     } else if (!validateEmail(email)) {
       newErrors.email = "Enter a valid email address";
     }
     if (!mobileNumber.trim()) {
-      newErrors.mobileNumber = "Mobile number is required";
+      newErrors.mobileNumber = "";
     } else if (!/^\d{10}$/.test(mobileNumber)) {
       newErrors.mobileNumber = "Mobile number must be exactly 10 digits";
     }
 
-    if (!password.trim()) {
-      newErrors.password = "Password is required";
-    } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    }
+    // if (!password.trim()) {
+    //   newErrors.password = "Password is required";
+    // } else if (password.length < 6) {
+    //   newErrors.password = "Password must be at least 6 characters";
+    // }
     if (!confirmPassword.trim()) {
-      newErrors.confirmPassword = "Confirm Password is required";
+      newErrors.confirmPassword = "";
     } else if (password !== confirmPassword) {
       newErrors.confirmPassword = "Password do not match";
     }
@@ -173,24 +173,24 @@ function CreateAccount({ state }) {
 
     return Object.keys(newErrors).length === 0;
   };
-  const validatePassword = (password) => {
-    let errorMessages = [];
+  // const validatePassword = (password) => {
+  //   let errorMessages = [];
 
-    if (/\s/.test(password)) {
-      errorMessages.push('Password cannot contain spaces.');
-    }
-    if (password.length < 8) {
-      errorMessages.push('8 characters minimum');
-    }
-    if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
-      errorMessages.push('One uppercase and lowercase letter required');
-    }
-    if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
-      errorMessages.push('At least one numeric and one special symbol required');
-    }
+  //   if (/\s/.test(password)) {
+  //     errorMessages.push('Password cannot contain spaces.');
+  //   }
+  //   if (password.length < 8) {
+  //     errorMessages.push('8 characters minimum');
+  //   }
+  //   if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+  //     errorMessages.push('One uppercase and lowercase letter required');
+  //   }
+  //   if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
+  //     errorMessages.push('At least one numeric and one special symbol required');
+  //   }
 
-    return errorMessages;
-  };
+  //   return errorMessages;
+  // };
 
 
   const handleSubmit = (e) => {
@@ -206,42 +206,42 @@ function CreateAccount({ state }) {
 
 
 
-    if (!firstName) {
-      setFirstNameError('Please enter first name');
-    }
+    // if (!firstName) {
+    //   setFirstNameError('Please enter first name');
+    // }
    
 
-    if (!email) {
-      setEmailError('Please enter email id');
-    } else if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email address');
-    }
+    // if (!email) {
+    //   setEmailError('Please enter email id');
+    // } else if (!validateEmail(email)) {
+    //   setEmailError('Please enter a valid email address');
+    // }
 
-    if (!mobileNumber) {
-      setPhoneError('Please enter mobile no.');
-    }
+    // if (!mobileNumber) {
+    //   setPhoneError('Please enter mobile no.');
+    // }
 
-    const phonePattern = /^\d{10}$/;
-    const isValidMobileNo = phonePattern.test(mobileNumber);
+    // const phonePattern = /^\d{10}$/;
+    // const isValidMobileNo = phonePattern.test(mobileNumber);
 
-    if (!isValidMobileNo) {
-      setPhoneError('Please enter a valid 10-digit mobile number');
-    }
-    if (!password) {
-      setPasswordErrors('Please enter a password');
-      return;
-    }
+    // if (!isValidMobileNo) {
+    //   setPhoneError('Please enter a valid 10-digit mobile number');
+    // }
+    // if (!password) {
+    //   setPasswordErrors('Please enter a password');
+    //   return;
+    // }
 
-    const passwordValidationErrors = validatePassword(password);
-    if (passwordValidationErrors.length > 0) {
-      setPasswordErrors(passwordValidationErrors.join(', '));
-      return;
-    }
+    // const passwordValidationErrors = validatePassword(password);
+    // if (passwordValidationErrors.length > 0) {
+    //   setPasswordErrors(passwordValidationErrors.join(', '));
+    //   return;
+    // }
 
-    if (!confirmPassword) {
-      setConfirmPasswordError('Please enter confirm password');
-      return;
-    }
+    // if (!confirmPassword) {
+    //   setConfirmPasswordError('Please enter confirm password');
+    //   return;
+    // }
 
 
     if (password !== confirmPassword) {
@@ -307,7 +307,7 @@ function CreateAccount({ state }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">First Name  <span className="text-red-500 text-xl">*</span></label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">First Name  <span className="text-red-500 text-xl"></span></label>
               <input type="text" data-testid='input-fname' placeholder="First name" className="w-full p-3 border border-gray-300 rounded-xl font-Gilroy"
                 value={firstName}
                 onChange={handleFirstNameChange}
@@ -336,7 +336,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Email ID  <span className="text-red-500 text-xl">*</span></label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Email ID  <span className="text-red-500 text-xl"></span></label>
               <input data-testid='input-email'
                 autoComplete='new-email'
                 autoCorrect='off'
@@ -359,7 +359,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Mobile number  <span className="text-red-500 text-xl">*</span></label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Mobile number  <span className="text-red-500 text-xl"></span></label>
               <div className="flex items-center border border-gray-300 rounded-xl bg-white p-3 w-full">
                 <select className="outline-none bg-transparent mr-2">
                   <option>+91</option>
@@ -392,7 +392,7 @@ function CreateAccount({ state }) {
 
             <div>
               <label className="font-Gilroy font-medium text-sm leading-4 mt-2">
-                Password  <span className="text-red-500 text-xl">*</span>
+                Password  <span className="text-red-500 text-xl"></span>
               </label>
               <div className="relative">
                 <input
@@ -435,7 +435,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Confirm Password  <span className="text-red-500 text-xl">*</span></label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Confirm Password  <span className="text-red-500 text-xl"></span></label>
               <div className="flex items-center border border-gray-300 rounded-xl p-3 bg-white">
                 <input data-testid='con-password' type={showConfirmPassword ? "text" : "password"} className="flex-1 w-full pr-1  outline-none bg-transparent text-gray-900 font-Gilroy"
                   placeholder="Confirm your password" value={confirmPassword} onChange={handleConfirmPasswordChange}

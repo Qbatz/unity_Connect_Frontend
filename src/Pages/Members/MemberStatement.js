@@ -31,6 +31,8 @@ function MemberStatements({ state, member }) {
   const [errors, setErrors] = useState({});
   const [selectedStatement, setSelectedStatement] = useState();
 
+
+
   const [currentPage, setCurrentPage] = useState(1);
 
 
@@ -81,27 +83,38 @@ function MemberStatements({ state, member }) {
     }
   }, [state.Member.statusCodeAddTransactions])
 
+  useEffect(() => {
+    if (selectedStatement) {
+      setPaidAmount(selectedStatement.Paid_Amount || "");
+      setPendingAmount(selectedStatement.Pending_Amount || "");
+      setStatus(selectedStatement.Status || "");
+    }
+  }, [selectedStatement]);
+
   const handleInputChange = (field, value) => {
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
-    if (field === "loanAmount" || field === "paidAmount") {
-      const loan = parseFloat(field === "loanAmount" ? value : selectedStatement?.Due_Amount) || 0;
-      const paid = parseFloat(field === "paidAmount" ? value : paidAmount) || 0;
 
-
+    if (field === "loanAmount") {
+    
+      const loan = parseFloat(value) || 0;
+      const paid = parseFloat(paidAmount) || 0;
       setPendingAmount((loan - paid).toString());
-    }
-
-
-    if (field === "paidAmount") {
+    } else if (field === "paidAmount") {
       setPaidAmount(value);
+
+      const loan = parseFloat(selectedStatement?.Due_Amount) || 0;
+      const paid = parseFloat(value) || 0;
+      setPendingAmount((loan - paid).toString());
     } else if (field === "pendingAmount") {
       setPendingAmount(value);
     } else if (field === "status") {
       setStatus(value);
     }
   };
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -208,7 +221,7 @@ function MemberStatements({ state, member }) {
                   <td className="p-4 font-Gilroy">{item.Due_Amount}</td>
 
                   <td className="p-4 font-Gilroy">{item.Intrest_Amount}</td>
-                  <td className="p-4 font-Gilroy">{item.Pending_Amount}</td>
+                  <td className="p-4 font-Gilroy">{item.Pending_Amount_For_Due || item.Due_Amount}</td>
                   <td className="p-4 font-Gilroy">{item.Paid_Amount}</td>
                   <td className="p-4 font-Gilroy">
                     <span
@@ -276,10 +289,11 @@ function MemberStatements({ state, member }) {
             <div className="font-Gilroy max-h-[400px] sm:max-h-[400px] overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="text-sm font-semibold">Loan Amount</label>
+                  <label className="text-sm font-semibold">Due Amount</label>
                   <input
                     type="text"
-                    value={selectedStatement?.Loan_Amount || ""}
+                    value={selectedStatement?.Due_Amount
+                      || ""}
                     onChange={(e) => handleInputChange("loanAmount", e.target.value)}
                     placeholder="Enter amount"
                     className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none"

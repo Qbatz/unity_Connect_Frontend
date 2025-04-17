@@ -141,6 +141,8 @@ function ReportsTab({ state }) {
 
   const handleOptionClick = (option, e, type) => {
     setReportType(type);
+   
+    
 
     if (type === 1) {
       setFilterUnpaid(option.value);
@@ -442,7 +444,7 @@ function ReportsTab({ state }) {
                           +₹{report.Amount.toLocaleString('en-IN')}
                         </p>
                         <p className="text-[#939393] text-xs font-Gilroy">
-                          {new Date(report.Created_At).toLocaleDateString("en-GB", {
+                          {new Date(report.Transaction_Date).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",
                             year: "numeric",
