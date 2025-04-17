@@ -134,16 +134,16 @@ function AddLoanForm({ state }) {
   useEffect(() => {
     function handleClickOutside(event) {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setOpenMenu(null); 
+        setOpenMenu(null);
       }
     }
-  
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openMenu]);
-  
+
 
 
   const handleSubmit = (e) => {
@@ -455,7 +455,17 @@ function AddLoanForm({ state }) {
   }));
 
 
+  useEffect(() => {
+    if (isApprovePopupOpen) {
+      document.body.style.overflow = "hidden"; // Stop page scroll
+    } else {
+      document.body.style.overflow = "auto"; // Allow scroll when modal closes
+    }
 
+    return () => {
+      document.body.style.overflow = "auto"; // Clean up if component unmounts
+    };
+  }, [isApprovePopupOpen]);
 
   const loanOptions = loanGetSetting?.SettingLoan?.getLoan?.loans?.map((loan) => ({
     value: loan.Id,
@@ -749,6 +759,7 @@ function AddLoanForm({ state }) {
 
 
         {isModalOpen && (
+
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
             <div className="bg-white w-full sm:w-[90%] md:w-[80%] lg:w-[464px] rounded-2xl p-6 shadow-lg transition-all duration-300 max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
@@ -936,7 +947,7 @@ function AddLoanForm({ state }) {
                             </div>
                             {openMenu === index && (
                               <div
-                              ref={popupRef}
+                                ref={popupRef}
                                 style={{
                                   position: 'fixed',
                                   top: `${popupPosition.top}px`,
@@ -1179,8 +1190,9 @@ function AddLoanForm({ state }) {
 
 
         {isApprovePopupOpen && (
-          <div className="fixed  inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white w-[465px] rounded-2xl p-6 rounded-[40px] shadow-lg">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-2 sm:px-4 overflow-hidden">
+            <div className="bg-white p-4 rounded-2xl shadow-lg w-[465px] max-w-xl max-h-[98vh] overflow-y-auto flex flex-col">
+
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold font-Gilroy">Approve Loan?</h2>
                 <button

@@ -332,7 +332,8 @@ function LoanSetting({ state }) {
                           setIsOpen(false);
                           if (option === "Daily") {
                             setSelectedDueDate(option);
-                            setSelectedMonthlyType("")
+                            setSelectedMonthlyType("");
+                            setSelectedOrdinal('')
                           }
                         }}
                       >
@@ -351,6 +352,7 @@ function LoanSetting({ state }) {
                     onClick={() => {
                       setIsWeekDropdownOpen(!isWeekDropdownOpen)
                       setSelectedMonthlyType("")
+                      setSelectedOrdinal('')
                     }
                     }
 
@@ -434,9 +436,12 @@ function LoanSetting({ state }) {
                         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
                         onClick={() => setIsOrdinalDropdownOpen(!isOrdinalDropdownOpen)}
                       >
-                        <span className={`text-base font-Gilroy font-medium ${selectedOrdinal === "Select a day count" ? "text-gray-400" : "text-black"}`}>
-                          {selectedOrdinal}
+
+                        <span className={`text-base font-Gilroy font-medium ${selectedOrdinal ? "text-black" : "text-gray-400"}`}>
+                          {selectedOrdinal || "1st"}
                         </span>
+
+
                         <ChevronDown className="w-5 h-5 text-gray-500" />
                       </div>
 
