@@ -198,7 +198,8 @@ function MemberModal({ state, memberData, onClose }) {
     CustomInput.displayName = "CustomInput";
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-2 sm:px-4">
+
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-2 sm:px-4 overflow-hidden">
             <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-xl max-h-[98vh] overflow-y-auto flex flex-col">
                 <div className="flex items-center justify-between border-b pb-2 mb-2 bg-white z-10 sticky top-0">
                     <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">

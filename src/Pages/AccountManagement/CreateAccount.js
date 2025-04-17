@@ -113,12 +113,7 @@ function CreateAccount({ state }) {
     setErrors((prev) => ({ ...prev, password: "" }));
     setPasswordErrors('')
 
-    if (newPassword.length > 0) {
-      const errors = validatePassword(newPassword);
-      if (errors.length > 0) {
-        setPasswordErrors(errors.join(', '));
-      }
-    }
+
   };
 
   const handleConfirmPasswordChange = (e) => {
@@ -145,7 +140,7 @@ function CreateAccount({ state }) {
     let newErrors = {};
 
     if (!firstName.trim()) newErrors.firstName = "First name is required";
-   
+
     if (!email.trim()) {
       newErrors.email = "Email is required";
     } else if (!validateEmail(email)) {
@@ -173,24 +168,7 @@ function CreateAccount({ state }) {
 
     return Object.keys(newErrors).length === 0;
   };
-  const validatePassword = (password) => {
-    let errorMessages = [];
 
-    if (/\s/.test(password)) {
-      errorMessages.push('Password cannot contain spaces.');
-    }
-    if (password.length < 8) {
-      errorMessages.push('8 characters minimum');
-    }
-    if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
-      errorMessages.push('One uppercase and lowercase letter required');
-    }
-    if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
-      errorMessages.push('At least one numeric and one special symbol required');
-    }
-
-    return errorMessages;
-  };
 
 
   const handleSubmit = (e) => {
@@ -206,42 +184,28 @@ function CreateAccount({ state }) {
 
 
 
-    if (!firstName) {
-      setFirstNameError('Please enter first name');
-    }
-   
+
+
 
     if (!email) {
-      setEmailError('Please enter email id');
+      setEmailError('');
     } else if (!validateEmail(email)) {
       setEmailError('Please enter a valid email address');
     }
 
-    if (!mobileNumber) {
-      setPhoneError('Please enter mobile no.');
-    }
+
 
     const phonePattern = /^\d{10}$/;
     const isValidMobileNo = phonePattern.test(mobileNumber);
 
     if (!isValidMobileNo) {
-      setPhoneError('Please enter a valid 10-digit mobile number');
-    }
-    if (!password) {
-      setPasswordErrors('Please enter a password');
-      return;
+      setPhoneError('');
     }
 
-    const passwordValidationErrors = validatePassword(password);
-    if (passwordValidationErrors.length > 0) {
-      setPasswordErrors(passwordValidationErrors.join(', '));
-      return;
-    }
 
-    if (!confirmPassword) {
-      setConfirmPasswordError('Please enter confirm password');
-      return;
-    }
+
+
+
 
 
     if (password !== confirmPassword) {
