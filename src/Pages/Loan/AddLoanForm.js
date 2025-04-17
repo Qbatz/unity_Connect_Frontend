@@ -285,60 +285,118 @@ function AddLoanForm({ state }) {
 
 
 
-  const handleAddNewWitness = (loan) => {
-    setIsWitnessModalOpen(true);
-    setVitDetails({ ...loan });
+  // const handleAddNewWitness = (loan) => {
+  //   setIsWitnessModalOpen(true);
+  //   setVitDetails({ ...loan });
 
-    const existingWitnesses = loan.Widness_Id
-      ? loan.Widness_Id.split(",").map(Number)
-      : [];
+  //   const existingWitnesses = loan.Widness_Id
+  //     ? loan.Widness_Id.split(",").map(Number)
+  //     : [];
 
-    setSelectedWitnesses(existingWitnesses);
-    setInitialWitnesses(existingWitnesses);
+  //   setSelectedWitnesses(existingWitnesses);
+  //   setInitialWitnesses(existingWitnesses);
 
-    const memberId = loan.Member_Id;
+  //   const memberId = loan.Member_Id;
 
-    const updatedWitnessOptions = members
-      ?.filter((member) => String(member.Id) !== String(memberId))
-      .map((member) => ({
-        value: member.Id,
-        label: member.User_Name,
-      }));
+  //   const updatedWitnessOptions = members
+  //     ?.filter((member) => String(member.Id) !== String(memberId))
+  //     .map((member) => ({
+  //       value: member.Id,
+  //       label: member.User_Name,
+  //     }));
 
-    setNewWitnessOptions(updatedWitnessOptions);
+  //   setNewWitnessOptions(updatedWitnessOptions);
+  // };
+
+  // const handleAddWitness = () => {
+  //   if (selectedWitnesses.length === 0) {
+  //     setWitnessError("No changes detected. Please select at least one witness");
+  //     return;
+  //   }
+
+  //   const isSelectionUnchanged =
+  //     JSON.stringify([...selectedWitnesses].sort()) === JSON.stringify([...initialWitnesses].sort());
+
+  //   if (isSelectionUnchanged) {
+  //     setWitnessError("No changes detected");
+  //     return;
+  //   }
+
+
+  //   const updatedWitnesses = [...new Set([...initialWitnesses, ...selectedWitnesses])];
+
+  //   const witnessPayload = {
+  //     id: vitDetails.Loan_Id,
+  //     member_id: vitDetails.Member_Id,
+  //     widness_ids: updatedWitnesses,
+  //   };
+
+  //   dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
+  //   dispatch({ type: "GET_LOAN" });
+
+  //   setInitialWitnesses(updatedWitnesses);
+  //   setIsWitnessModalOpen(false);
+  //   setSelectedWitnesses([]);
+  //   setWitnessError("");
+  // };
+
+// Called when clicking Save in modal
+const handleAddWitness = () => {
+  if (selectedWitnesses.length === 0) {
+    setWitnessError("No changes detected. Please select at least one witness");
+    return;
+  }
+
+  const isSelectionUnchanged =
+    JSON.stringify([...selectedWitnesses].sort()) === JSON.stringify([...initialWitnesses].sort());
+
+  if (isSelectionUnchanged) {
+    setWitnessError("No changes detected");
+    return;
+  }
+
+  // ✅ Only use currently selected witnesses
+  const updatedWitnesses = selectedWitnesses;
+
+  const witnessPayload = {
+    id: vitDetails.Loan_Id,
+    member_id: vitDetails.Member_Id,
+    widness_ids: updatedWitnesses,
   };
 
-  const handleAddWitness = () => {
-    if (selectedWitnesses.length === 0) {
-      setWitnessError("No changes detected. Please select at least one witness");
-      return;
-    }
+  dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
+  dispatch({ type: "GET_LOAN" });
 
-    const isSelectionUnchanged =
-      JSON.stringify([...selectedWitnesses].sort()) === JSON.stringify([...initialWitnesses].sort());
+  // Update state
+  setInitialWitnesses(updatedWitnesses);
+  setIsWitnessModalOpen(false);
+  setSelectedWitnesses([]);
+  setWitnessError("");
+};
 
-    if (isSelectionUnchanged) {
-      setWitnessError("No changes detected");
-      return;
-    }
+// Called when opening the modal
+const handleAddNewWitness = (loan) => {
+  setIsWitnessModalOpen(true);
+  setVitDetails({ ...loan });
 
+  const existingWitnesses = loan.Widness_Id
+    ? loan.Widness_Id.split(",").map(Number)
+    : [];
 
-    const updatedWitnesses = [...new Set([...initialWitnesses, ...selectedWitnesses])];
+  setSelectedWitnesses(existingWitnesses);
+  setInitialWitnesses(existingWitnesses);
 
-    const witnessPayload = {
-      id: vitDetails.Loan_Id,
-      member_id: vitDetails.Member_Id,
-      widness_ids: updatedWitnesses,
-    };
+  const memberId = loan.Member_Id;
 
-    dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
-    dispatch({ type: "GET_LOAN" });
+  const updatedWitnessOptions = members
+    ?.filter((member) => String(member.Id) !== String(memberId))
+    .map((member) => ({
+      value: member.Id,
+      label: member.User_Name,
+    }));
 
-    setInitialWitnesses(updatedWitnesses);
-    setIsWitnessModalOpen(false);
-    setSelectedWitnesses([]);
-    setWitnessError("");
-  };
+  setNewWitnessOptions(updatedWitnessOptions);
+};
 
 
 

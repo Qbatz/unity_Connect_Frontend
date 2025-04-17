@@ -48,9 +48,10 @@ function ReportsTab({ state }) {
   const [showPopup, setShowPopup] = useState(false);
   const [reportType, setReportType] = useState("");
 
-
-
-
+const [pdfURL_success, setpdfURL_success] = useState("")
+const [pdfURL_unsuccess, setpdfURL_unsuccess] = useState("")
+const [excelURL_success, setexcelURL_success] = useState("")
+const [excelURL_unsuccess, setexcelURL_unsuccess] = useState("")
   const options = [
     { label: "This week", value: "weekly" },
     { label: "This month", value: "this_month" },
@@ -58,11 +59,11 @@ function ReportsTab({ state }) {
     { label: "Customise", value: "customise" },
   ];
 
-  const pdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/UnsuccessfulPayments_1742493051264.pdf";
-  const excelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_Unsuccess1742493051476.xlsx";
+  // const pdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/UnsuccessfulPayments_1742493051264.pdf";
+  // const excelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_Unsuccess1742493051476.xlsx";
 
-  const SuccesspdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/SuccessfulPayments_1742624503148.pdf";
-  const SuccessexcelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_success1742624503227.xlsx";
+  // const SuccesspdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/SuccessfulPayments_1742624503148.pdf";
+  // const SuccessexcelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_success1742624503227.xlsx";
 
 
 
@@ -105,11 +106,21 @@ function ReportsTab({ state }) {
     };
   }, []);
 
+// useEffect(()=>{
+//   if (state.Report.pdfURL_Unsuccess) {
+    
+//   }
+// })
+
+
   useEffect(() => {
 
 
     if (state.Report.statusCodeUnSuccess === 200) {
-
+      setpdfURL_success(state.Report.pdfURL_Success)
+      setpdfURL_unsuccess(state.Report.pdfURL_Unsuccess)
+      setexcelURL_success(state.Report.excelURL_Success)
+      setexcelURL_unsuccess(state.Report.excelURL_Unsuccess)
       setFilterUnpaid("");
       setSelectedFilter1("");
       setTimeout(() => {
@@ -303,14 +314,14 @@ function ReportsTab({ state }) {
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(SuccessexcelURL, "Unsuccessful_Payments.xlsx")}
+                    onClick={() => handleDownload(excelURL_success, "Unsuccessful_Payments.xlsx")}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
 
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => window.open(SuccesspdfURL, "_blank")}
+                    onClick={() => window.open(pdfURL_success, "_blank")}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
@@ -475,13 +486,13 @@ function ReportsTab({ state }) {
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(excelURL, "Unsuccessful_Payments.xlsx")}
+                    onClick={() => handleDownload(excelURL_unsuccess, "Unsuccessful_Payments.xlsx")}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => window.open(pdfURL, '_blank')}
+                    onClick={() => window.open(pdfURL_unsuccess, '_blank')}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>

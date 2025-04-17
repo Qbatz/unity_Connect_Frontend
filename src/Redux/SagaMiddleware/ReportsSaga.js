@@ -17,7 +17,8 @@ function* SuccessReportSaga(action) {
                 payload: {
                     response: response.data.data || response.data || [],
                     statusCode: response.status || response.data.statusCode,
-                    total_Received_Amount: response.data.total_Received_Amount || 0
+                    total_Received_Amount: response.data.total_Received_Amount || 0,
+                    pdfURL :  response.data.pdfURL, excelURL: response.data.excelURL
                 },
             });
         }
@@ -38,7 +39,7 @@ function* UnSuccessReportSaga(action) {
         if (response.status === 200) {
             yield put({
                 type: "UNSUCCESSREPORT",
-                payload: { response: response.data.data || response.data || [], statusCode: response.status || response.data.statusCode },
+                payload: { response: response.data.data || response.data || [], statusCode: response.status || response.data.statusCode, pdfURL :  response.data.pdfURL, excelURL: response.data.excelURL },
             });
         }
 
