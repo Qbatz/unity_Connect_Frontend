@@ -145,7 +145,7 @@ function CreateAccount({ state }) {
     let newErrors = {};
 
     if (!firstName.trim()) newErrors.firstName = "First name is required";
-    if (!lastName.trim()) newErrors.lastName = "Last name is required";
+   
     if (!email.trim()) {
       newErrors.email = "Email is required";
     } else if (!validateEmail(email)) {
@@ -209,9 +209,7 @@ function CreateAccount({ state }) {
     if (!firstName) {
       setFirstNameError('Please enter first name');
     }
-    if (!lastName) {
-      setLastNameError('Please enter last name');
-    }
+   
 
     if (!email) {
       setEmailError('Please enter email id');
@@ -317,9 +315,9 @@ function CreateAccount({ state }) {
 
               {isSubmitted && firstNameError &&
 
-                <div className="flex items-center text-red-500 text-sm mt-1">
-                  <MdError className="mr-1 text-base" />
-                  <span data-testid='fname-error' className="font-Gilroy">{firstNameError}</span>
+                <div className="flex items-center text-red-500 text-xs mt-1">
+                  <MdError className="mr-1 text-base text-xs" />
+                  <span data-testid='fname-error' className="font-Gilroy text-xs">{firstNameError}</span>
                 </div>
               }
             </div>
@@ -346,15 +344,15 @@ function CreateAccount({ state }) {
                 value={email} onChange={handleEmailChange}
               />
               {state.CreateAccount.emailError === "Email Id Already Exists" && (
-                <div className="flex items-center text-red-500 text-sm mt-1">
-                  <MdError className="mr-1 text-sm" />
-                  <p data-testid='mobile-error' className="text-red-500 text-sm mt-1 font-Gilroy">{state.CreateAccount.emailError}</p>
+                <div className="flex items-center text-red-500 text-xs mt-1">
+                  <MdError className="mr-1 text-xs" />
+                  <p data-testid='mobile-error' className="text-red-500 text-xs mt-1 font-Gilroy">{state.CreateAccount.emailError}</p>
                 </div>
               )}
               {isSubmitted && emailError &&
-                <div className="flex items-center text-red-500 text-sm mt-1">
-                  <MdError className="mr-1 text-sm" />
-                  <p data-testid='email-error' className="text-red-500 text-sm font-Gilroy">
+                <div className="flex items-center text-red-500 text-xs mt-1">
+                  <MdError className="mr-1 text-xs" />
+                  <p data-testid='email-error' className="text-red-500 text-xs font-Gilroy">
                     {emailError}</p>
                 </div>
               }
@@ -377,15 +375,15 @@ function CreateAccount({ state }) {
                 />
               </div>
               {state.CreateAccount.emailError === "Mobile Number Already Exists" && (
-                <div className="flex items-center text-red-500 text-sm mt-1">
-                  <MdError className="mr-1 text-sm" />
-                  <p data-testid='mobile_error' className="text-red-500 text-sm mt-1 font-Gilroy">{state.CreateAccount.emailError}</p>
+                <div className="flex items-center text-red-500 text-xs mt-1">
+                  <MdError className="mr-1 text-xs" />
+                  <p data-testid='mobile_error' className="text-red-500 text-xs mt-1 font-Gilroy">{state.CreateAccount.emailError}</p>
                 </div>
               )}
               {isSubmitted && phoneError &&
-                <div className="flex items-center text-red-500 text-sm mt-1">
-                  <MdError className="mr-1 text-sm" />
-                  <p className="text-red-500 text-sm font-Gilroy">
+                <div className="flex items-center text-red-500 text-xs mt-1">
+                  <MdError className="mr-1 text-xs" />
+                  <p className="text-red-500 text-xs font-Gilroy">
                     {phoneError}</p>
                 </div>
               }
@@ -423,9 +421,9 @@ function CreateAccount({ state }) {
               </div>
               <div >
                 {isSubmitted && passwordErrors &&
-                  <div className="flex items-center text-red-500 text-sm mt-1">
-                    <MdError className="mr-1 text-sm" />
-                    <p className="text-red-500 text-sm font-Gilroy">
+                  <div className="flex items-center text-red-500 text-xs mt-1">
+                    <MdError className="mr-1 text-xs" />
+                    <p className="text-red-500 text-xs font-Gilroy">
                       {passwordErrors}</p>
                   </div>
                 }
@@ -447,15 +445,15 @@ function CreateAccount({ state }) {
                 </button>
               </div>
               {isSubmitted && confirmPasswordError &&
-                <div className="flex items-center text-red-500 text-sm mt-1">
-                  <MdError className="mr-1 text-sm" />
-                  <p className="text-red-500 text-sm font-Gilroy">{confirmPasswordError}</p>
+                <div className="flex items-center text-red-500 text-xs mt-1">
+                  <MdError className="mr-1 text-xs" />
+                  <p className="text-red-500 text-xs font-Gilroy">{confirmPasswordError}</p>
                 </div>
               }
               {isSubmitted && bothPasswordError &&
-                <div className="flex items-center text-red-500 text-sm mt-1">
-                  <MdError className="mr-1 text-sm" />
-                  <p className="text-red-500 text-sm font-Gilroy">{bothPasswordError}</p>
+                <div className="flex items-center text-red-500 text-xs mt-1">
+                  <MdError className="mr-1 text-xs" />
+                  <p className="text-red-500 text-xs font-Gilroy">{bothPasswordError}</p>
                 </div>
               }
 

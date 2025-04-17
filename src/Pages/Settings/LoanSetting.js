@@ -9,6 +9,7 @@ import { MdError } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays } from "lucide-react";
+import EmptyState from '../../Asset/Images/Empty-State.jpg'
 
 function LoanSetting({ state }) {
 
@@ -390,23 +391,24 @@ function LoanSetting({ state }) {
                 <div className="relative w-full mt-3">
                   <label className="text-black text-sm font-Gilroy font-medium text-lg">Monthly Type</label>
                   <div
-                    className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
+                    className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer "
                     onClick={() => setIsMonthlyDropdownOpen(!isMonthlyDropdownOpen)}
                   >
 
-                    <span className={`text-base font-Gilroy font-medium ${selectedMonthlyType ? "text-black" : "text-gray-400"}`}>
+                    <span className={`text-base font-Gilroy font-medium ${selectedMonthlyType ? " text-black" : "text-gray-400"}`}>
                       {selectedMonthlyType || "Select Monthly Type"}
                     </span>
                     <ChevronDown className="w-5 h-5 text-gray-500" />
                   </div>
 
                   {isMonthlyDropdownOpen && (
-                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg">
+
+                    <div className="mt-3 bg-white border border-[#D9D9D9] rounded-2xl shadow-lg max-h-[90px] overflow-y-auto">
                       {monthlyOptions.map((type, index) => (
                         <div
                           key={index}
 
-                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                          className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300    hover:bg-#F4F7FF"
                           onClick={(e) => {
                             e.stopPropagation();
                             setSelectedMonthlyType(type);
@@ -444,7 +446,7 @@ function LoanSetting({ state }) {
                           {["1st", "2nd", "3rd", "4th"].map((ordinal, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
                               onClick={() => {
                                 setSelectedOrdinal(ordinal);
                                 setIsOrdinalDropdownOpen(false);
@@ -470,11 +472,11 @@ function LoanSetting({ state }) {
                       </div>
 
                       {isDayDropdownOpen && (
-                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10">
+                        <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10  max-h-[100px] overflow-y-auto ">
                           {dayOptions.map((day, index) => (
                             <div
                               key={index}
-                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
+                              className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
                               onClick={() => {
                                 setSelectedDay(day);
                                 setIsDayDropdownOpen(false);
@@ -581,38 +583,51 @@ function LoanSetting({ state }) {
 
 
       <div className="max-h-[400px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {currentLoans?.map((loan, index) => (
-          <div key={index} className="w-full h-[200px] bg-[#F4F7FF] flex flex-col rounded-3xl">
-            <div className="flex items-center px-4 py-4">
-              <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
-              <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
-                {loan.Loan_Name}
-              </p>
-              <div className="flex-grow"></div>
-              <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
+        {currentLoans && currentLoans.length > 0 ? (
+          currentLoans.map((loan, index) => (
+            <div key={index} className="w-full h-[200px] bg-[#F4F7FF] flex flex-col rounded-3xl">
+              <div className="flex items-center px-4 py-4">
+                <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
+                <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
+                  {loan.Loan_Name}
+                </p>
+                <div className="flex-grow"></div>
+                <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
+              </div>
+              <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
+
+              <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
+                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
+                  {loan.Due_Type === 'Monthly' ? 'N/A' : loan.Due_On}
+                </p>
+              </div>
+
+              <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
+                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
+              </div>
+
+
+
+              <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
+                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
+              </div>
             </div>
-            <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
+          ))
+        ) : (
+          <div className="col-span-full flex flex-col items-center justify-center h-[300px]">
 
-            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
-              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
-                {loan.Due_Type === 'Monthly' ? 'N/A' : loan.Due_On}
-              </p>
+            <div className="w-64 h-64">
+              <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
             </div>
 
-            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
-              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
-            </div>
-
-
-
-            <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-              <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
-              <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
-            </div>
+            <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
+              No Data Found
+            </p>
           </div>
-        ))}
+        )}
       </div>
 
       {allLoans.length > 0 && (
