@@ -124,7 +124,7 @@ function LoanSetting({ state }) {
       due_on: selectedDueDate,
       due_type: selectedOption,
       due_count: selectedDueCount,
-      Id: loanGetSetting,
+      // Id: loanGetSetting,
       interest: selectedInterest,
     };
 
@@ -400,7 +400,6 @@ function LoanSetting({ state }) {
                           className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300"
                           onClick={(e) => {
                             e.stopPropagation();
-
                             setSelectedMonthlyType(type);
                             setIsMonthlyDropdownOpen(false);
                           }}
@@ -414,14 +413,8 @@ function LoanSetting({ state }) {
               )}
 
 
-
-
-
-
-              {selectedMonthlyType === "Day" && (
+              {selectedMonthlyType === "Day" && selectedOption === "Monthly" && (
                 <div className="relative w-full mt-3 flex gap-2">
-
-
 
                   <div className="flex gap-4">
 
@@ -490,11 +483,7 @@ function LoanSetting({ state }) {
                 </div>
               )}
 
-
-
-
-
-              {selectedMonthlyType === "Date" && (
+              {selectedMonthlyType === "Date" && selectedOption === "Monthly" && (
 
                 <div className="mt-2 relative" >
                   <label className="text-black text-sm font-Gilroy font-medium text-lg">Due</label>
@@ -517,10 +506,6 @@ function LoanSetting({ state }) {
                   </div>
                 </div>
               )}
-
-
-
-
 
               <div className="mt-5">
                 <label className="text-black font-Gilroy text-sm font-medium text-lg">Due count <span className="text-red-500 text-[20px]">*</span></label>
@@ -602,7 +587,7 @@ function LoanSetting({ state }) {
             <div className="flex justify-between w-310 mx-auto px-2 pt-5">
               <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
               <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
-                {loan.Due_On}
+                {loan.Due_Type === 'Monthly' ? 'N/A' : loan.Due_On}
               </p>
             </div>
 

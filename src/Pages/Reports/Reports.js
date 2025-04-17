@@ -22,7 +22,6 @@ function ReportsTab({ state }) {
   const Success = state.Report.successreport || [];
   const totalAmount = state.Report.total_Received_Amount;
 
-
   const UnSuccess = state.Report.unsuccessreport || [];
   const dropdownRef1 = useRef(null);
   const dropdownRef2 = useRef(null);
@@ -57,13 +56,6 @@ function ReportsTab({ state }) {
     { label: "This year", value: "this_year" },
     { label: "Customise", value: "customise" },
   ];
-
-  const pdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/UnsuccessfulPayments_1742493051264.pdf";
-  const excelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_Unsuccess1742493051476.xlsx";
-
-  const SuccesspdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/SuccessfulPayments_1742624503148.pdf";
-  const SuccessexcelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_success1742624503227.xlsx";
-
 
 
   useEffect(() => {
@@ -303,14 +295,14 @@ function ReportsTab({ state }) {
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(SuccessexcelURL, "Unsuccessful_Payments.xlsx")}
+                    onClick={() => handleDownload(state.Report.successExcelUrl, "Unsuccessful_Payments.xlsx")}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
 
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => window.open(SuccesspdfURL, "_blank")}
+                    onClick={() => window.open(state.Report.successPdfUrl, "_blank")}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
@@ -475,13 +467,13 @@ function ReportsTab({ state }) {
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(excelURL, "Unsuccessful_Payments.xlsx")}
+                    onClick={() => handleDownload(state.Report.unsuccessExcelUrl, "Unsuccessful_Payments.xlsx")}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => window.open(pdfURL, '_blank')}
+                    onClick={() => window.open(state.Report.unsuccessPdfUrl, '_blank')}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
