@@ -457,13 +457,13 @@ function AddLoanForm({ state }) {
 
   useEffect(() => {
     if (isApprovePopupOpen) {
-      document.body.style.overflow = "hidden"; // Stop page scroll
+      document.body.style.overflow = "hidden"; 
     } else {
-      document.body.style.overflow = "auto"; // Allow scroll when modal closes
+      document.body.style.overflow = "auto"; 
     }
 
     return () => {
-      document.body.style.overflow = "auto"; // Clean up if component unmounts
+      document.body.style.overflow = "auto"; 
     };
   }, [isApprovePopupOpen]);
 
