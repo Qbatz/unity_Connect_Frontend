@@ -145,6 +145,7 @@ const ProfileDetails = ({ state }) => {
                 [e.target.name]: '',
             });
         }
+        setNoChangesMessage('')
     };
 
     const handleSubmit = (e) => {

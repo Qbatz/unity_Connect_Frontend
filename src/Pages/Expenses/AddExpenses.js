@@ -245,11 +245,11 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
     const CustomInput = forwardRef(({ value, onClick }, ref) => (
-        <div className="relative w-full">
+        <div className="relative w-full cursor-pointer">
             <input
                 ref={ref}
                 type="text"
-                className="w-[300px]  p-2 h-10 border border-gray-300 rounded-lg text-sm cursor-pointer pl-4 focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-[300px] p-2 h-10 border border-gray-300 rounded-lg text-sm cursor-pointer pl-4"
                 placeholder="DD-MM-YYYY"
                 value={value}
                 onClick={onClick}
@@ -257,7 +257,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             />
             <CalendarDays
                 size={20}
-                className="absolute text-[#292D32] right-3 top-3  cursor-pointer"
+                className="absolute text-[#292D32] right-3 top-3 cursor-pointer"
                 onClick={onClick}
             />
         </div>
@@ -325,6 +325,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 onChange={(selectedOption) => {
 
                                     setCategory(selectedOption?.value);
+                                    setSubCategory("");
                                     if (errors.category) {
                                         setErrors((prevErrors) => ({ ...prevErrors, category: "" }));
                                     }
@@ -512,6 +513,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
                             <DatePicker
+                                className="cursor-pointer"
                                 selected={expenseDate}
                                 onChange={(date) => {
                                     setExpenseDate(date);

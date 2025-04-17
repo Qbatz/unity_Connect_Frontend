@@ -22,7 +22,6 @@ function ReportsTab({ state }) {
   const Success = state.Report.successreport || [];
   const totalAmount = state.Report.total_Received_Amount;
 
-
   const UnSuccess = state.Report.unsuccessreport || [];
   const dropdownRef1 = useRef(null);
   const dropdownRef2 = useRef(null);
@@ -57,13 +56,6 @@ function ReportsTab({ state }) {
     { label: "This year", value: "this_year" },
     { label: "Customise", value: "customise" },
   ];
-
-  const pdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/UnsuccessfulPayments_1742493051264.pdf";
-  const excelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_Unsuccess1742493051476.xlsx";
-
-  const SuccesspdfURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/SuccessfulPayments_1742624503148.pdf";
-  const SuccessexcelURL = "https://smartstaydevs.s3.ap-south-1.amazonaws.com/Report/REPORT_success1742624503227.xlsx";
-
 
 
   useEffect(() => {
@@ -106,14 +98,28 @@ function ReportsTab({ state }) {
   }, []);
 
   useEffect(() => {
-    if (state.successReport || state.unsuccessReport) {
-      setFilterPaid("");
+
+
+    if (state.Report.statusCodeUnSuccess === 200) {
+
       setFilterUnpaid("");
       setSelectedFilter1("");
-      setSelectedFilter2("");
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODE_UNSUCCESSREPORT' })
+      }, 500);
     }
-  }, [state.successReport, state.unsuccessReport]);
+  }, [state.Report.statusCodeUnSuccess]);
 
+  useEffect(() => {
+    if (state.Report.statusCodeSuccess === 200) {
+
+      setFilterPaid("");
+      setSelectedFilter2("");
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODE_SUCCESSREPORT' })
+      }, 500);
+    }
+  })
 
   useEffect(() => {
     if (filterpaid || filterunpaid) {
@@ -171,18 +177,21 @@ function ReportsTab({ state }) {
       };
       dispatch({ type: "SUCCESS_REPORT", payload });
     } else {
-      payload = {
-        start_date_Paid: "",
-        end_date_Paid: "",
-        start_date_UnPaid: "",
-        end_date_UnPaid: "",
-        filter_Paid: filterpaid,
-        filter_UnPaid: filterunpaid,
-      };
+
 
       if (filterpaid) {
+        payload = {
+          start_date_Paid: paidStart,
+          end_date_Paid: paidEnd,
+          filter_Paid: filterpaid,
+        };
         dispatch({ type: "SUCCESS_REPORT", payload });
       } else if (filterunpaid) {
+        payload = {
+          start_date_UnPaid: unpaidStart,
+          end_date_UnPaid: unpaidEnd,
+          filter_UnPaid: filterunpaid,
+        };
         dispatch({ type: "UNSUCCESS_REPORT", payload });
       }
     }
@@ -286,14 +295,14 @@ function ReportsTab({ state }) {
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(SuccessexcelURL, "Unsuccessful_Payments.xlsx")}
+                    onClick={() => handleDownload(state.Report.successExcelUrl, "Unsuccessful_Payments.xlsx")}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
 
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => window.open(SuccesspdfURL, "_blank")}
+                    onClick={() => window.open(state.Report.successPdfUrl, "_blank")}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
@@ -451,20 +460,20 @@ function ReportsTab({ state }) {
 
             <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full w-1/2">
               <div className="flex flex-col md:flex-row md:justify-between items-center md:items-center gap-3 mb-4">
-                <h2 className="text-lg xs:text-xs lg:text-lg font-semibold font-Gilroy flex items-center gap-2">
+                <h2 className="text-lg font-semibold leading-[100%] tracking-[0%] font-Gilroy flex items-center gap-2">
                   <img src={unsuccessfullpayment} alt='unsuccesfullpayment' className="h-[24px] w-[24px]" />
                   Unsuccessful Payments
                 </h2>
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(excelURL, "Unsuccessful_Payments.xlsx")}
+                    onClick={() => handleDownload(state.Report.unsuccessExcelUrl, "Unsuccessful_Payments.xlsx")}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(pdfURL, "Unsuccessful_Payments.pdf")}
+                    onClick={() => window.open(state.Report.unsuccessPdfUrl, '_blank')}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
