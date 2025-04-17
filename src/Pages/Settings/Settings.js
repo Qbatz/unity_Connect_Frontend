@@ -17,7 +17,7 @@ const Settings = () => {
       >
         Settings
       </h2>
-      <div className="flex flex-col lg:flex-row w-full gap-3 lg:gap-[125px] justify-center items-center lg:items-center">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 w-full justify-items-center">
 
        
         {["Member ID", "Loan ID", "Transaction ID", "Loan", "Expenses", "Payment"].map((tab) => (
