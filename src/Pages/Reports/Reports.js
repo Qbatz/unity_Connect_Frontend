@@ -36,8 +36,10 @@ function ReportsTab({ state }) {
   const [paidEnd, setPaidEnd] = useState("");
   const [filterunpaid, setFilterUnpaid] = useState("");
   const [filterpaid, setFilterPaid] = useState("");
-  const [selectedFilter1, setSelectedFilter1] = useState("");
-  const [selectedFilter2, setSelectedFilter2] = useState("");
+
+  const [selectedFilterUnpaid, setSelectedFilterUnpaid] = useState("This Month");
+  const [selectedFilterPaid, setSelectedFilterPaid] = useState("This Month");
+
   const [isOpen1, setIsOpen1] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
   const [unpaidStartError, setUnpaidStartError] = useState("");
@@ -103,7 +105,8 @@ function ReportsTab({ state }) {
     if (state.Report.statusCodeUnSuccess === 200) {
 
       setFilterUnpaid("");
-      setSelectedFilter1("");
+
+      setSelectedFilterUnpaid("")
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_UNSUCCESSREPORT' })
       }, 500);
@@ -114,7 +117,8 @@ function ReportsTab({ state }) {
     if (state.Report.statusCodeSuccess === 200) {
 
       setFilterPaid("");
-      setSelectedFilter2("");
+
+      setSelectedFilterPaid("")
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_SUCCESSREPORT' })
       }, 500);
@@ -139,25 +143,29 @@ function ReportsTab({ state }) {
   };
 
 
+
+
   const handleOptionClick = (option, e, type) => {
     setReportType(type);
+
    
-    
 
     if (type === 1) {
       setFilterUnpaid(option.value);
-      setSelectedFilter1(option.label);
+      setSelectedFilterUnpaid(option.label);
     } else {
       setFilterPaid(option.value);
-      setSelectedFilter2(option.label);
+      setSelectedFilterPaid(option.label);
     }
 
     if (option.value === "customise") {
       setShowPopup(type);
     }
+
     setIsOpen1(false);
     setIsOpen2(false);
   };
+
 
 
   const handleCommonClick = (reportType) => {
@@ -322,7 +330,9 @@ function ReportsTab({ state }) {
                     onClick={() => setIsOpen2(!isOpen2)}
                   >
                     <span className="text-[13px] font-Gilroy text-black">
-                      {selectedFilter2 || "This Month"}
+
+                      {selectedFilterPaid || "This Month"}
+
                     </span>
 
                     <span>
@@ -489,7 +499,8 @@ function ReportsTab({ state }) {
                     onClick={() => setIsOpen1(!isOpen1)}
                   >
                     <span className="text-[13px]">
-                      {selectedFilter1 || "This Month"}
+
+                      {selectedFilterUnpaid || "This Month"}
                     </span>
                     <span>
                       <img src={arrowdown} alt="arrowdown" className="h-[16px] w-[16px]" />
