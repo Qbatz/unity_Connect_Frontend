@@ -173,7 +173,10 @@ function TransactionID({ state }) {
       </div>
 
       {errorMessage && (
-        <p className="text-red-500 text-xs text-center font-Gilroy">{errorMessage}</p>
+        <div className="flex items-center justify-center text-red-500 text-xs mt-1">
+          <MdError className="mr-1 text-sm" />
+          <p className="font-Gilroy">{errorMessage}</p>
+        </div>
       )}
     </div>
   );
