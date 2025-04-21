@@ -221,7 +221,7 @@ function MemberStatements({ state, member }) {
                   <td className="p-4 font-Gilroy">{item.Due_Amount}</td>
 
                   <td className="p-4 font-Gilroy">{item.Monthly_Intrest}</td>
-                  <td className="p-4 font-Gilroy">{item.Pending_Amount_For_Due ? item.Pending_Amount_For_Due : item.Due_Amount}</td>
+                  <td className="p-4 font-Gilroy">{item.Pending_Amount_For_Due === null ? item.Due_Amount : item.Pending_Amount_For_Due}</td>
                   <td className="p-4 font-Gilroy">{item.Paid_Amount}</td>
                   <td className="p-4 font-Gilroy">
                     <span
