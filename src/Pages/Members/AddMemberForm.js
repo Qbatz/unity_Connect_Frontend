@@ -175,10 +175,10 @@ function MemberModal({ state, memberData, onClose }) {
             type: 'MEMBERINFO',
             payload: memberData ? Editpayload : payload,
         });
-        // dispatch({ type: 'MEMBERLIST' });
+       
         setFile(null);
         setNoChanges("");
-        // onClose();
+       
     };
 
     const CustomInput = forwardRef(({ value, onClick }, ref) => (
