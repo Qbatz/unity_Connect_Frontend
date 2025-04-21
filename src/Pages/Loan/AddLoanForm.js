@@ -211,11 +211,7 @@ function AddLoanForm({ state }) {
 
 
 
-  useEffect(() => {
-    setLoans(state?.Loan?.getLoanTab)
-    setpaginatedActiveLoans(state.Loan?.getLoanTab?.filter(loan => !loan.Loan_Type && !loan.Loan_Status).slice(indexOfFirstActive, indexOfLastActive))
-
-  }, [state.Loan.getLoanTab])
+ 
 
 
   useEffect(() => {
@@ -406,7 +402,7 @@ function AddLoanForm({ state }) {
       payload,
     });
 
-
+    setInterestType("")
   };
 
   const handleClose = () => {
@@ -431,20 +427,29 @@ function AddLoanForm({ state }) {
     setisRejectPopupOpen(false);
   };
 
+  useEffect(() => {
+    setLoans(state?.Loan?.getLoanTab)
+    setPaginatedActiveLoans(state.Loan?.getLoanTab?.filter(loan => !loan.Loan_Type && !loan.Loan_Status).slice(indexOfFirstActive, indexOfLastActive))
 
+  }, [state.Loan.getLoanTab])
 
   const indexOfLastRejected = currentPageApproved * itemsPerPage;
   const indexOfFirstRejected = indexOfLastApproved - itemsPerPage;
   const paginatedRejectedLoans = loans?.length > 0 && loans?.filter(loan => loan?.Loan_Status === 'Reject').slice(indexOfFirstRejected, indexOfLastRejected);
 
 
-
-
-
+  const [paginatedActiveLoans, setPaginatedActiveLoans] = useState([]);
+  useEffect(() => {
+    if (loans && loans.length > 0) {
+      const filtered = loans.filter(loan => !loan?.Loan_Type && loan.Loan_Status !== "Reject");
+      const indexOfLastActive = currentPageActive * itemsPerPage;
+      const indexOfFirstActive = indexOfLastActive - itemsPerPage;
+      setPaginatedActiveLoans(filtered.slice(indexOfFirstActive, indexOfLastActive));
+    }
+  }, [loans, currentPageActive]);
+  const totalActiveLoans = loans?.filter(loan => !loan?.Loan_Type && loan.Loan_Status !== "Reject") || [];
   const indexOfLastActive = currentPageActive * itemsPerPage;
   const indexOfFirstActive = indexOfLastActive - itemsPerPage;
-  const [paginatedActiveLoans, setpaginatedActiveLoans] = useState(loans?.length > 0 && loans?.filter(loan => !loan?.Loan_Type && !loan.Loan_Status).slice(indexOfFirstActive, indexOfLastActive));
-
 
   const paginatedApprovedLoans = loans?.length > 0 && loans?.filter(loan => loan.Loan_Type).slice(indexOfFirstApproved, indexOfLastApproved);
 
@@ -1098,7 +1103,7 @@ function AddLoanForm({ state }) {
 
 
 
-            {paginatedActiveLoans.length > 0 && (
+            {totalActiveLoans.length > 0 && (
               <div className="md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageActive === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"

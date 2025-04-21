@@ -40,6 +40,8 @@ function ReportsTab({ state }) {
   const [selectedFilterUnpaid, setSelectedFilterUnpaid] = useState("This Month");
   const [selectedFilterPaid, setSelectedFilterPaid] = useState("This Month");
 
+
+
   const [isOpen1, setIsOpen1] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
   const [unpaidStartError, setUnpaidStartError] = useState("");
@@ -146,9 +148,11 @@ function ReportsTab({ state }) {
 
 
   const handleOptionClick = (option, e, type) => {
+
+
     setReportType(type);
 
-   
+
 
     if (type === 1) {
       setFilterUnpaid(option.value);
@@ -164,7 +168,14 @@ function ReportsTab({ state }) {
 
     setIsOpen1(false);
     setIsOpen2(false);
+
+
   };
+
+
+
+
+
 
 
 
@@ -334,6 +345,7 @@ function ReportsTab({ state }) {
                       {selectedFilterPaid || "This Month"}
 
                     </span>
+
 
                     <span>
                       <img src={arrowdown} alt='arrowdown' className="h-[16px] w-[16px]" />
