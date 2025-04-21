@@ -119,10 +119,14 @@ function LoanSetting({ state }) {
 
     if (!isValid) return;
 
+    
+
+    let formattedDate = formatDate(selectedDueDate)
+ 
 
     const payload = {
       loan_name: selectedLoanName,
-      due_on: selectedDueDate,
+      due_on: formattedDate,
       due_type: selectedOption,
       due_count: selectedDueCount,
       // Id: loanGetSetting,
@@ -206,13 +210,22 @@ function LoanSetting({ state }) {
 
   const handleDate = (date) => {
 
-    setSelectedDueDate(date);
 
+    if (date) {
 
+      setSelectedDueDate(date);
+    } else {
+      setSelectedDueDate("");
+    }
 
   };
 
-
+  const formatDate = (date) => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   const isValidDateFor_DueOn = (date) => {
     const [day, month, year] = date.split("-");
@@ -240,7 +253,7 @@ function LoanSetting({ state }) {
 
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto ">
       <div className="flex items-center justify-between w-full">
         <div>
           <p className="font-Gilroy font-semibold text-xl text-black">Loan</p>
@@ -418,7 +431,7 @@ function LoanSetting({ state }) {
               {selectedOption === "Monthly" && (
                 <div className="relative w-full mt-3">
                   <label className="text-black text-sm font-Gilroy font-medium text-lg">Monthly Type</label>
-             
+
                   <div
                     className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
                     onClick={() => setIsMonthlyDropdownOpen(!isMonthlyDropdownOpen)}
@@ -615,10 +628,10 @@ function LoanSetting({ state }) {
       )}
 
 
-      <div className="max-h-[400px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="max-h-[420px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentLoans && currentLoans.length > 0 ? (
           currentLoans.map((loan, index) => (
-            <div key={index} className="w-full h-[230px] bg-[#F4F7FF] flex flex-col rounded-3xl">
+            <div key={index} className="w-full h-[220px] bg-[#F4F7FF] flex flex-col rounded-3xl">
               <div className="flex items-center px-4 py-4">
                 <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
                 <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
@@ -683,7 +696,7 @@ function LoanSetting({ state }) {
       </div>
 
       {allLoans.length > 0 && (
-        <div className="flex justify-end mt-[150px]">
+        <div className="flex justify-end mt-[140px]">
           <button
             className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
             onClick={() => setCurrentPage(currentPage - 1)}
