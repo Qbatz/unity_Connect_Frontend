@@ -1486,7 +1486,7 @@ function AddLoanForm({ state }) {
 
 
             <div
-              className={`active-loan max-h-[400px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
+              className={`active-loan max-h-[400px] overflow-y-auto p-5 scroll grid ${paginatedRejectedLoans?.length > 0
                 ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
                 : "place-items-center"
                 }`}
