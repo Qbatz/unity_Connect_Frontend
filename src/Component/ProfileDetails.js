@@ -283,6 +283,7 @@ const ProfileDetails = ({ state }) => {
 
     const handleConfirmLogout = () => {
         dispatch({ type: 'LOGOUT' });
+        dispatch({ type: 'CLEAR_STATUS_CODE_MEMBER_LIST' });
 
         const encryptDataLogin = encryptData(JSON.stringify(false));
         localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
