@@ -108,7 +108,7 @@ function ReportsTab({ state }) {
 
       setFilterUnpaid("");
 
-      setSelectedFilterUnpaid("")
+
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_UNSUCCESSREPORT' })
       }, 500);
@@ -120,7 +120,7 @@ function ReportsTab({ state }) {
 
       setFilterPaid("");
 
-      setSelectedFilterPaid("")
+
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODE_SUCCESSREPORT' })
       }, 500);
@@ -149,7 +149,9 @@ function ReportsTab({ state }) {
 
   const handleOptionClick = (option, e, type) => {
 
-
+    console.log("Clicked Option Value:", option.value);
+    console.log("Clicked Option Label:", option.label);
+    console.log("Report Type:", type);
     setReportType(type);
 
 
@@ -171,11 +173,6 @@ function ReportsTab({ state }) {
 
 
   };
-
-
-
-
-
 
 
 
@@ -281,6 +278,9 @@ function ReportsTab({ state }) {
       setPaidEnd("");
     }
   };
+
+
+
 
 
   if (loading) {
