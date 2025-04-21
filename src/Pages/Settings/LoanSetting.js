@@ -23,7 +23,8 @@ function LoanSetting({ state }) {
   const [isOpen, setIsOpen] = useState(false);
   const placeholderOption = "Select a due type";
   const [selectedOption, setSelectedOption] = useState(placeholderOption);
-  const [selectedWeekDay, setSelectedWeekDay] = useState(placeholderOption);
+  const placeholderOptionWeekly = "Select Weekly Type"
+  const [selectedWeekDay, setSelectedWeekDay] = useState(placeholderOptionWeekly);
   const [isWeekDropdownOpen, setIsWeekDropdownOpen] = useState(false);
   const placeholderOptionMonth = "Select Monthly Type"
   const [selectedMonthlyType, setSelectedMonthlyType] = useState(placeholderOptionMonth);
@@ -39,7 +40,8 @@ function LoanSetting({ state }) {
   const [selectedDueDate, setSelectedDueDate] = useState(null);
   const [selectedDueCount, setSelectedDueCount] = useState("");
   const [selectedDay, setSelectedDay] = useState(null);
-  const [selectedInterest, setSelectedInterest] = useState("Select a day");
+  const placeholderSelect = "Select a day"
+  const [selectedInterest, setSelectedInterest] = useState(placeholderSelect);
   const [isDayDropdownOpen, setIsDayDropdownOpen] = useState(false);
 
 
@@ -149,7 +151,7 @@ function LoanSetting({ state }) {
     setSelectedInterest("");
     setSelectedLoanName("");
     setSelectedOption("Select a due type");
-    setSelectedWeekDay("Select a due type");
+    setSelectedWeekDay("Select Weekly Type");
     setSelectedMonthlyType("Select Monthly Type");
     setSelectedOrdinal("1st");
     setSelectedDay("Select a day");
@@ -212,6 +214,29 @@ function LoanSetting({ state }) {
 
 
 
+  const isValidDateFor_DueOn = (date) => {
+    const [day, month, year] = date.split("-");
+    const isoDate = `${year}-${month}-${day}`;
+    const parsedDate = new Date(isoDate);
+    return parsedDate instanceof Date && !isNaN(parsedDate);
+  };
+
+
+  const getDateWithSuffix = (date) => {
+    const [day] = date.split("-");
+    const dayNum = parseInt(day, 10);
+
+    const suffix = (dayNum % 10 === 1 && dayNum !== 11)
+      ? 'st'
+      : (dayNum % 10 === 2 && dayNum !== 12)
+        ? 'nd'
+        : (dayNum % 10 === 3 && dayNum !== 13)
+          ? 'rd'
+          : 'th';
+
+    return `${dayNum}${suffix}`;
+  };
+
 
 
   return (
@@ -254,7 +279,7 @@ function LoanSetting({ state }) {
                   setSelectedMonthlyType(placeholderOptionMonth)
                   setSelectedLoanName('')
 
-                  setSelectedWeekDay('')
+                  setSelectedWeekDay(placeholderOptionWeekly)
                   setSelectedMonthlyType('')
                   setSelectedOrdinal('')
                   setSelectedDay('')
@@ -353,6 +378,7 @@ function LoanSetting({ state }) {
                       setIsWeekDropdownOpen(!isWeekDropdownOpen)
                       setSelectedMonthlyType("")
                       setSelectedOrdinal('')
+
                     }
                     }
 
@@ -360,8 +386,8 @@ function LoanSetting({ state }) {
 
 
 
-                    <span className={`text-base font-Gilroy font-medium ${selectedWeekDay ? "text-black" : "text-gray-400"}`}>
-                      {selectedWeekDay || "Select Weekly Type"}
+                    <span className={`text-base font-Gilroy font-medium ${selectedWeekDay === placeholderOptionWeekly ? " text-gray-400" : "text-black"}`}>
+                      {selectedWeekDay}
                     </span>
                     <ChevronDown className="w-5 h-5 text-gray-500" />
                   </div>
@@ -392,16 +418,18 @@ function LoanSetting({ state }) {
               {selectedOption === "Monthly" && (
                 <div className="relative w-full mt-3">
                   <label className="text-black text-sm font-Gilroy font-medium text-lg">Monthly Type</label>
+             
                   <div
-                    className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer "
+                    className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
                     onClick={() => setIsMonthlyDropdownOpen(!isMonthlyDropdownOpen)}
                   >
-
-                    <span className={`text-base font-Gilroy font-medium ${selectedMonthlyType ? " text-black" : "text-gray-400"}`}>
-                      {selectedMonthlyType || "Select Monthly Type"}
+                    <span className={`text-base font-Gilroy font-medium ${!selectedMonthlyType || selectedMonthlyType === placeholderOptionMonth ? "text-gray-400" : "text-black"}`}>
+                      {selectedMonthlyType || placeholderOptionMonth}
                     </span>
+
                     <ChevronDown className="w-5 h-5 text-gray-500" />
                   </div>
+
 
                   {isMonthlyDropdownOpen && (
 
@@ -448,7 +476,7 @@ function LoanSetting({ state }) {
 
                       {isOrdinalDropdownOpen && (
                         <div className="absolute left-0 top-full mt-1 w-full bg-white border border-[#D9D9D9] rounded-2xl shadow-lg z-10 max-h-[100px] overflow-y-auto ">
-                          {["1st", "2nd", "3rd", "4th"].map((ordinal, index) => (
+                          {["1st", "2nd", "3rd", "4th", "5th"].map((ordinal, index) => (
                             <div
                               key={index}
                               className="px-4 py-3 text-black text-base font-medium cursor-pointer border-b last:border-b-0 border-gray-300 hover:bg-#F4F7FF"
@@ -470,7 +498,7 @@ function LoanSetting({ state }) {
                         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
                         onClick={() => setIsDayDropdownOpen(!isDayDropdownOpen)}
                       >
-                        <span className={`text-base font-Gilroy font-medium ${selectedDay ? "text-gray-400" : "text-black"}`}>
+                        <span className={`text-base font-Gilroy font-medium ${selectedDay === placeholderSelect ? "text-gray-400" : "text-black "}`}>
                           {selectedDay || "Select a day"}
                         </span>
                         <ChevronDown className="w-5 h-5 text-gray-500" />
@@ -590,7 +618,7 @@ function LoanSetting({ state }) {
       <div className="max-h-[400px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentLoans && currentLoans.length > 0 ? (
           currentLoans.map((loan, index) => (
-            <div key={index} className="w-full h-[200px] bg-[#F4F7FF] flex flex-col rounded-3xl">
+            <div key={index} className="w-full h-[230px] bg-[#F4F7FF] flex flex-col rounded-3xl">
               <div className="flex items-center px-4 py-4">
                 <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
                 <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
@@ -601,12 +629,31 @@ function LoanSetting({ state }) {
               </div>
               <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
 
+
+
               <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due</p>
+                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Requiring Type</p>
                 <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
-                  {loan.Due_Type === 'Monthly' ? 'N/A' : loan.Due_On}
+                  {loan ? loan.Due_Type : ''}
                 </p>
               </div>
+
+              {loan && loan.Due_Type !== 'Daily' && (
+                <div className="flex justify-between w-310 mx-auto px-2 pt-5">
+                  <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Requiring on</p>
+                  <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
+                    {loan.Due_Type === 'Monthly' ? (
+                      isValidDateFor_DueOn(loan.Due_On)
+                        ? getDateWithSuffix(loan.Due_On)
+                        : loan.Due_On
+                    ) : (
+                      loan.Due_On
+                    )}
+                  </p>
+                </div>
+              )}
+
+
 
               <div className="flex justify-between w-310 mx-auto px-2 pt-5">
                 <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
@@ -617,7 +664,7 @@ function LoanSetting({ state }) {
 
               <div className="flex justify-between w-310 mx-auto px-2 pt-5">
                 <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
-                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}</p>
+                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}%</p>
               </div>
             </div>
           ))
