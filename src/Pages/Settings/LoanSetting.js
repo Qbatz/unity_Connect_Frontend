@@ -119,10 +119,10 @@ function LoanSetting({ state }) {
 
     if (!isValid) return;
 
-    console.log("selectedDueDate", selectedDueDate);
+    
 
     let formattedDate = formatDate(selectedDueDate)
-    console.log("formattedDate", formattedDate);
+ 
 
     const payload = {
       loan_name: selectedLoanName,
