@@ -149,9 +149,7 @@ function ReportsTab({ state }) {
 
   const handleOptionClick = (option, e, type) => {
 
-    console.log("Clicked Option Value:", option.value);
-    console.log("Clicked Option Label:", option.label);
-    console.log("Report Type:", type);
+  
     setReportType(type);
 
 
