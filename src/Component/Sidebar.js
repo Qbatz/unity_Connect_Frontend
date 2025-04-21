@@ -115,7 +115,9 @@ const Sidebar = ({ state }) => {
 
       <div className="flex-1 overflow-y-auto pt-2 px-2 ">
         {activeMenu === "Dashboard" && (
-          <div data-testid='div-dashboard' className="bg-white mt-2" ></div>
+          <div data-testid='div-dashboard' className="bg-white mt-2" >
+            <h1 className="text-center text-xl font-Gilroy font-semibold">Dashboard</h1>
+          </div>
         )}
         {activeMenu === "Members" && (
           <div data-testid='div-members' className="bg-white mt-2 p-6" >

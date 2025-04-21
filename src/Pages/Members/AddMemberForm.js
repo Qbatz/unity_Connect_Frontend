@@ -48,6 +48,7 @@ function MemberModal({ state, memberData, onClose }) {
         if (state.Member.statusCodeForAddUser === 200) {
             dispatch({ type: 'MEMBERLIST' });
             dispatch({ type: 'CLEAR_STATUS_CODES' });
+            onClose();
         }
     }, [state.Member.statusCodeForAddUser]);
 
@@ -94,7 +95,9 @@ function MemberModal({ state, memberData, onClose }) {
     };
 
     const handleMobileChange = (e) => {
-        dispatch({ type: 'CLEAR_PHONE_ERROR' });
+        if (state.Member.phoneError) {
+            dispatch({ type: 'CLEAR_PHONE_ERROR' });
+        }
         const value = e.target.value;
         if (/^\d*$/.test(value) && value.length <= 10) {
             setMobileNo(value);
@@ -116,6 +119,7 @@ function MemberModal({ state, memberData, onClose }) {
     };
 
     const handleClose = () => {
+        dispatch({ type: 'CLEAR_PHONE_ERROR' });
         onClose()
     }
 
@@ -171,10 +175,10 @@ function MemberModal({ state, memberData, onClose }) {
             type: 'MEMBERINFO',
             payload: memberData ? Editpayload : payload,
         });
-        dispatch({ type: 'MEMBERLIST' });
+       
         setFile(null);
         setNoChanges("");
-        onClose();
+       
     };
 
     const CustomInput = forwardRef(({ value, onClick }, ref) => (
@@ -287,10 +291,10 @@ function MemberModal({ state, memberData, onClose }) {
                                 value={mobileNo}
                                 onChange={handleMobileChange}
                             />
-                            {state.Member.phoneError === "Mobile Number Already Exists" && (
+                            {state.Member.phoneError && (
                                 <div className="flex items-center text-red-500 text-sm mt-1">
                                     <MdError className="mr-1 text-sm" />
-                                    <p className="text-red-500 text-sm mt-1 font-Gilroy">{state.Member.phoneError}</p>
+                                    <p className="text-red-500 text-sm font-Gilroy">{state.Member.phoneError}</p>
                                 </div>
                             )}
                             {errors.mobileNo && (

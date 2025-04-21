@@ -55,7 +55,7 @@ function CreateAccount({ state }) {
 
   useEffect(() => {
     validateForm();
-  }, [firstName, lastName, email, mobileNumber, password, confirmPassword]);
+  }, [firstName, email, mobileNumber, password, confirmPassword]);
 
   useEffect(() => {
     if (state.CreateAccount.statusCodeCreateAccount === 200) {
@@ -81,7 +81,7 @@ function CreateAccount({ state }) {
   }
 
 
-  const isFormValid = firstName && lastName && email && mobileNumber && password && confirmPassword && Object.keys(errors).length === 0;
+  const isFormValid = firstName && email && mobileNumber && password && confirmPassword && Object.keys(errors).length === 0;
 
   ;
   const validateEmail = (email) => {
@@ -112,8 +112,12 @@ function CreateAccount({ state }) {
     setPassword(newPassword);
     setErrors((prev) => ({ ...prev, password: "" }));
     setPasswordErrors('')
-
-
+    if (newPassword.length > 0) {
+      const errors = validatePassword(newPassword);
+      if (errors.length > 0) {
+        setPasswordErrors(errors.join(', '));
+      }
+    }
   };
 
   const handleConfirmPasswordChange = (e) => {
@@ -133,6 +137,25 @@ function CreateAccount({ state }) {
     }
 
     dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
+  };
+
+  const validatePassword = (password) => {
+    let errorMessages = [];
+
+    if (/\s/.test(password)) {
+      errorMessages.push('Password cannot contain spaces.');
+    }
+    if (password.length < 8) {
+      errorMessages.push('8 characters minimum');
+    }
+    if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+      errorMessages.push('One uppercase and lowercase letter required');
+    }
+    if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
+      errorMessages.push('At least one numeric and one special symbol required');
+    }
+
+    return errorMessages;
   };
 
 
@@ -204,7 +227,11 @@ function CreateAccount({ state }) {
 
 
 
-
+    const passwordValidationErrors = validatePassword(password);
+    if (passwordValidationErrors.length > 0) {
+      setPasswordErrors(passwordValidationErrors.join(', '));
+      return;
+    }
 
 
 
@@ -213,7 +240,7 @@ function CreateAccount({ state }) {
       return;
     }
 
-    if (firstName && mobileNumber && lastName && email && password) {
+    if (firstName && mobileNumber && email && password) {
       const payload = {
         first_name: firstName,
         last_name: lastName,
@@ -271,7 +298,7 @@ function CreateAccount({ state }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">First Name  <span className="text-red-500 text-xl">*</span></label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">First Name  <span className="text-red-500 text-xl"></span></label>
               <input type="text" data-testid='input-fname' placeholder="First name" className="w-full p-3 border border-gray-300 rounded-xl font-Gilroy"
                 value={firstName}
                 onChange={handleFirstNameChange}
@@ -300,7 +327,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Email ID  <span className="text-red-500 text-xl">*</span></label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Email ID  <span className="text-red-500 text-xl"></span></label>
               <input data-testid='input-email'
                 autoComplete='new-email'
                 autoCorrect='off'
@@ -323,7 +350,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Mobile number  <span className="text-red-500 text-xl">*</span></label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Mobile number  <span className="text-red-500 text-xl"></span></label>
               <div className="flex items-center border border-gray-300 rounded-xl bg-white p-3 w-full">
                 <select className="outline-none bg-transparent mr-2">
                   <option>+91</option>
@@ -356,7 +383,7 @@ function CreateAccount({ state }) {
 
             <div>
               <label className="font-Gilroy font-medium text-sm leading-4 mt-2">
-                Password  <span className="text-red-500 text-xl">*</span>
+                Password  <span className="text-red-500 text-xl"></span>
               </label>
               <div className="relative">
                 <input
@@ -399,7 +426,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Confirm Password  <span className="text-red-500 text-xl">*</span></label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Confirm Password  <span className="text-red-500 text-xl"></span></label>
               <div className="flex items-center border border-gray-300 rounded-xl p-3 bg-white">
                 <input data-testid='con-password' type={showConfirmPassword ? "text" : "password"} className="flex-1 w-full pr-1  outline-none bg-transparent text-gray-900 font-Gilroy"
                   placeholder="Confirm your password" value={confirmPassword} onChange={handleConfirmPasswordChange}

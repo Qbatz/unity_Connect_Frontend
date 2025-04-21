@@ -148,8 +148,8 @@ function* handleAddMember(datum) {
             },
         });
 
-    } else if (response.statusCode === 201) {
-        yield put({ type: 'PHONE_ERROR', payload: response.message });
+    } else if (response.status === 201 || response.statusCode === 201) {
+        yield put({ type: 'PHONE_ERROR', payload: response.message, statusCode: response.statusCode });
     }
     if (response) {
         refreshToken(response);
