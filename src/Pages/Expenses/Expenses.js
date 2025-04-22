@@ -36,7 +36,7 @@ function ExpensesList({ state }) {
     const totalExpense = state.Expenses.totalExpense;
 
     const { RangePicker } = DatePicker;
-    const [dates, setDates] = useState([]);
+    const [dates, setDates] = useState(null);
 
     const onDateChange = (values) => {
         setDates(values);
@@ -269,14 +269,8 @@ function ExpensesList({ state }) {
                                                         )}
                                                     </td>
 
-
-
-
-
-
-
-                                                    <td className="py-2 px-4">
-                                                        <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
+                                                    <td className="py-2 px-2 sm:px-4">
+                                                        <span className="inline-block bg-gray-200 text-gray-700 px-2 py-1 sm:px-3 sm:py-2 rounded-full text-xs sm:text-sm font-Gilroy whitespace-nowrap">
                                                             {moment(item.Expense_Date).format("DD-MMM-YYYY")}
                                                         </span>
                                                     </td>

@@ -177,7 +177,7 @@ function ExpensesSetting({ state }) {
 
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center  bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center  bg-black bg-opacity-50">
           <div className="bg-white w-[464px] rounded-[40px] p-6 shadow-lg transition-all duration-300">
 
             <div className="flex justify-between items-center mb-4">
@@ -301,52 +301,52 @@ function ExpensesSetting({ state }) {
 
 
       <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {currentExpenses && currentExpenses.length > 0 ? (
-        currentExpenses.map((category, index) => (
-          <div
-            key={index}
-            className="w-full max-w-[330px] h-[180px] bg-[#F4F7FF] flex flex-col rounded-3xl mx-auto"
-          >
-            <div className="flex items-center px-4 py-4">
-              <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
-              <p className="text-darkGray text-base font-semibold leading-[19.09px] ml-2 font-Gilroy">
-                {category.category_Name}
-              </p>
-              <div className="flex-grow"></div>
-              <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
+        {currentExpenses && currentExpenses.length > 0 ? (
+          currentExpenses.map((category, index) => (
+            <div
+              key={index}
+              className="w-full max-w-[330px] h-[180px] bg-[#F4F7FF] flex flex-col rounded-3xl mx-auto"
+            >
+              <div className="flex items-center px-4 py-4">
+                <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
+                <p className="text-darkGray text-base font-semibold leading-[19.09px] ml-2 font-Gilroy">
+                  {category.category_Name}
+                </p>
+                <div className="flex-grow"></div>
+                <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
+              </div>
+
+              <div className="w-[90%] mx-auto border-t border-[#E7E7E7]"></div>
+
+              <div className="overflow-y-auto max-h-[98px] px-2">
+                {category.subcategory?.map((sub, subIndex) => (
+                  <div key={subIndex} className="flex justify-between mx-auto py-2">
+                    <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
+                    <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub.subcategory}</p>
+                  </div>
+                ))}
+
+                {subCategories[category.category_Id]?.map((sub, subIndex) => (
+                  <div key={subIndex} className="flex justify-between mx-auto py-2">
+                    <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
+                    <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full flex flex-col items-center justify-center h-[300px]">
+
+            <div className="w-64 h-64">
+              <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
             </div>
 
-            <div className="w-[90%] mx-auto border-t border-[#E7E7E7]"></div>
-
-            <div className="overflow-y-auto max-h-[98px] px-2">
-              {category.subcategory?.map((sub, subIndex) => (
-                <div key={subIndex} className="flex justify-between mx-auto py-2">
-                  <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
-                  <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub.subcategory}</p>
-                </div>
-              ))}
-
-              {subCategories[category.category_Id]?.map((sub, subIndex) => (
-                <div key={subIndex} className="flex justify-between mx-auto py-2">
-                  <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
-                  <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub}</p>
-                </div>
-              ))}
-            </div>
+            <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
+              No Data Found
+            </p>
           </div>
-        ))
-      ) : (
-        <div className="col-span-full flex flex-col items-center justify-center h-[300px]">
-
-          <div className="w-64 h-64">
-            <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
-          </div>
-
-          <p className="text-violet-600 text-lg font-medium text-center font-Gilroy">
-            No Data Found
-          </p>
-        </div>
-      )}
+        )}
       </div>
 
 
