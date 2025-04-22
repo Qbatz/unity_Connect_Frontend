@@ -119,10 +119,6 @@ function LoanSetting({ state }) {
 
     if (!isValid) return;
 
-    
-
-    let formattedDate = formatDate(selectedDueDate)
- 
 
     const payload = {
       loan_name: selectedLoanName,
@@ -132,6 +128,7 @@ function LoanSetting({ state }) {
       // Id: loanGetSetting,
       interest: selectedInterest,
     };
+
 
     dispatch({
       type: "SETTINGS_LOAN",
@@ -210,13 +207,9 @@ function LoanSetting({ state }) {
 
   const handleDate = (date) => {
 
+    setSelectedDueDate(date);
 
-    if (date) {
 
-      setSelectedDueDate(date);
-    } else {
-      setSelectedDueDate("");
-    }
 
   };
 
@@ -226,6 +219,13 @@ function LoanSetting({ state }) {
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   };
+
+
+  const formattedDate = (selectedDueDate instanceof Date && !isNaN(selectedDueDate))
+    ? formatDate(selectedDueDate)
+    : selectedDueDate;
+
+
 
   const isValidDateFor_DueOn = (date) => {
     const [day, month, year] = date.split("-");
@@ -253,8 +253,8 @@ function LoanSetting({ state }) {
 
 
   return (
-    <div className="container mx-auto ">
-      <div className="flex items-center justify-between w-full">
+    <div className="container mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-4">
         <div>
           <p className="font-Gilroy font-semibold text-xl text-black">Loan</p>
           <p className="mt-5 text-gray-500 text-sm font-Gilroy font-medium">
@@ -274,7 +274,8 @@ function LoanSetting({ state }) {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex  items-center  justify-center bg-black bg-opacity-50">
+
+        <div className="fixed inset-0  z-50  flex  items-center  justify-center bg-black bg-opacity-50">
           <div className="bg-white w-[464px] rounded-40 p-6 shadow-lg ">
 
             <div className="flex justify-between items-center mb-4">
@@ -478,7 +479,8 @@ function LoanSetting({ state }) {
                         onClick={() => setIsOrdinalDropdownOpen(!isOrdinalDropdownOpen)}
                       >
 
-                        <span className={`text-base font-Gilroy font-medium ${selectedOrdinal ? "text-black" : "text-gray-400"}`}>
+
+                        <span className={`text-base font-Gilroy font-medium ${selectedOrdinal === "1st" || !selectedOrdinal ? "text-gray-400" : "text-black"}`}>
                           {selectedOrdinal || "1st"}
                         </span>
 
@@ -628,11 +630,11 @@ function LoanSetting({ state }) {
       )}
 
 
-      <div className="max-h-[420px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="max-h-[280px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
         {currentLoans && currentLoans.length > 0 ? (
           currentLoans.map((loan, index) => (
-            <div key={index} className="w-full h-[220px] bg-[#F4F7FF] flex flex-col rounded-3xl">
-              <div className="flex items-center px-4 py-4">
+            <div key={index} className="w-full h-[220px] bg-[#F4F7FF] flex flex-col rounded-3xl p-4">
+              <div className="flex items-center">
                 <img src={ExpensesIcon} alt="Expenses Icon" className="w-8 h-8" />
                 <p className="text-darkGray text-base font-medium leading-[19.09px] ml-2 font-Gilroy">
                   {loan.Loan_Name}
@@ -640,21 +642,21 @@ function LoanSetting({ state }) {
                 <div className="flex-grow"></div>
                 <img src={ThreeDotMore} alt="More Options" className="w-6 h-6 cursor-pointer" />
               </div>
-              <div className="w-310 mx-auto border-t border-[#E7E7E7]"></div>
+              <div className="w-full border-t border-[#E7E7E7] my-2"></div>
 
 
 
-              <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Requiring Type</p>
-                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
+              <div className="flex justify-between w-full pt-3">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm ">Requiring Type</p>
+                <p className="text-black font-Gilroy font-semibold text-sm text-right">
                   {loan ? loan.Due_Type : ''}
                 </p>
               </div>
 
               {loan && loan.Due_Type !== 'Daily' && (
-                <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-                  <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Requiring on</p>
-                  <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">
+                <div className="flex justify-between w-full pt-3">
+                  <p className="text-[#939393] font-Gilroy font-medium text-sm ">Requiring on</p>
+                  <p className="text-black font-Gilroy font-semibold text-sm text-right">
                     {loan.Due_Type === 'Monthly' ? (
                       isValidDateFor_DueOn(loan.Due_On)
                         ? getDateWithSuffix(loan.Due_On)
@@ -668,16 +670,16 @@ function LoanSetting({ state }) {
 
 
 
-              <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Due Count</p>
-                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Due_Count}</p>
+              <div className="flex justify-between w-full pt-3">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm ">Due Count</p>
+                <p className="text-black font-Gilroy font-semibold text-sm text-right">{loan.Due_Count}</p>
               </div>
 
 
 
-              <div className="flex justify-between w-310 mx-auto px-2 pt-5">
-                <p className="text-[#939393] font-Gilroy font-medium text-sm leading-[16.48px]">Interest</p>
-                <p className="text-black font-Gilroy font-semibold text-sm leading-[16.7px] text-right">{loan.Interest}%</p>
+              <div className="flex justify-between w-full pt-3">
+                <p className="text-[#939393] font-Gilroy font-medium text-sm ">Interest</p>
+                <p className="text-black font-Gilroy font-semibold text-sm text-right">{loan.Interest}%</p>
               </div>
             </div>
           ))
@@ -696,7 +698,7 @@ function LoanSetting({ state }) {
       </div>
 
       {allLoans.length > 0 && (
-        <div className="flex justify-end mt-[140px]">
+        <div className="fixed bottom-4 right-4">
           <button
             className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
             onClick={() => setCurrentPage(currentPage - 1)}
