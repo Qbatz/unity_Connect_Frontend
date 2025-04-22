@@ -305,9 +305,9 @@ function MemberModal({ state, memberData, onClose }) {
                                 onChange={handleMobileChange}
                             />
                             {state.Member.phoneError && (
-                                <div className="flex items-center text-red-500 text-sm mt-1">
-                                    <MdError className="mr-1 text-sm" />
-                                    <p className="text-red-500 text-sm font-Gilroy">{state.Member.phoneError}</p>
+                                <div className="flex items-center text-red-500 text-xs mt-1">
+                                    <MdError className="mr-1 text-xs" />
+                                    <p className="text-red-500 text-xs font-Gilroy">{state.Member.phoneError}</p>
                                 </div>
                             )}
                             {errors.mobileNo && (
