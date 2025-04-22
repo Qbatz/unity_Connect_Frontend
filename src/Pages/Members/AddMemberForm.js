@@ -13,6 +13,8 @@ import { CalendarDays } from "lucide-react";
 
 
 function MemberModal({ state, memberData, onClose }) {
+
+
     const dispatch = useDispatch();
     const [memberId, setMemberId] = useState("");
     const [userName, setUserName] = useState("");
@@ -46,11 +48,20 @@ function MemberModal({ state, memberData, onClose }) {
 
     useEffect(() => {
         if (state.Member.statusCodeForAddUser === 200) {
+
+
             dispatch({ type: 'MEMBERLIST' });
-            dispatch({ type: 'CLEAR_STATUS_CODES' });
-            onClose();
+            dispatch({ type: 'CLEAR_PHONE_ERROR' });
+            onClose()
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_STATUS_CODES' });
+            }, 1000);
+
         }
     }, [state.Member.statusCodeForAddUser]);
+
+
+
 
     useEffect(() => {
         if (!memberData) {
@@ -175,10 +186,12 @@ function MemberModal({ state, memberData, onClose }) {
             type: 'MEMBERINFO',
             payload: memberData ? Editpayload : payload,
         });
-       
+
         setFile(null);
         setNoChanges("");
-       
+
+
+
     };
 
     const CustomInput = forwardRef(({ value, onClick }, ref) => (

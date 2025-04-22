@@ -121,9 +121,10 @@ function NonActiveMember({ state, loading, setLoading }) {
     setOpenMenu(null);
   };
 
-  const handleChangeStatus = (index) => {
+  const handleChangeStatus = (index, member) => {
     setChangePopup(index);
     setOpenMenu(null);
+    setStatus(member.Status);
   }
 
   const confirmDelete = (memberId) => {
@@ -223,7 +224,7 @@ function NonActiveMember({ state, loading, setLoading }) {
                     >
                       <button
                         className="flex items-center gap-2 w-full px-3 py-2 font-Gilroy rounded-lg"
-                        onClick={() => handleChangeStatus(index)}
+                        onClick={() => handleChangeStatus(index, member)}
                       >
                         <img src={changestatus} alt="Delete" className="h-4 w-4" />
                         Change Status
