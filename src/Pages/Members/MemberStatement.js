@@ -213,7 +213,7 @@ function MemberStatements({ state, member }) {
 
 
                   <td className="p-0 text-sm">
-                    <span className="bg-gray-200 text-gray-700 lg:px-3 lg:py-1 sm:px-0 sm:py-0 md:px-0 md:py-0 rounded-full font-Gilroy">
+                    <span className="inline-block bg-gray-200 text-gray-700 px-2 py-1 sm:px-3 sm:py-2 rounded-full text-xs sm:text-sm font-Gilroy whitespace-nowrap">
                       {moment(item.Due_Date).format("DD MMM YYYY")}
                     </span>
                   </td>

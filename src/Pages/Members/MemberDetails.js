@@ -40,14 +40,13 @@ function MemberDetails({ member, onBack }) {
 
         </div>
 
-        <div className="mt-5 px-4 sm:px-5 flex flex-col sm:flex-row overflow-x-auto sm:overflow-visible whitespace-nowrap sm:whitespace-normal gap-4 sm:gap-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 w-full justify-items-start mt-4 ">
           {["Overview", "Comments", "Transactions", "Statements"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-                className={`relative min-w-max pb-2 text-[16px] font-Gilroy transition-all ${
-        activeTab === tab ? "text-black font-medium" : "text-[#939393]"
-      }`}
+              className={`relative min-w-max pb-2 text-[16px] font-Gilroy transition-all ${activeTab === tab ? "text-black font-medium" : "text-[#939393]"
+                }`}
             >
               {tab}
               <span
