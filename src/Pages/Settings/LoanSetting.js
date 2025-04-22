@@ -46,7 +46,7 @@ function LoanSetting({ state }) {
 
 
   const [isOrdinalDropdownOpen, setIsOrdinalDropdownOpen] = useState(false);
-  const [selectedOrdinal, setSelectedOrdinal] = useState("1st");
+  const [selectedOrdinal, setSelectedOrdinal] = useState("week");
   const dropdownRef = useRef(null);
 
 
@@ -154,7 +154,7 @@ function LoanSetting({ state }) {
     setSelectedOption("Select a due type");
     setSelectedWeekDay("Select Weekly Type");
     setSelectedMonthlyType("Select Monthly Type");
-    setSelectedOrdinal("1st");
+    setSelectedOrdinal("week");
     setSelectedDay("Select a day");
 
     setSelectedDueCount("");
@@ -275,7 +275,7 @@ function LoanSetting({ state }) {
 
       {isModalOpen && (
 
-        <div className="fixed inset-0  z-50  flex  items-center  justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0  z-50  flex  items-center  justify-center bg-black bg-opacity-50 ">
           <div className="bg-white w-[464px] rounded-40 p-6 shadow-lg ">
 
             <div className="flex justify-between items-center mb-4">
@@ -471,17 +471,17 @@ function LoanSetting({ state }) {
               {selectedMonthlyType === "Day" && selectedOption === "Monthly" && (
                 <div className="relative w-full mt-3 flex gap-2">
 
-                  <div className="flex gap-4">
+                  <div className="grid grid-cols-12 gap-4 w-full">
 
-                    <div className="lg:w-[80px] relative">
+                    <div className="relative col-span-12 sm:col-span-4">
                       <div
                         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
                         onClick={() => setIsOrdinalDropdownOpen(!isOrdinalDropdownOpen)}
                       >
 
 
-                        <span className={`text-base font-Gilroy font-medium ${selectedOrdinal === "1st" || !selectedOrdinal ? "text-gray-400" : "text-black"}`}>
-                          {selectedOrdinal || "1st"}
+                        <span className={`text-base font-Gilroy font-medium ${selectedOrdinal === "week" || !selectedOrdinal ? "text-gray-400" : "text-black"}`}>
+                          {selectedOrdinal || "week"}
                         </span>
 
 
@@ -508,7 +508,7 @@ function LoanSetting({ state }) {
                       )}
                     </div>
 
-                    <div className="lg:w-[320px] relative">
+                    <div className="relative col-span-12 sm:col-span-8">
                       <div
                         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
                         onClick={() => setIsDayDropdownOpen(!isDayDropdownOpen)}
