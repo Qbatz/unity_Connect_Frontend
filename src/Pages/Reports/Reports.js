@@ -78,9 +78,7 @@ function ReportsTab({ state }) {
         filter_Paid: "this_month",
       }
     });
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+
   }, []);
 
   useEffect(() => {
@@ -105,7 +103,7 @@ function ReportsTab({ state }) {
 
 
     if (state.Report.statusCodeUnSuccess === 200) {
-
+      setLoading(false);
       setFilterUnpaid("");
 
 
@@ -117,7 +115,7 @@ function ReportsTab({ state }) {
 
   useEffect(() => {
     if (state.Report.statusCodeSuccess === 200) {
-
+      setLoading(false);
       setFilterPaid("");
 
 
@@ -149,7 +147,7 @@ function ReportsTab({ state }) {
 
   const handleOptionClick = (option, e, type) => {
 
-  
+
     setReportType(type);
 
 

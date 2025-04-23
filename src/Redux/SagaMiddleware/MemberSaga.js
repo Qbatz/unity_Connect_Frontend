@@ -18,7 +18,7 @@ function* handleMemberList() {
 
     } else if (response.status === 201 || response.statusCode === 201) {
 
-        yield put({ type: 'ERROR', payload: response.data.message });
+        yield put({ type: 'ERROR', payload: { response: response.data.message, statusCode: response.statusCode || response.status } });
 
     }
     if (response) {
@@ -116,6 +116,7 @@ function* handleStatusMember(action) {
 function* handleAddMember(datum) {
 
     const response = yield call(addMember, datum.payload);
+
 
     if (response.statusCode === 200 || response.status === 200) {
 

@@ -234,22 +234,23 @@ function AddLoanForm({ state }) {
 
   useEffect(() => {
     if (state.Loan?.statusCodeLoans === 200) {
-
+   
+      
+      
       dispatch({ type: "CLEARLOAN" });
+      setLoading(false);
 
     }
   }, [state.Loan?.statusCodeLoans]);
-
-
+ 
+  
 
   useEffect(() => {
     setLoading(true);
     dispatch({
       type: "GET_LOAN",
     });
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+   
   }, []);
 
 

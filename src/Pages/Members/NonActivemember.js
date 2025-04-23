@@ -97,14 +97,15 @@ function NonActiveMember({ state, loading, setLoading }) {
   }, [state.Member.deleteMemberStatusCode])
 
 
-  useEffect(() => {
-    if (state.Member.statusCodeMemberList === 201) {
-      setLoading(false);
 
+  useEffect(() => {
+    if (state.Member.statusCodeMemberError === 201) {
+
+      setLoading(false);
       setNonActiveMemberData([])
     }
 
-  }, [state.Member.statusCodeMemberList])
+  }, [state.Member.statusCodeMemberError])
 
 
 

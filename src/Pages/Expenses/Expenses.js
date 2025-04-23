@@ -93,15 +93,20 @@ function ExpensesList({ state }) {
     }, []);
 
     useEffect(() => {
+        if (state.Expenses.statusCodeExpenses === 200) {
+            setLoading(false);
+            dispatch({ type: 'CLEAR_STATUS_CODE_GET_EXPENSES' })
+        }
+    }, [state.Expenses.statusCodeExpenses]);
+
+    useEffect(() => {
         setLoading(true);
 
         dispatch({
             type: "GETEXPENSES",
 
         });
-        setTimeout(() => {
-            setLoading(false);
-        }, 1000);
+
     }, []);
 
 

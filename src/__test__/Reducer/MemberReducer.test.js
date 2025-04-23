@@ -32,21 +32,22 @@ describe('checks for Member Reducer', () => {
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
-            overview:'',
+            overview: '',
             statusCodeForOverview: 0,
-            getComment : [],
+            getComment: [],
             statusCodeForComment: 0,
-            addComment : '',
+            addComment: '',
             statusCodeForAddComment: 0,
             getStatement: [],
             statusCodeForStatement: 0,
-            addRecordPayment:[],
+            addRecordPayment: [],
             statusCodeForRecordPayment: 0,
-            recordPaymentErrorMessage:'',
+            recordPaymentErrorMessage: '',
             GetTransactionsList: [],
             statusCodeForGetTransactions: 0,
             GetTransactionsErrorMsg: '',
-        
+            statusCodeMemberError: 0,
+
         })
     })
 
@@ -55,8 +56,8 @@ describe('checks for Member Reducer', () => {
             type: 'CLEAR_STATUS_CODE_MEMBER_LIST',
             payload: {
                 response: {
-                    ActiveMembers: [],  
-                NonActiveMembers: [] 
+                    ActiveMembers: [],
+                    NonActiveMembers: []
                 },
                 statusCode: 200
             }
@@ -78,21 +79,22 @@ describe('checks for Member Reducer', () => {
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
-            overview:'',
+            overview: '',
             statusCodeForOverview: 0,
-            getComment : [],
+            getComment: [],
             statusCodeForComment: 0,
-            addComment : '',
+            addComment: '',
             statusCodeForAddComment: 0,
             getStatement: [],
             statusCodeForStatement: 0,
-            addRecordPayment:[],
+            addRecordPayment: [],
             statusCodeForRecordPayment: 0,
-            recordPaymentErrorMessage:'',
+            recordPaymentErrorMessage: '',
             GetTransactionsList: [],
             statusCodeForGetTransactions: 0,
             GetTransactionsErrorMsg: '',
-        
+            statusCodeMemberError: 0,
+
         })
     })
 
@@ -120,21 +122,22 @@ describe('checks for Member Reducer', () => {
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
-            overview:'',
+            overview: '',
             statusCodeForOverview: 0,
-            getComment : [],
+            getComment: [],
             statusCodeForComment: 0,
-            addComment : '',
+            addComment: '',
             statusCodeForAddComment: 0,
             getStatement: [],
             statusCodeForStatement: 0,
-            addRecordPayment:[],
+            addRecordPayment: [],
             statusCodeForRecordPayment: 0,
-            recordPaymentErrorMessage:'',
+            recordPaymentErrorMessage: '',
             GetTransactionsList: [],
             statusCodeForGetTransactions: 0,
             GetTransactionsErrorMsg: '',
-        
+            statusCodeMemberError: 0,
+
         })
     })
 
@@ -162,21 +165,22 @@ describe('checks for Member Reducer', () => {
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
-            overview:'',
+            overview: '',
             statusCodeForOverview: 0,
-            getComment : [],
+            getComment: [],
             statusCodeForComment: 0,
-            addComment : '',
+            addComment: '',
             statusCodeForAddComment: 0,
             getStatement: [],
             statusCodeForStatement: 0,
-            addRecordPayment:[],
+            addRecordPayment: [],
             statusCodeForRecordPayment: 0,
-            recordPaymentErrorMessage:'',
+            recordPaymentErrorMessage: '',
             GetTransactionsList: [],
             statusCodeForGetTransactions: 0,
             GetTransactionsErrorMsg: '',
-        
+            statusCodeMemberError: 0,
+
         })
     })
 
@@ -201,24 +205,25 @@ describe('checks for Member Reducer', () => {
             statusCodeForAddUser: 0,
             phoneError: '',
             emailError: '',
-            overview:'',
+            overview: '',
             statusCodeForOverview: 0,
-            getComment : [],
+            getComment: [],
             statusCodeForComment: 0,
-            addComment : '',
+            addComment: '',
             statusCodeForAddComment: 0,
             getStatement: [],
             statusCodeForStatement: 0,
             GetMemberId: [],
             statusCodeForMemberId: 0,
             MemberIdErrorMsg: '',
-            addRecordPayment:[],
+            addRecordPayment: [],
             statusCodeForRecordPayment: 0,
-            recordPaymentErrorMessage:'',
+            recordPaymentErrorMessage: '',
             GetTransactionsList: [],
             statusCodeForGetTransactions: 0,
             GetTransactionsErrorMsg: '',
-        
+            statusCodeMemberError: 0,
+
 
         })
     })

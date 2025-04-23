@@ -39,10 +39,18 @@ function Statement({ state }) {
   useEffect(() => {
     setLoading(true);
     dispatch({ type: 'STATEMENTLIST' });
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+
   }, [dispatch]);
+
+  useEffect(() => {
+    if (state.Statement.statusCodeForStatement === 200) {
+      setLoading(false);
+
+      dispatch({ type: 'CLEAR_STATEMENT_ERROR' });
+    }
+
+  }, [state.Statement.statusCodeForStatement])
+
 
   const filteredList = filterStatus === "All"
     ? statementList
@@ -181,7 +189,7 @@ function Statement({ state }) {
                           <FiMoreVertical size={16} />
                         </button>
 
-                       
+
                       </td>
                     </tr>
                   )

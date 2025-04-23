@@ -10,6 +10,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays } from "lucide-react";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
+import { ClipLoader } from "react-spinners";
 
 function LoanSetting({ state }) {
 
@@ -29,6 +30,7 @@ function LoanSetting({ state }) {
   const placeholderOptionMonth = "Select Monthly Type"
   const [selectedMonthlyType, setSelectedMonthlyType] = useState(placeholderOptionMonth);
   const [isMonthlyDropdownOpen, setIsMonthlyDropdownOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const options = ["Daily", "Weekly", "Monthly"];
   const weeklyOptions = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -169,12 +171,14 @@ function LoanSetting({ state }) {
 
 
   useEffect(() => {
+    setLoading(true)
     dispatch({ type: "SETTINGS_GET_LOAN" });
   }, [dispatch]);
 
 
   useEffect(() => {
     if (state.SettingGetLoan?.statusCodeLoans === 200) {
+
       dispatch({ type: "CLEARSETTINGADDLOAN" });
     }
   }, [state.SettingGetLoan?.statusCodeLoans, dispatch]);
@@ -182,6 +186,7 @@ function LoanSetting({ state }) {
 
   useEffect(() => {
     if (state.SettingLoan.statusCodeLoans === 200) {
+      setLoading(false)
       dispatch({ type: "SETTINGS_GET_LOAN" });
 
       setTimeout(() => {
@@ -250,7 +255,13 @@ function LoanSetting({ state }) {
     return `${dayNum}${suffix}`;
   };
 
-
+  if (loading) {
+    return (
+      <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
+        <ClipLoader color="#7f00ff" loading={loading} size={30} />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto">
@@ -684,7 +695,7 @@ function LoanSetting({ state }) {
             </div>
           ))
         ) : (
-          <div className="col-span-full flex flex-col items-center justify-center h-[300px]">
+          <div className="col-span-full flex flex-col items-center justify-center h-[280px]">
 
             <div className="w-64 h-64">
               <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
