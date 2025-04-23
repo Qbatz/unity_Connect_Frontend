@@ -7,7 +7,7 @@ import { useDispatch, connect } from 'react-redux';
 import { MdError } from 'react-icons/md';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import imageCompression from 'browser-image-compression';
-
+import { FaUser } from "react-icons/fa";
 
 
 const ProfileDetails = ({ state }) => {
@@ -288,14 +288,7 @@ const ProfileDetails = ({ state }) => {
         const encryptDataLogin = encryptData(JSON.stringify(false));
         localStorage.setItem("unity_connect_login", encryptDataLogin.toString());
         setLogoutFormShow(false);
-        localStorage.removeItem("MemberIDprefix");
-        localStorage.removeItem("MemberIdsuffix");
 
-        localStorage.removeItem("LoanIDprefix");
-        localStorage.removeItem("LoanIDsuffix");
-
-        localStorage.removeItem("TransactionIDprefix");
-        localStorage.removeItem("TransactionIDsuffix");
 
     }
 
@@ -305,11 +298,19 @@ const ProfileDetails = ({ state }) => {
             <p className="font-Gilroy font-semibold text-2xl leading-none tracking-normal mb-6 -mt-5 ml-5">Account settings</p>
 
             <div className="flex items-center gap-6  w-full">
-                <img
-                    src={selectedImage || state.Profile}
-                    alt="Profile"
-                    className="w-[120px] h-[120px] rounded-full object-cover object-top pl-[28px]"
-                />
+
+                <div className="w-[120px] h-[120px] rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                    {selectedImage || state.Profile ? (
+                        <img
+                            src={selectedImage || state.Profile}
+                            alt="Profile"
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <FaUser className="text-gray-400 w-12 h-12" />
+                    )}
+                </div>
+
 
 
                 <div className="flex flex-col text-start">
