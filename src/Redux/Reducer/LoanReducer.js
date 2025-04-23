@@ -11,6 +11,9 @@ export const initialState = {
     interest: "",
     loanstatus: '',
     loanid: '',
+    statusCodeLoansAddLoan: 0,
+    statusCodewitness: 0,
+    statusCodeRejectLoan: 0,
 };
 
 const LoanReducer = (state = initialState, action) => {
@@ -20,10 +23,8 @@ const LoanReducer = (state = initialState, action) => {
         case "LOANADD":
             return {
                 ...state,
-                memberid: action.payload.member_id,
-                witnessid: action.payload.widness_ids,
-                loanamount: action.payload.loan_amount,
-                statusCodeLoans: 200,
+
+                statusCodeLoansAddLoan: action.statusCode,
             };
 
 
@@ -35,10 +36,13 @@ const LoanReducer = (state = initialState, action) => {
         case "ADDWITNESS":
             return {
                 ...state,
-                memberid: action.payload.member_id ?? state.memberid,
-                witnessid: action.payload.widness_ids,
-                id: action.payload.id,
-                statusCodeLoans: 200,
+
+                statusCodewitness: action.statusCodewitness,
+            };
+        case "CLEAR_ADDWITNESS":
+            return {
+                ...state,
+                statusCodewitness: 0
             };
 
         case "APPROVALLOAN":
@@ -58,12 +62,23 @@ const LoanReducer = (state = initialState, action) => {
                 ...state,
                 loanstatus: action.payload.loan_status,
                 loanid: action.payload.id,
-                statusCodeLoans: 200,
+                statusCodeRejectLoan: action.statusCodeReject,
             };
+        case "CLEAR_REJECTLOAN":
+            return {
+                ...state,
+                statusCodeRejectLoan: 0,
+            };
+            
         case "CLEARLOAN":
             return {
                 ...state,
                 statusCodeLoans: 0,
+            };
+        case "CLEARLOANADDED":
+            return {
+                ...state,
+                statusCodeLoansAddLoan: 0,
             };
 
         default:

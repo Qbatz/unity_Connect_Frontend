@@ -17,7 +17,7 @@ import editIcon from "../../Asset/Icons/edit_blue.svg";
 function AddLoanForm({ state }) {
   const dispatch = useDispatch();
 
-  const statusCode = state.Loan.statusCodeLoans;
+ 
   const members = state.Member?.ActiveMemberdata || [];
 
 
@@ -211,14 +211,15 @@ function AddLoanForm({ state }) {
 
 
 
- 
+
 
 
   useEffect(() => {
-    if (statusCode === 200) {
+    if (state.Loan.statusCodeLoans === 200) {
+      setLoading(false);
       dispatch({ type: "CLEARLOAN" });
       setIsModalOpen(false);
-      dispatch({ type: "GET_LOAN" });
+     
     }
 
     setMemberId("");
@@ -228,42 +229,54 @@ function AddLoanForm({ state }) {
     setEligibleLoanAmount("");
     setIsApprovePopupOpen(false);
 
-  }, [statusCode]);
+  }, [state.Loan.statusCodeLoans]);
 
 
 
-  useEffect(() => {
-    if (state.Loan?.statusCodeLoans === 200) {
-   
-      
-      
-      dispatch({ type: "CLEARLOAN" });
-      setLoading(false);
 
-    }
-  }, [state.Loan?.statusCodeLoans]);
- 
-  
 
   useEffect(() => {
     setLoading(true);
     dispatch({
       type: "GET_LOAN",
     });
-   
+
   }, []);
 
-
   useEffect(() => {
-    if (state.Loan?.statusCodeLoans === 200) {
+    if (state.Loan?.statusCodeLoansAddLoan === 200) {
       dispatch({ type: "GET_LOAN" });
 
-      dispatch({ type: "SETTINGS_GET_LOAN" });
+
       setTimeout(() => {
-        dispatch({ type: "CLEARLOAN" })
+        dispatch({ type: "CLEARLOANADDED" })
       }, 500)
     }
-  }, [state.Loan?.statusCodeLoans])
+  }, [state.Loan?.statusCodeLoansAddLoan])
+
+  useEffect(() => {
+    if (state.Loan?.statusCodewitness === 200) {
+      dispatch({ type: "GET_LOAN" });
+
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADDWITNESS" })
+      }, 500)
+    }
+  }, [state.Loan?.statusCodewitness])
+
+  useEffect(() => {
+    if (state.Loan?.statusCodeRejectLoan === 200) {
+      dispatch({ type: "GET_LOAN" });
+
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_REJECTLOAN" })
+      }, 500)
+    }
+  }, [state.Loan?.statusCodeRejectLoan])
+
+
 
   useEffect(() => {
     dispatch({ type: 'MEMBERLIST' });
@@ -328,7 +341,7 @@ function AddLoanForm({ state }) {
     };
 
     dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
-    dispatch({ type: "GET_LOAN" });
+    
 
     setInitialWitnesses(updatedWitnesses);
     setIsWitnessModalOpen(false);
@@ -463,13 +476,13 @@ function AddLoanForm({ state }) {
 
   useEffect(() => {
     if (isApprovePopupOpen) {
-      document.body.style.overflow = "hidden"; 
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; 
+      document.body.style.overflow = "auto";
     }
 
     return () => {
-      document.body.style.overflow = "auto"; 
+      document.body.style.overflow = "auto";
     };
   }, [isApprovePopupOpen]);
 
