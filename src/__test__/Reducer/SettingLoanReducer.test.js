@@ -18,8 +18,9 @@ describe('it will check for settings loan reducers', () => {
             dueon: "28-02-25",
             duetype: "Daily",
             dueamount: 1,
-            statusCodeLoans: 200,
-            interest:"6.5",
+            statusCodeLoans: 0,
+            statusCodeLoansAdd: 200,
+            interest: "6.5",
             getLoan: [],
         })
     })
@@ -28,16 +29,17 @@ describe('it will check for settings loan reducers', () => {
         const action = {
             type: 'SETTINGSGETLOAN',
             payload: {
-              response:[],
+                response: [],
                 statusCode: 200
             }
         }
         expect(SettingLoanReducer(initialState, action)).toStrictEqual({
             loanname: '',
-            dueon:'',
+            dueon: '',
             duetype: '',
             dueamount: '',
             statusCodeLoans: 200,
+            statusCodeLoansAdd: 0,
             getLoan: [],
             interest: ''
         })
@@ -46,14 +48,15 @@ describe('it will check for settings loan reducers', () => {
     it('it will check for CLEARSETTINGLOAN', () => {
         const action = {
             type: 'CLEARSETTINGLOAN',
-         
+
         }
-        expect(SettingLoanReducer({...initialState,statusCodeLoans:200}, action)).toStrictEqual({
+        expect(SettingLoanReducer({ ...initialState, statusCodeLoans: 200 }, action)).toStrictEqual({
             loanname: '',
-            dueon:'',
+            dueon: '',
             duetype: '',
             dueamount: '',
             statusCodeLoans: 0,
+            statusCodeLoansAdd: 0,
             getLoan: [],
             interest: ''
         })

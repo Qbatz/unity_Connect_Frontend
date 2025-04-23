@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import CloseCircleIcon from '../../Asset/Icons/close-circle.svg';
 import ExpensesIcon from "../../Asset/Icons/ExpensesIcon.svg";
@@ -127,7 +128,7 @@ function LoanSetting({ state }) {
       due_on: formattedDate,
       due_type: selectedOption,
       due_count: selectedDueCount,
-      // Id: loanGetSetting,
+
       interest: selectedInterest,
     };
 
@@ -143,7 +144,7 @@ function LoanSetting({ state }) {
     if (statusCode === 200) {
       dispatch({ type: "CLEARSETTINGLOAN" });
       setIsModalOpen(false);
-      dispatch({ type: "SETTINGS_GET_LOAN" });
+
 
     }
 
@@ -167,33 +168,39 @@ function LoanSetting({ state }) {
     setInterestError('');
 
 
-  }, [statusCode, dispatch]);
+  }, [statusCode]);
 
 
   useEffect(() => {
     setLoading(true)
     dispatch({ type: "SETTINGS_GET_LOAN" });
-  }, [dispatch]);
+  }, []);
 
 
-  useEffect(() => {
-    if (state.SettingGetLoan?.statusCodeLoans === 200) {
 
-      dispatch({ type: "CLEARSETTINGADDLOAN" });
-    }
-  }, [state.SettingGetLoan?.statusCodeLoans, dispatch]);
 
 
   useEffect(() => {
-    if (state.SettingLoan.statusCodeLoans === 200) {
+    if (state.SettingLoan?.statusCodeLoans === 200) {
       setLoading(false)
-      dispatch({ type: "SETTINGS_GET_LOAN" });
+
 
       setTimeout(() => {
         dispatch({ type: "CLEARSETTINGLOAN" })
       }, 500)
     }
-  }, [state.SettingLoan.statusCodeLoans, dispatch])
+  }, [state.SettingLoan.statusCodeLoans])
+
+  useEffect(() => {
+    if (state.SettingLoan?.statusCodeLoansAdd === 200) {
+
+      dispatch({ type: "SETTINGS_GET_LOAN" });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_SETTING_LOAN_ADD" })
+      }, 500)
+    }
+  }, [state.SettingLoan.statusCodeLoansAdd])
 
 
   useEffect(() => {
@@ -252,7 +259,7 @@ function LoanSetting({ state }) {
           ? 'rd'
           : 'th';
 
-    return `${dayNum}${suffix}`;
+    return `${dayNum}${suffix} of Every Month`;
   };
 
   if (loading) {

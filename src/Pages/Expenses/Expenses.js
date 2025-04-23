@@ -186,7 +186,7 @@ function ExpensesList({ state }) {
 
                     <h2 className="text-2xl font-semibold font-Gilroy px-6 sm:px-0">Expenses</h2>
 
-                    <div className="bg-white px-4 py-2 mr-2 font-Gilroy rounded-md shadow-md border border-gray-200 text-sm font-semibold text-gray-800">
+                    <div className="bg-white px-4 py-2 mr-2 font-Gilroy rounded-md  border border-gray-200 text-sm font-semibold text-gray-800">
                         Total Expense : ₹{totalExpense}
                     </div>
                     <div className="flex flex-col lg:flex-row items-center gap-4 px-6 sm:px-0">

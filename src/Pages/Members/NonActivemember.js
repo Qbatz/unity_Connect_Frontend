@@ -48,22 +48,21 @@ function NonActiveMember({ state, loading, setLoading }) {
     }
   };
 
-  const handleChangeStatusClick = (memberId) => {
+
+
+  const handleChangeStatusClick = ({ id, oldStatus }) => {
     if (!status) {
-      setStatusError("Please select a status");
+      setStatusError("Please Select a Status");
+    } else if (status === oldStatus) {
+      setStatusError("No Changes Detected");
     } else {
       setStatusError("");
       setChangePopup(null);
 
-
-      const payload = { id: memberId, status: status };
-
-
-      dispatch({ type: "CHANGE_STATUS", payload });
+      dispatch({ type: "CHANGE_STATUS", payload: { id, status } });
+      setStatus("");
     }
-    setStatus("")
   };
-
 
   const popupRef = useRef(null);
 
@@ -422,7 +421,9 @@ function NonActiveMember({ state, loading, setLoading }) {
                         <div className="mt-6">
                           <button
                             className="w-full bg-[#1E45E1] text-white font-medium h-[50px] rounded-xl text-[16px] font-gilroy"
-                            onClick={() => handleChangeStatusClick(member.Id)}
+
+                            onClick={() => handleChangeStatusClick({ id: member.Id, oldStatus: member.Status })}
+
                           >
                             Change Status
                           </button>
