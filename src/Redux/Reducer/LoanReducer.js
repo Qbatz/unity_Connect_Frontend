@@ -15,6 +15,7 @@ export const initialState = {
 
 const LoanReducer = (state = initialState, action) => {
 
+
     switch (action.type) {
         case "LOANADD":
             return {

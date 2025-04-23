@@ -212,7 +212,7 @@ function* SettingGetLoanPage(action) {
     if (response.status === 200) {
         yield put({
             type: 'SETTINGSGETLOAN',
-            payload: { response: response.data, statusCodeLoan: response.status },
+            payload: { response: response.data, statusCode: response.status },
         });
 
 

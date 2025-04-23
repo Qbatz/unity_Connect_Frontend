@@ -101,16 +101,15 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
   }, [state.Member.statusCodeMemberList])
 
 
+
+
   useEffect(() => {
-    if (state.Member.statusCodeMemberList === 201) {
-
-
+    if (state.Member.statusCodeMemberError === 201) {
       setLoading(false);
       setActiveMemberData([])
     }
 
-  }, [state.Member.statusCodeMemberList])
-
+  }, [state.Member.statusCodeMemberError])
 
 
 

@@ -7,6 +7,7 @@ import CloseCircleIcon from "../../Asset/Icons/close-circle.svg";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
+import { ClipLoader } from "react-spinners";
 
 function ExpensesSetting({ state }) {
 
@@ -26,7 +27,7 @@ function ExpensesSetting({ state }) {
   const [categoryError, setCategoryError] = useState("")
   const [subcategoryError, setSubCategoryError] = useState("")
 
-
+  const [loading, setLoading] = useState(true);
 
 
   const handleSubmit = (e) => {
@@ -100,8 +101,18 @@ function ExpensesSetting({ state }) {
 
 
   useEffect(() => {
+    setLoading(true)
     dispatch({ type: "SETTING_GET_EXPENSES" });
   }, []);
+
+  useEffect(() => {
+    if (state.SettingExpenses.statusCodeSettingsAddExpenses === 200) {
+      setLoading(false);
+
+      dispatch({ type: 'CLEARSETTINGADDEXPENSES' });
+    }
+
+  }, [state.SettingExpenses.statusCodeSettingsAddExpenses])
 
   useEffect(() => {
     if (isSubCategory && subCategories.length > 0) {
@@ -145,7 +156,13 @@ function ExpensesSetting({ state }) {
     }
   };
 
-
+  if (loading) {
+    return (
+      <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
+        <ClipLoader color="#7f00ff" loading={loading} size={30} />
+      </div>
+    );
+  }
 
 
   return (

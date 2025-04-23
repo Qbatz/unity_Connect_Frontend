@@ -29,6 +29,7 @@ export const initialState = {
     GetTransactionsList: [],
     statusCodeForGetTransactions: 0,
     GetTransactionsErrorMsg: '',
+    statusCodeMemberError: 0,
 
 }
 
@@ -54,9 +55,9 @@ const MemberListReducer = (state = initialState, action) => {
         case 'CLEAR_STATUS_MEMBER':
             return { ...state, changestausStatusCode: 0 }
         case 'ERROR':
-            return { ...state, errormsg: action.payload }
+            return { ...state, errormsg: action.payload, statusCodeMemberError: action.payload.statusCode }
         case 'CLEAR_ERROR':
-            return { ...state, errormsg: '' }
+            return { ...state, errormsg: '', statusCodeMemberError: 0 }
 
 
         case 'ADD_USER_SUCCESS':

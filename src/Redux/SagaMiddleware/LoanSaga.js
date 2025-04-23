@@ -75,10 +75,11 @@ function* GetLoanSaga(action) {
 
 
 
+
     if (response.status === 200) {
         yield put({
             type: 'GETLOAN',
-            payload: { response: response.data.data, statusCodeLoan: response.status },
+            payload: { response: response.data.data, statusCode: response.status },
         });
 
 
