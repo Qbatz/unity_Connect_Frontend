@@ -14,6 +14,7 @@ export const initialState = {
     statusCodeLoansAddLoan: 0,
     statusCodewitness: 0,
     statusCodeRejectLoan: 0,
+    statusCodeApprovalLoan: 0,
 };
 
 const LoanReducer = (state = initialState, action) => {
@@ -51,11 +52,15 @@ const LoanReducer = (state = initialState, action) => {
                 approveid: action.payload.id,
                 loantype: action.payload.loan_type,
                 eligibleloanamount: action.payload.loan_amount,
-                statusCodeLoans: 200,
+                statusCodeApprovalLoan: action.statusCodeApproval,
                 interest: action.payload.interest,
 
             };
-
+        case "CLEAR_APPROVALLOAN":
+            return {
+                ...state,
+                statusCodeApprovalLoan: 0,
+            };
 
         case "REJECTLOAN":
             return {
@@ -69,7 +74,7 @@ const LoanReducer = (state = initialState, action) => {
                 ...state,
                 statusCodeRejectLoan: 0,
             };
-            
+
         case "CLEARLOAN":
             return {
                 ...state,
