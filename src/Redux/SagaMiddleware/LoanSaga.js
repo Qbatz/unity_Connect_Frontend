@@ -7,14 +7,16 @@ import Cookies from 'universal-cookie';
 function* LoanAddRequest(action) {
     try {
         const response = yield call(AddLoan, action.payload);
-
+      
 
         if (response?.status === 200 || response?.data.statusCode === 200) {
+           
             yield put({
                 type: "LOANADD",
                 payload: response.data,
                 statusCode: response.data.statusCode
             });
+            yield put({ type: 'GET_LOAN' });
 
             toast.success(response.data.message, {
                 position: "bottom-center",
@@ -144,13 +146,13 @@ function* LoanApproval(action) {
 
     try {
         const response = yield call(AddApproval, action.payload);
-       
-        
+
+
         if (response?.status === 200 || response?.statusCode === 200) {
             yield put({
                 type: "APPROVALLOAN",
                 payload: response.data,
-                statusCodeApproval:response.data.statusCode
+                statusCodeApproval: response.data.statusCode
             });
 
             toast.success(response.data.message, {

@@ -17,7 +17,7 @@ import editIcon from "../../Asset/Icons/edit_blue.svg";
 function AddLoanForm({ state }) {
   const dispatch = useDispatch();
 
- 
+
   const members = state.Member?.ActiveMemberdata || [];
 
 
@@ -216,10 +216,11 @@ function AddLoanForm({ state }) {
 
   useEffect(() => {
     if (state.Loan.statusCodeLoans === 200) {
+
       setLoading(false);
       dispatch({ type: "CLEARLOAN" });
       setIsModalOpen(false);
-     
+
     }
 
     setMemberId("");
@@ -244,10 +245,9 @@ function AddLoanForm({ state }) {
   }, []);
 
   useEffect(() => {
+
     if (state.Loan?.statusCodeLoansAddLoan === 200) {
       dispatch({ type: "GET_LOAN" });
-
-
       setTimeout(() => {
         dispatch({ type: "CLEARLOANADDED" })
       }, 500)
@@ -352,7 +352,7 @@ function AddLoanForm({ state }) {
     };
 
     dispatch({ type: "ADD_WITNESS", payload: witnessPayload });
-    
+
 
     setInitialWitnesses(updatedWitnesses);
     setIsWitnessModalOpen(false);
