@@ -133,7 +133,13 @@ const ProfileDetails = ({ state }) => {
 
 
 
+
+
     const handleChange = (e) => {
+        const { name, value } = e.target;
+        if ((name === "firstName" || name === "lastName") && !/^[a-zA-Z\s]*$/.test(value)) {
+            return;
+        }
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
@@ -146,8 +152,8 @@ const ProfileDetails = ({ state }) => {
             });
         }
         setNoChangesMessage('')
-    };
 
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
 

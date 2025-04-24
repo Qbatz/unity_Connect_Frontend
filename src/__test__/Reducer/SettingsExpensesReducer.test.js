@@ -19,6 +19,7 @@ describe('it will check for settings expenses reducers', () => {
             id: 0,
             statusCodeSettingsAddExpenses: 200,
             getExpenseData:[],
+            CategoryError: ''
         })
     })
 
@@ -34,6 +35,7 @@ describe('it will check for settings expenses reducers', () => {
             id: 0,
             statusCodeSettingsAddExpenses: 0,
             getExpenseData:[],
+            CategoryError: ''
         })
     })
 
@@ -49,6 +51,7 @@ describe('it will check for settings expenses reducers', () => {
             id: 0,
             statusCodeSettingsAddExpenses: 0,
             getExpenseData:[],
+            CategoryError: ''
         })
     })
 
@@ -67,6 +70,7 @@ describe('it will check for settings expenses reducers', () => {
             id: 0,
             statusCodeSettingsAddExpenses: 200,
             getExpenseData:[],
+            CategoryError: ''
         })
     })
 })

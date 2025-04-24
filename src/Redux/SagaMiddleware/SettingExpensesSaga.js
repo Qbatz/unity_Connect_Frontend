@@ -51,9 +51,13 @@ function* SettingAddExpensesPage(action) {
       style: toastStyle,
     });
 
-    refreshToken(response.data);
-  } else {
-    console.error("API Error:", response);
+
+  }
+  else if (response.status === 201 || response.statusCode === 201) {
+    yield put({ type: 'CATEGORY_ERROR', payload: response.data.message, statusCode: response.data.statusCode });
+  }
+  if (response) {
+    refreshToken(response);
   }
 
 }
