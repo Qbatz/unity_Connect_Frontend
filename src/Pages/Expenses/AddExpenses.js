@@ -171,27 +171,29 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
     const hasChanges = () => {
-
         if (!expensesdata) return true;
-
 
         const expenseDateFormatted = expenseDate ? new Date(expenseDate).toISOString().split('T')[0] : null;
         const expenseDataDateFormatted = expensesdata.Expense_Date ? new Date(expensesdata.Expense_Date).toISOString().split('T')[0] : null;
 
 
+        const currentCategoryLabel = categoryOptions.find(option => option.value === category)?.label;
+
+
+        const currentSubCategoryLabel = subCategoryOptions.find(option => option.value === subCategory)?.label;
+        const initialSubCategoryLabel = expensesdata.sub_cat?.[0]?.Subcategory_Name;
+
         return (
             expensesdata.Name !== merchantName ||
-            expensesdata.Category_Name !== category ||
-
+            expensesdata.Category_Name !== currentCategoryLabel ||
 
             expensesdata.Mode_of_Payment !== paymentMode ||
             expenseDataDateFormatted !== expenseDateFormatted ||
-            expensesdata.Expense_Amount !== expenseAmount ||
-            expensesdata.Description !== description
+            Number(expensesdata.Expense_Amount) !== Number(expenseAmount) ||
+            expensesdata.Description !== description ||
+            initialSubCategoryLabel !== currentSubCategoryLabel
         );
     };
-
-
 
     const handleSubmit = (e) => {
         e.preventDefault();

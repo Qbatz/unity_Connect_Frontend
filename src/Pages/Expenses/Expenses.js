@@ -385,7 +385,7 @@ function ExpensesList({ state }) {
 
 
                         <div className="text-center text-[14px] font-medium text-[#646464] font-Gilroy mt-[8px]">
-                            Are you sure you want to delete this Member?
+                            Are you sure you want to delete this Expense?
                         </div>
 
 
