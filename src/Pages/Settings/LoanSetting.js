@@ -319,6 +319,7 @@ function LoanSetting({ state }) {
                   setSelectedInterest('')
                   setSelectedOrdinal("")
                   setSelectedDueDate("")
+                  setIsOpen(false);
                 }}
                 className="w-32 h-32 cursor-pointer"
               />

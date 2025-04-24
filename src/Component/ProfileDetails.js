@@ -6,7 +6,7 @@ import { encryptData } from "../Crypto/Utils";
 import { useDispatch, connect } from 'react-redux';
 import { MdError } from 'react-icons/md';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
-import imageCompression from 'browser-image-compression';
+
 import { FaUser } from "react-icons/fa";
 
 
@@ -218,22 +218,9 @@ const ProfileDetails = ({ state }) => {
     const handleImageChange = async (event) => {
         const fileImage = event.target.files[0];
         if (fileImage) {
-            const options = {
-                maxSizeMB: 1,
-                maxWidthOrHeight: 800,
-                useWebWorker: true,
-            };
-            try {
-                const compressedFile = await imageCompression(fileImage, options);
 
-                if (compressedFile instanceof Blob) {
-                    setSelectedImage(URL.createObjectURL(compressedFile));
-                } else {
-                    console.error("Compressed file is not a Blob:", compressedFile);
-                }
-            } catch (error) {
-                console.error("Image compression error:", error);
-            }
+            setSelectedImage(fileImage)
+
         }
     };
 
@@ -307,11 +294,17 @@ const ProfileDetails = ({ state }) => {
 
                 <div className="w-[120px] h-[120px] rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                     {selectedImage || state.Profile ? (
+
                         <img
-                            src={selectedImage || state.Profile}
+                            src={
+                                selectedImage
+                                    ? URL.createObjectURL(selectedImage)
+                                    : state.Profile
+                            }
                             alt="Profile"
                             className="w-full h-full object-cover"
                         />
+
                     ) : (
                         <FaUser className="text-gray-400 w-12 h-12" />
                     )}
