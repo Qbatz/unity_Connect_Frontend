@@ -144,10 +144,13 @@ function* LoanApproval(action) {
 
     try {
         const response = yield call(AddApproval, action.payload);
+       
+        
         if (response?.status === 200 || response?.statusCode === 200) {
             yield put({
                 type: "APPROVALLOAN",
                 payload: response.data,
+                statusCodeApproval:response.data.statusCode
             });
 
             toast.success(response.data.message, {

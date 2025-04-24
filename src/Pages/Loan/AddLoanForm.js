@@ -255,6 +255,17 @@ function AddLoanForm({ state }) {
   }, [state.Loan?.statusCodeLoansAddLoan])
 
   useEffect(() => {
+    if (state.Loan?.statusCodeApprovalLoan === 200) {
+      dispatch({ type: "GET_LOAN" });
+
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_APPROVALLOAN" })
+      }, 500)
+    }
+  }, [state.Loan?.statusCodeApprovalLoan])
+
+  useEffect(() => {
     if (state.Loan?.statusCodewitness === 200) {
       dispatch({ type: "GET_LOAN" });
 
