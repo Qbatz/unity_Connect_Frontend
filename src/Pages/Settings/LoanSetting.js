@@ -275,7 +275,7 @@ function LoanSetting({ state }) {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-4">
         <div>
           <p className="font-Gilroy font-semibold text-xl text-black">Loan</p>
-          <p className="mt-5 text-gray-500 text-sm font-Gilroy font-medium">
+          <p className="mt-3 sm:mt-5 text-gray-500 text-sm sm:text-base font-Gilroy font-medium mb-4">
             Set up the loan type and manage them
           </p>
         </div>

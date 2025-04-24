@@ -79,10 +79,9 @@ function ExpensesSetting({ state }) {
     });
 
 
-    setCategoryName("");
+
     setSubCategories([]);
-    setSubCategoryName("");
-    setIsSubCategory(false);
+
   };
 
   useEffect(() => {
@@ -105,14 +104,21 @@ function ExpensesSetting({ state }) {
     dispatch({ type: "SETTING_GET_EXPENSES" });
   }, []);
 
+
   useEffect(() => {
     if (state.SettingExpenses.statusCodeSettingsAddExpenses === 200) {
       setLoading(false);
-
-      dispatch({ type: 'CLEARSETTINGADDEXPENSES' });
+      dispatch({ type: "CLEARSETTINGADDEXPENSES" });
+      setCategoryName("");
+      setSubCategoryName("");
+      setIsModalOpen(false);
+      setIsSubCategory(false);
+      setSubCategories([]);
+      dispatch({ type: 'CLEAR_CATEGORY_ERROR' });
+    } else if (state.SettingExpenses.statusCodeSettingsAddExpenses === 201) {
+      setIsSubCategory(true);
     }
-
-  }, [state.SettingExpenses.statusCodeSettingsAddExpenses])
+  }, [state.SettingExpenses.statusCodeSettingsAddExpenses]);
 
   useEffect(() => {
     if (isSubCategory && subCategories.length > 0) {
@@ -208,6 +214,7 @@ function ExpensesSetting({ state }) {
                   setErrorMessage("");
                   setSubCategoryError("");
                   setCategoryError("");
+                  dispatch({ type: 'CLEAR_CATEGORY_ERROR' })
                 }}
                 className="w-8 h-8 cursor-pointer"
               />
@@ -271,6 +278,7 @@ function ExpensesSetting({ state }) {
                     onChange={(e) => {
 
                       setSubCategoryName(e.target.value);
+                      dispatch({ type: 'CLEAR_CATEGORY_ERROR' })
                     }}
                     className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"
                   />
@@ -303,6 +311,12 @@ function ExpensesSetting({ state }) {
               <p className="text-red-500 flex items-center gap-1 text-xs mt-3">
                 <MdError /> {subcategoryError}
               </p>
+            )}
+            {state.SettingExpenses.CategoryError && (
+              <div className="flex items-center text-red-500 text-xs mt-1">
+                <MdError className="mr-1 text-xs" />
+                <p className="text-red-500 text-xs font-Gilroy">{state.SettingExpenses.CategoryError}</p>
+              </div>
             )}
 
             <button
