@@ -15,6 +15,7 @@ export const initialState = {
     statusCodewitness: 0,
     statusCodeRejectLoan: 0,
     statusCodeApprovalLoan: 0,
+    loanAdded: ''
 };
 
 const LoanReducer = (state = initialState, action) => {
@@ -24,7 +25,7 @@ const LoanReducer = (state = initialState, action) => {
         case "LOANADD":
             return {
                 ...state,
-
+               
                 statusCodeLoansAddLoan: action.statusCode,
             };
 
