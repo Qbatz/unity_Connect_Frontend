@@ -10,7 +10,7 @@ function Transactions({ state, member }) {
   const transactionList = state.Member.GetTransactionsList || [];
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 3;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -75,7 +75,7 @@ function Transactions({ state, member }) {
         </div>
       </div>
       <div>
-        {transactionList.length > 5 && (
+        {transactionList.length > 3 && (
           <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
             <button
               className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}

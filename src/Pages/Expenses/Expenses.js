@@ -9,10 +9,12 @@ import deleteIcon from "../../Asset/Icons/Delete.svg";
 import ExpenseForm from './AddExpenses';
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import dayjs from "dayjs";
+import { CalendarDays, X } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
-import { DatePicker } from 'antd';
-import 'dayjs/locale/en';
+
 
 
 function ExpensesList({ state }) {
@@ -35,24 +37,34 @@ function ExpensesList({ state }) {
 
     const totalExpense = state.Expenses.totalExpense;
 
-    const { RangePicker } = DatePicker;
-    const [dates, setDates] = useState(null);
+    const [dates, setDates] = useState([null, null]);
+    const [startDate, endDate] = dates;
+    const datePickerRef = useRef(null);
 
     const onDateChange = (values) => {
         setDates(values);
 
-
         if (values && values.length === 2) {
             const payload = {
-                startDate: values[0]?.format('YYYY-MM-DD'),
-                endDate: values[1]?.format('YYYY-MM-DD'),
+                startDate: dayjs(values[0]).format("YYYY-MM-DD"),
+                endDate: dayjs(values[1]).format("YYYY-MM-DD"),
             };
 
             dispatch({
                 type: "GETEXPENSES",
-                payload: payload
+                payload: payload,
             });
         }
+    };
+
+    const handleClear = () => {
+        setDates([null, null]);
+
+
+        dispatch({
+            type: "GETEXPENSES",
+            payload: {},
+        });
     };
 
 
@@ -191,17 +203,38 @@ function ExpensesList({ state }) {
                     </div>
                     <div className="flex flex-col lg:flex-row items-center gap-4 px-6 sm:px-0">
 
-                        <div className="flex w-full sm:w-auto flex-col sm:flex-row justify-center items-center gap-2 relative z-10">
+
+                        <div className="flex w-full sm:w-auto flex-col sm:flex-row justify-center items-center gap-2 relative z-50">
+                            <div className="w-full max-w-sm mx-auto">
+
+                                <div className="relative">
+                                    <DatePicker
+                                        selectsRange
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        onChange={onDateChange}
+                                        placeholderText="Select start & end date"
+                                        className="w-full border p-2 pl-10 pr-10 rounded"
+                                        ref={datePickerRef}
+                                        dateFormat="dd/MM/yyyy"
+                                    />
+                                    {(startDate || endDate) && (
+                                        <X
+                                            onClick={handleClear}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 cursor-pointer bg-white z-10"
+                                            size={18}
+                                        />
+                                    )}
+
+                                    <CalendarDays
+                                        onClick={() => datePickerRef.current.setFocus()}
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                                        size={18}
+                                    />
 
 
-                            <div className="flex flex-row sm:flex-col justify-center items-center gap-[2.5] w-full max-w-[240px] relative z-10">
-                                <RangePicker
-                                    value={dates}
-                                    onChange={onDateChange}
-                                    format="DD/MM/YYYY"
-                                    className="w-full cursor-pointer placeholder:text-[rgb(75,75,75)] placeholder:opacity-100"
-                                    dropdownClassName="max-h-[300px] overflow-y-auto border-2 border-[#c5c5c5] rounded-lg max-w-[60vw] overflow-x-auto"
-                                />
+
+                                </div>
                             </div>
                         </div>
                         <button
@@ -247,9 +280,15 @@ function ExpensesList({ state }) {
                                             {paginatedData?.map((item, index) => (
                                                 <tr key={index}>
 
-                                                    <td className="py-2 px-4 flex items-center gap-2 truncate">
+
+                                                    <td className="py-2 px-4 flex items-center gap-2">
                                                         <img src={ProfileIcon} alt="avatar" className="w-10 h-10 rounded-full" />
-                                                        <span className="truncate text-[#222222] p-1 font-Gilroy font-semibold">{item.Name}</span>
+                                                        <span className="text-[#222222] p-1 font-Gilroy font-semibold 
+        sm:whitespace-normal sm:w-auto sm:block 
+        md:whitespace-normal md:w-auto md:block 
+        xs:whitespace-normal xs:w-auto xs:block">
+                                                            {item.Name}
+                                                        </span>
                                                     </td>
 
 

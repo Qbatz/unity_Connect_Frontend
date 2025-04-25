@@ -187,14 +187,14 @@ function MemberStatements({ state, member }) {
           <table className="min-w-[640px] w-full text-left border-collapse">
             <thead className="sticky top-0 bg-[#F4F7FF] z-10 border-b border-gray-300">
               <tr className="text-[#939393] font-light text-sm font-Gilroy">
-                <th className="p-4 font-Gilroy font-normal">Serial Number</th>
-                <th className="p-4 font-Gilroy font-normal">Due Date</th>
-                <th className="p-4 font-Gilroy font-normal">Loan Amount</th>
-                <th className="p-4 font-Gilroy font-normal">Due Amount</th>
-                <th className="p-4 font-Gilroy font-normal">Interest Amount</th>
-                <th className="p-4 font-Gilroy font-normal">Pending</th>
-                <th className="p-4 font-Gilroy font-normal">Paid Amount</th>
-                <th className="p-4 font-Gilroy font-normal">Status</th>
+                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Serial Number</th>
+                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Due Date</th>
+                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Loan Amount</th>
+                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Due Amount</th>
+                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Interest Amount</th>
+                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Pending</th>
+                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Paid Amount</th>
+                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Status</th>
                 <th className="p-4 font-Gilroy font-normal"></th>
 
               </tr>
