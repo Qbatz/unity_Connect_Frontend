@@ -1,6 +1,7 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { SignIncall, ProfileDetails, ProfileDetailsUpdate, UpdatePassword } from '../Action/SignInAction';
 import { toast } from 'react-toastify';
+import Cookies from 'universal-cookie';
 
 
 export function* SignIn(action) {
@@ -83,7 +84,9 @@ export function* handleProfileDetails(action) {
     } else if (response.status === 203) {
         yield put({ type: 'PROFILE_DETAILS_ERROR', payload: response.data.message });
     }
-
+    if (response) {
+        refreshToken(response);
+    }
 
 
 }
@@ -129,55 +132,76 @@ function* handleProfileDetailsUpdate(datum) {
     } else if (response.statusCode === 201) {
         yield put({ type: 'PROFILE_DETAILS_UPDATE_ERROR', payload: response.message });
     }
+    if (response) {
+        refreshToken(response);
+    }
+
 }
 
 export function* handleUpdatePassword(action) {
 
-    try {
-        const response = yield call(UpdatePassword, action.payload);
 
-        var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "300px",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "13px",
-        };
+    const response = yield call(UpdatePassword, action.payload);
 
-        if (response.status === 200 && response.data.statusCode === 200) {
-            yield put({
-                type: 'UPDATE_PASSWORD',
-                payload: {
-                    message: response.data.message,
-                    statusCode: response.status
-                }
-            });
-            toast.success(response.message || "Password updated successfully!", {
-                position: "bottom-center",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeButton: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                style: toastStyle,
-            });
+    var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "300px",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "13px",
+    };
 
-        }
-        else if (response.status === 201) {
-            yield put({ type: 'UPDATE_PASSWORD_ERROR', payload: response.data.message });
-        }
+    if (response.status === 200 && response.data.statusCode === 200) {
+        yield put({
+            type: 'UPDATE_PASSWORD',
+            payload: {
+                message: response.data.message,
+                statusCode: response.status
+            }
+        });
+        toast.success(response.message || "Password updated successfully!", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+        });
 
-    } catch (error) {
-        console.error("failed", error);
+    }
+    else if (response.status === 201) {
+        yield put({ type: 'UPDATE_PASSWORD_ERROR', payload: response.data.message });
+    }
+
+
+    if (response) {
+        refreshToken(response);
+    }
+
+}
+
+function refreshToken(response) {
+
+
+    if (response.data && response.data.refresh_token) {
+        const refreshTokenGet = response.data.refresh_token
+        const cookies = new Cookies()
+        cookies.set('UnityConnectToken', refreshTokenGet, { path: '/' });
+    } else if (response.status === 206) {
+        const message = response.status
+        const cookies = new Cookies()
+        cookies.set('Unity_ConnectToken_Access-Denied', message, { path: '/' });
+
     }
 
 }

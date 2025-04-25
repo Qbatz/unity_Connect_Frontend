@@ -13,6 +13,8 @@ import { ClipLoader } from "react-spinners";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays } from "lucide-react";
+import closecircle from '../../Asset/Icons/close-circle.svg';
+import { MdError } from "react-icons/md";
 
 
 function ReportsTab({ state }) {
@@ -287,7 +289,13 @@ function ReportsTab({ state }) {
     );
   }
 
-
+  const handleClose = () => {
+    setShowPopup(false)
+    setPaidStartError("");
+    setPaidEndError("");
+    setUnpaidStartError("");
+    setUnpaidEndError("")
+  }
 
 
 
@@ -363,7 +371,15 @@ function ReportsTab({ state }) {
                   {showPopup === 2 && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
                       <div ref={popupRef} className="bg-white p-6 rounded-lg shadow-lg w-[350px]">
-                        <h2 className="text-lg font-semibold mb-4 text-center font-Gilroy">Select Date Range</h2>
+
+                        <div className="flex items-center justify-between border-b pb-4 mb-2 bg-white z-10 sticky top-0">
+                          <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">
+                            Select Date Range
+                          </p>
+                          <button data-testid='button-close' className="text-gray-600" onClick={handleClose}>
+                            <img src={closecircle} alt="Close" className="w-8 h-8" />
+                          </button>
+                        </div>
                         <div className="mb-3">
                           <label className="block text-sm font-semibold mb-3 font-Gilroy">Start Date</label>
                           <div className="relative">
@@ -384,9 +400,11 @@ function ReportsTab({ state }) {
                             />
                           </div>
                           {paidStartError && (
-                            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                              {paidStartError}
-                            </p>
+
+                            <div className="flex items-center justify-start mt-2  text-red-500 text-xs font-semibold font-Gilroy">
+                              <MdError className="text-sm mr-2" />
+                              <p>{paidStartError}</p>
+                            </div>
                           )}
                         </div>
 
@@ -410,20 +428,17 @@ function ReportsTab({ state }) {
                             />
                           </div>
                           {paidEndError && (
-                            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                              {paidEndError}
-                            </p>
+
+                            <div className="flex items-center justify-start mt-2  text-red-500 text-xs font-semibold font-Gilroy">
+                              <MdError className="text-sm mr-2" />
+                              <p>{paidEndError}</p>
+                            </div>
                           )}
                         </div>
-                        <div className="flex justify-end gap-2 mt-4">
+                        <div className="mt-4">
+
                           <button
-                            className="bg-gray-200 px-4 py-2 rounded-lg "
-                            onClick={() => setShowPopup(false)}
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            className="bg-blue-500 text-white px-4 py-2 rounded-lg font-Gilroy"
+                            className="bg-blue-500 w-full text-white px-4 py-2 rounded-lg font-Gilroy"
                             onClick={handleApply}
                           >
                             Apply
@@ -503,7 +518,7 @@ function ReportsTab({ state }) {
 
 
                   <button
-                    className="bg-white text-black w-[121px] h-[44px] rounded-[60px] px-[16px] py-[14px] border border-[#D9D9D9] flex items-center justify-between"
+                    className="bg-white font-Gilroy text-black w-[121px] h-[44px] rounded-[60px] px-[16px] py-[14px] border border-[#D9D9D9] flex items-center justify-between"
                     onClick={() => setIsOpen1(!isOpen1)}
                   >
                     <span className="text-[13px]">
@@ -533,7 +548,15 @@ function ReportsTab({ state }) {
                   {showPopup === 1 && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
                       <div ref={popupRef} className="bg-white p-6 rounded-lg shadow-lg w-[350px]">
-                        <h2 className="text-lg font-semibold mb-4 text-center font-Gilroy">Select Date Range</h2>
+
+                        <div className="flex items-center justify-between border-b pb-4 mb-2 bg-white z-10 sticky top-0">
+                          <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">
+                            Select Date Range
+                          </p>
+                          <button data-testid='button-close' className="text-gray-600" onClick={handleClose}>
+                            <img src={closecircle} alt="Close" className="w-8 h-8" />
+                          </button>
+                        </div>
                         <div className="mb-3">
                           <label className="block text-sm font-semibold font-Gilroy mb-3">Start Date</label>
                           <div className="relative">
@@ -554,9 +577,11 @@ function ReportsTab({ state }) {
                             />
                           </div>
                           {unpaidStartError && (
-                            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                              {unpaidStartError}
-                            </p>
+
+                            <div className="flex items-center justify-start mt-2  text-red-500 text-xs font-semibold font-Gilroy">
+                              <MdError className="text-sm mr-2" />
+                              <p>{unpaidStartError}</p>
+                            </div>
                           )}
                         </div>
 
@@ -580,20 +605,17 @@ function ReportsTab({ state }) {
                             />
                           </div>
                           {unpaidEndError && (
-                            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                              {unpaidEndError}
-                            </p>
+
+                            <div className="flex items-center justify-start mt-2  text-red-500 text-xs font-semibold font-Gilroy">
+                              <MdError className="text-sm mr-2" />
+                              <p>{unpaidEndError}</p>
+                            </div>
                           )}
                         </div>
-                        <div className="flex justify-end gap-2 mt-4">
+                        <div className="mt-4">
+
                           <button
-                            className="bg-gray-200 px-4 py-2 rounded-lg font-Gilroy"
-                            onClick={() => setShowPopup(false)}
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            className="bg-blue-500 text-white px-4 py-2 rounded-lg font-Gilroy"
+                            className="bg-blue-500 w-full text-white px-4 py-2 rounded-lg font-Gilroy"
                             onClick={handleApply}
                           >
                             Apply
@@ -629,7 +651,8 @@ function ReportsTab({ state }) {
 
                       <div className="text-right">
                         <p className="text-lg font-semibold text-[black] font-Gilroy">
-                          ₹{report.Pending_Amount.toLocaleString('en-IN')}
+
+                          ₹{report.Pending_Amount_For_Due === null ? report.Due_Amount.toLocaleString('en-IN') : report.Pending_Amount_For_Due.toLocaleString('en-IN')}
                         </p>
                         <p className="text-[#939393] text-xs font-Gilroy">
                           {new Date(report.Due_Date).toLocaleDateString("en-GB", {

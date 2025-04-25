@@ -837,7 +837,7 @@ function AddLoanForm({ state }) {
 
 
                 {memberError && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center">
+                  <p className="text-red-500 text-xs mt-1 flex items-center font-Gilroy">
                     <MdError className="mr-1" /> {memberError}
                   </p>
                 )}
@@ -866,7 +866,7 @@ function AddLoanForm({ state }) {
                 />
 
                 {witnessError && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center">
+                  <p className="text-red-500 text-xs mt-1 flex items-center font-Gilroy">
                     <MdError className="mr-1" /> {witnessError}
                   </p>
                 )}
@@ -891,14 +891,14 @@ function AddLoanForm({ state }) {
              focus:border-gray-400 focus:outline-none"
                 />
                 {loanAmountError && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center">
+                  <p className="text-red-500 text-xs mt-1 flex items-center font-Gilroy">
                     <MdError className="mr-1" /> {loanAmountError}
                   </p>
                 )}
 
               </div>
               {formError && (
-                <div className="flex items-center justify-center text-red-500 text-xs mt-6">
+                <div className="flex items-center justify-center text-red-500 text-xs mt-6 font-Gilroy">
                   <MdError className="mr-1 text-base" />
                   <p >
                     {formError}
@@ -1206,7 +1206,13 @@ function AddLoanForm({ state }) {
                 />
               </div>
 
-              {witnessError && <p className="text-red-500 text-sm mt-2 text-center">{witnessError}</p>}
+              {witnessError &&
+
+                <p className="text-red-500 text-xs flex items-center justify-center font-Gilroy mt-2">
+                  <MdError className="mr-1" />
+                  {witnessError}
+                </p>
+              }
 
               <button
                 className="mt-6 bg-black text-white border font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-full h-[51px] pt-4 pr-5 pb-4 pl-5"
@@ -1282,7 +1288,7 @@ function AddLoanForm({ state }) {
                 />
 
                 {loanTypeError && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center">
+                  <p className="text-red-500 text-xs mt-1 flex items-center font-Gilroy">
                     <MdError className="mr-1" /> {loanTypeError}
                   </p>
                 )}
@@ -1319,7 +1325,7 @@ function AddLoanForm({ state }) {
                   className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-3 mt-2 font-Gilroy  focus:border-gray-400 focus:outline-none"
                 />
 
-                {loanAmountError && <p className="text-red-500 text-xs mt-1 flex items-center"><MdError className="mr-1" /> {loanAmountError}</p>}
+                {loanAmountError && <p className="text-red-500 text-xs mt-1 flex items-center font-Gilroy"><MdError className="mr-1" /> {loanAmountError}</p>}
               </div>
 
               <div className="mt-5">

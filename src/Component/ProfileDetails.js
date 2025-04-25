@@ -48,6 +48,7 @@ const ProfileDetails = ({ state }) => {
 
     useEffect(() => {
         setNoChangesMessage("");
+        setPasswordErrors("")
     }, [activeTab]);
 
 
