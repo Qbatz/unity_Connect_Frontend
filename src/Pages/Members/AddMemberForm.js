@@ -363,19 +363,15 @@ function MemberModal({ state, memberData, onClose }) {
                                 className="absolute inset-0 opacity-0 w-full h-full"
                                 onChange={handleFileChange}
                             />
-
-                            {memberData && memberData.Document_Url && (
-                                <img src={memberData.Document_Url} alt="" />
-                            )}
-
-
+                         
+                           
                             {showImage ? (
-                                file?.type === "application/pdf" || (!file && memberData?.Document_Url?.includes(".pdf")) ? (
-                                    <span className="text-xs font-normal px-1 break-all text-center">
-                                        {file?.name || memberData?.Document_Url?.split("/").pop()}
+                                file?.type === "application/pdf" || (!file && showImage?.includes(".pdf")) ? (
+                                    <span className="text-xs px-1 break-all text-center">
+                                        {file?.name || showImage.split("/").pop()}
                                     </span>
                                 ) : (
-                                    <img src={showImage || memberData?.Document_Url} alt="Selected" className="w-full h-full object-contain" />
+                                    <img src={showImage} alt="Selected" className="w-full h-full object-contain" />
                                 )
                             ) : (
                                 <AiOutlinePlus size={20} />

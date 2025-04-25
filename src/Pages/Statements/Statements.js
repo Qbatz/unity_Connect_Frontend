@@ -144,7 +144,7 @@ function Statement({ state }) {
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Date</th>
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Amount</th>
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due Date</th>
-                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Pending Amount</th>
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Status</th>
                   </tr>
                 </thead>
