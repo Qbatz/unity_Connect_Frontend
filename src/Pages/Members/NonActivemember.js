@@ -30,7 +30,7 @@ function NonActiveMember({ state, loading, setLoading }) {
 
 
   const [NonactiveMemberData, setNonActiveMemberData] = useState([]);
-  const itemsPerPage = 6;
+  const itemsPerPage = 4;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const paginatedData = NonactiveMemberData.slice(indexOfFirstItem, indexOfLastItem);
@@ -438,7 +438,7 @@ function NonActiveMember({ state, loading, setLoading }) {
 
 
 
-            {NonactiveMemberData.length > 5 && (
+            {NonactiveMemberData.length > 3 && (
               <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
                 <button
                   className={`px-4 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
