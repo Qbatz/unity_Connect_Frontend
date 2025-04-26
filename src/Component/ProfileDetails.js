@@ -12,6 +12,8 @@ import { FaUser } from "react-icons/fa";
 
 const ProfileDetails = ({ state }) => {
 
+
+
     const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState("editProfile");
     const [logoutFormShow, setLogoutFormShow] = useState(false);
@@ -29,6 +31,7 @@ const ProfileDetails = ({ state }) => {
         email: '',
         mobileNo: '',
     });
+
 
     const [showPassword, setShowPassword] = useState(false);
     const [showNewPassword, setNewShowPassword] = useState(false);
@@ -59,10 +62,11 @@ const ProfileDetails = ({ state }) => {
             lastName: state.Last_Name || "",
             email: state.Email_Id || "",
             mobileNo: state.Mobile_No || "",
-
-
         }));
+
+        setSelectedImage(state.Profile || null);
     }, [state]);
+
 
     const validate = () => {
         let tempErrors = { ...errors };
@@ -158,23 +162,7 @@ const ProfileDetails = ({ state }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        let tempErrors = {};
-
-        if (!formData.firstName) {
-            tempErrors.firstName = 'First name is required';
-        }
-        if (!formData.lastName) {
-            tempErrors.lastName = 'Last name is required';
-        }
-        if (!formData.email) {
-            tempErrors.email = 'Email address is required';
-        }
-        if (!formData.mobileNo) {
-            tempErrors.mobileNo = 'Mobile number is required';
-        }
-
-        if (Object.keys(tempErrors).length > 0) {
-            setErrors(tempErrors);
+        if (!validate()) {
             return;
         }
 
@@ -185,45 +173,42 @@ const ProfileDetails = ({ state }) => {
             email_id: formData.email || state.Email_Id,
             mobile_no: formData.mobileNo || state.Mobile_No,
             file: selectedImage || state.Profile,
+            profile_URL: state.Profile,
         };
 
-        if (
+        const noFieldChanged =
             EditPayload.first_name === state.First_Name &&
             EditPayload.last_name === state.Last_Name &&
             EditPayload.email_id === state.Email_Id &&
             EditPayload.mobile_no === state.Mobile_No &&
-            !selectedImage
-        ) {
+          
+            (
+                (state.Profile ? typeof selectedImage !== 'object' : !selectedImage)
+            );
+    
+
+        if (noFieldChanged) {
             setNoChangesMessage("No changes detected");
             return;
         }
 
-        if (
-            (formData.firstName && formData.firstName !== state.First_Name) ||
-            (formData.lastName && formData.lastName !== state.Last_Name) ||
-            (formData.email && formData.email !== state.Email_Id) ||
-            (formData.mobileNo && formData.mobileNo !== state.Mobile_No) ||
-            selectedImage
-        ) {
-            dispatch({ type: 'PROFILEDETAILSUPDATE', payload: EditPayload });
-            setNoChangesMessage('');
-            return;
-        }
+        dispatch({ type: 'PROFILEDETAILSUPDATE', payload: EditPayload });
+        setNoChangesMessage('');
 
-        if (validate()) {
-            dispatch({ type: 'PROFILEDETAILSUPDATE', payload: EditPayload });
-            setNoChangesMessage('');
-        }
+
     };
 
-    const handleImageChange = async (event) => {
-        const fileImage = event.target.files[0];
-        if (fileImage) {
 
-            setSelectedImage(fileImage)
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedImage(file);
         }
     };
+    useEffect(() => {
+        setSelectedImage(state.Profile || null);
+    }, [state]);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -245,6 +230,7 @@ const ProfileDetails = ({ state }) => {
         }
         setCurrentPassword("")
         setNewPassword("")
+
     };
 
     const handleCurrentPasswordChange = (e) => {
@@ -267,6 +253,7 @@ const ProfileDetails = ({ state }) => {
 
     const handleUpdateClick = () => {
         document.getElementById('image-upload').click();
+        setNoChangesMessage('')
     };
 
     const handleLogout = () => {
@@ -294,21 +281,17 @@ const ProfileDetails = ({ state }) => {
             <div className="flex items-center gap-6  w-full">
 
                 <div className="w-[120px] h-[120px] rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-                    {selectedImage || state.Profile ? (
 
-                        <img
-                            src={
-                                selectedImage
-                                    ? URL.createObjectURL(selectedImage)
-                                    : state.Profile
-                            }
-                            alt="Profile"
-                            className="w-full h-full object-cover"
-                        />
-
+                    {selectedImage ? (
+                        typeof selectedImage === 'object' ? (
+                            <img src={URL.createObjectURL(selectedImage)} alt="Profile Preview" />
+                        ) : (
+                            <img src={selectedImage} alt="Profile Preview" />
+                        )
                     ) : (
                         <FaUser className="text-gray-400 w-12 h-12" />
                     )}
+
                 </div>
 
 

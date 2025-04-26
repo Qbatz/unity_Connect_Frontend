@@ -24,7 +24,9 @@ export async function ProfileDetailsUpdate(params) {
     if (params.mobile_no) formData.append("mobile_no", params.mobile_no);
     if (params.file) formData.append("file", params.file);
     if (params.id) formData.append("id", params.id || "");
+    if (params.profile_URL) formData.append("profile_URL", params.profile_URL);
 
+    
     try {
         const response = await AxiosConfig.post('/user/edit_profile', formData, {
             headers: {
