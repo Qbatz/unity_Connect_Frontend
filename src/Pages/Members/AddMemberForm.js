@@ -89,6 +89,11 @@ function MemberModal({ state, memberData, onClose }) {
         if (mobileNo.length > 10) {
             tempErrors.mobileNo = "Mobile Number Cannot Exceed 10 Digits";
         }
+        if (!email) {
+            tempErrors.email = "";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            tempErrors.email = "Invalid Email Address";
+        }
         if (!address) tempErrors.address = "Address is Required";
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
@@ -363,8 +368,8 @@ function MemberModal({ state, memberData, onClose }) {
                                 className="absolute inset-0 opacity-0 w-full h-full"
                                 onChange={handleFileChange}
                             />
-                         
-                           
+
+
                             {showImage ? (
                                 file?.type === "application/pdf" || (!file && showImage?.includes(".pdf")) ? (
                                     <span className="text-xs px-1 break-all text-center">

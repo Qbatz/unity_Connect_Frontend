@@ -86,10 +86,16 @@ function MemberStatements({ state, member }) {
   useEffect(() => {
     if (selectedStatement) {
       setPaidAmount(selectedStatement.Paid_Amount || "");
-      setPendingAmount(selectedStatement.Pending_Amount || "");
+
+      setPendingAmount(
+        selectedStatement.Pending_Amount_For_Due === null ? selectedStatement.Due_Amount : selectedStatement.Pending_Amount_For_Due
+      );
+
+
       setStatus(selectedStatement.Status || "");
     }
   }, [selectedStatement]);
+
 
   const handleInputChange = (field, value) => {
     if (errors[field]) {
@@ -97,22 +103,30 @@ function MemberStatements({ state, member }) {
     }
 
     if (field === "loanAmount") {
-
       const loan = parseFloat(value) || 0;
       const paid = parseFloat(paidAmount) || 0;
       setPendingAmount((loan - paid).toString());
-    } else if (field === "paidAmount") {
+    }
+    else if (field === "paidAmount") {
       setPaidAmount(value);
 
-      const loan = parseFloat(selectedStatement?.Due_Amount) || 0;
+      const loan = parseFloat(
+        selectedStatement?.Pending_Amount_For_Due !== null
+          ? selectedStatement?.Pending_Amount_For_Due
+          : selectedStatement?.Due_Amount
+      ) || 0;
+
       const paid = parseFloat(value) || 0;
       setPendingAmount((loan - paid).toString());
-    } else if (field === "pendingAmount") {
+    }
+    else if (field === "pendingAmount") {
       setPendingAmount(value);
-    } else if (field === "status") {
+    }
+    else if (field === "status") {
       setStatus(value);
     }
   };
+
 
 
 
@@ -142,8 +156,9 @@ function MemberStatements({ state, member }) {
         type: 'ADDRECORDPAYMENT',
         payload: payload,
       });
-      setPaidAmount("");
-      setPendingAmount("");
+      setPaidAmount('');
+
+
       setStatus("");
       setIsModalOpen(false);
     }
@@ -152,7 +167,7 @@ function MemberStatements({ state, member }) {
 
   const handleClose = () => {
     setIsModalOpen(false);
-    setPendingAmount('')
+
     setPaidAmount('')
     setErrors({});
   };
@@ -254,7 +269,10 @@ function MemberStatements({ state, member }) {
                       >
                         <button
                           className="flex items-center gap-2 w-full px-2 py-2 font-Gilroy border-b border-gray-200"
-                          onClick={() => setIsModalOpen(true)}
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setPaidAmount('');
+                          }}
                         >
                           <img src={RecordPaymentIcon} alt="Record Payment" className="h-4 w-4" />
                           Record Payment

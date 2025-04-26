@@ -174,38 +174,52 @@ function ReportsTab({ state }) {
 
 
 
-  const handleCommonClick = (reportType) => {
 
+  const formatDate = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Month is 0-based
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleCommonClick = (reportType, isFromPopup = false) => {
     let payload;
+
+
+    if (!isFromPopup && (filterpaid === "customise" || filterunpaid === "customise")) {
+
+      return;
+    }
 
     if (reportType === 1) {
       payload = {
-        start_date_UnPaid: unpaidStart,
-        end_date_UnPaid: unpaidEnd,
+        start_date_UnPaid: formatDate(unpaidStart),
+        end_date_UnPaid: formatDate(unpaidEnd),
         filter_UnPaid: "",
       };
       dispatch({ type: "UNSUCCESS_REPORT", payload });
     } else if (reportType === 2) {
       payload = {
-        start_date_Paid: paidStart,
-        end_date_Paid: paidEnd,
+        start_date_Paid: formatDate(paidStart),
+        end_date_Paid: formatDate(paidEnd),
         filter_Paid: "",
       };
       dispatch({ type: "SUCCESS_REPORT", payload });
     } else {
-
-
       if (filterpaid) {
+
         payload = {
-          start_date_Paid: paidStart,
-          end_date_Paid: paidEnd,
+          start_date_Paid: formatDate(paidStart),
+          end_date_Paid: formatDate(paidEnd),
           filter_Paid: filterpaid,
         };
         dispatch({ type: "SUCCESS_REPORT", payload });
       } else if (filterunpaid) {
         payload = {
-          start_date_UnPaid: unpaidStart,
-          end_date_UnPaid: unpaidEnd,
+          start_date_UnPaid: formatDate(unpaidStart),
+          end_date_UnPaid: formatDate(unpaidEnd),
           filter_UnPaid: filterunpaid,
         };
         dispatch({ type: "UNSUCCESS_REPORT", payload });
@@ -265,7 +279,7 @@ function ReportsTab({ state }) {
 
     setShowPopup(false);
     setTimeout(() => {
-      handleCommonClick(reportType);
+      handleCommonClick(reportType, true);
     }, 500);
 
     if (reportType === 1) {
@@ -372,11 +386,11 @@ function ReportsTab({ state }) {
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
                       <div ref={popupRef} className="bg-white p-6 rounded-lg shadow-lg w-[350px]">
 
-                        <div className="flex items-center justify-between border-b pb-4 mb-2 bg-white z-10 sticky top-0">
+                        <div className="flex items-center justify-between border-b pb-4 mb-2 bg-white">
                           <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">
                             Select Date Range
                           </p>
-                          <button data-testid='button-close' className="text-gray-600" onClick={handleClose}>
+                          <button className="text-gray-600" onClick={handleClose}>
                             <img src={closecircle} alt="Close" className="w-8 h-8" />
                           </button>
                         </div>
@@ -549,11 +563,11 @@ function ReportsTab({ state }) {
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
                       <div ref={popupRef} className="bg-white p-6 rounded-lg shadow-lg w-[350px]">
 
-                        <div className="flex items-center justify-between border-b pb-4 mb-2 bg-white z-10 sticky top-0">
+                        <div className="flex items-center justify-between border-b pb-4 mb-2 bg-white">
                           <p className="font-semibold font-Gilroy text-lg leading-6 tracking-normal">
                             Select Date Range
                           </p>
-                          <button data-testid='button-close' className="text-gray-600" onClick={handleClose}>
+                          <button className="text-gray-600" onClick={handleClose}>
                             <img src={closecircle} alt="Close" className="w-8 h-8" />
                           </button>
                         </div>
