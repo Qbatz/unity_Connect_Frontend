@@ -18,6 +18,8 @@ import { MdError } from "react-icons/md";
 
 
 function ReportsTab({ state }) {
+  console.log("state",state);
+  
 
   const dispatch = useDispatch();
 
@@ -135,17 +137,95 @@ function ReportsTab({ state }) {
 
 
 
-  const handleDownload = (fileUrl, fileName) => {
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownloadSuccessExcel = () => {
+    const payload = {
+      start_date_Paid: formatDate(paidStart),
+          end_date_Paid: formatDate(paidEnd),
+          filter_Paid: filterpaid,
+    };
+    dispatch({type:'SUCCESS_EXCEL',payload: payload})
+   
   };
 
+  const handleDownloadUnSuccessExcel = () => {
+    const payload = {
+      start_date_UnPaid: formatDate(unpaidStart),
+      end_date_UnPaid: formatDate(unpaidEnd),
+      filter_UnPaid: filterunpaid,
+    };
+    dispatch({type:'UNSUCCESS_EXECL', payload: payload})
+   
+  };
+
+  const handleDownloadSuccessPDF = () => {
+    
+   
+    const payload = {
+      start_date_Paid: formatDate(paidStart),
+      end_date_Paid: formatDate(paidEnd),
+      filter_Paid: filterpaid,
+    };
+    console.log("payload",payload);
+    if (payload) {
+      dispatch({type:'SUCCESS_PDF' ,payload: payload})
+    }
+    
+    // dispatch({type:'SUCCESS_PDF' ,payload: payload})
+  }
+
+  const handleDownloadUnSuccessPDF = () => {
+    const payload = {
+      start_date_UnPaid: formatDate(unpaidStart),
+      end_date_UnPaid: formatDate(unpaidEnd),
+      filter_UnPaid: filterunpaid,
+    };
+    dispatch({type:'UNSUCCESS_PDF',payload: payload})
+  }
 
 
+  useEffect(() => {
+    if (state.Report.SuccessPDF ) {
+    
+      window.open(state.Report.SuccessPDF, "_blank");
+        
+    }
+  }, [state.Report.SuccessPDF]);
+  
+  useEffect(() => {
+    if (state.Report.UnSuccessPDF ) {
+    
+      window.open(state.Report.UnSuccessPDF, "_blank");
+        
+    }
+  }, [state.Report.UnSuccessPDF]);
+
+  useEffect(() => {
+    if (state.Report.SuccessExcel) {
+   
+      const link = document.createElement('a');
+      link.href = state.Report.SuccessExcel;
+      link.download = 'Success_Report.xlsx'; 
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+           
+    }
+  }, [state.Report.SuccessExcel]);
+
+  useEffect(() => {
+    if (state.Report.UnSuccessExcel) {
+     
+      const link = document.createElement('a');
+      link.href = state.Report.UnSuccessExcel;
+      link.download = 'UnSuccess_Report.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+           
+    }
+  }, [state.Report.UnSuccessExcel]);
+    
+  
 
   const handleOptionClick = (option, e, type) => {
 
@@ -182,6 +262,7 @@ function ReportsTab({ state }) {
     const month = String(d.getMonth() + 1).padStart(2, "0"); // Month is 0-based
     const year = d.getFullYear();
     return `${year}-${month}-${day}`;
+
   };
 
   const handleCommonClick = (reportType, isFromPopup = false) => {
@@ -334,14 +415,15 @@ function ReportsTab({ state }) {
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(state.Report.successExcelUrl, "Unsuccessful_Payments.xlsx")}
+                    onClick={handleDownloadSuccessExcel}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
 
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => window.open(state.Report.successPdfUrl, "_blank")}
+                    // onClick={() => window.open(state.Report.successPdfUrl, "_blank")}
+                    onClick={handleDownloadSuccessPDF}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
@@ -516,13 +598,14 @@ function ReportsTab({ state }) {
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(state.Report.unsuccessExcelUrl, "Unsuccessful_Payments.xlsx")}
+                    onClick={handleDownloadUnSuccessExcel}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => window.open(state.Report.unsuccessPdfUrl, '_blank')}
+                    // onClick={() => window.open(state.Report.unsuccessPdfUrl, '_blank')}
+                    onClick={handleDownloadUnSuccessPDF}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
