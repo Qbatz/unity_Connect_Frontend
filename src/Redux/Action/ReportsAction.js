@@ -9,27 +9,27 @@ export async function UnSuccessReportsAction(reports) {
 }
 
 export async function SuccessReportsPDF(reports) {
-    console.log("reports",reports);
-    
-    return await AxiosConfig.post('/report/get_report_success_pdf', reports,{
+
+
+    return await AxiosConfig.post('/report/get_report_success_pdf', reports, {
         data: reports
     });
 }
 
 export async function SuccessReportsEXCEL(reports) {
-    return await AxiosConfig.post('/report/get_report_success_excel', reports,{
+    return await AxiosConfig.post('/report/get_report_success_excel', reports, {
         data: reports
-});
+    });
 }
 
 export async function UnSuccessReportsPDF(reports) {
-    return await AxiosConfig.post('/report/get_report_unsuccess_pdf', reports,{
+    return await AxiosConfig.post('/report/get_report_unsuccess_pdf', reports, {
         data: reports
-});
+    });
 }
 
 export async function UnSuccessReportsEXCEL(reports) {
-    return await AxiosConfig.post('/report/get_report_unsuccess_excel', reports,{
+    return await AxiosConfig.post('/report/get_report_unsuccess_excel', reports, {
         data: reports
-});
+    });
 }

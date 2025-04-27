@@ -165,7 +165,7 @@ function ReportsTab({ state }) {
       end_date_Paid: formatDate(paidEnd),
       filter_Paid: filterpaid,
     };
-    console.log("payload", payload);
+
     if (payload) {
       dispatch({ type: 'SUCCESS_PDF', payload: payload })
     }
@@ -181,7 +181,7 @@ function ReportsTab({ state }) {
       end_date_UnPaid: formatDate(unpaidEnd),
       filter_UnPaid: filterunpaid,
     };
-    console.log("unsuccesspayload", payload);
+
     dispatch({ type: 'UNSUCCESS_PDF', payload: payload })
   }
 
