@@ -18,8 +18,8 @@ import { MdError } from "react-icons/md";
 
 
 function ReportsTab({ state }) {
-  console.log("state",state);
-  
+
+
 
   const dispatch = useDispatch();
 
@@ -108,7 +108,7 @@ function ReportsTab({ state }) {
 
     if (state.Report.statusCodeUnSuccess === 200) {
       setLoading(false);
-      setFilterUnpaid("");
+
 
 
       setTimeout(() => {
@@ -120,7 +120,7 @@ function ReportsTab({ state }) {
   useEffect(() => {
     if (state.Report.statusCodeSuccess === 200) {
       setLoading(false);
-      setFilterPaid("");
+
 
 
       setTimeout(() => {
@@ -140,11 +140,11 @@ function ReportsTab({ state }) {
   const handleDownloadSuccessExcel = () => {
     const payload = {
       start_date_Paid: formatDate(paidStart),
-          end_date_Paid: formatDate(paidEnd),
-          filter_Paid: filterpaid,
+      end_date_Paid: formatDate(paidEnd),
+      filter_Paid: filterpaid,
     };
-    dispatch({type:'SUCCESS_EXCEL',payload: payload})
-   
+    dispatch({ type: 'SUCCESS_EXCEL', payload: payload })
+
   };
 
   const handleDownloadUnSuccessExcel = () => {
@@ -153,25 +153,27 @@ function ReportsTab({ state }) {
       end_date_UnPaid: formatDate(unpaidEnd),
       filter_UnPaid: filterunpaid,
     };
-    dispatch({type:'UNSUCCESS_EXECL', payload: payload})
-   
+    dispatch({ type: 'UNSUCCESS_EXECL', payload: payload })
+
   };
 
   const handleDownloadSuccessPDF = () => {
-    
-   
+
+
     const payload = {
       start_date_Paid: formatDate(paidStart),
       end_date_Paid: formatDate(paidEnd),
       filter_Paid: filterpaid,
     };
-    console.log("payload",payload);
+    console.log("payload", payload);
     if (payload) {
-      dispatch({type:'SUCCESS_PDF' ,payload: payload})
+      dispatch({ type: 'SUCCESS_PDF', payload: payload })
     }
-    
-    // dispatch({type:'SUCCESS_PDF' ,payload: payload})
+
+
   }
+
+
 
   const handleDownloadUnSuccessPDF = () => {
     const payload = {
@@ -179,53 +181,12 @@ function ReportsTab({ state }) {
       end_date_UnPaid: formatDate(unpaidEnd),
       filter_UnPaid: filterunpaid,
     };
-    dispatch({type:'UNSUCCESS_PDF',payload: payload})
+    console.log("unsuccesspayload", payload);
+    dispatch({ type: 'UNSUCCESS_PDF', payload: payload })
   }
 
 
-  useEffect(() => {
-    if (state.Report.SuccessPDF ) {
-    
-      window.open(state.Report.SuccessPDF, "_blank");
-        
-    }
-  }, [state.Report.SuccessPDF]);
-  
-  useEffect(() => {
-    if (state.Report.UnSuccessPDF ) {
-    
-      window.open(state.Report.UnSuccessPDF, "_blank");
-        
-    }
-  }, [state.Report.UnSuccessPDF]);
 
-  useEffect(() => {
-    if (state.Report.SuccessExcel) {
-   
-      const link = document.createElement('a');
-      link.href = state.Report.SuccessExcel;
-      link.download = 'Success_Report.xlsx'; 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-           
-    }
-  }, [state.Report.SuccessExcel]);
-
-  useEffect(() => {
-    if (state.Report.UnSuccessExcel) {
-     
-      const link = document.createElement('a');
-      link.href = state.Report.UnSuccessExcel;
-      link.download = 'UnSuccess_Report.xlsx';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-           
-    }
-  }, [state.Report.UnSuccessExcel]);
-    
-  
 
   const handleOptionClick = (option, e, type) => {
 
@@ -237,9 +198,32 @@ function ReportsTab({ state }) {
     if (type === 1) {
       setFilterUnpaid(option.value);
       setSelectedFilterUnpaid(option.label);
-    } else {
+
+    }
+
+    if (option.value === "customise") {
+      setShowPopup(type);
+    }
+
+    setIsOpen1(false);
+    setIsOpen2(false);
+
+
+  };
+
+  const handleOptionSuccessClick = (option, e, type) => {
+
+
+    setReportType(type);
+
+
+
+    if (type === 2) {
+
+
       setFilterPaid(option.value);
       setSelectedFilterPaid(option.label);
+
     }
 
     if (option.value === "customise") {
@@ -255,11 +239,12 @@ function ReportsTab({ state }) {
 
 
 
+
   const formatDate = (date) => {
     if (!date) return "";
     const d = new Date(date);
     const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0"); // Month is 0-based
+    const month = String(d.getMonth() + 1).padStart(2, "0");
     const year = d.getFullYear();
     return `${year}-${month}-${day}`;
 
@@ -422,7 +407,7 @@ function ReportsTab({ state }) {
 
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    // onClick={() => window.open(state.Report.successPdfUrl, "_blank")}
+
                     onClick={handleDownloadSuccessPDF}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
@@ -457,7 +442,7 @@ function ReportsTab({ state }) {
                         <div
                           key={option.value}
                           className="px-4 py-2 text-black hover:bg-blue-100 cursor-pointer text-[14px] font-Gilroy"
-                          onClick={(e) => handleOptionClick(option, e, 2)}
+                          onClick={(e) => handleOptionSuccessClick(option, e, 2)}
                         >
                           {option.label}
                         </div>
@@ -604,7 +589,7 @@ function ReportsTab({ state }) {
                   </button>
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    // onClick={() => window.open(state.Report.unsuccessPdfUrl, '_blank')}
+
                     onClick={handleDownloadUnSuccessPDF}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
