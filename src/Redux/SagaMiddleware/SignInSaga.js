@@ -68,6 +68,7 @@ export function* handleProfileDetails(action) {
     const response = yield call(ProfileDetails, action.payload);
 
 
+
     if (response.status === 200 && response.data.statusCode === 200) {
         yield put({
             type: 'PROFILE_DETAILS_LIST',
@@ -95,8 +96,10 @@ export function* handleProfileDetails(action) {
 function* handleProfileDetailsUpdate(datum) {
 
     const response = yield call(ProfileDetailsUpdate, datum.payload);
-
+   
     if (response.statusCode === 200 || response.status === 200) {
+       
+        
         var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",

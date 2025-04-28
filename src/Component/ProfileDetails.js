@@ -6,12 +6,15 @@ import { encryptData } from "../Crypto/Utils";
 import { useDispatch, connect } from 'react-redux';
 import { MdError } from 'react-icons/md';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
-
+import { useSelector } from 'react-redux';
 import { FaUser } from "react-icons/fa";
 
 
 const ProfileDetails = ({ state }) => {
 
+    const profileDetailsUpdateErrorMessage = useSelector(
+        (state) => state.SignIn.profileDetailsUpdateErrorMessage
+    );
 
 
     const dispatch = useDispatch();
@@ -43,6 +46,7 @@ const ProfileDetails = ({ state }) => {
         newPassword: '',
         bothPassword: '',
     });
+    const [mailError, setMailError] = useState("")
 
 
     useEffect(() => {
@@ -54,6 +58,15 @@ const ProfileDetails = ({ state }) => {
         setPasswordErrors("")
     }, [activeTab]);
 
+    useEffect(() => {
+        if (profileDetailsUpdateErrorMessage) {
+      
+          setMailError(profileDetailsUpdateErrorMessage);
+          
+       
+        }
+      }, [profileDetailsUpdateErrorMessage, dispatch]);
+   
 
     useEffect(() => {
         setFormData((prev) => ({
@@ -157,6 +170,8 @@ const ProfileDetails = ({ state }) => {
             });
         }
         setNoChangesMessage('')
+        setMailError('')
+        dispatch({ type: 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR' });
 
     };
     const handleSubmit = (e) => {
@@ -181,11 +196,11 @@ const ProfileDetails = ({ state }) => {
             EditPayload.last_name === state.Last_Name &&
             EditPayload.email_id === state.Email_Id &&
             EditPayload.mobile_no === state.Mobile_No &&
-          
+
             (
                 (state.Profile ? typeof selectedImage !== 'object' : !selectedImage)
             );
-    
+
 
         if (noFieldChanged) {
             setNoChangesMessage("No changes detected");
@@ -427,6 +442,12 @@ const ProfileDetails = ({ state }) => {
                         <div className="flex items-center text-red-500 text-xs mb-4 font-Gilroy">
                             <MdError className="mr-1" />
                             {noChangesMessage}
+                        </div>
+                    )}
+                    {mailError && (
+                        <div className="flex items-center text-red-500 text-xs mb-4 font-Gilroy">
+                            <MdError className="mr-1" />
+                            {mailError}
                         </div>
                     )}
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"

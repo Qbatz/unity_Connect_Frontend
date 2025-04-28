@@ -68,9 +68,12 @@ const SignInReducer = (state = initialState, action) => {
         case 'PROFILE_DETAILS_UPDATE_LIST':
             return { ...state, profileDetailsUpdateStatusCode: action.payload.statusCode }
         case 'PROFILE_DETAILS_UPDATE_ERROR':
-            return { ...state, profileDetailsUpdateErrorMessage: '', }
+            return { ...state, profileDetailsUpdateErrorMessage: action.payload, }
         case 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR':
-            return { ...state, profileDetailsUpdateStatusCode: 0 }
+            return {
+                ...state, profileDetailsUpdateStatusCode: 0,
+                profileDetailsUpdateErrorMessage: ""
+            }
 
         case 'UPDATE_PASSWORD':
             return { ...state, updatePassword: action.payload.message, updatePasswordStatusCode: action.payload.statusCode }
