@@ -15,6 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays } from "lucide-react";
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { MdError } from "react-icons/md";
+import moment from "moment";
 
 
 function ReportsTab({ state }) {
@@ -189,40 +190,32 @@ function ReportsTab({ state }) {
 
   const handleDownloadUnSuccessPDF = () => {
     const payload = {
-      start_date_UnPaid: formatDate(unpaidStart),
-      end_date_UnPaid: formatDate(unpaidEnd),
+      start_date_UnPaid: unpaidStart,
+      end_date_UnPaid: unpaidEnd,
       filter_UnPaid: filterunpaid,
     };
 
+    console.log("UnSuccess PDF Payload ➡️", payload);
     dispatch({ type: 'UNSUCCESS_PDF', payload: payload })
   }
 
 
 
-
-  const handleOptionClick = (option, e, type) => {
-
-
-    setReportType(type);
+  //Unsuccessful Payments
+  const handleOptionClick = (option) => {
 
 
+    setReportType(option.value);
 
-    if (type === 1) {
+    console.log("option.value", option.value);
+    if (option.value === "customise") {
+      setShowPopup(1);
+    }
+
       setFilterUnpaid(option.value);
       setSelectedFilterUnpaid(option.label);
-      setFilterPaid('');
-      setSelectedFilterPaid('');
-
-    }
-
-    if (option.value === "customise") {
-      setShowPopup(type);
-    }
 
     setIsOpen1(false);
-    setIsOpen2(false);
-
-
   };
 
   // const handleOptionSuccessClick = (option, e, type) => {
@@ -263,7 +256,6 @@ function ReportsTab({ state }) {
       setSelectedFilterUnpaid('');
   
       if (option.value !== "customise") {
-    sent
         setPaidStart("");
         setPaidEnd("");
   
@@ -303,8 +295,8 @@ function ReportsTab({ state }) {
 
     if (reportType === 1) {
       payload = {
-        start_date_UnPaid: formatDate(unpaidStart),
-        end_date_UnPaid: formatDate(unpaidEnd),
+        start_date_UnPaid: unpaidStart,
+        end_date_UnPaid: unpaidEnd,
         filter_UnPaid: "",
       };
       dispatch({ type: "UNSUCCESS_REPORT", payload });
@@ -326,8 +318,8 @@ function ReportsTab({ state }) {
         dispatch({ type: "SUCCESS_REPORT", payload });
       } else if (filterunpaid) {
         payload = {
-          start_date_UnPaid: formatDate(unpaidStart),
-          end_date_UnPaid: formatDate(unpaidEnd),
+          start_date_UnPaid: unpaidStart,
+          end_date_UnPaid: unpaidEnd,
           filter_UnPaid: filterunpaid,
         };
         dispatch({ type: "UNSUCCESS_REPORT", payload });
@@ -700,7 +692,7 @@ function ReportsTab({ state }) {
                         <div
                           key={option.value}
                           className="px-4 py-2 text-black hover:bg-blue-100 cursor-pointer text-[14px] font-Gilroy"
-                          onClick={(e) => { handleOptionClick(option, e, 1) }}
+                          onClick={(e) => { handleOptionClick(option) }}
                         >
                           {option.label}
                         </div>
@@ -726,7 +718,7 @@ function ReportsTab({ state }) {
                             <DatePicker
                               selected={unpaidStart}
                               onChange={(date) => {
-                                setUnpaidStart(date);
+                                setUnpaidStart(moment(date).format("YYYY-MM-DD"));
                                 setUnpaidStartError("");
                               }}
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
@@ -754,7 +746,7 @@ function ReportsTab({ state }) {
                             <DatePicker
                               selected={unpaidEnd}
                               onChange={(date) => {
-                                setUnpaidEnd(date);
+                                setUnpaidEnd(moment(date).format("YYYY-MM-DD"));
                                 setUnpaidEndError("");
                               }}
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
