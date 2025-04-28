@@ -56,7 +56,11 @@ function ReportsTab({ state }) {
   const [reportType, setReportType] = useState("");
 
 
-
+  const [paidFilterPayload, setPaidFilterPayload] = useState({
+    start_date_Paid: "",
+    end_date_Paid: "",
+    filter_Paid: ""
+  });
 
   const options = [
     { label: "This week", value: "weekly" },
@@ -137,14 +141,18 @@ function ReportsTab({ state }) {
 
 
 
-  const handleDownloadSuccessExcel = () => {
-    const payload = {
-      start_date_Paid: formatDate(paidStart),
-      end_date_Paid: formatDate(paidEnd),
-      filter_Paid: filterpaid,
-    };
-    dispatch({ type: 'SUCCESS_EXCEL', payload: payload })
+  // const handleDownloadSuccessExcel = () => {
+  //   const payload = {
+  //     start_date_Paid: formatDate(paidStart),
+  //     end_date_Paid: formatDate(paidEnd),
+  //     filter_Paid: filterpaid,
+  //   };
+  //   dispatch({ type: 'SUCCESS_EXCEL', payload: payload })
 
+  // };
+  const handleDownloadSuccessExcel = () => {
+    console.log("Excel Payload ➡️", paidFilterPayload);
+    dispatch({ type: 'SUCCESS_EXCEL', payload: paidFilterPayload });
   };
 
   const handleDownloadUnSuccessExcel = () => {
@@ -157,21 +165,25 @@ function ReportsTab({ state }) {
 
   };
 
+  // const handleDownloadSuccessPDF = () => {
+
+
+  //   const payload = {
+  //     start_date_Paid: formatDate(paidStart),
+  //     end_date_Paid: formatDate(paidEnd),
+  //     filter_Paid: filterpaid,
+  //   };
+
+  //   if (payload) {
+  //     dispatch({ type: 'SUCCESS_PDF', payload: payload })
+  //   }
+
+
+  // }
   const handleDownloadSuccessPDF = () => {
-
-
-    const payload = {
-      start_date_Paid: formatDate(paidStart),
-      end_date_Paid: formatDate(paidEnd),
-      filter_Paid: filterpaid,
-    };
-
-    if (payload) {
-      dispatch({ type: 'SUCCESS_PDF', payload: payload })
-    }
-
-
-  }
+    console.log("PDF Payload ➡️", paidFilterPayload);
+    dispatch({ type: 'SUCCESS_PDF', payload: paidFilterPayload });
+  };
 
 
 
@@ -198,6 +210,8 @@ function ReportsTab({ state }) {
     if (type === 1) {
       setFilterUnpaid(option.value);
       setSelectedFilterUnpaid(option.label);
+      setFilterPaid('');
+      setSelectedFilterPaid('');
 
     }
 
@@ -210,34 +224,62 @@ function ReportsTab({ state }) {
 
 
   };
+
+  // const handleOptionSuccessClick = (option, e, type) => {
+
+
+  //   setReportType(type);
+
+
+
+  //   if (type === 2) {
+
+
+  //     setFilterPaid(option.value);
+  //     setSelectedFilterPaid(option.label);
+  //     setFilterUnpaid('');
+  //     setSelectedFilterUnpaid('');
+
+  //   }
+
+  //   if (option.value === "customise") {
+  //     setShowPopup(type);
+  //   }
+
+  //   setIsOpen1(false);
+  //   setIsOpen2(false);
+
+
+  // };
+
 
   const handleOptionSuccessClick = (option, e, type) => {
-
-
     setReportType(type);
-
-
-
-    if (type === 2) {
-
-
+  
+    if (type === 2) { 
       setFilterPaid(option.value);
       setSelectedFilterPaid(option.label);
-
+      setFilterUnpaid('');
+      setSelectedFilterUnpaid('');
+  
+      if (option.value !== "customise") {
+    sent
+        setPaidStart("");
+        setPaidEnd("");
+  
+        setPaidFilterPayload({
+          start_date_Paid: "",     
+          end_date_Paid: "",       
+          filter_Paid: option.value 
+        });
+      } else {
+        setShowPopup(type);
+      }
     }
-
-    if (option.value === "customise") {
-      setShowPopup(type);
-    }
-
+  
     setIsOpen1(false);
     setIsOpen2(false);
-
-
   };
-
-
-
 
 
   const formatDate = (date) => {
@@ -357,7 +399,46 @@ function ReportsTab({ state }) {
     }
   };
 
+  // const handleApplySuccess = () => {
+  //   const isValid = validateDates();
+  //   if (!isValid) return;
 
+  //   setShowPopup(false);
+  //   setTimeout(() => {
+    
+  //     handleCommonClick(reportType, true);
+  //   }, 500);
+
+  //   if (reportType === 2) {
+  //     setPaidStart("");
+  //     setPaidEnd("");
+  //   } else {
+     
+  //     setUnpaidStart("");
+  //     setUnpaidEnd("");
+  //   }
+  // };
+
+  const handleApplySuccess = () => {
+    const isValid = validateDates();
+    if (!isValid) return;
+  
+    setShowPopup(false);
+    
+    setTimeout(() => {
+      handleCommonClick(reportType, true);
+    }, 500);
+  
+    if (reportType === 2) {
+    
+      setPaidFilterPayload({
+        start_date_Paid: formatDate(paidStart),
+        end_date_Paid: formatDate(paidEnd),
+        filter_Paid: "customise",
+      });
+    } 
+  };
+  
 
 
 
@@ -520,7 +601,7 @@ function ReportsTab({ state }) {
 
                           <button
                             className="bg-blue-500 w-full text-white px-4 py-2 rounded-lg font-Gilroy"
-                            onClick={handleApply}
+                            onClick={handleApplySuccess}
                           >
                             Apply
                           </button>
