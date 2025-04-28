@@ -89,11 +89,15 @@ function MemberModal({ state, memberData, onClose }) {
         if (mobileNo.length > 10) {
             tempErrors.mobileNo = "Mobile Number Cannot Exceed 10 Digits";
         }
-        if (!email) {
-            tempErrors.email = "";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+
+       
+
+        if (email && !emailPattern.test(email)) {
             tempErrors.email = "Invalid Email Address";
         }
+
+       
         if (!address) tempErrors.address = "Address is Required";
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
@@ -161,6 +165,8 @@ function MemberModal({ state, memberData, onClose }) {
             return;
         }
 
+       
+
         if (!validate()) {
             return;
         }
@@ -168,7 +174,7 @@ function MemberModal({ state, memberData, onClose }) {
         const payload = {
             Member_Id: memberId,
             user_name: userName,
-            email_id: email,
+            email_id: email || '',
             mobile_no: mobileNo,
             joining_date: formattedDate,
             address: address,
@@ -178,7 +184,7 @@ function MemberModal({ state, memberData, onClose }) {
         const Editpayload = {
             Member_Id: memberId,
             user_name: userName,
-            email_id: email,
+            email_id: email || '',
             mobile_no: mobileNo,
             joining_date: formattedDate,
             address: address,

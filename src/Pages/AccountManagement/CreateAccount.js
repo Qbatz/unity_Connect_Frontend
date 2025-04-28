@@ -164,11 +164,13 @@ function CreateAccount({ state }) {
 
     if (!firstName.trim()) newErrors.firstName = "First name is required";
 
+    const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/i;
     if (!email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!validateEmail(email)) {
+    } else if (!emailPattern.test(email)) {
       newErrors.email = "Enter a valid email address";
     }
+
     if (!mobileNumber.trim()) {
       newErrors.mobileNumber = "Mobile number is required";
     } else if (!/^\d{10}$/.test(mobileNumber)) {
@@ -197,70 +199,83 @@ function CreateAccount({ state }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
+  
+   
     setFirstNameError('');
-    setLastNameError('')
+    setLastNameError('');
     setEmailError('');
     setPhoneError('');
     setPasswordErrors('');
     setConfirmPasswordError('');
     setBothPasswordError('');
-
-
-
-
-
-
+  
+    let isValid = true; 
+  
+   
+    const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     if (!email) {
-      setEmailError('');
-    } else if (!validateEmail(email)) {
+      setEmailError('Email is required');
+      isValid = false;
+    } else if (!emailPattern.test(email)) {
       setEmailError('Please enter a valid email address');
+      isValid = false;
     }
-
-
-
+  
     const phonePattern = /^\d{10}$/;
     const isValidMobileNo = phonePattern.test(mobileNumber);
-
-    if (!isValidMobileNo) {
-      setPhoneError('');
+  
+    if (!mobileNumber) {
+      setPhoneError('Phone number is required');
+      isValid = false;
+    } else if (!isValidMobileNo) {
+      setPhoneError('Please enter a valid 10-digit phone number');
+      isValid = false;
     }
-
-
-
+  
     const passwordValidationErrors = validatePassword(password);
     if (passwordValidationErrors.length > 0) {
       setPasswordErrors(passwordValidationErrors.join(', '));
-      return;
+      isValid = false;
     }
-
-
-
-    if (password !== confirmPassword) {
+  
+    if (!password) {
+      setPasswordErrors('Password is required');
+      isValid = false;
+    }
+  
+    if (!confirmPassword) {
+      setConfirmPasswordError('Confirm Password is required');
+      isValid = false;
+    } else if (password !== confirmPassword) {
       setBothPasswordError('Passwords do not match');
+      isValid = false;
+    }
+  
+    if (!firstName) {
+      setFirstNameError('First name is required');
+      isValid = false;
+    }
+  
+    
+    if (!isValid) {
       return;
     }
-
-    if (firstName && mobileNumber && email && password) {
-      const payload = {
-        first_name: firstName,
-        last_name: lastName,
-        phone: mobileNumber,
-        email_id: email,
-        password: password
-      };
-
-
-
-      dispatch({
-        type: 'CREATE_ACCOUNT',
-        payload: payload
-      });
-    }
-
-
+  
+    
+    const payload = {
+      first_name: firstName,
+      last_name: lastName,
+      phone: mobileNumber,
+      email_id: email,
+      password: password
+    };
+  
+    dispatch({
+      type: 'CREATE_ACCOUNT',
+      payload: payload
+    });
   };
-
-
+  
   const handleMobileNumberChange = (e) => {
     dispatch({ type: 'CLEAR_MOBILE_ERROR' });
     dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });

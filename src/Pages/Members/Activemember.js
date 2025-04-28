@@ -213,7 +213,13 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
     setStatus("")
   }
 
-
+  useEffect(() => {
+    if (paginatedData?.length === 0 && activeMemberData.length > 0) {
+      setCurrentPage((prev) => (prev > 1 ? prev - 1 : 1));
+    }
+  }, [paginatedData, activeMemberData]);
+  
+  
 
 
 
