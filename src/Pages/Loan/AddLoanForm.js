@@ -734,6 +734,14 @@ function AddLoanForm({ state }) {
 
 
 
+  useEffect(() => {
+    if (paginatedActiveLoans?.length === 0 && totalActiveLoans.length > 0) {
+      setCurrentPageActive((prev) => (prev > 1 ? prev - 1 : 1));
+    }
+  }, [paginatedActiveLoans, totalActiveLoans]);
+  
+
+
   if (loading) {
     return (
       <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
@@ -1139,16 +1147,18 @@ function AddLoanForm({ state }) {
                   &lt;
                 </button>
                 <span className="px-4 py-2 border rounded">{currentPageActive}</span>
+     
                 <button
-                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastActive >= loans?.filter(loan => !loan.Loan_Type).length
-                    ? "opacity-50 cursor-not-allowed"
-                    : "bg-[#F4F7FF] text-black"
+                  className={`px-4 py-2 mx-2 border rounded ${indexOfLastActive >= totalActiveLoans.length
+                      ? "opacity-50 cursor-not-allowed"
+                      : "bg-[#F4F7FF] text-black"
                     }`}
                   onClick={() => setCurrentPageActive(currentPageActive + 1)}
-                  disabled={indexOfLastActive >= loans?.filter(loan => !loan.Loan_Type).length}
+                  disabled={indexOfLastActive >= totalActiveLoans.length}
                 >
                   &gt;
                 </button>
+
               </div>
             )}
           </div>

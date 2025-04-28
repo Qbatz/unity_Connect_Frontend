@@ -99,7 +99,7 @@ const ProfileDetails = ({ state }) => {
             tempErrors.lastName = '';
         }
 
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
         if (!formData.email || !emailPattern.test(formData.email)) {
             tempErrors.email = 'Please enter a valid email address';
             isValid = false;
