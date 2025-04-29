@@ -22,6 +22,9 @@ function ReportsTab({ state }) {
 
 
 
+
+
+
   const dispatch = useDispatch();
 
   const Success = state.Report.successreport || [];
@@ -39,8 +42,8 @@ function ReportsTab({ state }) {
   const [unpaidEnd, setUnpaidEnd] = useState("");
   const [paidStart, setPaidStart] = useState("");
   const [paidEnd, setPaidEnd] = useState("");
-  const [filterunpaid, setFilterUnpaid] = useState("");
-  const [filterpaid, setFilterPaid] = useState("");
+  const [filterunpaid, setFilterUnpaid] = useState("this_month");
+  const [filterpaid, setFilterPaid] = useState("this_month");
 
   const [selectedFilterUnpaid, setSelectedFilterUnpaid] = useState("This Month");
   const [selectedFilterPaid, setSelectedFilterPaid] = useState("This Month");
@@ -85,6 +88,9 @@ function ReportsTab({ state }) {
     });
 
   }, []);
+
+
+
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -164,9 +170,9 @@ function ReportsTab({ state }) {
 
   useEffect(() => {
 
-    if (state.Report.SuccessPDF !== "" && state.Report.StatusCodeForSuccessPDF === 200) {
-      console.log('url',state.Report.SuccessPDF);
-      window.open(state.Report.SuccessPDF, "_blank");
+    if (state.Report.SuccessPDF?.pdfURL !== "" && state.Report.StatusCodeForSuccessPDF === 200) {
+
+      window.open(state.Report.SuccessPDF.pdfURL, "_blank");
       setTimeout(() => {
         dispatch({ type: 'CLEAR_SUCCESS_PDF' })
       }, 1000);
@@ -178,10 +184,10 @@ function ReportsTab({ state }) {
 
 
 
-    if (state.Report.UnSuccessPDF !== "" && state.Report.StatusCodeForUnSuccessPDF === 200) {
+    if (state.Report.UnSuccessPDF?.pdfURL !== "" && state.Report.StatusCodeForUnSuccessPDF === 200) {
 
 
-      window.open(state.Report.UnSuccessPDF, "_blank");
+      window.open(state.Report.UnSuccessPDF.pdfURL, "_blank");
       setTimeout(() => {
         dispatch({ type: 'CLEAR_UNSUCCESS_PDF' })
       }, 1000);
@@ -193,9 +199,10 @@ function ReportsTab({ state }) {
   useEffect(() => {
 
 
-    if (state.Report.SuccessExcel !== "" && state.Report.StatusCodeForSuccessExcel === 200) {
+    if (state.Report.SuccessExcel?.excelURL !== "" && state.Report.StatusCodeForSuccessExcel === 200) {
+
       const link = document.createElement('a');
-      link.href = state.Report.SuccessExcel;
+      link.href = state.Report.SuccessExcel.excelURL;
       link.download = 'Success_Report.xlsx';
       document.body.appendChild(link);
       link.click();
@@ -209,10 +216,10 @@ function ReportsTab({ state }) {
 
 
   useEffect(() => {
-    if (state.Report.UnSuccessExcel !== "" && state.Report.StatusCodeForUnSuccessExcel === 200) {
+    if (state.Report.UnSuccessExcel?.excelURL !== "" && state.Report.StatusCodeForUnSuccessExcel === 200) {
 
       const link = document.createElement('a');
-      link.href = state.Report.UnSuccessExcel;
+      link.href = state.Report.UnSuccessExcel.excelURL;
       link.download = 'UnSuccess_Report.xlsx';
       document.body.appendChild(link);
       link.click();
