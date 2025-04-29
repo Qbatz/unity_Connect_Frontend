@@ -15,9 +15,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays } from "lucide-react";
 import closecircle from '../../Asset/Icons/close-circle.svg';
 import { MdError } from "react-icons/md";
+import moment from "moment";
 
 
 function ReportsTab({ state }) {
+
+
 
   const dispatch = useDispatch();
 
@@ -53,8 +56,8 @@ function ReportsTab({ state }) {
   const [showPopup, setShowPopup] = useState(false);
   const [reportType, setReportType] = useState("");
 
-
-
+  const [isCustomisePopup, setIsCustomisePopup] = useState(false);
+  const [isUnpaidCustomisePopup, setIsUnpaidCustomisePopup] = useState(false);
 
   const options = [
     { label: "This week", value: "weekly" },
@@ -106,7 +109,7 @@ function ReportsTab({ state }) {
 
     if (state.Report.statusCodeUnSuccess === 200) {
       setLoading(false);
-      setFilterUnpaid("");
+
 
 
       setTimeout(() => {
@@ -118,7 +121,7 @@ function ReportsTab({ state }) {
   useEffect(() => {
     if (state.Report.statusCodeSuccess === 200) {
       setLoading(false);
-      setFilterPaid("");
+
 
 
       setTimeout(() => {
@@ -128,61 +131,224 @@ function ReportsTab({ state }) {
   })
 
   useEffect(() => {
+
+
+    if (filterpaid) {
+
+      let payload = {
+        start_date_Paid: paidStart,
+        end_date_Paid: paidEnd,
+        filter_Paid: filterpaid,
+      };
+      dispatch({ type: "SUCCESS_REPORT", payload });
+    }
+  }, [filterpaid])
+  useEffect(() => {
+    if (filterunpaid) {
+      let payload = {
+        start_date_UnPaid: unpaidStart,
+        end_date_UnPaid: unpaidEnd,
+        filter_UnPaid: filterunpaid,
+      };
+      dispatch({ type: "UNSUCCESS_REPORT", payload });
+    }
+  }, [filterunpaid])
+
+
+
+
+
+
+
+
+
+  useEffect(() => {
+
+    if (state.Report.SuccessPDF !== "" && state.Report.StatusCodeForSuccessPDF === 200) {
+      console.log('url',state.Report.SuccessPDF);
+      window.open(state.Report.SuccessPDF, "_blank");
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_SUCCESS_PDF' })
+      }, 1000);
+
+    }
+  }, [state.Report.SuccessPDF]);
+
+  useEffect(() => {
+
+
+
+    if (state.Report.UnSuccessPDF !== "" && state.Report.StatusCodeForUnSuccessPDF === 200) {
+
+
+      window.open(state.Report.UnSuccessPDF, "_blank");
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_UNSUCCESS_PDF' })
+      }, 1000);
+    }
+  }, [state.Report.UnSuccessPDF]);
+
+
+
+  useEffect(() => {
+
+
+    if (state.Report.SuccessExcel !== "" && state.Report.StatusCodeForSuccessExcel === 200) {
+      const link = document.createElement('a');
+      link.href = state.Report.SuccessExcel;
+      link.download = 'Success_Report.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_SUCCESS_EXCEL' });
+      }, 1000);
+    }
+  }, [state.Report.SuccessExcel]);
+
+
+  useEffect(() => {
+    if (state.Report.UnSuccessExcel !== "" && state.Report.StatusCodeForUnSuccessExcel === 200) {
+
+      const link = document.createElement('a');
+      link.href = state.Report.UnSuccessExcel;
+      link.download = 'UnSuccess_Report.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_UNSUCCESS_EXCEL' })
+      }, 1000);
+
+    }
+  }, [state.Report.UnSuccessExcel]);
+
+
+
+
+  const handleDownloadSuccessExcel = () => {
+    const payload = {
+      start_date_Paid: paidStart,
+      end_date_Paid: paidEnd,
+      filter_Paid: filterpaid,
+    };
+    dispatch({ type: 'SUCCESS_EXCEL', payload: payload })
+
+
+
+  };
+
+
+  const handleDownloadUnSuccessExcel = () => {
+    const payload = {
+      start_date_UnPaid: unpaidStart,
+      end_date_UnPaid: unpaidEnd,
+      filter_UnPaid: filterunpaid,
+    };
+    dispatch({ type: 'UNSUCCESS_EXECL', payload: payload })
+
+
+  };
+
+  const handleDownloadSuccessPDF = () => {
+
+
+    const payload = {
+      start_date_Paid: paidStart,
+      end_date_Paid: paidEnd,
+      filter_Paid: filterpaid,
+    };
+
+
+    dispatch({ type: 'SUCCESS_PDF', payload: payload })
+
+
+
+  }
+
+
+
+
+  const handleDownloadUnSuccessPDF = () => {
+    const payload = {
+      start_date_UnPaid: unpaidStart,
+      end_date_UnPaid: unpaidEnd,
+      filter_UnPaid: filterunpaid,
+    };
+
+
+    dispatch({ type: 'UNSUCCESS_PDF', payload: payload })
+
+  }
+
+
+  const handleOptionClick = (option) => {
+    setReportType(option.value);
+
+    if (option.value === "customise") {
+      setSelectedFilterUnpaid(option.label);
+      setShowPopup(1);
+      setIsOpen1(false);
+      setUnpaidStart("")
+      setUnpaidEnd("")
+      setIsUnpaidCustomisePopup(true)
+      return;
+    }
+    else {
+      setUnpaidStart("")
+      setUnpaidEnd("")
+    }
+
+    setFilterUnpaid(option.value);
+    setSelectedFilterUnpaid(option.label);
+
+
+    handleCommonClick(option.value);
+    setIsOpen1(false);
+  };
+
+
+
+  const handleOptionSuccessClick = (option) => {
+    setReportType(option.value);
+
+
+    if (option.value === "customise") {
+      setSelectedFilterPaid(option.label);
+      setShowPopup(2);
+      setIsOpen2(false);
+      setPaidStart("")
+      setPaidEnd("")
+      setIsCustomisePopup(true);
+      return;
+    } else {
+
+      setPaidStart("");
+      setPaidEnd("");
+
+      setUnpaidStart("");
+      setUnpaidEnd("");
+
+      setFilterPaid(option.value);
+      setSelectedFilterPaid(option.label);
+      handleCommonClick(option.value);
+      setIsOpen2(false);
+    }
+  };
+
+
+
+
+
+
+  useEffect(() => {
     if (filterpaid || filterunpaid) {
       handleCommonClick(3);
     }
   }, [filterpaid, filterunpaid, reportType]);
 
-
-
-  const handleDownload = (fileUrl, fileName) => {
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-
-
-
-  const handleOptionClick = (option, e, type) => {
-
-
-    setReportType(type);
-
-
-
-    if (type === 1) {
-      setFilterUnpaid(option.value);
-      setSelectedFilterUnpaid(option.label);
-    } else {
-      setFilterPaid(option.value);
-      setSelectedFilterPaid(option.label);
-    }
-
-    if (option.value === "customise") {
-      setShowPopup(type);
-    }
-
-    setIsOpen1(false);
-    setIsOpen2(false);
-
-
-  };
-
-
-
-
-  const formatDate = (date) => {
-    if (!date) return "";
-    const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0"); // Month is 0-based
-    const year = d.getFullYear();
-    return `${year}-${month}-${day}`;
-  };
 
   const handleCommonClick = (reportType, isFromPopup = false) => {
     let payload;
@@ -194,44 +360,35 @@ function ReportsTab({ state }) {
     }
 
     if (reportType === 1) {
+
+
       payload = {
-        start_date_UnPaid: formatDate(unpaidStart),
-        end_date_UnPaid: formatDate(unpaidEnd),
+        start_date_UnPaid: unpaidStart,
+        end_date_UnPaid: unpaidEnd,
         filter_UnPaid: "",
       };
       dispatch({ type: "UNSUCCESS_REPORT", payload });
     } else if (reportType === 2) {
+
       payload = {
-        start_date_Paid: formatDate(paidStart),
-        end_date_Paid: formatDate(paidEnd),
+        start_date_Paid: paidStart,
+        end_date_Paid: paidEnd,
         filter_Paid: "",
       };
-      dispatch({ type: "SUCCESS_REPORT", payload });
-    } else {
-      if (filterpaid) {
 
-        payload = {
-          start_date_Paid: formatDate(paidStart),
-          end_date_Paid: formatDate(paidEnd),
-          filter_Paid: filterpaid,
-        };
-        dispatch({ type: "SUCCESS_REPORT", payload });
-      } else if (filterunpaid) {
-        payload = {
-          start_date_UnPaid: formatDate(unpaidStart),
-          end_date_UnPaid: formatDate(unpaidEnd),
-          filter_UnPaid: filterunpaid,
-        };
-        dispatch({ type: "UNSUCCESS_REPORT", payload });
-      }
+      dispatch({ type: "SUCCESS_REPORT", payload });
     }
+
+
+
+
 
   };
 
-  const validateDates = () => {
+  const validateDatesUnpaid = () => {
     let isValid = true;
 
-    if (reportType === 1) {
+    if (isUnpaidCustomisePopup) {
       if (!unpaidStart) {
         setUnpaidStartError("Start date is required");
         isValid = false;
@@ -249,8 +406,11 @@ function ReportsTab({ state }) {
         setUnpaidEndError("");
       }
     }
-
-    if (reportType === 2) {
+    return isValid
+  };
+  const validateDatesPaid = () => {
+    let isValid = true;
+    if (isCustomisePopup) {
       if (!paidStart) {
         setPaidStartError("Start date is required");
         isValid = false;
@@ -268,29 +428,45 @@ function ReportsTab({ state }) {
         setPaidEndError("");
       }
     }
-
     return isValid;
   };
 
 
+
   const handleApply = () => {
-    const isValid = validateDates();
+    const isValid = validateDatesUnpaid();
     if (!isValid) return;
 
     setShowPopup(false);
-    setTimeout(() => {
-      handleCommonClick(reportType, true);
-    }, 500);
 
-    if (reportType === 1) {
-      setUnpaidStart("");
-      setUnpaidEnd("");
-    } else {
-      setPaidStart("");
-      setPaidEnd("");
-    }
+    setIsUnpaidCustomisePopup(false)
+    setFilterUnpaid("customise");
+    setSelectedFilterUnpaid("Customise");
+
+    handleCommonClick(1, true);
+
+
   };
 
+
+  const handleApplySuccess = () => {
+
+    const isValid = validateDatesPaid();
+
+    if (!isValid) return;
+
+    setShowPopup(false);
+    setIsCustomisePopup(false);
+
+    setFilterPaid("customise");
+    setSelectedFilterPaid("Customise");
+
+
+    handleCommonClick(2, true);
+
+
+
+  };
 
 
 
@@ -310,6 +486,7 @@ function ReportsTab({ state }) {
     setUnpaidStartError("");
     setUnpaidEndError("")
   }
+
 
 
 
@@ -334,14 +511,15 @@ function ReportsTab({ state }) {
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(state.Report.successExcelUrl, "Unsuccessful_Payments.xlsx")}
+                    onClick={handleDownloadSuccessExcel}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
 
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => window.open(state.Report.successPdfUrl, "_blank")}
+
+                    onClick={handleDownloadSuccessPDF}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
@@ -375,7 +553,8 @@ function ReportsTab({ state }) {
                         <div
                           key={option.value}
                           className="px-4 py-2 text-black hover:bg-blue-100 cursor-pointer text-[14px] font-Gilroy"
-                          onClick={(e) => handleOptionClick(option, e, 2)}
+                          onClick={() => handleOptionSuccessClick(option)}
+
                         >
                           {option.label}
                         </div>
@@ -399,8 +578,9 @@ function ReportsTab({ state }) {
                           <div className="relative">
                             <DatePicker
                               selected={paidStart}
+
                               onChange={(date) => {
-                                setPaidStart(date);
+                                setPaidStart(moment(date).format("YYYY-MM-DD"));
                                 setPaidStartError("");
                               }}
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
@@ -427,8 +607,9 @@ function ReportsTab({ state }) {
                           <div className="relative">
                             <DatePicker
                               selected={paidEnd}
+
                               onChange={(date) => {
-                                setPaidEnd(date);
+                                setPaidEnd(moment(date).format("YYYY-MM-DD"));
                                 setPaidEndError("");
                               }}
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
@@ -453,7 +634,7 @@ function ReportsTab({ state }) {
 
                           <button
                             className="bg-blue-500 w-full text-white px-4 py-2 rounded-lg font-Gilroy"
-                            onClick={handleApply}
+                            onClick={handleApplySuccess}
                           >
                             Apply
                           </button>
@@ -516,13 +697,14 @@ function ReportsTab({ state }) {
                 <div className="flex items-center gap-3">
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => handleDownload(state.Report.unsuccessExcelUrl, "Unsuccessful_Payments.xlsx")}
+                    onClick={handleDownloadUnSuccessExcel}
                   >
                     <FaFileExcel className="text-green-600 text-[20px]" />
                   </button>
                   <button
                     className="bg-white p-2 rounded-full shadow-md border border-blue-100"
-                    onClick={() => window.open(state.Report.unsuccessPdfUrl, '_blank')}
+
+                    onClick={handleDownloadUnSuccessPDF}
                   >
                     <FaFilePdf className="text-red-600 text-[20px]" />
                   </button>
@@ -551,7 +733,8 @@ function ReportsTab({ state }) {
                         <div
                           key={option.value}
                           className="px-4 py-2 text-black hover:bg-blue-100 cursor-pointer text-[14px] font-Gilroy"
-                          onClick={(e) => { handleOptionClick(option, e, 1) }}
+
+                          onClick={() => handleOptionClick(option)}
                         >
                           {option.label}
                         </div>
@@ -577,9 +760,11 @@ function ReportsTab({ state }) {
                             <DatePicker
                               selected={unpaidStart}
                               onChange={(date) => {
-                                setUnpaidStart(date);
+                                setUnpaidStart(moment(date).format("YYYY-MM-DD"));
+
                                 setUnpaidStartError("");
                               }}
+
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
                               dateFormat="dd-MM-yyyy"
                               placeholderText="Select start date"
@@ -605,9 +790,10 @@ function ReportsTab({ state }) {
                             <DatePicker
                               selected={unpaidEnd}
                               onChange={(date) => {
-                                setUnpaidEnd(date);
+                                setUnpaidEnd(moment(date).format("YYYY-MM-DD"));
                                 setUnpaidEndError("");
                               }}
+
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
                               dateFormat="dd-MM-yyyy"
                               placeholderText="Select end date"

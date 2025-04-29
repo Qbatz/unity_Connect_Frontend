@@ -385,7 +385,7 @@ function ExpensesSetting({ state }) {
 
 
 
-      {expensesetting.length > 0 && (
+      {expensesetting.length > itemsPerPage && (
         <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
 
 

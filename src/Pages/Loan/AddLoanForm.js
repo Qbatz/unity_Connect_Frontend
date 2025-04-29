@@ -1136,7 +1136,7 @@ function AddLoanForm({ state }) {
 
 
 
-            {totalActiveLoans.length > 3 && (
+            {totalActiveLoans.length > itemsPerPage && (
               <div className="md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageActive === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
@@ -1489,7 +1489,7 @@ function AddLoanForm({ state }) {
               )}
 
             </div>
-            {paginatedApprovedLoans.length > 3 && (
+            {paginatedApprovedLoans.length > itemsPerPage && (
               <div className=" md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
 
                 <button
@@ -1626,7 +1626,7 @@ function AddLoanForm({ state }) {
               )}
 
             </div>
-            {paginatedRejectedLoans.length > 3 && (
+            {paginatedRejectedLoans.length > itemsPerPage && (
               <div className="md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
