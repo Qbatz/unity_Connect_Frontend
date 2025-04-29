@@ -59,7 +59,7 @@ function* SuccessReportPDF(action) {
 
         yield put({
             type: "SUCCESSREPORTPDF",
-            payload: { response: response.data.pdfURL || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
+            payload: { response: response.data || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
         });
 
     }
@@ -81,7 +81,7 @@ function* SuccessReportEXCEL(action) {
     if (response.status === 200) {
         yield put({
             type: "SUCCESSREPORTEXCEL",
-            payload: { response: response.data.excelURL || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
+            payload: { response: response.data || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
         });
 
     }
@@ -100,7 +100,7 @@ function* UnSuccessReportPDF(action) {
     if (response.status === 200) {
         yield put({
             type: "UNSUCCESSREPORTPDF",
-            payload: { response: response.data.pdfURL || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
+            payload: { response: response.data || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
         });
 
     }
@@ -120,7 +120,7 @@ function* UnSuccessReportEXCEL(action) {
         yield put({
             type: "UNSUCCESSREPORTEXCEL",
             payload: {
-                response: response.data.excelURL
+                response: response.data
                     || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data
             },
 
