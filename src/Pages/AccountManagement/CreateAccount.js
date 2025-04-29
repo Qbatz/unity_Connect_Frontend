@@ -264,6 +264,7 @@ function CreateAccount({ state }) {
   const handleMobileNumberChange = (e) => {
     dispatch({ type: 'CLEAR_MOBILE_ERROR' });
     dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' })
     setPhoneError('');
     const value = e.target.value;
     if (/^\d*$/.test(value) && value.length <= 10) {

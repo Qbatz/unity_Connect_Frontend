@@ -716,7 +716,7 @@ function LoanSetting({ state }) {
         )}
       </div>
 
-      {allLoans.length > 0 && (
+      {allLoans.length > itemsPerPage && (
         <div className="fixed bottom-4 right-4">
           <button
             className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}

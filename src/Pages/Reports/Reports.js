@@ -56,12 +56,8 @@ function ReportsTab({ state }) {
   const [showPopup, setShowPopup] = useState(false);
   const [reportType, setReportType] = useState("");
 
-
-  const [paidFilterPayload, setPaidFilterPayload] = useState({
-    start_date_Paid: "",
-    end_date_Paid: "",
-    filter_Paid: ""
-  });
+  const [isCustomisePopup, setIsCustomisePopup] = useState(false);
+  const [isUnpaidCustomisePopup, setIsUnpaidCustomisePopup] = useState(false);
 
   const options = [
     { label: "This week", value: "weekly" },
@@ -135,56 +131,143 @@ function ReportsTab({ state }) {
   })
 
   useEffect(() => {
-    if (filterpaid || filterunpaid) {
-      handleCommonClick(3);
+
+
+    if (filterpaid) {
+
+      let payload = {
+        start_date_Paid: paidStart,
+        end_date_Paid: paidEnd,
+        filter_Paid: filterpaid,
+      };
+      dispatch({ type: "SUCCESS_REPORT", payload });
     }
-  }, [filterpaid, filterunpaid, reportType]);
+  }, [filterpaid])
+  useEffect(() => {
+    if (filterunpaid) {
+      let payload = {
+        start_date_UnPaid: unpaidStart,
+        end_date_UnPaid: unpaidEnd,
+        filter_UnPaid: filterunpaid,
+      };
+      dispatch({ type: "UNSUCCESS_REPORT", payload });
+    }
+  }, [filterunpaid])
 
 
 
-  // const handleDownloadSuccessExcel = () => {
-  //   const payload = {
-  //     start_date_Paid: formatDate(paidStart),
-  //     end_date_Paid: formatDate(paidEnd),
-  //     filter_Paid: filterpaid,
-  //   };
-  //   dispatch({ type: 'SUCCESS_EXCEL', payload: payload })
 
-  // };
+
+
+
+
+
+  useEffect(() => {
+
+    if (state.Report.SuccessPDF !== "" && state.Report.StatusCodeForSuccessPDF === 200) {
+      console.log('url',state.Report.SuccessPDF);
+      window.open(state.Report.SuccessPDF, "_blank");
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_SUCCESS_PDF' })
+      }, 1000);
+
+    }
+  }, [state.Report.SuccessPDF]);
+
+  useEffect(() => {
+
+
+
+    if (state.Report.UnSuccessPDF !== "" && state.Report.StatusCodeForUnSuccessPDF === 200) {
+
+
+      window.open(state.Report.UnSuccessPDF, "_blank");
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_UNSUCCESS_PDF' })
+      }, 1000);
+    }
+  }, [state.Report.UnSuccessPDF]);
+
+
+
+  useEffect(() => {
+
+
+    if (state.Report.SuccessExcel !== "" && state.Report.StatusCodeForSuccessExcel === 200) {
+      const link = document.createElement('a');
+      link.href = state.Report.SuccessExcel;
+      link.download = 'Success_Report.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_SUCCESS_EXCEL' });
+      }, 1000);
+    }
+  }, [state.Report.SuccessExcel]);
+
+
+  useEffect(() => {
+    if (state.Report.UnSuccessExcel !== "" && state.Report.StatusCodeForUnSuccessExcel === 200) {
+
+      const link = document.createElement('a');
+      link.href = state.Report.UnSuccessExcel;
+      link.download = 'UnSuccess_Report.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_UNSUCCESS_EXCEL' })
+      }, 1000);
+
+    }
+  }, [state.Report.UnSuccessExcel]);
+
+
+
+
   const handleDownloadSuccessExcel = () => {
-    console.log("Excel Payload ➡️", paidFilterPayload);
-    dispatch({ type: 'SUCCESS_EXCEL', payload: paidFilterPayload });
+    const payload = {
+      start_date_Paid: paidStart,
+      end_date_Paid: paidEnd,
+      filter_Paid: filterpaid,
+    };
+    dispatch({ type: 'SUCCESS_EXCEL', payload: payload })
+
+
+
   };
+
 
   const handleDownloadUnSuccessExcel = () => {
     const payload = {
-      start_date_UnPaid: formatDate(unpaidStart),
-      end_date_UnPaid: formatDate(unpaidEnd),
+      start_date_UnPaid: unpaidStart,
+      end_date_UnPaid: unpaidEnd,
       filter_UnPaid: filterunpaid,
     };
     dispatch({ type: 'UNSUCCESS_EXECL', payload: payload })
 
+
   };
 
-  // const handleDownloadSuccessPDF = () => {
-
-
-  //   const payload = {
-  //     start_date_Paid: formatDate(paidStart),
-  //     end_date_Paid: formatDate(paidEnd),
-  //     filter_Paid: filterpaid,
-  //   };
-
-  //   if (payload) {
-  //     dispatch({ type: 'SUCCESS_PDF', payload: payload })
-  //   }
-
-
-  // }
   const handleDownloadSuccessPDF = () => {
-    console.log("PDF Payload ➡️", paidFilterPayload);
-    dispatch({ type: 'SUCCESS_PDF', payload: paidFilterPayload });
-  };
+
+
+    const payload = {
+      start_date_Paid: paidStart,
+      end_date_Paid: paidEnd,
+      filter_Paid: filterpaid,
+    };
+
+
+    dispatch({ type: 'SUCCESS_PDF', payload: payload })
+
+
+
+  }
+
 
 
 
@@ -195,94 +278,77 @@ function ReportsTab({ state }) {
       filter_UnPaid: filterunpaid,
     };
 
-    console.log("UnSuccess PDF Payload ➡️", payload);
+
     dispatch({ type: 'UNSUCCESS_PDF', payload: payload })
+
   }
 
 
-
-  //Unsuccessful Payments
   const handleOptionClick = (option) => {
-
-
     setReportType(option.value);
 
-    console.log("option.value", option.value);
     if (option.value === "customise") {
+      setSelectedFilterUnpaid(option.label);
       setShowPopup(1);
+      setIsOpen1(false);
+      setUnpaidStart("")
+      setUnpaidEnd("")
+      setIsUnpaidCustomisePopup(true)
+      return;
+    }
+    else {
+      setUnpaidStart("")
+      setUnpaidEnd("")
     }
 
-      setFilterUnpaid(option.value);
-      setSelectedFilterUnpaid(option.label);
+    setFilterUnpaid(option.value);
+    setSelectedFilterUnpaid(option.label);
 
+
+    handleCommonClick(option.value);
     setIsOpen1(false);
   };
 
-  // const handleOptionSuccessClick = (option, e, type) => {
 
 
-  //   setReportType(type);
+  const handleOptionSuccessClick = (option) => {
+    setReportType(option.value);
 
 
+    if (option.value === "customise") {
+      setSelectedFilterPaid(option.label);
+      setShowPopup(2);
+      setIsOpen2(false);
+      setPaidStart("")
+      setPaidEnd("")
+      setIsCustomisePopup(true);
+      return;
+    } else {
 
-  //   if (type === 2) {
+      setPaidStart("");
+      setPaidEnd("");
 
+      setUnpaidStart("");
+      setUnpaidEnd("");
 
-  //     setFilterPaid(option.value);
-  //     setSelectedFilterPaid(option.label);
-  //     setFilterUnpaid('');
-  //     setSelectedFilterUnpaid('');
-
-  //   }
-
-  //   if (option.value === "customise") {
-  //     setShowPopup(type);
-  //   }
-
-  //   setIsOpen1(false);
-  //   setIsOpen2(false);
-
-
-  // };
-
-
-  const handleOptionSuccessClick = (option, e, type) => {
-    setReportType(type);
-  
-    if (type === 2) { 
       setFilterPaid(option.value);
       setSelectedFilterPaid(option.label);
-      setFilterUnpaid('');
-      setSelectedFilterUnpaid('');
-  
-      if (option.value !== "customise") {
-        setPaidStart("");
-        setPaidEnd("");
-  
-        setPaidFilterPayload({
-          start_date_Paid: "",     
-          end_date_Paid: "",       
-          filter_Paid: option.value 
-        });
-      } else {
-        setShowPopup(type);
-      }
+      handleCommonClick(option.value);
+      setIsOpen2(false);
     }
-  
-    setIsOpen1(false);
-    setIsOpen2(false);
   };
 
 
-  const formatDate = (date) => {
-    if (!date) return "";
-    const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${year}-${month}-${day}`;
 
-  };
+
+
+
+  useEffect(() => {
+    if (filterpaid || filterunpaid) {
+      handleCommonClick(3);
+    }
+  }, [filterpaid, filterunpaid, reportType]);
+
 
   const handleCommonClick = (reportType, isFromPopup = false) => {
     let payload;
@@ -294,6 +360,8 @@ function ReportsTab({ state }) {
     }
 
     if (reportType === 1) {
+
+
       payload = {
         start_date_UnPaid: unpaidStart,
         end_date_UnPaid: unpaidEnd,
@@ -301,37 +369,26 @@ function ReportsTab({ state }) {
       };
       dispatch({ type: "UNSUCCESS_REPORT", payload });
     } else if (reportType === 2) {
+
       payload = {
-        start_date_Paid: formatDate(paidStart),
-        end_date_Paid: formatDate(paidEnd),
+        start_date_Paid: paidStart,
+        end_date_Paid: paidEnd,
         filter_Paid: "",
       };
-      dispatch({ type: "SUCCESS_REPORT", payload });
-    } else {
-      if (filterpaid) {
 
-        payload = {
-          start_date_Paid: formatDate(paidStart),
-          end_date_Paid: formatDate(paidEnd),
-          filter_Paid: filterpaid,
-        };
-        dispatch({ type: "SUCCESS_REPORT", payload });
-      } else if (filterunpaid) {
-        payload = {
-          start_date_UnPaid: unpaidStart,
-          end_date_UnPaid: unpaidEnd,
-          filter_UnPaid: filterunpaid,
-        };
-        dispatch({ type: "UNSUCCESS_REPORT", payload });
-      }
+      dispatch({ type: "SUCCESS_REPORT", payload });
     }
+
+
+
+
 
   };
 
-  const validateDates = () => {
+  const validateDatesUnpaid = () => {
     let isValid = true;
 
-    if (reportType === 1) {
+    if (isUnpaidCustomisePopup) {
       if (!unpaidStart) {
         setUnpaidStartError("Start date is required");
         isValid = false;
@@ -349,8 +406,11 @@ function ReportsTab({ state }) {
         setUnpaidEndError("");
       }
     }
-
-    if (reportType === 2) {
+    return isValid
+  };
+  const validateDatesPaid = () => {
+    let isValid = true;
+    if (isCustomisePopup) {
       if (!paidStart) {
         setPaidStartError("Start date is required");
         isValid = false;
@@ -368,69 +428,46 @@ function ReportsTab({ state }) {
         setPaidEndError("");
       }
     }
-
     return isValid;
   };
 
 
+
   const handleApply = () => {
-    const isValid = validateDates();
+    const isValid = validateDatesUnpaid();
     if (!isValid) return;
 
     setShowPopup(false);
-    setTimeout(() => {
-      handleCommonClick(reportType, true);
-    }, 500);
 
-    if (reportType === 1) {
-      setUnpaidStart("");
-      setUnpaidEnd("");
-    } else {
-      setPaidStart("");
-      setPaidEnd("");
-    }
+    setIsUnpaidCustomisePopup(false)
+    setFilterUnpaid("customise");
+    setSelectedFilterUnpaid("Customise");
+
+    handleCommonClick(1, true);
+
+
   };
 
-  // const handleApplySuccess = () => {
-  //   const isValid = validateDates();
-  //   if (!isValid) return;
-
-  //   setShowPopup(false);
-  //   setTimeout(() => {
-    
-  //     handleCommonClick(reportType, true);
-  //   }, 500);
-
-  //   if (reportType === 2) {
-  //     setPaidStart("");
-  //     setPaidEnd("");
-  //   } else {
-     
-  //     setUnpaidStart("");
-  //     setUnpaidEnd("");
-  //   }
-  // };
 
   const handleApplySuccess = () => {
-    const isValid = validateDates();
+
+    const isValid = validateDatesPaid();
+
     if (!isValid) return;
-  
+
     setShowPopup(false);
-    
-    setTimeout(() => {
-      handleCommonClick(reportType, true);
-    }, 500);
-  
-    if (reportType === 2) {
-    
-      setPaidFilterPayload({
-        start_date_Paid: formatDate(paidStart),
-        end_date_Paid: formatDate(paidEnd),
-        filter_Paid: "customise",
-      });
-    } 
+    setIsCustomisePopup(false);
+
+    setFilterPaid("customise");
+    setSelectedFilterPaid("Customise");
+
+
+    handleCommonClick(2, true);
+
+
+
   };
-  
+
 
 
 
@@ -449,6 +486,7 @@ function ReportsTab({ state }) {
     setUnpaidStartError("");
     setUnpaidEndError("")
   }
+
 
 
 
@@ -515,7 +553,8 @@ function ReportsTab({ state }) {
                         <div
                           key={option.value}
                           className="px-4 py-2 text-black hover:bg-blue-100 cursor-pointer text-[14px] font-Gilroy"
-                          onClick={(e) => handleOptionSuccessClick(option, e, 2)}
+                          onClick={() => handleOptionSuccessClick(option)}
+
                         >
                           {option.label}
                         </div>
@@ -539,8 +578,9 @@ function ReportsTab({ state }) {
                           <div className="relative">
                             <DatePicker
                               selected={paidStart}
+
                               onChange={(date) => {
-                                setPaidStart(date);
+                                setPaidStart(moment(date).format("YYYY-MM-DD"));
                                 setPaidStartError("");
                               }}
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
@@ -567,8 +607,9 @@ function ReportsTab({ state }) {
                           <div className="relative">
                             <DatePicker
                               selected={paidEnd}
+
                               onChange={(date) => {
-                                setPaidEnd(date);
+                                setPaidEnd(moment(date).format("YYYY-MM-DD"));
                                 setPaidEndError("");
                               }}
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
@@ -692,7 +733,8 @@ function ReportsTab({ state }) {
                         <div
                           key={option.value}
                           className="px-4 py-2 text-black hover:bg-blue-100 cursor-pointer text-[14px] font-Gilroy"
-                          onClick={(e) => { handleOptionClick(option) }}
+
+                          onClick={() => handleOptionClick(option)}
                         >
                           {option.label}
                         </div>
@@ -719,8 +761,10 @@ function ReportsTab({ state }) {
                               selected={unpaidStart}
                               onChange={(date) => {
                                 setUnpaidStart(moment(date).format("YYYY-MM-DD"));
+
                                 setUnpaidStartError("");
                               }}
+
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
                               dateFormat="dd-MM-yyyy"
                               placeholderText="Select start date"
@@ -749,6 +793,7 @@ function ReportsTab({ state }) {
                                 setUnpaidEnd(moment(date).format("YYYY-MM-DD"));
                                 setUnpaidEndError("");
                               }}
+
                               className="w-[300px] border border-gray-300 rounded-lg p-2 cursor-pointer"
                               dateFormat="dd-MM-yyyy"
                               placeholderText="Select end date"

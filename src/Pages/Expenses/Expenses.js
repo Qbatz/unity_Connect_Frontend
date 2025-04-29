@@ -27,7 +27,7 @@ function ExpensesList({ state }) {
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(6);
+    const pageSize = 6;
 
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
@@ -384,7 +384,7 @@ function ExpensesList({ state }) {
 
 
 
-                {ExpensesList.length > 5 && (
+                {ExpensesList.length > pageSize && (
 
                     <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
                         <div className="flex gap-2">

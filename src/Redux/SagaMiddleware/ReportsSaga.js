@@ -54,13 +54,14 @@ function* SuccessReportPDF(action) {
 
 
 
+
     if (response.status === 200) {
 
         yield put({
             type: "SUCCESSREPORTPDF",
             payload: { response: response.data.pdfURL || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
         });
-        window.open(response.data.pdfURL, "_blank");
+
     }
 
     if (response) {
@@ -76,17 +77,13 @@ function* SuccessReportEXCEL(action) {
 
 
 
+
     if (response.status === 200) {
         yield put({
             type: "SUCCESSREPORTEXCEL",
             payload: { response: response.data.excelURL || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
         });
-        const link = document.createElement('a');
-        link.href = response.data.excelURL;
-        link.download = 'Success_Report.xlsx';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+
     }
 
     if (response) {
@@ -105,7 +102,7 @@ function* UnSuccessReportPDF(action) {
             type: "UNSUCCESSREPORTPDF",
             payload: { response: response.data.pdfURL || response.data || [], statusCode: response.status || response.data.statusCode, urls: response.data },
         });
-        window.open(response.data.pdfURL, "_blank")
+
     }
 
     if (response) {
@@ -128,12 +125,7 @@ function* UnSuccessReportEXCEL(action) {
             },
 
         });
-        const link = document.createElement('a');
-        link.href = response.data.excelURL;
-        link.download = 'UnSuccess_Report.xlsx';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+
     }
 
     if (response) {
