@@ -739,7 +739,8 @@ function AddLoanForm({ state }) {
       setCurrentPageActive((prev) => (prev > 1 ? prev - 1 : 1));
     }
   }, [paginatedActiveLoans, totalActiveLoans]);
-  
+
+
 
 
   if (loading) {
@@ -782,7 +783,17 @@ function AddLoanForm({ state }) {
             <button
               data-testid={`button-tab-${index}`}
               key={tab}
-              onClick={() => setActiveTab(tab)}
+
+              onClick={() => {
+                setActiveTab(tab);
+                if (tab === "Approved loan") {
+                  setCurrentPageApproved(1);
+                } else if (tab === "Active loan") {
+                  setCurrentPageActive(1);
+                } else if (tab === "Rejected loan") {
+                  setCurrentPageApproved(1);
+                }
+              }}
               className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative ${activeTab === tab ? "text-black font-medium" : "text-[#939393]"
                 }`}
             >
@@ -1147,11 +1158,11 @@ function AddLoanForm({ state }) {
                   &lt;
                 </button>
                 <span className="px-4 py-2 border rounded">{currentPageActive}</span>
-     
+
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${indexOfLastActive >= totalActiveLoans.length
-                      ? "opacity-50 cursor-not-allowed"
-                      : "bg-[#F4F7FF] text-black"
+                    ? "opacity-50 cursor-not-allowed"
+                    : "bg-[#F4F7FF] text-black"
                     }`}
                   onClick={() => setCurrentPageActive(currentPageActive + 1)}
                   disabled={indexOfLastActive >= totalActiveLoans.length}
@@ -1489,7 +1500,7 @@ function AddLoanForm({ state }) {
               )}
 
             </div>
-            {paginatedApprovedLoans.length > itemsPerPage && (
+            {loans?.filter(loan => loan.Loan_Type).length > itemsPerPage && (
               <div className=" md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
 
                 <button
@@ -1626,7 +1637,7 @@ function AddLoanForm({ state }) {
               )}
 
             </div>
-            {paginatedRejectedLoans.length > itemsPerPage && (
+            {loans?.filter(loan => loan.Loan_Type).length > itemsPerPage && (
               <div className="md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"

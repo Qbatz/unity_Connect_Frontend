@@ -90,37 +90,37 @@ function Statement({ state }) {
 
         <div className="flex items-center justify-between mb-4 px-4 sm:px-0">
           <div className="font-Gilroy text-base px-2 md:px-4  text-gray-900 mb-3 lg:-ml-2.5">Loan statement</div>
+          {statementList.length > 0 && (
+            <div className="relative " ref={popupRef}>
+              <button
+                onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+                className=" p-1 font-Gilroy rounded-full border border-gray-300 bg-[#F2F4F8]"
+              >
 
-          <div className="relative " ref={popupRef}>
-            <button
-              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-              className=" p-1 font-Gilroy rounded-full border border-gray-300 bg-[#F2F4F8]"
-            >
-
-              <MdSort size={30} />
+                <MdSort size={30} />
 
 
-            </button>
+              </button>
 
-            {showFilterDropdown && (
-              <div className="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-md z-50">
-                {["All", "Paid", "Unpaid"].map(option => (
-                  <button
-                    key={option}
-                    onClick={() => {
-                      setFilterStatus(option);
-                      setShowFilterDropdown(false);
-                    }}
-                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-Gilroy ${filterStatus === option ? "bg-blue-100 font-semibold" : ""
-                      }`}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
+              {showFilterDropdown && (
+                <div className="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-md z-50">
+                  {["All", "Paid", "Unpaid"].map(option => (
+                    <button
+                      key={option}
+                      onClick={() => {
+                        setFilterStatus(option);
+                        setShowFilterDropdown(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-Gilroy ${filterStatus === option ? "bg-blue-100 font-semibold" : ""
+                        }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div>
