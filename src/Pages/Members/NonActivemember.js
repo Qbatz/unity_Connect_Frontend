@@ -202,7 +202,7 @@ function NonActiveMember({ state, loading, setLoading }) {
         ) : (
           <>
 
-            <div className=" max-h-[400px] overflow-y-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+            <div className=" max-h-[220px] lg:max-h-[330px] xs:max-h-[200px]   md:max-h-[330px] sm:max-h-[300px] overflow-y-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
               {paginatedData?.map((member, index) => (
                 <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
 

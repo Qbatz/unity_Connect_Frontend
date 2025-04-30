@@ -191,26 +191,26 @@ function MemberStatements({ state, member }) {
 
 
   return (
-    <div className="p-4">
+    <div className=" py-2">
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-xl font-semibold font-Gilroy">Loan Statements</h2>
+        <h2 className="text-base sm:text-lg md:text-2xl  font-semibold font-Gilroy">Loan Statements</h2>
 
       </div>
       <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden">
 
-        <div className="w-full overflow-x-auto max-h-[320px]">
+        <div className="w-full overflow-x-auto max-h-[320px] max-[453px]:max-h-[120px]">
           <table className="min-w-[640px] w-full text-left border-collapse">
             <thead className="sticky top-0 bg-[#F4F7FF] z-10 border-b border-gray-300">
               <tr className="text-[#939393] font-light text-sm font-Gilroy">
-                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Serial Number</th>
-                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Due Date</th>
-                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Loan Amount</th>
-                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Due Amount</th>
-                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Interest Amount</th>
-                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Pending</th>
-                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Paid Amount</th>
-                <th className="p-4 font-Gilroy font-normal  whitespace-nowrap">Status</th>
-                <th className="p-4 font-Gilroy font-normal"></th>
+                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Serial Number</th>
+                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Due Date</th>
+                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Loan Amount</th>
+                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Due Amount</th>
+                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Interest Amount</th>
+                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Pending</th>
+                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Paid Amount</th>
+                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Status</th>
+                <th className="px-4 py-2 font-Gilroy font-normal"></th>
 
               </tr>
             </thead>
@@ -232,13 +232,13 @@ function MemberStatements({ state, member }) {
                       {moment(item.Due_Date).format("DD MMM YYYY")}
                     </span>
                   </td>
-                  <td className="p-4 font-Gilroy">{item.Loan_Amount}</td>
-                  <td className="p-4 font-Gilroy">{item.Due_Amount}</td>
+                  <td className="px-4 py-2 font-Gilroy">{item.Loan_Amount}</td>
+                  <td className="px-4 py-2 font-Gilroy">{item.Due_Amount}</td>
 
-                  <td className="p-4 font-Gilroy">{item.Monthly_Intrest}</td>
-                  <td className="p-4 font-Gilroy">{item.Pending_Amount_For_Due === null ? item.Due_Amount : item.Pending_Amount_For_Due}</td>
-                  <td className="p-4 font-Gilroy">{item.Paid_Amount}</td>
-                  <td className="p-4 font-Gilroy">
+                  <td className="px-4 py-2 font-Gilroy">{item.Monthly_Intrest}</td>
+                  <td className="px-4 py-2 font-Gilroy">{item.Pending_Amount_For_Due === null ? item.Due_Amount : item.Pending_Amount_For_Due}</td>
+                  <td className="px-4 py-2 font-Gilroy">{item.Paid_Amount}</td>
+                  <td className="px-4 py-2 font-Gilroy">
                     <span
                       className={`px-3 py-1 text-sm rounded-full font-Gilroy ${item.Status === "Paid"
                         ? "bg-green-200 text-green-700"
@@ -249,7 +249,7 @@ function MemberStatements({ state, member }) {
                     </span>
                   </td>
 
-                  <td className="p-4 relative">
+                  <td className="px-4 py-2 relative">
                     <button
 
                       className={`cursor-pointer h-9 w-9 border border-gray-300 rounded-full flex justify-center items-center 
@@ -294,7 +294,7 @@ function MemberStatements({ state, member }) {
       {isModalOpen && (
 
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50 font-Gilroy">
-          <div className="bg-white rounded-lg w-full max-w-md p-4 shadow-lg rounded-3xl">
+          <div className="bg-white rounded-lg w-full max-w-md px-4 py-2 shadow-lg rounded-3xl">
             <div className="flex justify-between items-center mb-4 border-b border-gray-300 pb-2">
               <p className="text-lg font-semibold text-center text-black">
                 Record payment
@@ -305,7 +305,7 @@ function MemberStatements({ state, member }) {
             </div>
 
             <div className="font-Gilroy max-h-[400px] sm:max-h-[400px] overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-2 mb-4">
                 <div>
                   <label className="text-sm font-semibold">Due Amount</label>
                   <input
@@ -410,7 +410,7 @@ function MemberStatements({ state, member }) {
 
       {Statement.length > 3 && (
 
-        <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+        <div className="fixed bottom-0 left-0 w-full px-4 py-2 flex justify-end">
           <button
             className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
             onClick={() => setCurrentPage(currentPage - 1)}

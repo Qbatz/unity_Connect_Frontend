@@ -16,7 +16,7 @@ function MemberDetails({ member, onBack }) {
 
   return (
     <>
-      <div className="px-4 sm:px-6 md:px-8 lg:px-3">
+      <div className="px-2 sm:px-2 md:px-4 lg:px-3">
         <button onClick={onBack} className="mb-4 text-blue-500 font-Gilroy text-xl">
           ← Back
         </button>
@@ -40,7 +40,7 @@ function MemberDetails({ member, onBack }) {
 
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 w-full justify-items-start mt-4 ">
+        <div className="flex flex-wrap gap-4 w-full mt-4">
           {["Overview", "Comments", "Transactions", "Statements"].map((tab) => (
             <button
               key={tab}

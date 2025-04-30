@@ -68,7 +68,7 @@ function CommentSection({ state, member }) {
 
   return (
     <div className="pl-4 mt-2">
-      <div ref={commentSectionRef} className="space-y-6 max-h-[230px] overflow-y-auto">
+      <div ref={commentSectionRef} className="space-y-6 max-h-[230px] max-[429px]:max-h-[160px] overflow-y-auto">
         {localComments.length > 0 &&
           localComments.map((item, index) => (
             <div key={index} className="mt-4 flex items-start gap-4">
@@ -94,8 +94,8 @@ function CommentSection({ state, member }) {
 
 
 
-      <div className="fixed bottom-6 lg:left-[260px] sm:left-[40px] xs:left-[0px] md:left-[300px] right-4 z-50 px-6 py-4"> {/* Adjust left based on sidebar width */}
-        <div className="flex items-center bg-white rounded-lg px-4 py-2 border border-gray-200 h-[70px]">
+      <div className="fixed bottom-2 lg:left-[260px] sm:left-[40px] xs:left-[0px] md:left-[300px] right-4 z-50 px-6 py-4"> 
+        <div className="flex items-center bg-white rounded-lg px-4 py-2 border border-gray-200 h-[50px]">
           <input
             type="text"
             placeholder="Add comment..."

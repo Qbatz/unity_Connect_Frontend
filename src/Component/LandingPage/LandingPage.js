@@ -9,20 +9,32 @@ import FAQSection from "../LandingPage/FAQSection";
 import GetStarted from "../LandingPage/GetStarted";
 import Footer from "../LandingPage/Footer";
 
-function LandingPage(){
-    return(
+function LandingPage() {
+    return (
         <>
-        <div>
-<TopBar/>
-<MeetUnityConnect/>
-<WelcomeImage/>
-<CountNumbers/>
-<HowItWorks/>
-<WhyUnityConnect/>
-<FAQSection/>
-<GetStarted/>
-<Footer/>
-        </div>
+           
+           <div className="min-h-screen w-full overflow-x-hidden overflow-y: auto  bg-white">
+
+                <TopBar />
+                <MeetUnityConnect />
+                <WelcomeImage />
+                <CountNumbers />
+
+                <div id="how-it-works">
+                    <HowItWorks />
+                </div>
+                <div id="why-us">
+                    <WhyUnityConnect />
+                </div>
+                <div id="faq-section">
+                    <FAQSection />
+                </div>
+
+                <div id="get-started">
+                    <GetStarted />
+                </div>
+                <Footer />
+            </div>
         </>
     )
 }
