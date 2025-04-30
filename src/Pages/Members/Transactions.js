@@ -27,9 +27,9 @@ function Transactions({ state, member }) {
 
   return (
     <>
-      <div className="px-4 py-2 sm:px-2 sm:py-1 mt-4" >
+      <div className=" py-2 sm:px-2 sm:py-1 mt-4" >
         <div className="bg-[#F4F7FF] shadow-md rounded-xl overflow-hidden">
-          <div className="w-full overflow-x-auto max-h-[320px]">
+          <div className="w-full overflow-x-auto max-h-[320px] max-[453px]:max-h-[140px]">
             <table className="min-w-[640px] w-full text-left border-collapse">
               <thead className="sticky top-0 bg-[#F4F7FF] z-10 border-b border-gray-300">
                 <tr className="text-[#939393] font-light text-sm font-Gilroy">
