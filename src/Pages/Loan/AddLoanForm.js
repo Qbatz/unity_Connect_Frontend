@@ -57,6 +57,7 @@ function AddLoanForm({ state }) {
 
   const [currentPageActive, setCurrentPageActive] = useState(1);
   const [currentPageApproved, setCurrentPageApproved] = useState(1);
+  const [currentPageRejected, setCurrentPageRejected] = useState(1);
   const itemsPerPage = 4;
   const indexOfLastApproved = currentPageApproved * itemsPerPage;
   const indexOfFirstApproved = indexOfLastApproved - itemsPerPage;
@@ -458,8 +459,8 @@ function AddLoanForm({ state }) {
 
   }, [state.Loan.getLoanTab])
 
-  const indexOfLastRejected = currentPageApproved * itemsPerPage;
-  const indexOfFirstRejected = indexOfLastApproved - itemsPerPage;
+  const indexOfLastRejected = currentPageRejected * itemsPerPage;
+  const indexOfFirstRejected = indexOfLastRejected - itemsPerPage;
   const paginatedRejectedLoans = loans?.length > 0 && loans?.filter(loan => loan?.Loan_Status === 'Reject').slice(indexOfFirstRejected, indexOfLastRejected);
 
 
@@ -740,8 +741,17 @@ function AddLoanForm({ state }) {
     }
   }, [paginatedActiveLoans, totalActiveLoans]);
 
+  useEffect(() => {
+    if (paginatedApprovedLoans?.length === 0 && loans?.filter(loan => loan.Loan_Type).length > 0) {
+      setCurrentPageApproved((prev) => (prev > 1 ? prev - 1 : 1));
+    }
+  }, [paginatedApprovedLoans, loans?.filter(loan => loan.Loan_Type)]);
 
-
+  useEffect(() => {
+    if (paginatedRejectedLoans?.length === 0 && loans?.filter(loan => loan.Loan_Type).length > 0) {
+      setCurrentPageRejected((prev) => (prev > 1 ? prev - 1 : 1));
+    }
+  }, [paginatedRejectedLoans, loans?.filter(loan => loan.Loan_Type)]);
 
   if (loading) {
     return (
@@ -791,7 +801,7 @@ function AddLoanForm({ state }) {
                 } else if (tab === "Active loan") {
                   setCurrentPageActive(1);
                 } else if (tab === "Rejected loan") {
-                  setCurrentPageApproved(1);
+                  setCurrentPageRejected(1);
                 }
               }}
               className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative ${activeTab === tab ? "text-black font-medium" : "text-[#939393]"
@@ -942,11 +952,13 @@ function AddLoanForm({ state }) {
 
 
             <div
-              className={`active-loan max-h-[400px] overflow-y-auto p-5 scroll grid ${paginatedActiveLoans?.length > 0
+              className={`active-loan max-h-[220px] lg:max-h-[430px] xs:max-h-[200px]   md:max-h-[330px] sm:max-h-[300px] overflow-y-auto p-5 scroll grid ${paginatedActiveLoans?.length > 0
                 ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >
+
+
 
               {paginatedActiveLoans?.length > 0 ? (
                 paginatedActiveLoans?.map((loan, index) => {
@@ -980,7 +992,7 @@ function AddLoanForm({ state }) {
                         </div>
 
                         <div className="flex items-center justify-between gap-x-4">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-4 pl-4">
                             <p className="text-black font-semibold text-base font-Gilroy">
                               Loan amount: ₹{loan.Loan_Amount ? Number(loan.Loan_Amount).toLocaleString('en-IN') : "0"}
                             </p>
@@ -1090,31 +1102,28 @@ function AddLoanForm({ state }) {
 
 
 
-                      {/* {isRejectPopupOpen && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-[9999]">
-                          <div className="bg-white w-[388px] h-[200px] mx-auto rounded-2xl shadow-lg">
-
-                            <div className="flex justify-center items-center p-4">
-                              <h2 className="text-[18px] font-semibold text-[#222222] font-Gilroy">
+                      {isRejectPopupOpen && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-[9999] p-4">
+                          <div className="bg-white w-full max-w-sm sm:max-w-md rounded-2xl shadow-lg px-4 py-6">
+                            <div className="flex justify-center items-center mb-2">
+                              <h2 className="text-[18px] font-semibold text-[#222222] font-Gilroy text-center">
                                 Reject Loan ?
                               </h2>
                             </div>
 
-
-                            <div className="text-center text-[14px] font-medium text-[#646464] font-Gilroy mt-[-10px]">
+                            <div className="text-center text-[14px] font-medium text-[#646464] font-Gilroy mt-1">
                               Are you sure you want to reject the loan?
                             </div>
 
-
-                            <div className="flex justify-center mt-4 p-4">
+                            <div className="flex flex-col sm:flex-row justify-center mt-6 gap-3 sm:gap-4">
                               <button
-                                className="w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white text-[#1E45E1] border border-[#1E45E1] font-semibold font-Gilroy text-[14px] mr-2"
+                                className="w-full sm:w-[140px] h-[48px] rounded-lg bg-white text-[#1E45E1] border border-[#1E45E1] font-semibold font-Gilroy text-[14px]"
                                 onClick={() => setisRejectPopupOpen(false)}
                               >
                                 Cancel
                               </button>
                               <button
-                                className="w-[160px] h-[52px] rounded-lg px-5 py-3 bg-[#1E45E1] text-white font-semibold font-Gilroy text-[14px]"
+                                className="w-full sm:w-[140px] h-[48px] rounded-lg bg-[#1E45E1] text-white font-semibold font-Gilroy text-[14px]"
                                 onClick={() => handleReject(rejectLoanData)}
                               >
                                 Reject
@@ -1122,38 +1131,7 @@ function AddLoanForm({ state }) {
                             </div>
                           </div>
                         </div>
-                      )} */}
-
-{isRejectPopupOpen && (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-[9999] p-4">
-    <div className="bg-white w-full max-w-sm sm:max-w-md rounded-2xl shadow-lg px-4 py-6">
-      <div className="flex justify-center items-center mb-2">
-        <h2 className="text-[18px] font-semibold text-[#222222] font-Gilroy text-center">
-          Reject Loan ?
-        </h2>
-      </div>
-
-      <div className="text-center text-[14px] font-medium text-[#646464] font-Gilroy mt-1">
-        Are you sure you want to reject the loan?
-      </div>
-
-      <div className="flex flex-col sm:flex-row justify-center mt-6 gap-3 sm:gap-4">
-        <button
-          className="w-full sm:w-[140px] h-[48px] rounded-lg bg-white text-[#1E45E1] border border-[#1E45E1] font-semibold font-Gilroy text-[14px]"
-          onClick={() => setisRejectPopupOpen(false)}
-        >
-          Cancel
-        </button>
-        <button
-          className="w-full sm:w-[140px] h-[48px] rounded-lg bg-[#1E45E1] text-white font-semibold font-Gilroy text-[14px]"
-          onClick={() => handleReject(rejectLoanData)}
-        >
-          Reject
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+                      )}
 
                     </div>
                   );
@@ -1667,23 +1645,24 @@ function AddLoanForm({ state }) {
               )}
 
             </div>
-            {loans?.filter(loan => loan.Loan_Type).length > itemsPerPage && (
+            {activeTab === "Rejected loan" && loans?.filter(loan => loan.Loan_Status === 'Reject').length > itemsPerPage && (
+
               <div className="md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
                 <button
-                  className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
+                  className={`px-4 py-2 mx-2 border rounded ${currentPageRejected === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                     }`}
-                  onClick={() => setCurrentPageApproved(currentPageApproved - 1)}
-                  disabled={currentPageApproved === 1}
+                  onClick={() => setCurrentPageRejected(currentPageRejected - 1)}
+                  disabled={currentPageRejected === 1}
                 >
                   &lt;
                 </button>
-                <span className="px-4 py-2 border rounded">{currentPageApproved}</span>
+                <span className="px-4 py-2 border rounded">{currentPageRejected}</span>
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${indexOfLastApproved >= loans?.filter(loan => loan.Loan_Type).length
                     ? "opacity-50 cursor-not-allowed"
                     : "bg-[#F4F7FF] text-black"
                     }`}
-                  onClick={() => setCurrentPageApproved(currentPageApproved + 1)}
+                  onClick={() => setCurrentPageRejected(currentPageRejected + 1)}
                   disabled={indexOfLastApproved >= loans?.filter(loan => loan.Loan_Type).length}
                 >
                   &gt;

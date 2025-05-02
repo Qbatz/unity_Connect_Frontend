@@ -91,13 +91,13 @@ function MemberModal({ state, memberData, onClose }) {
         }
         const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
 
-       
+
 
         if (email && !emailPattern.test(email)) {
             tempErrors.email = "Invalid Email Address";
         }
 
-       
+
         if (!address) tempErrors.address = "Address is Required";
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
@@ -153,7 +153,7 @@ function MemberModal({ state, memberData, onClose }) {
 
         const isChanged = memberData && (
             (userName?.trim() || "") !== (memberData?.User_Name?.trim() || "") ||
-
+            (email?.trim() || "") !== (memberData?.Email_Id?.trim() || "") ||
             (String(mobileNo)?.trim() || "") !== (String(memberData?.Mobile_No)?.trim() || "") ||
             formatDate(joiningDate) !== formatDate(memberData?.Joining_Date) ||
             (address?.trim() || "") !== (memberData?.Address?.trim() || "") ||
@@ -165,7 +165,7 @@ function MemberModal({ state, memberData, onClose }) {
             return;
         }
 
-       
+
 
         if (!validate()) {
             return;
