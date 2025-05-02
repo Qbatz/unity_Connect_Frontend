@@ -78,7 +78,7 @@ function Overview({ member }) {
             <span className="text-gray-500 text-xs font-medium mb-2 font-Gilroy">Address</span>
             <div className="flex items-start gap-2 flex-wrap sm:flex-nowrap ">
               <img src={building} alt="building" className="w-5 h-5 mt-0.5" />
-              <span className="text-gray-800 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold break-words font-Gilroy">
+              <span className="text-gray-800 text-xs sm:text-sm md:text-base lg:text-sm font-semibold break-words font-Gilroy">
                 {member?.Address}
               </span>
             </div>

@@ -153,7 +153,7 @@ function MemberModal({ state, memberData, onClose }) {
 
         const isChanged = memberData && (
             (userName?.trim() || "") !== (memberData?.User_Name?.trim() || "") ||
-
+            (email?.trim() || "") !== (memberData?.Email_Id?.trim() || "") ||
             (String(mobileNo)?.trim() || "") !== (String(memberData?.Mobile_No)?.trim() || "") ||
             formatDate(joiningDate) !== formatDate(memberData?.Joining_Date) ||
             (address?.trim() || "") !== (memberData?.Address?.trim() || "") ||

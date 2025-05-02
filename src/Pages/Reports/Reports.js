@@ -499,8 +499,8 @@ function ReportsTab({ state }) {
 
   return (
     <>
-      <div className="mt-5 container">
-        <div className="pl-8 pr-8 w-full bg-white rounded-lg ">
+      <div className="mt-5">
+        <div className="w-full bg-white rounded-lg  p-4">
           <div className="flex justify-between items-center w-full">
             <p className="font-Gilroy font-semibold text-xl ml-6 lg:ml-1 mt-2">
               Reports
@@ -509,7 +509,7 @@ function ReportsTab({ state }) {
 
           <div className="flex flex-col lg:flex-row gap-6 mt-8">
 
-            <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full w-1/2">
+            <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full w-1/2 lg:max-h-[460px] xs:max-h-[560px] md:max-h-[460px] sm:max-h-[460px]">
               <div className="flex flex-col md:flex-row md:justify-between items-center md:items-center gap-3 mb-4">
                 <h2 className="text-lg font-semibold leading-[100%] tracking-[0%] font-Gilroy flex items-center gap-2">
                   <img src={paymentreceived} alt='paymentreceived' className="h-[24px] w-[24px]" />
@@ -652,7 +652,7 @@ function ReportsTab({ state }) {
                 </div>
               </div>
 
-              <div className="w-full border border-[#E8E8E8] -border-1 mx-auto -mt-2"></div>
+              <div className="w-full border border-[#E8E8E8]  mx-auto"></div>
 
               <div className="space-y-4 mt-5 overflow-y-auto max-h-[350px]">
                 {Success.length > 0 ? (
@@ -695,7 +695,7 @@ function ReportsTab({ state }) {
               </div>
             </div>
 
-            <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full w-1/2">
+            <div className="bg-[#F4F7FF] mb-4 p-4 rounded-[24px] w-full w-1/2 lg:max-h-[460px] xs:max-h-[560px] md:max-h-[460px] sm:max-h-[460px]">
               <div className="flex flex-col md:flex-row md:justify-between items-center md:items-center gap-3 mb-4">
                 <h2 className="text-lg font-semibold leading-[100%] tracking-[0%] font-Gilroy flex items-center gap-2">
                   <img src={unsuccessfullpayment} alt='unsuccesfullpayment' className="h-[24px] w-[24px]" />
@@ -834,7 +834,7 @@ function ReportsTab({ state }) {
                 </div>
               </div>
 
-              <div className="w-full border border-[#E8E8E8] -border-1 mx-auto -mt-2"></div>
+              <div className="w-full border border-[#E8E8E8] mb-2 mx-auto"></div>
 
               <div className="space-y-4 mt-5 overflow-y-auto max-h-[350px]">
                 {UnSuccess.length > 0 ? (

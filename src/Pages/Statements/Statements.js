@@ -134,7 +134,7 @@ function Statement({ state }) {
         ) : (
           <div className="bg-blue-50 shadow-md rounded-xl overflow-hidden">
 
-            <div className="overflow-y-auto max-h-[800px]">
+            <div className="overflow-y-auto max-h-[300px] lg:max-h-[400px] xs:max-h-[350px]   md:max-h-[340px] sm:max-h-[350px]">
               <table className="w-full text-left border-collapse min-w-max">
                 <thead className="sticky top-0 bg-blue-50 z-10">
 
@@ -207,8 +207,9 @@ function Statement({ state }) {
 
 
 
-      {statementList.length > itemsPerPage && (
-        <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
+      {filteredList.length > itemsPerPage && (
+       <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
+
           <button
             className={`px-4 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
             onClick={() => setCurrentPage(currentPage - 1)}
