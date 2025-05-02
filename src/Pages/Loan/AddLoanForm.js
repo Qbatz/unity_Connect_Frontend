@@ -1090,7 +1090,7 @@ function AddLoanForm({ state }) {
 
 
 
-                      {isRejectPopupOpen && (
+                      {/* {isRejectPopupOpen && (
                         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-[9999]">
                           <div className="bg-white w-[388px] h-[200px] mx-auto rounded-2xl shadow-lg">
 
@@ -1122,8 +1122,38 @@ function AddLoanForm({ state }) {
                             </div>
                           </div>
                         </div>
-                      )}
+                      )} */}
 
+{isRejectPopupOpen && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-[9999] p-4">
+    <div className="bg-white w-full max-w-sm sm:max-w-md rounded-2xl shadow-lg px-4 py-6">
+      <div className="flex justify-center items-center mb-2">
+        <h2 className="text-[18px] font-semibold text-[#222222] font-Gilroy text-center">
+          Reject Loan ?
+        </h2>
+      </div>
+
+      <div className="text-center text-[14px] font-medium text-[#646464] font-Gilroy mt-1">
+        Are you sure you want to reject the loan?
+      </div>
+
+      <div className="flex flex-col sm:flex-row justify-center mt-6 gap-3 sm:gap-4">
+        <button
+          className="w-full sm:w-[140px] h-[48px] rounded-lg bg-white text-[#1E45E1] border border-[#1E45E1] font-semibold font-Gilroy text-[14px]"
+          onClick={() => setisRejectPopupOpen(false)}
+        >
+          Cancel
+        </button>
+        <button
+          className="w-full sm:w-[140px] h-[48px] rounded-lg bg-[#1E45E1] text-white font-semibold font-Gilroy text-[14px]"
+          onClick={() => handleReject(rejectLoanData)}
+        >
+          Reject
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
                     </div>
                   );
@@ -1236,7 +1266,7 @@ function AddLoanForm({ state }) {
               }
 
               <button
-                className="mt-6 bg-black text-white border font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-full h-[51px] pt-4 pr-5 pb-4 pl-5"
+                className="mt-6 bg-black text-white border font-Gilroy font-medium text-base cursor-pointer rounded-[60px] w-full h-[51px] pt-3 pr-5 pb-4 pl-5"
                 onClick={handleAddWitness}
               >
                 Add Witnesses
