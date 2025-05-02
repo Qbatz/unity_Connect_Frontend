@@ -194,7 +194,7 @@ function ExpensesList({ state }) {
         <>
             <div className="p-4">
 
-                <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-0 mb-4">
+                <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-0 mb-4 mt-6">
 
                     <h2 className="text-2xl font-semibold font-Gilroy px-6 sm:px-0">Expenses</h2>
 
@@ -204,7 +204,7 @@ function ExpensesList({ state }) {
                     <div className="flex flex-col lg:flex-row items-center gap-4 px-6 sm:px-0">
 
 
-                        <div className="flex w-full sm:w-auto flex-col sm:flex-row justify-center items-center gap-2 relative z-50">
+                        <div className="flex w-full sm:w-auto flex-col sm:flex-row justify-center items-center gap-2 relative z-30">
                             <div className="w-full max-w-sm mx-auto">
 
                                 <div className="relative">
@@ -261,7 +261,7 @@ function ExpensesList({ state }) {
                         </div>
 
                     ) : (
-                        <div className="shadow-md rounded-xl overflow-hidden mt-4 mx-6">
+                        <div className="shadow-md rounded-xl overflow-hidden mt-4 mx-6 z-50">
                             <div className="overflow-x-auto">
                                 <div className="overflow-y-auto max-h-[550px]">
                                     <table className="w-full text-left border-collapse bg-#F4F7FF ">

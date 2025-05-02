@@ -91,13 +91,13 @@ function MemberModal({ state, memberData, onClose }) {
         }
         const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
 
-       
+
 
         if (email && !emailPattern.test(email)) {
             tempErrors.email = "Invalid Email Address";
         }
 
-       
+
         if (!address) tempErrors.address = "Address is Required";
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
@@ -165,7 +165,7 @@ function MemberModal({ state, memberData, onClose }) {
             return;
         }
 
-       
+
 
         if (!validate()) {
             return;
@@ -210,7 +210,7 @@ function MemberModal({ state, memberData, onClose }) {
             <input
                 ref={ref}
                 type="text"
-                className="w-[260px] border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer font-Gilroy"
+                className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none cursor-pointer font-Gilroy"
                 placeholder="DD-MM-YYYY"
                 value={value}
                 onClick={onClick}
@@ -338,6 +338,7 @@ function MemberModal({ state, memberData, onClose }) {
                             onChange={(date) => handleChange("joiningDate", date)}
                             dateFormat="dd-MM-yyyy"
                             customInput={<CustomInput />}
+                            wrapperClassName="w-full"
                         />
                         {errors.joiningDate && (
                             <p className="text-red-500 flex items-center gap-1 text-xs">
