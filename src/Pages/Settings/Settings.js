@@ -12,19 +12,19 @@ const Settings = () => {
   return (
     <div className="container mx-auto ">
       <h2
-        className="text-[24px] font-semibold font-Gilroy leading-[28.63px] text-black mb-4"
+        className="text-[24px] font-semibold font-Gilroy leading-[28.63px] text-black mb-2"
         style={{ fontFamily: "Gilroy", letterSpacing: "0%" }}
       >
         Settings
       </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 w-full justify-items-center">
+      <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 w-full justify-items-center">
 
        
         {["Member ID", "Loan ID", "Transaction ID", "Loan", "Expenses", "Payment"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`pb-2 text-[16px] font-base font-Gilroy flex justify-center items-center text-center transition-all relative min-w-max ${activeTab === tab ? "text-[#7F00FF] font-semibold" : "text-[#939393]"
+            className={`pb-2 text-xs sm:text-xs md:text-[16px] font-base font-Gilroy flex justify-center items-center text-center transition-all relative min-w-max ${activeTab === tab ? "text-[#7F00FF] font-semibold" : "text-[#939393]"
               }`}
           >
             {tab}

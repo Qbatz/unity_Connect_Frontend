@@ -251,7 +251,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             <input
                 ref={ref}
                 type="text"
-                className="w-[300px] p-2 h-10 border border-gray-300 rounded-lg text-sm cursor-pointer pl-4"
+                className="w-full p-2 h-10 border border-gray-300 rounded-lg text-sm cursor-pointer pl-4"
                 placeholder="DD-MM-YYYY"
                 value={value}
                 onClick={onClick}
@@ -515,7 +515,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
                             <DatePicker
-                                className="cursor-pointer"
+                                className="w-full cursor-pointer"
                                 selected={expenseDate}
                                 onChange={(date) => {
                                     setExpenseDate(date);
@@ -526,6 +526,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 dateFormat="dd-MM-yyyy"
                                 customInput={<CustomInput />}
                                 maxDate={new Date()}
+                                wrapperClassName="w-full"
                             />
 
                             {errors.expenseDate && (

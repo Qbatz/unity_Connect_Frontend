@@ -174,9 +174,9 @@ function ExpensesSetting({ state }) {
   return (
     <div className="container mx-auto mt-5">
       <div className="flex flex-col sm:flex-row items-center sm:items-center sm:justify-between w-full">
-        <div className="px-4 sm:px-6 lg:px-0 mt-4 sm:mt-6">
+        <div className="px-4 sm:px-6 lg:px-0">
           <p className="font-Gilroy font-semibold text-lg sm:text-xl text-black">Expenses</p>
-          <p className="mt-3 sm:mt-5 text-gray-500 text-sm sm:text-base font-Gilroy font-medium">
+          <p className="mt-3 sm:mt-5 text-gray-500 text-xs sm:text-base font-Gilroy font-medium">
             Set up expenses by creating categories
           </p>
         </div>
@@ -331,7 +331,7 @@ function ExpensesSetting({ state }) {
       )}
 
 
-      <div className="max-h-[400px] overflow-y-auto mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="max-h-[280px] max-[639px]:max-h-[190px] overflow-y-auto mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentExpenses && currentExpenses.length > 0 ? (
           currentExpenses.map((category, index) => (
             <div
@@ -350,19 +350,20 @@ function ExpensesSetting({ state }) {
               <div className="w-[90%] mx-auto border-t border-[#E7E7E7]"></div>
 
               <div className="overflow-y-auto max-h-[98px] px-2">
-                {category.subcategory?.map((sub, subIndex) => (
-                  <div key={subIndex} className="flex justify-between mx-auto py-2">
-                    <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
-                    <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub.subcategory}</p>
-                  </div>
-                ))}
-
-                {subCategories[category.category_Id]?.map((sub, subIndex) => (
-                  <div key={subIndex} className="flex justify-between mx-auto py-2">
-                    <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
-                    <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub}</p>
-                  </div>
-                ))}
+                {category?.subcategory.length > 0 &&  Array.isArray(category?.subcategory) &&
+                  category.subcategory?.map((sub, subIndex) => (
+                    <div key={subIndex} className="flex justify-between mx-auto py-2">
+                      <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
+                      <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub.subcategory}</p>
+                    </div> 
+                  ))}
+                {Array.isArray(subCategories?.[category?.category_Id]) &&
+                  subCategories[category.category_Id]?.map((sub, subIndex) => (
+                    <div key={subIndex} className="flex justify-between mx-auto py-2">
+                      <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
+                      <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub}</p>
+                    </div>
+                  ))}
               </div>
             </div>
           ))
