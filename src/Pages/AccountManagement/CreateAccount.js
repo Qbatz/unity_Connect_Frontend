@@ -294,7 +294,8 @@ function CreateAccount({ state }) {
     dispatch({ type: 'CLEAR_MOBILE_ERROR' });
     setEmailError('');
     const value = e.target.value;
-    setEmail(value);
+    
+    setEmail(value.trim());
 
     if (!validateEmail(value)) {
       setErrors((prevErrors) => ({ ...prevErrors, email: "Enter a valid email address." }));
