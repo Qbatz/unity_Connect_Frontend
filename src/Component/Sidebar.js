@@ -103,7 +103,7 @@ const Sidebar = ({ state }) => {
             onClick={() => handleMenuClick("Profile")}
           />
           <div className="ml-3 cursor-pointer" onClick={() => handleMenuClick("Profile")}>
-            <p className="text-black font-semibold text-base leading-snug font-Gilroy">
+            <p className="text-black truncate whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] font-Gilroy text-sm font-medium">
               {state.profileDetailsList.First_Name + " " + state.profileDetailsList.Last_Name}
             </p>
             <p className="text-neutral-400 font-normal text-xs leading-tight font-Gilroy">

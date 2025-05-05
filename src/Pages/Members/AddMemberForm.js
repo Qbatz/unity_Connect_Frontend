@@ -379,9 +379,9 @@ function MemberModal({ state, memberData, onClose }) {
 
                             {showImage ? (
                                 file?.type === "application/pdf" || (!file && showImage?.includes(".pdf")) ? (
-                                    <span className="text-xs px-1 break-all text-center">
+                                    <div className="text-xs px-1 text-center w-full h-full overflow-y-auto break-words">
                                         {file?.name || showImage.split("/").pop()}
-                                    </span>
+                                    </div>
                                 ) : (
                                     <img src={showImage} alt="Selected" className="w-full h-full object-contain" />
                                 )

@@ -555,7 +555,7 @@ function ReportsTab({ state }) {
                     </span>
                   </button>
                   {isOpen2 && (
-                    <div className="absolute mt-2 w-full bg-white border border-[#D9D9D9] rounded-lg shadow-lg">
+                    <div className="absolute mt-2 w-full bg-white border border-[#D9D9D9] rounded-lg shadow-lg z-30">
                       {options.map((option) => (
                         <div
                           key={option.value}

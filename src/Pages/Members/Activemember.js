@@ -319,7 +319,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
 
 
               <div onClick={() => onSelectMember(member)} className="mt-3 text-sm text-gray-700">
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                   <p className="flex items-center gap-2 font-Gilroy">
                     <img src={sms} className="text-gray-500" alt="sms" />
                     {member.Email_Id}
@@ -359,8 +359,8 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
 
 
               {deletePopup === index && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
-                  <div className="bg-white w-[388px] h-[200px] mx-auto rounded-2xl shadow-lg">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999] p-4">
+                  <div className="bg-white w-full max-w-sm sm:max-w-md rounded-2xl shadow-lg px-4 py-6">
 
                     <div className="flex justify-center items-center p-4">
                       <h2 className="text-[18px] font-semibold text-[#222222] font-Gilroy">
@@ -393,7 +393,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
               )}
 
               {changePopup === index && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                   <div className="bg-white max-w-[550px] w-full p-6 rounded-[30px] shadow-lg relative">
 
                     <div className="flex justify-between items-center">
