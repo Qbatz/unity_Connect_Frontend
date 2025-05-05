@@ -171,6 +171,12 @@ function NonActiveMember({ state, loading, setLoading }) {
     setStatus("")
   }
 
+  useEffect(() => {
+    if (paginatedData?.length === 0 && NonactiveMemberData.length > 0) {
+      setCurrentPage((prev) => (prev > 1 ? prev - 1 : 1));
+    }
+  }, [paginatedData, NonactiveMemberData]);
+
   if (loading) {
     return (
       <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
@@ -180,6 +186,7 @@ function NonActiveMember({ state, loading, setLoading }) {
   }
 
 
+  
 
   return (
     <>
@@ -305,8 +312,8 @@ function NonActiveMember({ state, loading, setLoading }) {
                   </div>
 
                   {deletePopup === index && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
-                      <div className="bg-white w-[388px] h-[200px] mx-auto rounded-2xl shadow-lg">
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999] p-4">
+                      <div className="bg-white w-full max-w-sm sm:max-w-md rounded-2xl shadow-lg px-4 py-6">
 
                         <div className="flex justify-center items-center p-4">
                           <h2 className="text-[18px] font-semibold text-[#222222] font-Gilroy">
@@ -339,7 +346,7 @@ function NonActiveMember({ state, loading, setLoading }) {
                   )}
 
                   {changePopup === index && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                       <div className="bg-white max-w-[550px] w-full p-6 rounded-[30px] shadow-lg relative">
 
                         <div className="flex justify-between items-center">

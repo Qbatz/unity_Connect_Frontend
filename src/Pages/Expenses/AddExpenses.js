@@ -169,7 +169,12 @@ function ExpenseForm({ onClose, state, expensesdata }) {
 
 
 
-
+    useEffect(() => {
+        if (formError === "No changes detected" && hasChanges()) {
+            setFormError("");
+        }
+    }, [merchantName, category, subCategory, paymentMode, expenseDate, expenseAmount, description]);
+    
     const hasChanges = () => {
         if (!expensesdata) return true;
 
@@ -216,7 +221,9 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         };
 
 
-        if (validateForm() && hasChanges) {
+        
+            if (validateForm() && hasChanges()) {
+
             const payload = {
                 name: merchantName,
                 category_id: category,

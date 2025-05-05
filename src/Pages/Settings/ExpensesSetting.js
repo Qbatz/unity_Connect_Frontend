@@ -200,7 +200,7 @@ function ExpensesSetting({ state }) {
 
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center  bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center  bg-black bg-opacity-50 p-2">
           <div className="bg-white w-[464px] rounded-[40px] p-6 shadow-lg transition-all duration-300">
 
             <div className="flex justify-between items-center mb-4">

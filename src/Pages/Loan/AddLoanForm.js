@@ -1103,7 +1103,7 @@ function AddLoanForm({ state }) {
 
 
                       {isRejectPopupOpen && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-[9999] p-4">
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999] p-4">
                           <div className="bg-white w-full max-w-sm sm:max-w-md rounded-2xl shadow-lg px-4 py-6">
                             <div className="flex justify-center items-center mb-2">
                               <h2 className="text-[18px] font-semibold text-[#222222] font-Gilroy text-center">
