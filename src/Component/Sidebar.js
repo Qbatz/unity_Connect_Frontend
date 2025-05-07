@@ -106,14 +106,14 @@ const Sidebar = ({ state }) => {
             <p className="text-black truncate whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] font-Gilroy text-sm font-medium">
               {state.profileDetailsList.First_Name + " " + state.profileDetailsList.Last_Name}
             </p>
-            <p className="text-neutral-400 font-normal text-xs leading-tight font-Gilroy">
+            <p className="text-neutral-400 runcate whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] font-normal text-xs leading-tight font-Gilroy">
               {state.profileDetailsList.Email_Id}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto pt-2 px-2 ">
+      <div className="flex-1 overflow-y-auto  px-2 ">
         {activeMenu === "Dashboard" && (
           <div data-testid='div-dashboard' className="bg-white mt-2" >
             <h1 className="text-center text-xl font-Gilroy font-semibold">Dashboard</h1>

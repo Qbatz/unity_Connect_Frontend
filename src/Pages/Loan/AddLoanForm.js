@@ -949,16 +949,12 @@ function AddLoanForm({ state }) {
         {activeTab === "Active loan" && (
           <div>
 
-
-
             <div
-              className={`active-loan max-h-[220px] lg:max-h-[430px] xs:max-h-[200px]   md:max-h-[330px] sm:max-h-[300px] overflow-y-auto p-5 scroll grid ${paginatedActiveLoans?.length > 0
-                ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
+              className={`active-loan p-2 grid ${paginatedActiveLoans?.length > 0
+                ? "overflow-y-auto max-h-[210px] lg:max-h-[350px] xs:max-h-[190px]   md:max-h-[330px] sm:max-h-[300px] gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >
-
-
 
               {paginatedActiveLoans?.length > 0 ? (
                 paginatedActiveLoans?.map((loan, index) => {
@@ -1103,7 +1099,7 @@ function AddLoanForm({ state }) {
 
 
                       {isRejectPopupOpen && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999] p-4">
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-[9999] p-4">
                           <div className="bg-white w-full max-w-sm sm:max-w-md rounded-2xl shadow-lg px-4 py-6">
                             <div className="flex justify-center items-center mb-2">
                               <h2 className="text-[18px] font-semibold text-[#222222] font-Gilroy text-center">
@@ -1137,7 +1133,7 @@ function AddLoanForm({ state }) {
                   );
                 })
               ) : (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center ">
 
                   <div className="w-64 h-64">
                     <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />
@@ -1378,13 +1374,15 @@ function AddLoanForm({ state }) {
           <div>
 
 
-
             <div
-              className={`active-loan max-h-[400px] overflow-y-auto p-5 scroll grid ${paginatedApprovedLoans?.length > 0
-                ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
+              className={`active-loan p-2 grid ${paginatedApprovedLoans?.length > 0
+                ? "overflow-y-auto max-h-[210px] lg:max-h-[350px] xs:max-h-[200px] md:max-h-[330px] sm:max-h-[300px] gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >
+
+
+
               {paginatedApprovedLoans.length > 0 ? (
                 paginatedApprovedLoans.map((loan) => {
 
@@ -1543,14 +1541,15 @@ function AddLoanForm({ state }) {
 
           <div>
 
-
-
             <div
-              className={`active-loan max-h-[400px] overflow-y-auto p-5 scroll grid ${paginatedRejectedLoans?.length > 0
-                ? "gap-6 grid-cols-1 md:grid-cols-1  lg:grid-cols-2"
+              className={`active-loan p-2 grid ${paginatedRejectedLoans?.length > 0
+                ? "overflow-y-auto max-h-[210px] lg:max-h-[350px] xs:max-h-[200px] md:max-h-[330px] sm:max-h-[300px] gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >
+
+
+
               {paginatedRejectedLoans.length > 0 ? (
                 paginatedRejectedLoans.map((loan) => {
 
