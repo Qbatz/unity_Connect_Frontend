@@ -7,7 +7,7 @@ const HowItWorks = () => {
 
     <div className="relative container mx-auto px-4 mt-28 flex flex-col lg:flex-row items-center gap-10">
       <div className="lg:w-1/2">
-        <h2 className="text-4xl text-5xl  font-bold text-black mb-6 font-Gilroy pt-10">
+        <h2 className="text-[56px] font-bold text-black mb-6 font-Gilroy pt-10">
           How It Works
         </h2>
         <div className="">
@@ -33,7 +33,7 @@ const HowItWorks = () => {
                 <img src={PurpleDot} alt="Step Indicator" className="lg:w-24 lg:h-24  md:w-24 md:h-24 sm:w-24 sm:h-24" />
                 {index !== 2 && (
                   <div className="w-[1px] h-[90px] border-l-[2px] border-dashed border-gray"></div>
-               
+
                 )}
               </div>
 

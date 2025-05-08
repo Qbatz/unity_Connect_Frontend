@@ -106,7 +106,7 @@ function MemberModal({ state, memberData, onClose }) {
     const handleChange = (field, value) => {
         if (field === "memberId") setMemberId(value);
         if (field === "userName") setUserName(value);
-        if (field === "email") setEmail(value);
+        if (field === "email") setEmail(value.trim().toLowerCase());
         if (field === "joiningDate") setJoiningDate(value);
 
         if (field === "address") setAddress(value);

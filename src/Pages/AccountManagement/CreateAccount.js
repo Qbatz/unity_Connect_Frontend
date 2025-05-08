@@ -78,6 +78,9 @@ function CreateAccount({ state }) {
 
   const handleLoginPage = () => {
     navigate('/sign-in')
+    dispatch({ type: 'CLEAR_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' })
   }
 
 
@@ -199,8 +202,8 @@ function CreateAccount({ state }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
-  
-   
+
+
     setFirstNameError('');
     setLastNameError('');
     setEmailError('');
@@ -208,10 +211,10 @@ function CreateAccount({ state }) {
     setPasswordErrors('');
     setConfirmPasswordError('');
     setBothPasswordError('');
-  
-    let isValid = true; 
-  
-   
+
+    let isValid = true;
+
+
     const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     if (!email) {
       setEmailError('Email is required');
@@ -220,10 +223,10 @@ function CreateAccount({ state }) {
       setEmailError('Please enter a valid email address');
       isValid = false;
     }
-  
+
     const phonePattern = /^\d{10}$/;
     const isValidMobileNo = phonePattern.test(mobileNumber);
-  
+
     if (!mobileNumber) {
       setPhoneError('Phone number is required');
       isValid = false;
@@ -231,18 +234,18 @@ function CreateAccount({ state }) {
       setPhoneError('Please enter a valid 10-digit phone number');
       isValid = false;
     }
-  
+
     const passwordValidationErrors = validatePassword(password);
     if (passwordValidationErrors.length > 0) {
       setPasswordErrors(passwordValidationErrors.join(', '));
       isValid = false;
     }
-  
+
     if (!password) {
       setPasswordErrors('Password is required');
       isValid = false;
     }
-  
+
     if (!confirmPassword) {
       setConfirmPasswordError('Confirm Password is required');
       isValid = false;
@@ -250,18 +253,18 @@ function CreateAccount({ state }) {
       setBothPasswordError('Passwords do not match');
       isValid = false;
     }
-  
+
     if (!firstName) {
       setFirstNameError('First name is required');
       isValid = false;
     }
-  
-    
+
+
     if (!isValid) {
       return;
     }
-  
-    
+
+
     const payload = {
       first_name: firstName,
       last_name: lastName,
@@ -269,13 +272,13 @@ function CreateAccount({ state }) {
       email_id: email,
       password: password
     };
-  
+
     dispatch({
       type: 'CREATE_ACCOUNT',
       payload: payload
     });
   };
-  
+
   const handleMobileNumberChange = (e) => {
     dispatch({ type: 'CLEAR_MOBILE_ERROR' });
     dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
@@ -294,8 +297,8 @@ function CreateAccount({ state }) {
     dispatch({ type: 'CLEAR_MOBILE_ERROR' });
     setEmailError('');
     const value = e.target.value;
-    
-    setEmail(value.trim());
+
+    setEmail(value.trim().toLowerCase());
 
     if (!validateEmail(value)) {
       setErrors((prevErrors) => ({ ...prevErrors, email: "Enter a valid email address." }));

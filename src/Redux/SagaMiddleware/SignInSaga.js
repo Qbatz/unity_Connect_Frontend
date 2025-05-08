@@ -96,10 +96,10 @@ export function* handleProfileDetails(action) {
 function* handleProfileDetailsUpdate(datum) {
 
     const response = yield call(ProfileDetailsUpdate, datum.payload);
-   
+
     if (response.statusCode === 200 || response.status === 200) {
-       
-        
+
+
         var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
@@ -132,7 +132,7 @@ function* handleProfileDetailsUpdate(datum) {
         });
 
 
-    } else if (response.statusCode === 201) {
+    } else if (response.status === 201 || response.statusCode === 201) {
         yield put({ type: 'PROFILE_DETAILS_UPDATE_ERROR', payload: response.message });
     }
     if (response) {

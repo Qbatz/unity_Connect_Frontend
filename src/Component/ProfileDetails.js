@@ -12,9 +12,21 @@ import { FaUser } from "react-icons/fa";
 
 const ProfileDetails = ({ state }) => {
 
+
     const profileDetailsUpdateErrorMessage = useSelector(
         (state) => state.SignIn.profileDetailsUpdateErrorMessage
     );
+
+    const updatePasswordError = useSelector(
+        (state) => state.SignIn.updatePasswordError
+    );
+
+    const updatePasswordStatusCode = useSelector(
+        (state) => state.SignIn.updatePasswordStatusCode
+    )
+
+
+
 
 
     const dispatch = useDispatch();
@@ -46,7 +58,9 @@ const ProfileDetails = ({ state }) => {
         newPassword: '',
         bothPassword: '',
     });
-    const [mailError, setMailError] = useState("")
+    const [mailError, setMailError] = useState("");
+    const [localUpdatePasswordError, setLocalUpdatePasswordError] = useState(null);
+
 
 
     useEffect(() => {
@@ -56,17 +70,25 @@ const ProfileDetails = ({ state }) => {
     useEffect(() => {
         setNoChangesMessage("");
         setPasswordErrors("")
+        setLocalUpdatePasswordError('')
     }, [activeTab]);
 
     useEffect(() => {
         if (profileDetailsUpdateErrorMessage) {
-      
-          setMailError(profileDetailsUpdateErrorMessage);
-          
-       
+
+            setMailError(profileDetailsUpdateErrorMessage);
+
+
         }
-      }, [profileDetailsUpdateErrorMessage, dispatch]);
-   
+    }, [profileDetailsUpdateErrorMessage, dispatch]);
+
+    useEffect(() => {
+        setLocalUpdatePasswordError(updatePasswordError);
+
+
+    }, [updatePasswordError]);
+
+
 
     useEffect(() => {
         setFormData((prev) => ({
@@ -154,24 +176,27 @@ const ProfileDetails = ({ state }) => {
 
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        let { name, value } = e.target;
         if ((name === "firstName" || name === "lastName") && !/^[a-zA-Z\s]*$/.test(value)) {
             return;
         }
+        if (name === "email") {
+            value = value.toLowerCase();
+        }
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: value,
         });
 
-        if (errors[e.target.name]) {
+        if (errors[name]) {
             setErrors({
                 ...errors,
-                [e.target.name]: '',
+                [name]: '',
             });
         }
         setNoChangesMessage('')
         setMailError('')
-        dispatch({ type: 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR' });
+
 
     };
     const handleSubmit = (e) => {
@@ -243,8 +268,7 @@ const ProfileDetails = ({ state }) => {
             };
             dispatch({ type: 'UPDATEPASSWORD', payload: PasswordPayload });
         }
-        setCurrentPassword("")
-        setNewPassword("")
+
 
     };
 
@@ -252,6 +276,10 @@ const ProfileDetails = ({ state }) => {
         const newCurrentPassword = e.target.value.trim();
         setCurrentPassword(newCurrentPassword);
         setPasswordErrors((prev) => ({ ...prev, currentPassword: "", bothPassword: "" }));
+        setTimeout(() => {
+            dispatch({ type: 'CLEAR_UPDATE_PASSWORD_ERROR' })
+        }, 100);
+
 
     };
 
@@ -261,8 +289,33 @@ const ProfileDetails = ({ state }) => {
         setPasswordErrors((prev) => ({ ...prev, newPassword: "", bothPassword: "" }));
 
         if (!newPasswordValue) {
-            setPasswordErrors((prev) => ({ ...prev, newPassword: 'New password is required.' }));
+            setPasswordErrors((prev) => ({ ...prev, newPassword: 'New password is required' }));
         }
+
+
+        const validationMessages = validatePassword(newPasswordValue);
+        if (validationMessages.length > 0) {
+            setPasswordErrors((prev) => ({ ...prev, newPassword: validationMessages }));
+        }
+    };
+
+    const validatePassword = (newPassword) => {
+        let errorMessages = [];
+
+        if (/\s/.test(newPassword)) {
+            errorMessages.push('Password cannot contain spaces.');
+        }
+        if (newPassword.length < 8) {
+            errorMessages.push('8 characters minimum');
+        }
+        if (!/[a-z]/.test(newPassword) || !/[A-Z]/.test(newPassword)) {
+            errorMessages.push('One uppercase and lowercase letter required');
+        }
+        if (!/\d/.test(newPassword) || !/[@$!%*?&]/.test(newPassword)) {
+            errorMessages.push('At least one numeric and one special symbol required');
+        }
+
+        return errorMessages;
     };
 
 
@@ -287,6 +340,17 @@ const ProfileDetails = ({ state }) => {
 
 
     }
+
+    useEffect(() => {
+        if (updatePasswordStatusCode === 200) {
+            setCurrentPassword("")
+            setNewPassword("")
+            dispatch({ type: 'CLEAR_UPDATE_PASSWORD_ERROR' })
+        }
+        setTimeout(() => {
+            dispatch({ type: 'CLEAR_UPDATE_PASSWORD' })
+        }, 200);
+    }, [updatePasswordStatusCode])
 
 
     return (
@@ -488,6 +552,13 @@ const ProfileDetails = ({ state }) => {
                                     {passwordErrors.currentPassword}
                                 </p>
                             )}
+                            {localUpdatePasswordError && (
+                                <div className="flex items-center text-red-500 text-xs mb-4 font-Gilroy">
+                                    <MdError className="mr-1" />
+                                    {localUpdatePasswordError}
+                                </div>
+                            )}
+
                         </div>
 
                         <div>

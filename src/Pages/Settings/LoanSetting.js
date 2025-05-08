@@ -294,7 +294,7 @@ function LoanSetting({ state }) {
       {isModalOpen && (
 
        
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-2 sm:px-4 overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-2 sm:px-4">
   <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-lg max-h-[98vh] my-6 flex flex-col">
 
             <div className="flex justify-between items-center mb-4">
