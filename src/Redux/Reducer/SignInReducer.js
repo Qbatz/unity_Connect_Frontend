@@ -27,6 +27,7 @@ const SignInReducer = (state = initialState, action) => {
 
 
 
+
     switch (action.type) {
         case 'SIGNIN-INFO':
             return {
@@ -78,7 +79,9 @@ const SignInReducer = (state = initialState, action) => {
         case 'UPDATE_PASSWORD':
             return { ...state, updatePassword: action.payload.message, updatePasswordStatusCode: action.payload.statusCode }
         case 'UPDATE_PASSWORD_ERROR':
-            return { ...state, updatePasswordError: action.payload.message }
+            return { ...state, updatePasswordError: action.payload }
+        case 'CLEAR_UPDATE_PASSWORD_ERROR':
+            return { ...state, updatePasswordError: "" }
         case 'CLEAR_UPDATE_PASSWORD':
             return { ...state, updatePasswordStatusCode: 0 }
         default:

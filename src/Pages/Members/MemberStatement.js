@@ -111,9 +111,10 @@ function MemberStatements({ state, member }) {
       setPaidAmount(value);
 
       const loan = parseFloat(
-        selectedStatement?.Pending_Amount_For_Due !== null
-          ? selectedStatement?.Pending_Amount_For_Due
-          : selectedStatement?.Due_Amount
+        selectedStatement?.Outstanding_Amount
+          !== null
+          ? selectedStatement?.Outstanding_Amount
+          : selectedStatement?.Total_Amount
       ) || 0;
 
       const paid = parseFloat(value) || 0;
@@ -205,7 +206,7 @@ function MemberStatements({ state, member }) {
                 <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Serial Number</th>
                 <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Due Date</th>
                 <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Loan Amount</th>
-                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Due Amount</th>
+
                 <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Interest Amount</th>
                 <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Pending</th>
                 <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Paid Amount</th>
@@ -232,12 +233,12 @@ function MemberStatements({ state, member }) {
                       {moment(item.Due_Date).format("DD MMM YYYY")}
                     </span>
                   </td>
-                  <td className="px-4 py-2 font-Gilroy">{item.Loan_Amount}</td>
-                  <td className="px-4 py-2 font-Gilroy">{item.Due_Amount}</td>
+                  <td className="px-4 py-2 font-Gilroy">{item.Princ_Amount}</td>
 
-                  <td className="px-4 py-2 font-Gilroy">{item.Monthly_Intrest}</td>
-                  <td className="px-4 py-2 font-Gilroy">{item.Pending_Amount_For_Due === null ? item.Due_Amount : item.Pending_Amount_For_Due}</td>
-                  <td className="px-4 py-2 font-Gilroy">{item.Paid_Amount}</td>
+
+                  <td className="px-4 py-2 font-Gilroy">{item.Intrest_Amount}</td>
+                  <td className="px-4 py-2 font-Gilroy">{item.Outstanding_Amount === null ? 0 : item.Outstanding_Amount}</td>
+                  <td className="px-4 py-2 font-Gilroy">{item.Last_Paid_Amount === null ? 0 : item.Last_Paid_Amount}</td>
                   <td className="px-4 py-2 font-Gilroy">
                     <span
                       className={`px-3 py-1 text-sm rounded-full font-Gilroy ${item.Status === "Paid"
@@ -306,18 +307,7 @@ function MemberStatements({ state, member }) {
 
             <div className="font-Gilroy max-h-[400px] sm:max-h-[400px] overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-2 mb-4">
-                <div>
-                  <label className="text-sm font-semibold">Due Amount</label>
-                  <input
-                    type="text"
-                    value={selectedStatement?.Due_Amount
-                      || ""}
-                    onChange={(e) => handleInputChange("loanAmount", e.target.value)}
-                    placeholder="Enter amount"
-                    className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none"
-                  />
 
-                </div>
 
                 <div className="flex flex-col">
                   <label className="text-sm font-semibold mb-1">Due Date</label>

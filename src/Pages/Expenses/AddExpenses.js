@@ -174,7 +174,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             setFormError("");
         }
     }, [merchantName, category, subCategory, paymentMode, expenseDate, expenseAmount, description]);
-    
+
     const hasChanges = () => {
         if (!expensesdata) return true;
 
@@ -195,7 +195,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
             expensesdata.Mode_of_Payment !== paymentMode ||
             expenseDataDateFormatted !== expenseDateFormatted ||
             Number(expensesdata.Expense_Amount) !== Number(expenseAmount) ||
-            expensesdata.Description !== description ||
+            (expensesdata.Description || "").trim() !== (description || "").trim() ||
             initialSubCategoryLabel !== currentSubCategoryLabel
         );
     };
@@ -221,8 +221,8 @@ function ExpenseForm({ onClose, state, expensesdata }) {
         };
 
 
-        
-            if (validateForm() && hasChanges()) {
+
+        if (validateForm() && hasChanges()) {
 
             const payload = {
                 name: merchantName,

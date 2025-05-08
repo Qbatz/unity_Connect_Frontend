@@ -80,7 +80,7 @@ const SignIn = ({ state }) => {
   };
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    setEmail(e.target.value.trim().toLowerCase());
     setErrors((prev) => ({ ...prev, email: "" }));
   };
 

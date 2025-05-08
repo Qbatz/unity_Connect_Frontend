@@ -142,9 +142,9 @@ function Statement({ state }) {
                     <th className="pl-8 text-left" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }} >Member Name</th>
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan ID</th>
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Date</th>
-                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Amount</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Paid Amount</th>
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due Date</th>
-                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Pending Amount</th>
+
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Status</th>
                   </tr>
                 </thead>
@@ -167,14 +167,14 @@ function Statement({ state }) {
                           {moment(item.loan_date).format("DD MMM YYYY")}
                         </span>
                       </td>
-                      <td className="p-2 font-Gilroy">₹{item.Loan_Amount.toLocaleString('en-IN')}</td>
+                      <td className="p-2 font-Gilroy">₹{item.Amount.toLocaleString('en-IN')}</td>
 
                       <td className="p-2">
                         <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
                           {moment(item.Due_Date).format("DD MMM YYYY")}
                         </span>
                       </td>
-                      <td className="p-2 font-Gilroy">₹{item.Due.toLocaleString('en-IN')}</td>
+
                       <td className="p-2">
                         <span className={`px-3 py-1.5 rounded-full text-black font-Gilroy ${item.Status === "Paid" ? "bg-emerald-100 px-6" : "bg-red-100"}`}>
                           {item.Status}
@@ -208,7 +208,7 @@ function Statement({ state }) {
 
 
       {filteredList.length > itemsPerPage && (
-       <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
+        <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
 
           <button
             className={`px-4 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
