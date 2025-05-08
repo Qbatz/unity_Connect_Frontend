@@ -368,7 +368,7 @@ function ExpensesSetting({ state }) {
             </div>
           ))
         ) : (
-          <div className="col-span-full flex flex-col items-center justify-center h-[300px]">
+          <div className="col-span-full flex flex-col items-center justify-center h-[290px]">
 
             <div className="w-64 h-64">
               <img src={EmptyState} alt="EmptyState" className="w-full h-full object-contain mb-2" />

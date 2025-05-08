@@ -191,7 +191,7 @@ function MemberStatements({ state, member }) {
 
 
   return (
-    <div className=" py-2">
+    <div className=" ">
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-base sm:text-lg md:text-2xl  font-semibold font-Gilroy">Loan Statements</h2>
 
