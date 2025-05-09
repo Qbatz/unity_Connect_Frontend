@@ -159,6 +159,8 @@ function ExpensesSetting({ state }) {
     setIsSubCategory(e.target.checked);
     if (!e.target.checked) {
       setSubCategories([]);
+      setSubCategoryError("");
+      dispatch({ type: 'CLEAR_CATEGORY_ERROR' });
     }
   };
 
@@ -350,12 +352,12 @@ function ExpensesSetting({ state }) {
               <div className="w-[90%] mx-auto border-t border-[#E7E7E7]"></div>
 
               <div className="overflow-y-auto max-h-[98px] px-2">
-                {category?.subcategory.length > 0 &&  Array.isArray(category?.subcategory) &&
+                {category?.subcategory.length > 0 && Array.isArray(category?.subcategory) &&
                   category.subcategory?.map((sub, subIndex) => (
                     <div key={subIndex} className="flex justify-between mx-auto py-2">
                       <p className="text-[#939393] font-Gilroy font-medium text-sm">Sub-category</p>
                       <p className="text-black font-Gilroy font-semibold text-sm text-right">{sub.subcategory}</p>
-                    </div> 
+                    </div>
                   ))}
                 {Array.isArray(subCategories?.[category?.category_Id]) &&
                   subCategories[category.category_Id]?.map((sub, subIndex) => (

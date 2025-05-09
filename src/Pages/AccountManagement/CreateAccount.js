@@ -370,7 +370,7 @@ function CreateAccount({ state }) {
             </div>
 
             <div className="w-full">
-              <label className="block font-Gilroy text-sm font-medium mb-2">Mobile number  <span className="text-red-500 text-xl"></span></label>
+              <label className="block font-Gilroy text-sm font-medium mb-2">Mobile Number  <span className="text-red-500 text-xl"></span></label>
               <div className="flex items-center border border-gray-300 rounded-xl bg-white p-3 w-full">
                 <select className="outline-none bg-transparent mr-2">
                   <option>+91</option>
@@ -412,7 +412,7 @@ function CreateAccount({ state }) {
                   autoCorrect='off'
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="border py-3 px-3 w-full mt-1  border-gray-300 rounded-xl  font-Gilroy font-medium text-base leading-6 tracking-normal pr-10"
+                  className="border py-3 px-3 w-full mt-2  border-gray-300 rounded-xl  font-Gilroy font-medium text-base leading-6 tracking-normal pr-10"
                   value={password}
                   onChange={handlePasswordChange}
                 />

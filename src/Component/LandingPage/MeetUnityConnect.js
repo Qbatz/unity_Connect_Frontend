@@ -38,7 +38,7 @@ const MeetUnityConnect = () => {
 
 
         <button
-          className="mt-6 w-[180px] sm:w-[200px] md:w-[215px] py-4 text-white bg-[#7F00FF] rounded-2xl font-Raleway font-semibold text-sm sm:text-base hover:bg-[#6b00d6] transition"
+          className="mt-6 w-[180px] sm:w-[200px] md:w-[215px] py-6 text-white bg-[#7F00FF] rounded-2xl font-Raleway font-semibold text-sm sm:text-base hover:bg-[#6b00d6] transition"
         >
           Join a community
         </button>

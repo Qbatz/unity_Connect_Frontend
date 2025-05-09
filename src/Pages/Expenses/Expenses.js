@@ -261,9 +261,9 @@ function ExpensesList({ state }) {
                         </div>
 
                     ) : (
-                        <div className="shadow-md rounded-xl overflow-hidden mt-4 mx-6 z-50">
+                        <div className="shadow-md rounded-xl overflow-hidden mt-4 mx-6 z-50 mb-12">
                             <div className="overflow-x-auto">
-                                <div className="overflow-y-auto max-h-[550px]">
+                                <div className="overflow-y-auto max-h-[550px] ">
                                     <table className="w-full text-left border-collapse bg-#F4F7FF ">
                                         <thead className="sticky top-0 bg-[#F4F7FF] z-10">
                                             <tr className="bg-[#F4F7FF] border-b font-extralight text-sm font-Gilroy">
@@ -386,7 +386,7 @@ function ExpensesList({ state }) {
 
                 {ExpensesList.length > pageSize && (
 
-                    <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md flex justify-end items-center gap-4">
+                    <div className="fixed bottom-0 right-0 w-full p-2 bg-white  flex justify-end z[1000]">
                         <div className="flex gap-2">
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}

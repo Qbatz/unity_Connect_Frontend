@@ -950,8 +950,8 @@ function AddLoanForm({ state }) {
           <div>
 
             <div
-              className={`active-loan p-2 grid ${paginatedActiveLoans?.length > 0
-                ? "overflow-y-auto max-h-[210px] lg:max-h-[350px] xs:max-h-[190px]   md:max-h-[330px] sm:max-h-[300px] gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
+              className={`active-loan p-2 grid mb-10 ${paginatedActiveLoans?.length > 0
+                ? "overflow-y-auto max-h-[430px]  gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
                 : "place-items-center"
                 }`}
             >
@@ -1152,7 +1152,7 @@ function AddLoanForm({ state }) {
 
 
             {totalActiveLoans.length > itemsPerPage && (
-              <div className="md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
+              <div className="fixed bottom-0 right-0 w-full p-2 bg-white  flex justify-end z[1000]">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageActive === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                     }`}
@@ -1375,8 +1375,8 @@ function AddLoanForm({ state }) {
 
 
             <div
-              className={`active-loan p-2 grid ${paginatedApprovedLoans?.length > 0
-                ? "overflow-y-auto max-h-[210px] lg:max-h-[350px] xs:max-h-[200px] md:max-h-[330px] sm:max-h-[300px] gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
+              className={`active-loan p-2 grid mb-10 ${paginatedApprovedLoans?.length > 0
+                ? "max-h-[430px] overflow-y-auto   gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
                 : "place-items-center"
                 }`}
             >
@@ -1507,7 +1507,7 @@ function AddLoanForm({ state }) {
 
             </div>
             {loans?.filter(loan => loan.Loan_Type).length > itemsPerPage && (
-              <div className=" md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
+              <div className=" fixed bottom-0 right-0 w-full p-2 bg-white  flex justify-end z[1000]">
 
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageApproved === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
@@ -1542,8 +1542,8 @@ function AddLoanForm({ state }) {
           <div>
 
             <div
-              className={`active-loan p-2 grid ${paginatedRejectedLoans?.length > 0
-                ? "overflow-y-auto max-h-[210px] lg:max-h-[350px] xs:max-h-[200px] md:max-h-[330px] sm:max-h-[300px] gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
+              className={`active-loan p-2 grid mb-10 ${paginatedRejectedLoans?.length > 0
+                ? "overflow-y-auto max-h-[430px]  gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >
@@ -1646,7 +1646,7 @@ function AddLoanForm({ state }) {
             </div>
             {activeTab === "Rejected loan" && loans?.filter(loan => loan.Loan_Status === 'Reject').length > itemsPerPage && (
 
-              <div className="md:justify-end  fixed bottom-0 left-0 w-full p-2 flex justify-end">
+              <div className="fixed bottom-0 right-0 w-full p-2 bg-white  flex justify-end z[1000]">
                 <button
                   className={`px-4 py-2 mx-2 border rounded ${currentPageRejected === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"
                     }`}
