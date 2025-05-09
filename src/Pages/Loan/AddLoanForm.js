@@ -951,7 +951,7 @@ function AddLoanForm({ state }) {
 
             <div
               className={`active-loan p-2 grid mb-10 ${paginatedActiveLoans?.length > 0
-                ? "overflow-y-auto max-h-[430px]  gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
+                ? "overflow-y-auto max-h-[450px]  gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
                 : "place-items-center"
                 }`}
             >
@@ -1376,7 +1376,7 @@ function AddLoanForm({ state }) {
 
             <div
               className={`active-loan p-2 grid mb-10 ${paginatedApprovedLoans?.length > 0
-                ? "max-h-[430px] overflow-y-auto   gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
+                ? "max-h-[450px] overflow-y-auto   gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
                 : "place-items-center"
                 }`}
             >
@@ -1543,7 +1543,7 @@ function AddLoanForm({ state }) {
 
             <div
               className={`active-loan p-2 grid mb-10 ${paginatedRejectedLoans?.length > 0
-                ? "overflow-y-auto max-h-[430px]  gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
+                ? "overflow-y-auto max-h-[450px]  gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >
