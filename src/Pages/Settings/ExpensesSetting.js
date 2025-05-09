@@ -159,7 +159,10 @@ function ExpensesSetting({ state }) {
     setIsSubCategory(e.target.checked);
     if (!e.target.checked) {
       setSubCategories([]);
+      setSubCategoryError("");
+    dispatch({ type: 'CLEAR_CATEGORY_ERROR' });
     }
+    
   };
 
   if (loading) {

@@ -95,6 +95,7 @@ const ProfileDetails = ({ state }) => {
             ...prev,
             firstName: state.First_Name || "",
             lastName: state.Last_Name || "",
+
             email: state.Email_Id || "",
             mobileNo: state.Mobile_No || "",
         }));
@@ -114,12 +115,7 @@ const ProfileDetails = ({ state }) => {
             tempErrors.firstName = '';
         }
 
-        if (!formData.lastName) {
-            tempErrors.lastName = 'Last name is required';
-            isValid = false;
-        } else {
-            tempErrors.lastName = '';
-        }
+
 
         const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
         if (!formData.email || !emailPattern.test(formData.email)) {
@@ -199,6 +195,7 @@ const ProfileDetails = ({ state }) => {
 
 
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -209,22 +206,24 @@ const ProfileDetails = ({ state }) => {
         const EditPayload = {
             id: state.Id,
             first_name: formData.firstName || state.First_Name,
-            last_name: formData.lastName || state.Last_Name,
+
+            last_name: formData.lastName !== undefined ? formData.lastName : (state.Last_Name ?? ""),
             email_id: formData.email || state.Email_Id,
             mobile_no: formData.mobileNo || state.Mobile_No,
             file: selectedImage || state.Profile,
             profile_URL: state.Profile,
         };
 
-        const noFieldChanged =
-            EditPayload.first_name === state.First_Name &&
-            EditPayload.last_name === state.Last_Name &&
-            EditPayload.email_id === state.Email_Id &&
-            EditPayload.mobile_no === state.Mobile_No &&
 
-            (
-                (state.Profile ? typeof selectedImage !== 'object' : !selectedImage)
-            );
+        const normalize = (value) => (value === undefined || value === null ? "" : value);
+
+        const noFieldChanged =
+            normalize(EditPayload.first_name) === normalize(state.First_Name) &&
+            normalize(EditPayload.last_name) === normalize(state.Last_Name) &&
+            normalize(EditPayload.email_id) === normalize(state.Email_Id) &&
+            normalize(EditPayload.mobile_no) === normalize(state.Mobile_No) &&
+            (state.Profile ? typeof selectedImage !== 'object' : !selectedImage);
+
 
 
         if (noFieldChanged) {
@@ -378,7 +377,9 @@ const ProfileDetails = ({ state }) => {
                 <div className="flex flex-col text-start">
 
                     <p className="font-Gilroy font-semibold text-xl tracking-normal mb-2 whitespace-nowrap">
-                        {state.First_Name + " " + state.Last_Name}
+
+                        {state.First_Name}
+                        {state.Last_Name ? " " + state.Last_Name : ""}
                     </p>
 
                     <p className="font-Gilroy font-medium text-xs tracking-normal text-gray-500">
@@ -448,15 +449,11 @@ const ProfileDetails = ({ state }) => {
                                 type="text"
                                 name="lastName"
                                 value={formData.lastName}
+
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-sm border rounded-xl p-3 w-full max-w-md"
                             />
-                            {errors.lastName && (
-                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
-                                    <MdError className="mr-1" />
-                                    {errors.lastName}
-                                </p>
-                            )}
+
                         </div>
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">Email address</label>
@@ -477,21 +474,26 @@ const ProfileDetails = ({ state }) => {
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">Mobile number</label>
 
-                            <input
-                                type="tel"
-                                name="mobileNo"
-                                value={formData.mobileNo}
-                                onChange={(e) => {
-                                    let value = e.target.value.replace(/\D/g, "");
-                                    if (!value.startsWith("91")) {
-                                        value = "+ 91" + value;
-                                    }
-                                    if (value.length <= 12) {
-                                        handleChange({ target: { name: "mobileNo", value: `+${value}` } });
-                                    }
-                                }}
-                                className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-sm"
-                            />
+                            <div className="flex items-center border rounded-xl p-3 w-full max-w-sm">
+                                <span className="mr-2 text-sm">+91</span>
+                                <input
+                                    type="tel"
+                                    name="mobileNo"
+                                    value={formData.mobileNo}
+                                    onChange={(e) => {
+                                        let value = e.target.value.replace(/\D/g, "");
+                                        if (!value.startsWith("91")) {
+                                            value = "+ 91" + value;
+                                        }
+                                        if (value.length <= 12) {
+                                            handleChange({ target: { name: "mobileNo", value: `+${value}` } });
+                                        }
+                                    }}
+                                    className="outline-none w-full font-Gilroy font-medium text-xs"
+                                />
+                            </div>
+
+
 
 
                             {errors.mobileNo && (
