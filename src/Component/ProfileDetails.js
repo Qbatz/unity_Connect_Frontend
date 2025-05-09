@@ -466,22 +466,26 @@ const ProfileDetails = ({ state }) => {
                         </div>
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">Mobile number</label>
+                            <div className="flex items-center border rounded-xl p-3 w-full max-w-sm">
+                                <span className="mr-2 text-sm">+91</span>
+                                <input
+                                    type="tel"
+                                    name="mobileNo"
+                                    value={formData.mobileNo}
+                                    onChange={(e) => {
+                                        let value = e.target.value.replace(/\D/g, "");
+                                        if (!value.startsWith("91")) {
+                                            value = "+ 91" + value;
+                                        }
+                                        if (value.length <= 12) {
+                                            handleChange({ target: { name: "mobileNo", value: +`${value}` } });
+                                        }
+                                    }}
+                                    className="outline-none w-full font-Gilroy font-medium text-xs"
+                                />
+                            </div>
 
-                            <input
-                                type="tel"
-                                name="mobileNo"
-                                value={formData.mobileNo}
-                                onChange={(e) => {
-                                    let value = e.target.value.replace(/\D/g, "");
-                                    if (!value.startsWith("91")) {
-                                        value = "+ 91" + value;
-                                    }
-                                    if (value.length <= 12) {
-                                        handleChange({ target: { name: "mobileNo", value: `+${value}` } });
-                                    }
-                                }}
-                                className="font-Gilroy font-medium text-xs border rounded-xl p-3 w-full max-w-sm"
-                            />
+
 
 
                             {errors.mobileNo && (
