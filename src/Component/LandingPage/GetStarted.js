@@ -25,7 +25,7 @@ function GetStarted() {
           backgroundImage: `url(${GetStartedBackgroundImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundColor: "black",
+          backgroundColor: "#222222",
         }}
       >
 

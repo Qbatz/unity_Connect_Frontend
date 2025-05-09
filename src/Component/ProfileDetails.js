@@ -114,12 +114,7 @@ const ProfileDetails = ({ state }) => {
             tempErrors.firstName = '';
         }
 
-        if (!formData.lastName) {
-            tempErrors.lastName = 'Last name is required';
-            isValid = false;
-        } else {
-            tempErrors.lastName = '';
-        }
+
 
         const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
         if (!formData.email || !emailPattern.test(formData.email)) {
@@ -209,22 +204,21 @@ const ProfileDetails = ({ state }) => {
         const EditPayload = {
             id: state.Id,
             first_name: formData.firstName || state.First_Name,
-            last_name: formData.lastName || state.Last_Name,
+            last_name: formData.lastName !== undefined ? formData.lastName : (state.Last_Name ?? ""),
             email_id: formData.email || state.Email_Id,
             mobile_no: formData.mobileNo || state.Mobile_No,
             file: selectedImage || state.Profile,
             profile_URL: state.Profile,
         };
 
-        const noFieldChanged =
-            EditPayload.first_name === state.First_Name &&
-            EditPayload.last_name === state.Last_Name &&
-            EditPayload.email_id === state.Email_Id &&
-            EditPayload.mobile_no === state.Mobile_No &&
+        const normalize = (value) => (value === undefined || value === null ? "" : value);
 
-            (
-                (state.Profile ? typeof selectedImage !== 'object' : !selectedImage)
-            );
+        const noFieldChanged =
+            normalize(EditPayload.first_name) === normalize(state.First_Name) &&
+            normalize(EditPayload.last_name) === normalize(state.Last_Name) &&
+            normalize(EditPayload.email_id) === normalize(state.Email_Id) &&
+            normalize(EditPayload.mobile_no) === normalize(state.Mobile_No) &&
+            (state.Profile ? typeof selectedImage !== 'object' : !selectedImage);
 
 
         if (noFieldChanged) {
@@ -378,7 +372,8 @@ const ProfileDetails = ({ state }) => {
                 <div className="flex flex-col text-start">
 
                     <p className="font-Gilroy font-semibold text-xl tracking-normal mb-2 whitespace-nowrap">
-                        {state.First_Name + " " + state.Last_Name}
+                        {state.First_Name}
+                        {state.Last_Name ? " " + state.Last_Name : ""}
                     </p>
 
                     <p className="font-Gilroy font-medium text-xs tracking-normal text-gray-500">
@@ -451,12 +446,7 @@ const ProfileDetails = ({ state }) => {
                                 onChange={handleChange}
                                 className="font-Gilroy font-medium text-sm border rounded-xl p-3 w-full max-w-md"
                             />
-                            {errors.lastName && (
-                                <p className="text-red-500 text-xs flex items-center font-Gilroy mt-1">
-                                    <MdError className="mr-1" />
-                                    {errors.lastName}
-                                </p>
-                            )}
+
                         </div>
                         <div>
                             <label className="block font-Gilroy text-sm mb-2">Email address</label>

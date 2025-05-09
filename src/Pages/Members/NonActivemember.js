@@ -209,7 +209,7 @@ function NonActiveMember({ state, loading, setLoading }) {
         ) : (
           <>
 
-            <div className=" max-h-[220px] lg:max-h-[320px] xs:max-h-[200px]   md:max-h-[320px] sm:max-h-[300px] overflow-y-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+            <div className=" max-h-[430px] overflow-y-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 pt-4 mb-8">
               {paginatedData?.map((member, index) => (
                 <div key={index} className="member-card bg-blue-50 p-4 rounded-3xl shadow-sm relative">
 
@@ -446,7 +446,7 @@ function NonActiveMember({ state, loading, setLoading }) {
 
 
             {NonactiveMemberData.length > itemsPerPage && (
-              <div className="fixed bottom-0 left-0 w-full p-2 flex justify-end">
+              <div className="fixed bottom-0 right-0 w-full p-2 bg-white  flex justify-end z[1000]">
                 <button
                   className={`px-4 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-blue-100 text-black"}`}
                   onClick={() => setCurrentPage(currentPage - 1)}
