@@ -207,14 +207,14 @@ function MemberStatements({ state, member }) {
     <div className=" ">
       <div className="flex justify-between items-center mb-3">
 
-        <h2 className="text-base sm:text-lg md:text-2xl font-semibold font-Gilroy mb-4">
+        <h2 className="text-base sm:text-lg md:text-2xl font-semibold font-Gilroy mb-4 mt-3">
           Loan Statements
           {selectedStatement && (
             <span className="text-[#8338EC] text-xl font-Gilroy font-semibold"> : Loan - {selectedStatement.loanId}</span>
           )}
         </h2>
         {selectedStatement && (
-          <button onClick={handleBackToStatements} className="mb-4 text-blue-500 font-Gilroy text-xl">
+          <button onClick={handleBackToStatements} className="mb-4 text-blue-500 font-Gilroy text-xl mt-3">
             ← Back
           </button>
         )}
