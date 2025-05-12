@@ -3,7 +3,7 @@ import img1 from "../../Asset/Images/Memberone.svg";
 import Overview from "./Overview";
 import PropTypes from 'prop-types';
 import CommentSection from "./Comments";
-import Transactions from "../Members/Transactions";
+
 
 import LoanStatements from "./MemberStatement"
 
@@ -41,7 +41,7 @@ function MemberDetails({ member, onBack }) {
         </div>
 
         <div className="flex flex-wrap gap-4 w-full mt-4">
-          {["Overview", "Comments", "Transactions", "Statements"].map((tab) => (
+          {["Overview", "Comments", "Statements"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -60,7 +60,7 @@ function MemberDetails({ member, onBack }) {
         <div className="">
           {activeTab === "Overview" && <Overview member={member} />}
           {activeTab === "Comments" && <CommentSection member={member} />}
-          {activeTab === "Transactions" && <Transactions member={member} />}
+
           {activeTab === "Statements" && <LoanStatements member={member} />}
         </div>
       </div>

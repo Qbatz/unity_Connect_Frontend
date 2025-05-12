@@ -12,7 +12,11 @@ import { FaAngleDown } from "react-icons/fa6";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+
+
 function MemberStatements({ state, member }) {
+
+
 
 
 
@@ -41,7 +45,7 @@ function MemberStatements({ state, member }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const paginatedData = Statement.slice(indexOfFirstItem, indexOfLastItem);
 
-
+  const [showTransactionDetails, setShowTransactionDetails] = useState(false);
 
 
 
@@ -173,7 +177,15 @@ function MemberStatements({ state, member }) {
     setErrors({});
   };
 
+  const handleLoanIdClick = (item) => {
+    setSelectedStatement(item);
+    setShowTransactionDetails(true);
+  };
 
+  const handleBackToStatements = () => {
+    setShowTransactionDetails(false);
+    setSelectedStatement(null);
+  };
 
 
 
@@ -194,100 +206,208 @@ function MemberStatements({ state, member }) {
   return (
     <div className=" ">
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-base sm:text-lg md:text-2xl  font-semibold font-Gilroy">Loan Statements</h2>
 
+        <h2 className="text-base sm:text-lg md:text-2xl font-semibold font-Gilroy mb-4">
+          Loan Statements
+          {selectedStatement && (
+            <span className="text-[#8338EC] text-xl font-Gilroy font-semibold"> : Loan - {selectedStatement.loanId}</span>
+          )}
+        </h2>
+        {selectedStatement && (
+          <button onClick={handleBackToStatements} className="mb-4 text-blue-500 font-Gilroy text-xl">
+            ← Back
+          </button>
+        )}
       </div>
-      <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden">
+      {selectedStatement && (
+        <div className=" rounded-xl overflow-hidden">
+          <div className="flex flex-col md:flex-row justify-between gap-4">
 
-        <div className="w-full overflow-x-auto max-h-[320px] max-[453px]:max-h-[120px]">
-          <table className="min-w-[640px] w-full text-left border-collapse">
-            <thead className="sticky top-0 bg-[#F4F7FF] z-10 border-b border-gray-300">
-              <tr className="text-[#939393] font-light text-sm font-Gilroy">
-                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Serial Number</th>
-                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Due Date</th>
-                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Loan Amount</th>
+            <div className="flex-1 border rounded-2xl shadow bg-white p-6">
+              <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 text-sm text-gray-800">
+                <div>
+                  <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Total Loan Amount</p>
+                  <p className="font-semibold text-base font-Gilroy">₹2,00,000</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Interest %</p>
+                  <p className="font-semibold text-base font-Gilroy">7.5% /yr</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Total Paid amount</p>
+                  <p className="font-semibold text-base font-Gilroy">₹1,15,000</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Loan Status</p>
+                  <p className="font-semibold text-base text-green-600 font-Gilroy">Active</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">EMIs Paid / Total EMIs</p>
+                  <p className="font-semibold text-base font-Gilroy">12 / 24</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Type</p>
+                  <p className="font-semibold text-base font-Gilroy">Monthly</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Next EMI Due Date</p>
+                  <p className="font-semibold text-base font-Gilroy">10 June 2025</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Monthly EMI</p>
+                  <p className="font-semibold text-base font-Gilroy">₹1,15,000</p>
+                </div>
+              </div>
+            </div>
 
-                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Interest Amount</th>
-                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Pending</th>
-                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Paid Amount</th>
-                <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Status</th>
-                <th className="px-4 py-2 font-Gilroy font-normal"></th>
 
-              </tr>
-            </thead>
+            <div className="w-full md:w-1/3 border rounded-2xl shadow bg-white p-6 flex flex-col items-center justify-center">
+              <p className="text-purple-600 font-medium font-Gilroy">Remaining Balance</p>
+              <p className="text-black font-semibold text-2xl mt-1 font-Gilroy">₹85,000.00</p>
+            </div>
+          </div>
 
-            <tbody>
-              {paginatedData?.map((item, index) => (
+        </div>
+      )}
+      <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden mt-2">
+        <div className="w-full overflow-x-auto max-h-[320px] max-[453px]:max-h-[120px] ">
+          {!showTransactionDetails ? (
+            <table className="min-w-[640px] w-full text-left border-collapse">
+              <thead className="sticky top-0 bg-[#F4F7FF] z-10 border-b border-gray-300">
+                <tr className="text-[#939393] font-light text-sm font-Gilroy">
+                  <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Serial Number</th>
+                  <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Loan ID</th>
+                  <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Due Date</th>
+                  <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Loan Amount</th>
+                  <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Interest Amount</th>
+                  <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Pending</th>
+                  <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Paid Amount</th>
+                  <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Status</th>
+                  <th className="px-4 py-2 font-Gilroy font-normal"></th>
 
-                <tr key={index}>
-
-
-                  <td className="p-2 pl-4 text-sm font-Gilroy text-center">
-                    {(currentPage - 1) * itemsPerPage + index + 1}
-                  </td>
-
-
-
-                  <td className="p-0 text-sm">
-                    <span className="inline-block bg-gray-200 text-gray-700 px-2 py-1 sm:px-3 sm:py-2 rounded-full text-xs sm:text-sm font-Gilroy whitespace-nowrap">
-                      {moment(item.Due_Date).format("DD MMM YYYY")}
-                    </span>
-                  </td>
-                  <td className="px-4 py-2 font-Gilroy">{item.Princ_Amount}</td>
-
-
-                  <td className="px-4 py-2 font-Gilroy">{item.Intrest_Amount}</td>
-                  <td className="px-4 py-2 font-Gilroy">{item.Outstanding_Amount === null ? 0 : item.Outstanding_Amount}</td>
-                  <td className="px-4 py-2 font-Gilroy">{item.Last_Paid_Amount === null ? 0 : item.Last_Paid_Amount}</td>
-                  <td className="px-4 py-2 font-Gilroy">
-                    <span
-                      className={`px-3 py-1 text-sm rounded-full font-Gilroy ${item.Status === "Paid"
-                        ? "bg-green-200 text-green-700"
-                        : "bg-red-200 text-red-700"
-                        }`}
-                    >
-                      {item.Status}
-                    </span>
-                  </td>
-
-                  <td className="px-4 py-2 relative">
-                    <button
-
-                      className={`cursor-pointer h-9 w-9 border border-gray-300 rounded-full flex justify-center items-center 
-      bg-white ${showOptions === index ? "!bg-blue-100" : ""}`}
-                      onClick={() => {
-                        setShowOptions(showOptions === index ? null : index);
-                        setSelectedStatement(item);
-                      }}
-                    >
-                      <PiDotsThreeOutlineVerticalFill size={20} />
-                    </button>
-
-                    {showOptions === index && (
-                      <div
-                        ref={popupRef}
-                        className="absolute right-20 top-2 bg-white w-[180px] border border-gray-200 rounded-lg shadow-lg z-10"
-                      >
-                        <button
-                          className="flex items-center gap-2 w-full px-2 py-2 font-Gilroy border-b border-gray-200"
-                          onClick={() => {
-                            setIsModalOpen(true);
-                            setPaidAmount('');
-                          }}
-                        >
-                          <img src={RecordPaymentIcon} alt="Record Payment" className="h-4 w-4" />
-                          Record Payment
-                        </button>
-                      </div>
-                    )}
-                  </td>
                 </tr>
-              ))}
-            </tbody>
+              </thead>
+
+              <tbody>
+                {paginatedData?.map((item, index) => (
+
+                  <tr key={index}>
+
+
+                    <td className="p-2 pl-4 text-sm font-Gilroy text-center">
+                      {(currentPage - 1) * itemsPerPage + index + 1}
+                    </td>
+
+                    <td className="px-4 py-2 font-Gilroy"
+                      onClick={() => handleLoanIdClick(item)}
+                    >
+                      {item.Loan_Id}
+                    </td>
+
+                    <td className="p-0 text-sm">
+                      <span className="inline-block bg-gray-200 text-gray-700 px-2 py-1 sm:px-3 sm:py-2 rounded-full text-xs sm:text-sm font-Gilroy whitespace-nowrap">
+                        {moment(item.Due_Date).format("DD MMM YYYY")}
+                      </span>
+                    </td>
+
+                    <td className="px-4 py-2 font-Gilroy">{item.Princ_Amount}</td>
+
+
+                    <td className="px-4 py-2 font-Gilroy">{item.Intrest_Amount}</td>
+                    <td className="px-4 py-2 font-Gilroy">{item.Outstanding_Amount === null ? 0 : item.Outstanding_Amount}</td>
+                    <td className="px-4 py-2 font-Gilroy">{item.Last_Paid_Amount === null ? 0 : item.Last_Paid_Amount}</td>
+                    <td className="px-4 py-2 font-Gilroy">
+                      <span
+                        className={`px-3 py-1 text-sm rounded-full font-Gilroy ${item.Status === "Paid"
+                          ? "bg-green-200 text-green-700"
+                          : "bg-red-200 text-red-700"
+                          }`}
+                      >
+                        {item.Status}
+                      </span>
+                    </td>
+
+                    <td className="px-4 py-2 relative">
+                      <button
+
+                        className={`cursor-pointer h-9 w-9 border border-gray-300 rounded-full flex justify-center items-center 
+      bg-white ${showOptions === index ? "!bg-blue-100" : ""}`}
+                        onClick={() => {
+                          setShowOptions(showOptions === index ? null : index);
+                          setSelectedStatement(item);
+                        }}
+                      >
+                        <PiDotsThreeOutlineVerticalFill size={20} />
+                      </button>
+
+                      {showOptions === index && (
+                        <div
+                          ref={popupRef}
+                          className="absolute right-20 top-2 bg-white w-[180px] border border-gray-200 rounded-lg shadow-lg z-10"
+                        >
+                          <button
+                            className="flex items-center gap-2 w-full px-2 py-2 font-Gilroy border-b border-gray-200"
+                            onClick={() => {
+                              setIsModalOpen(true);
+                              setPaidAmount('');
+                            }}
+                          >
+                            <img src={RecordPaymentIcon} alt="Record Payment" className="h-4 w-4" />
+                            Record Payment
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
 
 
 
-          </table>
+            </table>
+          ) : (
+            <>
+
+
+
+
+              {selectedStatement && (
+                <>
+
+                  <table className="min-w-[640px] w-full text-left border-collapse">
+                    <thead className="sticky top-0 bg-[#F4F7FF] z-10 border-b border-gray-300">
+                      <tr className="text-[#939393] font-light text-sm font-Gilroy">
+                        <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Transactions</th>
+                        <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Date & Time</th>
+                        <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Pay mode</th>
+                        <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Transaction ID</th>
+                        <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Amount</th>
+                        <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedStatement?.transactions?.map((transaction) => (
+                        <tr key={transaction.id}>
+                          <td className="px-4 py-2 font-Gilroy">{transaction.type}</td>
+                          <td className="px-4 py-2 font-Gilroy">{moment(transaction.dateTime).format("DD MMM YYYY, h:mm A")}</td>
+                          <td className="px-4 py-2 font-Gilroy">{transaction.payMode}</td>
+                          <td className="px-4 py-2 font-Gilroy">{transaction.transactionId}</td>
+                          <td className="px-4 py-2 font-Gilroy">{transaction.amount >= 0 ? `+₹${transaction.amount}` : `-₹${Math.abs(transaction.amount)}`}</td>
+                          <td className="px-4 py-2 font-Gilroy">{transaction.status}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </>
+              )}
+
+
+            </>
+          )}
+
+
+
+
         </div>
 
       </div>
@@ -420,6 +540,8 @@ function MemberStatements({ state, member }) {
           </button>
         </div>
       )}
+
+
     </div>
   );
 };
