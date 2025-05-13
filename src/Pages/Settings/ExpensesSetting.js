@@ -333,7 +333,7 @@ function ExpensesSetting({ state }) {
       )}
 
 
-      <div className="max-h-[280px] max-[639px]:max-h-[190px] overflow-y-auto mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="max-h-[500px] overflow-y-auto mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentExpenses && currentExpenses.length > 0 ? (
           currentExpenses.map((category, index) => (
             <div
@@ -389,7 +389,7 @@ function ExpensesSetting({ state }) {
 
 
       {expensesetting.length > itemsPerPage && (
-        <div className="fixed bottom-0 left-0 w-full p-4 flex justify-end">
+        <div className="fixed bottom-0 right-0 w-full p-2 bg-white  flex justify-end z[1000]">
 
 
           <button

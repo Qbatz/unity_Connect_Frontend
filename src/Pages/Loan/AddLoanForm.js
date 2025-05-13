@@ -784,38 +784,38 @@ function AddLoanForm({ state }) {
           </div>
 
         </div>
+        <div className="w-full overflow-x-auto sm:overflow-visible">
+          <div
+            data-testid="Loans-tab"
+            className="mt-5 px-4 sm:px-5 flex flex-row sm:flex-row whitespace-nowrap sm:whitespace-normal gap-4 sm:gap-10"
+          >
+            {["Active loan", "Approved loan", "Rejected loan"].map((tab, index) => (
+              <button
+                data-testid={`button-tab-${index}`}
+                key={tab}
 
-        <div
-          data-testid="Loans-tab"
-          className="mt-5 px-4 sm:px-5 flex flex-col sm:flex-row overflow-x-auto sm:overflow-visible whitespace-nowrap sm:whitespace-normal gap-4 sm:gap-10"
-        >
-          {["Active loan", "Approved loan", "Rejected loan"].map((tab, index) => (
-            <button
-              data-testid={`button-tab-${index}`}
-              key={tab}
-
-              onClick={() => {
-                setActiveTab(tab);
-                if (tab === "Approved loan") {
-                  setCurrentPageApproved(1);
-                } else if (tab === "Active loan") {
-                  setCurrentPageActive(1);
-                } else if (tab === "Rejected loan") {
-                  setCurrentPageRejected(1);
-                }
-              }}
-              className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative ${activeTab === tab ? "text-black font-medium" : "text-[#939393]"
-                }`}
-            >
-              {tab}
-              <span
-                className={`absolute left-1/2 bottom-0 h-[2px] w-[100px] sm:w-[130px] transform -translate-x-1/2 transition-all ${activeTab === tab ? "bg-black" : "bg-transparent"
+                onClick={() => {
+                  setActiveTab(tab);
+                  if (tab === "Approved loan") {
+                    setCurrentPageApproved(1);
+                  } else if (tab === "Active loan") {
+                    setCurrentPageActive(1);
+                  } else if (tab === "Rejected loan") {
+                    setCurrentPageRejected(1);
+                  }
+                }}
+                className={`pb-2 text-[16px] font-base font-Gilroy transition-all relative ${activeTab === tab ? "text-black font-medium" : "text-[#939393]"
                   }`}
-              ></span>
-            </button>
-          ))}
+              >
+                {tab}
+                <span
+                  className={`absolute left-1/2 bottom-0 h-[2px] w-[100px] sm:w-[130px] transform -translate-x-1/2 transition-all ${activeTab === tab ? "bg-black" : "bg-transparent"
+                    }`}
+                ></span>
+              </button>
+            ))}
+          </div>
         </div>
-
 
         {isModalOpen && (
 
@@ -951,7 +951,7 @@ function AddLoanForm({ state }) {
 
             <div
               className={`active-loan p-2 grid mb-10 ${paginatedActiveLoans?.length > 0
-                ? "overflow-y-auto max-h-[450px]  gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
+                ? "overflow-y-auto max-h-[440px]  gap-6 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
                 : "place-items-center"
                 }`}
             >
@@ -1376,7 +1376,7 @@ function AddLoanForm({ state }) {
 
             <div
               className={`active-loan p-2 grid mb-10 ${paginatedApprovedLoans?.length > 0
-                ? "max-h-[450px] overflow-y-auto   gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
+                ? "max-h-[440px] overflow-y-auto   gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 "
                 : "place-items-center"
                 }`}
             >
@@ -1543,7 +1543,7 @@ function AddLoanForm({ state }) {
 
             <div
               className={`active-loan p-2 grid mb-10 ${paginatedRejectedLoans?.length > 0
-                ? "overflow-y-auto max-h-[450px]  gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
+                ? "overflow-y-auto max-h-[440px]  gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
                 : "place-items-center"
                 }`}
             >

@@ -293,9 +293,9 @@ function LoanSetting({ state }) {
 
       {isModalOpen && (
 
-       
+
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-2 sm:px-4">
-  <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-lg max-h-[98vh] my-6 flex flex-col">
+          <div className="bg-white p-4 rounded-2xl shadow-lg w-full max-w-lg max-h-[98vh] my-6 flex flex-col">
 
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold font-Gilroy">Add new loan</h2>
@@ -576,7 +576,7 @@ function LoanSetting({ state }) {
                     dateFormat="dd-MM-yyyy"
                     placeholderText="Select a date"
                     className="cursor-pointer w-full h-[60px] mt-4 border border-[#D9D9D9] rounded-2xl p-4 text-black text-base font-Gilroy font-medium"
-                   wrapperClassName="w-full"
+                    wrapperClassName="w-full"
                   />
 
                   <div
@@ -650,8 +650,8 @@ function LoanSetting({ state }) {
 
       )}
 
-
-      <div className="max-h-[280px] max-[474px]:max-h-[220px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 ">
+      
+        <div className="max-h-[500px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 ">
         {currentLoans && currentLoans.length > 0 ? (
           currentLoans.map((loan, index) => (
             <div key={index} className="w-full h-[220px] bg-[#F4F7FF] flex flex-col rounded-3xl p-4">
@@ -719,7 +719,7 @@ function LoanSetting({ state }) {
       </div>
 
       {allLoans.length > itemsPerPage && (
-        <div className="fixed bottom-2 right-4">
+        <div className="fixed bottom-0 right-0 w-full p-2 bg-white  flex justify-end z[1000]">
           <button
             className={`px-4 py-2 mx-2 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "bg-[#F4F7FF] text-black"}`}
             onClick={() => setCurrentPage(currentPage - 1)}
