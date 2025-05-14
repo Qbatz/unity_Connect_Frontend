@@ -30,59 +30,70 @@ function ExpensesSetting({ state }) {
   const [loading, setLoading] = useState(true);
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  
+const handleSubmit = (e) => {
+  e.preventDefault(); 
+
+  const trimmedCategoryName = categoryName.trim();
+  const trimmedSubCategoryName = subCategoryName.trim();
 
 
-    let updatedSubCategories = [...subCategories];
-    if (isSubCategory && subCategoryName.trim()) {
-      updatedSubCategories.push(subCategoryName.trim());
-    }
+  let updatedSubCategories = [...subCategories];
 
 
-    if (!categoryName && !isSubCategory) {
-      setCategoryError("Please add a category name");
-      return;
-    }
+  if (isSubCategory && trimmedSubCategoryName) {
+    updatedSubCategories.push(trimmedSubCategoryName);
+  }
+
+ 
+  if (!trimmedCategoryName) {
+    setCategoryError("Please add a category name");
+  } else {
+    setCategoryError(""); 
+  }
 
 
-    if (isSubCategory && updatedSubCategories.length === 0) {
-      setSubCategoryError("Please add at least one sub-category");
-      return;
-    }
-
-
-    const categoryExists = expensesetting.some(
-      (category) => category.category_Name.toLowerCase() === categoryName.toLowerCase()
-    );
-
-    if (categoryExists) {
-      setErrorMessage("Category name already exists");
-      return;
-    }
-
-
-    setCategoryError("");
+  if (isSubCategory && updatedSubCategories.length === 0) {
+    setSubCategoryError("Please add at least one sub-category");
+  } else {
     setSubCategoryError("");
+  }
+
+
+  if (!trimmedCategoryName || (isSubCategory && updatedSubCategories.length === 0)) {
+    return;
+  }
+
+
+  const categoryExists = expensesetting.some(
+    (category) =>
+      category.category_Name.toLowerCase() === trimmedCategoryName.toLowerCase()
+  );
+
+  if (categoryExists) {
+    setErrorMessage("Category name already exists");
+    return;
+  } else {
     setErrorMessage("");
+  }
 
-
-    const payload = {
-      category_Name: categoryName,
-      sub_Category: updatedSubCategories,
-    };
-
-
-    dispatch({
-      type: "SETTING_ADD_EXPENSES",
-      payload: payload,
-    });
-
-
-
-    setSubCategories([]);
-
+ 
+  const payload = {
+    category_Name: trimmedCategoryName,
+    sub_Category: updatedSubCategories,
   };
+
+
+  dispatch({
+    type: "SETTING_ADD_EXPENSES",
+    payload: payload,
+  });
+
+  setCategoryName("");
+  setSubCategoryName("");
+  setSubCategories([]);
+  setIsSubCategory(false);
+};
 
   useEffect(() => {
     if (statusCode === 200) {
@@ -280,6 +291,7 @@ function ExpensesSetting({ state }) {
                     onChange={(e) => {
 
                       setSubCategoryName(e.target.value);
+                      setSubCategoryError("")
                       dispatch({ type: 'CLEAR_CATEGORY_ERROR' })
                     }}
                     className="w-full h-60 border border-[#D9D9D9] rounded-2xl p-4 mt-3 text-base placeholder:text-gray-400 focus:outline-none focus:border-[#D9D9D9]"

@@ -342,11 +342,13 @@ function* handleGetTransactions(action) {
 
     const response = yield call(GetTransactionsAction, action.payload);
 
+
+
     if (response.statusCode === 200 || response.status === 200) {
 
         yield put({
             type: 'GET_TRANSACTIONS_LIST',
-            payload: { response: response.data, statusCode: response.statusCode || response.status },
+            payload: { response: response.data.response, statusCode: response.statusCode || response.status },
         });
 
     } else if (response.status === 201 || response.statusCode === 201) {
