@@ -8,7 +8,7 @@ import { MdError } from "react-icons/md";
 import moment from "moment";
 import { CalendarDays } from "lucide-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { FaAngleDown } from "react-icons/fa6";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -20,11 +20,14 @@ function MemberStatements({ state, member }) {
 
 
 
+
   const dispatch = useDispatch();
   const popupRef = useRef(null);
 
   const Statement = state.Member.getStatement;
-
+  const loanDetails = state?.Member?.GetTransactionsList?.loan_details || []
+  
+  const result = state.Member.GetTransactionsList.result
 
   const [showOptions, setShowOptions] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +37,7 @@ function MemberStatements({ state, member }) {
   const [status, setStatus] = useState('');
   const [errors, setErrors] = useState({});
   const [selectedStatement, setSelectedStatement] = useState();
-
+  const [SelectedLoan, setSelectedLoan] = useState();
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,6 +73,7 @@ function MemberStatements({ state, member }) {
       });
     }
   }, [member?.Id]);
+
 
   useEffect(() => {
     if (state.Member.statusCodeForRecordPayment === 200) {
@@ -140,7 +144,7 @@ function MemberStatements({ state, member }) {
 
     const newErrors = {};
     if (!paidAmount) newErrors.paidAmount = "Paid amount is required";
-    if (!status) newErrors.status = "Status is required";
+
 
     setErrors(newErrors);
 
@@ -178,13 +182,19 @@ function MemberStatements({ state, member }) {
   };
 
   const handleLoanIdClick = (item) => {
-    setSelectedStatement(item);
+
+
+    setSelectedLoan(item);
     setShowTransactionDetails(true);
+    dispatch({
+      type: "GETTRANSACTIONSLIST",
+      payload: { member_id: item.Member_Id, loan_id: item.Loan_Id },
+    });
   };
 
   const handleBackToStatements = () => {
     setShowTransactionDetails(false);
-    setSelectedStatement(null);
+    setSelectedLoan(null);
   };
 
 
@@ -209,17 +219,17 @@ function MemberStatements({ state, member }) {
 
         <h2 className="text-base sm:text-lg md:text-2xl font-semibold font-Gilroy mb-4 mt-3">
           Loan Statements
-          {selectedStatement && (
-            <span className="text-[#8338EC] text-xl font-Gilroy font-semibold"> : Loan - {selectedStatement.loanId}</span>
+          {SelectedLoan && (
+            <span className="text-[#8338EC] text-xl font-Gilroy font-semibold"> : Loan - {SelectedLoan.Loan_ID}</span>
           )}
         </h2>
-        {selectedStatement && (
+        {SelectedLoan && (
           <button onClick={handleBackToStatements} className="mb-4 text-blue-500 font-Gilroy text-xl mt-3">
             ← Back
           </button>
         )}
       </div>
-      {selectedStatement && (
+      {SelectedLoan && (
         <div className=" rounded-xl overflow-hidden">
           <div className="flex flex-col md:flex-row justify-between gap-4">
 
@@ -227,35 +237,35 @@ function MemberStatements({ state, member }) {
               <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 text-sm text-gray-800">
                 <div>
                   <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Total Loan Amount</p>
-                  <p className="font-semibold text-base font-Gilroy">₹2,00,000</p>
+                  <p className="font-semibold text-base font-Gilroy">{loanDetails.Total_Amount}</p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Interest %</p>
-                  <p className="font-semibold text-base font-Gilroy">7.5% /yr</p>
+                  <p className="font-semibold text-base font-Gilroy">{loanDetails.Interest}</p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Total Paid amount</p>
-                  <p className="font-semibold text-base font-Gilroy">₹1,15,000</p>
+                  <p className="font-semibold text-base font-Gilroy">{loanDetails.total_Paid_Amount}</p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Loan Status</p>
-                  <p className="font-semibold text-base text-green-600 font-Gilroy">Active</p>
+                  <p className="font-semibold text-base text-green-600 font-Gilroy">{loanDetails.Loan_Status}</p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">EMIs Paid / Total EMIs</p>
-                  <p className="font-semibold text-base font-Gilroy">12 / 24</p>
+                  <p className="font-semibold text-base font-Gilroy">{loanDetails.EMI_Paid_Due_Count} / {loanDetails.Due_Count}</p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Type</p>
-                  <p className="font-semibold text-base font-Gilroy">Monthly</p>
+                  <p className="font-semibold text-base font-Gilroy">{loanDetails.Due_Type}</p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Next EMI Due Date</p>
-                  <p className="font-semibold text-base font-Gilroy">10 June 2025</p>
+                  <p className="font-semibold text-base font-Gilroy">{loanDetails.next_due_date}</p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Monthly EMI</p>
-                  <p className="font-semibold text-base font-Gilroy">₹1,15,000</p>
+                  <p className="font-semibold text-base font-Gilroy">{loanDetails.Due_Amount}</p>
                 </div>
               </div>
             </div>
@@ -263,7 +273,7 @@ function MemberStatements({ state, member }) {
 
             <div className="w-full md:w-1/3 border rounded-2xl shadow bg-white p-6 flex flex-col items-center justify-center">
               <p className="text-purple-600 font-medium font-Gilroy">Remaining Balance</p>
-              <p className="text-black font-semibold text-2xl mt-1 font-Gilroy">₹85,000.00</p>
+              <p className="text-black font-semibold text-2xl mt-1 font-Gilroy">{loanDetails.Remaining_Amount}</p>
             </div>
           </div>
 
@@ -298,11 +308,27 @@ function MemberStatements({ state, member }) {
                       {(currentPage - 1) * itemsPerPage + index + 1}
                     </td>
 
-                    <td className="px-4 py-2 font-Gilroy"
-                      onClick={() => handleLoanIdClick(item)}
-                    >
-                      {item.Loan_Id}
+
+                    <td className="p-0 text-sm font-Gilroy">
+                      {/* <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLoanIdClick(item);
+                        }}
+                        className="text-blue-600 hover:underline"
+                      >
+                        {item.Loan_ID}
+                      </a> */}
+                      <button
+  onClick={() => handleLoanIdClick(item)}
+  className="text-blue-600 hover:underline focus:outline-none bg-transparent p-0 m-0"
+>
+  {item.Loan_ID}
+</button>
+
                     </td>
+
 
                     <td className="p-0 text-sm">
                       <span className="inline-block bg-gray-200 text-gray-700 px-2 py-1 sm:px-3 sm:py-2 rounded-full text-xs sm:text-sm font-Gilroy whitespace-nowrap">
@@ -325,7 +351,10 @@ function MemberStatements({ state, member }) {
                       >
                         {item.Status}
                       </span>
+
+
                     </td>
+
 
                     <td className="px-4 py-2 relative">
                       <button
@@ -371,13 +400,13 @@ function MemberStatements({ state, member }) {
 
 
 
-              {selectedStatement && (
+              {SelectedLoan && (
                 <>
 
                   <table className="min-w-[640px] w-full text-left border-collapse">
                     <thead className="sticky top-0 bg-[#F4F7FF] z-10 border-b border-gray-300">
                       <tr className="text-[#939393] font-light text-sm font-Gilroy">
-                        <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Transactions</th>
+
                         <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Date & Time</th>
                         <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Pay mode</th>
                         <th className="px-4 py-2 font-Gilroy font-normal  whitespace-nowrap">Transaction ID</th>
@@ -386,14 +415,20 @@ function MemberStatements({ state, member }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {selectedStatement?.transactions?.map((transaction) => (
+                      {result?.map((transaction) => (
                         <tr key={transaction.id}>
-                          <td className="px-4 py-2 font-Gilroy">{transaction.type}</td>
-                          <td className="px-4 py-2 font-Gilroy">{moment(transaction.dateTime).format("DD MMM YYYY, h:mm A")}</td>
-                          <td className="px-4 py-2 font-Gilroy">{transaction.payMode}</td>
-                          <td className="px-4 py-2 font-Gilroy">{transaction.transactionId}</td>
-                          <td className="px-4 py-2 font-Gilroy">{transaction.amount >= 0 ? `+₹${transaction.amount}` : `-₹${Math.abs(transaction.amount)}`}</td>
-                          <td className="px-4 py-2 font-Gilroy">{transaction.status}</td>
+
+                          <td className="px-4 py-2 font-Gilroy">{moment(transaction.Transaction_Date).format("DD MMM YYYY, h:mm A")}</td>
+                          <td className="px-4 py-2 font-Gilroy">Cash</td>
+                          <td className="px-4 py-2 font-Gilroy">{transaction.Transaction_Id}</td>
+                          <td className="px-4 py-2 font-Gilroy">{transaction.Amount}</td>
+
+                          <td className="p-2">
+                            <span className={`px-3 py-1.5 rounded-full text-black font-Gilroy ${transaction.Status === "Paid" ? "bg-emerald-100 px-6" : "bg-red-100"}`}>
+                              {transaction.Status}
+                            </span>
+                          </td>
+
                         </tr>
                       ))}
                     </tbody>
@@ -481,29 +516,7 @@ function MemberStatements({ state, member }) {
                   )}
                 </div>
 
-                <div className="md:col-span-2">
-                  <label className="text-sm font-semibold">Status</label>
-                  <div className="relative">
-                    <select
-                      value={status}
-                      onChange={(e) => handleInputChange("status", e.target.value)}
-                      className="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none appearance-none cursor-pointer"
-                    >
-                      <option value="">Select status</option>
-                      <option value="Paid">Paid</option>
-                      <option value="Unpaid">Unpaid</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                      <FaAngleDown size={15} />
-                    </div>
-                  </div>
-                  {errors.status && (
-                    <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">
-                      <MdError className="mr-1 text-xs" />
-                      {errors.status}
-                    </div>
-                  )}
-                </div>
+
               </div>
               <button
                 type="submit"

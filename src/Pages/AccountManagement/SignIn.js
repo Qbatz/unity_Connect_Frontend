@@ -57,9 +57,8 @@ const SignIn = ({ state }) => {
     }
   }, [email, password, dispatch]);
 
-  const validateForm = () => {
 
-    dispatch({ type: 'SIGNININFO', payload: { email_Id: email, password: password } });
+  const validateForm = () => {
     let formErrors = {};
 
     if (!email) {
@@ -75,10 +74,21 @@ const SignIn = ({ state }) => {
     }
 
     setErrors(formErrors);
-    return Object.keys(formErrors).length === 0;
 
+    const isValid = Object.keys(formErrors).length === 0;
+
+    if (isValid) {
+      dispatch({
+        type: 'SIGNININFO',
+        payload: {
+          email_Id: email,
+          password: password,
+        },
+      });
+    }
+
+    return isValid;
   };
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value.trim().toLowerCase());
     setErrors((prev) => ({ ...prev, email: "" }));
@@ -134,8 +144,8 @@ const SignIn = ({ state }) => {
           />
           <div data-testid='error-email'>
             {errors.email && (
-              <p data-testid='label-error-email' className="text-red-500 text-sm font-medium mb-4 flex items-center">
-                <MdError className="mr-1 text-sm" /> {errors.email}
+              <p data-testid='label-error-email' className="text-red-500 text-xs font-medium mb-4 flex items-center">
+                <MdError className="mr-1 text-xs" /> {errors.email}
               </p>
             )}
           </div>
@@ -172,8 +182,8 @@ const SignIn = ({ state }) => {
           </div>
           <div className="">
             {errors.password && (
-              <p data-testid='input-error-password' className="text-red-500 text-sm font-medium mb-4 flex items-center">
-                <MdError className="mr-1 text-sm" /> {errors.password}
+              <p data-testid='input-error-password' className="text-red-500 text-xs font-medium mb-4 flex items-center">
+                <MdError className="mr-1 text-xs" /> {errors.password}
               </p>
             )}
           </div>
@@ -183,12 +193,12 @@ const SignIn = ({ state }) => {
         </div>
         <div className="mt-2 flex justify-center">
           {state.SignIn.errorEmail && (
-            <label className="text-red-500 text-sm font-bold font-gilroy ml-1 block">
+            <label className="text-red-500 text-xs font-bold font-gilroy ml-1 block">
               {state.SignIn.errorEmail}
             </label>
           )}
           {state.SignIn.errorPassword && (
-            <label className="text-red-500 text-sm font-bold font-gilroy ml-1 block">
+            <label className="text-red-500 text-xs font-bold font-gilroy ml-1 block">
               {state.SignIn.errorPassword}
             </label>
           )}

@@ -35,6 +35,8 @@ export const initialState = {
 
 const MemberListReducer = (state = initialState, action) => {
 
+
+
     switch (action.type) {
 
         case 'GET_MEMBER':
@@ -107,7 +109,7 @@ const MemberListReducer = (state = initialState, action) => {
 
         case 'GET_TRANSACTIONS_LIST':
             return {
-                ...state, GetTransactionsList: action.payload.response.data, statusCodeForGetTransactions: action.payload.statusCode
+                ...state, GetTransactionsList: action.payload.response, statusCodeForGetTransactions: action.payload.statusCode
             }
         case 'GET_TRANSACTIONS_ERROR_MESSAGE':
             return { ...state, GetTransactionsErrorMsg: action.payload.message }

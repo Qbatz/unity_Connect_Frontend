@@ -377,8 +377,12 @@ function MemberModal({ state, memberData, onClose }) {
                             />
 
 
+
                             {showImage ? (
-                                file?.type === "application/pdf" || (!file && showImage?.includes(".pdf")) ? (
+                                file?.type === "application/pdf" ||
+                                    file?.type === "application/vnd.ms-excel" ||
+                                    file?.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+                                    (!file && (showImage?.includes(".pdf") || showImage?.includes(".xls") || showImage?.includes(".xlsx"))) ? (
                                     <div className="text-xs px-1 text-center w-full h-full overflow-y-auto break-words">
                                         {file?.name || showImage.split("/").pop()}
                                     </div>
@@ -388,6 +392,7 @@ function MemberModal({ state, memberData, onClose }) {
                             ) : (
                                 <AiOutlinePlus size={20} />
                             )}
+
 
 
                         </div>
