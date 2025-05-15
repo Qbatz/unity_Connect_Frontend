@@ -844,7 +844,7 @@ function ReportsTab({ state }) {
                       <div className="flex items-center space-x-3">
                         <img src={manimg} alt="manimg" className="w-10 h-10 rounded-full" />
                         <div className="flex flex-col justify-center">
-                          <p className="text-black font-semibold text-[16px] font-Gilroy">{report.User_Name}</p>
+                          <p className="text-black font-semibold text-[16px] font-Gilroy">{report.Member_Name}</p>
                           <div className="flex space-x-2 mt-1">
                             <span className="bg-[#D9E9FF] text-black px-3 py-1 rounded-full text-[14px] font-Gilroy font-medium">
                               {report.Member_Id}
@@ -859,15 +859,12 @@ function ReportsTab({ state }) {
                       <div className="text-right">
                         <p className="text-lg font-semibold text-[black] font-Gilroy">
 
-                          ₹{report.Pending_Amount_For_Due === null ? report.Due_Amount.toLocaleString('en-IN') : report.Pending_Amount_For_Due.toLocaleString('en-IN')}
+                          ₹{report.Due_Balance === null ? report.Due_Amount : report.Due_Balance}
                         </p>
                         <p className="text-[#939393] text-xs font-Gilroy">
-                          {new Date(report.Due_Date).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          })}
+                          {moment(report.Due_Date).format("DD MMM YYYY")}
                         </p>
+
                       </div>
                     </div>
                   ))
