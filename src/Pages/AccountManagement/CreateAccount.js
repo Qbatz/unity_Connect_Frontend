@@ -485,14 +485,15 @@ function CreateAccount({ state }) {
         </div>
 
 
-        <div className="flex flex-col items-center  gap-0">
-          <img src={Create1} className="w-full h-[330px] block" alt="Illustration 1" />
+        <div className="flex flex-col items-center  gap-0 relative">
+          <img src={Create1} className="w-full max-w-[400px] h-[330px] block" alt="Illustration 1" />
           <img
             src={Create2}
-            className="w-full h-[300px] block ml-[206px] -mt-[25px]"
+            className="w-full max-w-[300px] h-[300px] block -mt-6"
             alt="Illustration 2"
           />
         </div>
+
 
 
       </div>

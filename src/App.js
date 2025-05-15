@@ -13,7 +13,7 @@ import Cookies from 'universal-cookie';
 import { useDispatch } from 'react-redux';
 import LandingPage from './Component/LandingPage/LandingPage';
 import PropTypes from 'prop-types';
-import MemberDetails from './Pages/Members/MemberDetails';
+
 
 
 
@@ -67,26 +67,25 @@ function App({ isLogged_In }) {
       <ToastContainer />
 
       <Router >
+        {success === true || isLogged_In === true ? (
+          <>
+            <Sidebar />
+       
+          </>
+        ) : (
+          <Routes>
 
-        <Routes>
-          {success === true || isLogged_In === true ? (
-            <>
-              <Route path="/" element={<Sidebar />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-              <Route path="/member-details/:id" element={<MemberDetails />} />
-
-            </>
-          ) : (
             <>
               <Route path="/" element={<LandingPage />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="*" element={<Navigate to="/" replace />} />
-            
-             
+
+
             </>
-          )}
-        </Routes>
+
+          </Routes>
+        )}
       </Router>
 
 
@@ -101,7 +100,7 @@ const mapsToProps = (stateInfo) => {
 }
 
 App.propTypes = {
-  isLogged_In: PropTypes.bool.isRequired, 
+  isLogged_In: PropTypes.bool.isRequired,
 };
 
 export default connect(mapsToProps)(App);

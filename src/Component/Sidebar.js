@@ -26,10 +26,12 @@ import ProfileDetails from "../Component/ProfileDetails";
 import PropTypes from 'prop-types';
 import { useDispatch, connect } from 'react-redux';
 import ReportsTab from "../Pages/Reports/Reports";
-
+import { NavLink, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import MemberDetails from '../Pages/Members/MemberDetails'
 const Sidebar = ({ state }) => {
   const dispatch = useDispatch();
-  const [activeMenu, setActiveMenu] = useState("Dashboard");
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -45,12 +47,22 @@ const Sidebar = ({ state }) => {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  const handleMenuClick = (menu) => {
-    setActiveMenu(menu);
+  const handleMenuClick = (path) => {
+    navigate(path);
     if (window.innerWidth < 768) {
       setIsSidebarOpen(false);
     }
   };
+  const menuItems = [
+    { name: "Dashboard", path: "/dashboard", icon: Dashboard, activeIcon: DashboardActive },
+    { name: "Members", path: "/members", icon: Member, activeIcon: MemberActive },
+    { name: "Loan", path: "/loan", icon: Loan, activeIcon: LoanActive },
+    { name: "Expenses", path: "/expenses", icon: Expenses, activeIcon: ExpensesActive },
+    { name: "Statements", path: "/statements", icon: Statement, activeIcon: StatementActive },
+    { name: "Reports", path: "/reports", icon: Reports, activeIcon: ReportsActive },
+    { name: "Settings", path: "/settings", icon: settings, activeIcon: settingsActive },
+
+  ];
 
   return (
     <div className="flex h-screen overflow-hidden" data-testid='container-main'>
@@ -72,25 +84,27 @@ const Sidebar = ({ state }) => {
           <span className="font-Gilroy text-base md:text-sm lg:text-base whitespace-nowrap">Unity Connect</span>
         </div>
 
+
         <ul className="flex-1 overflow-y-auto">
-          {[{ name: "Dashboard", icon: Dashboard, activeIcon: DashboardActive },
-          { name: "Members", icon: Member, activeIcon: MemberActive },
-          { name: "Loan", icon: Loan, activeIcon: LoanActive },
-          { name: "Expenses", icon: Expenses, activeIcon: ExpensesActive },
-          { name: "Statements", icon: Statement, activeIcon: StatementActive },
-          { name: "Reports", icon: Reports, activeIcon: ReportsActive },
-          { name: "Settings", icon: settings, activeIcon: settingsActive }].map((menu, i) => (
-            <li
-              data-testid={`menu-item-${i}`}
-              key={menu.name}
-              onClick={() => handleMenuClick(menu.name)}
-              className={`flex justify-between items-center px-4 py-2 ml-2 font-Gilroy cursor-pointer ${activeMenu === menu.name ? "text-[#7F00FF]" : "text-gray-500"}`}
-            >
-              <div className="flex items-center gap-3">
-                <img src={activeMenu === menu.name ? menu.activeIcon : menu.icon} alt={menu.name} className="w-4 h-4" />
-                <span className="inline-block">{menu.name}</span>
-              </div>
-              {activeMenu === menu.name && <img src={Star} alt="Active" className="w-4 h-4 hidden md:block" />}
+          {menuItems.map((menu, i) => (
+            <li  data-testid={`menu-item-${i}`}
+            key={i}>
+              <NavLink
+                to={menu.path}
+                className={({ isActive }) =>
+                  `flex justify-between items-center px-4 py-2 ml-2 font-Gilroy cursor-pointer ${isActive ? "text-[#7F00FF]" : "text-gray-500"
+                  }`
+                }
+                onClick={() => window.innerWidth < 768 && setIsSidebarOpen(false)}
+              >
+                <div className="flex items-center gap-3">
+                  <img src={location.pathname === menu.path ? menu.activeIcon : menu.icon} alt={menu.name} className="w-4 h-4 rounded-full" />
+                  <span className="inline-block">{menu.name}</span>
+                </div>
+                {location.pathname === menu.path && !menu.isProfile && (
+                  <img src={Star} alt="Active" className="w-4 h-4 hidden md:block" />
+                )}
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -114,48 +128,21 @@ const Sidebar = ({ state }) => {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto  px-2 ">
-        {activeMenu === "Dashboard" && (
-          <div data-testid='div-dashboard' className="bg-white mt-2" >
-            <h1 className="text-center text-xl font-Gilroy font-semibold">Dashboard</h1>
-          </div>
-        )}
-        {activeMenu === "Members" && (
-          <div data-testid='div-members' className="bg-white mt-2 p-6" >
-            <Members />
-          </div>
-        )}
-        {activeMenu === "Loan" && (
-          <div data-testid='div-loan' className="bg-white mt-2" >
-            <AddLoanForm />
-          </div>
-        )}
-        {activeMenu === "Expenses" && (
-          <div data-testid='div-expenses' className="bg-white mt-2" >
-            <ExpensesList />
-          </div>
-        )}
-        {activeMenu === "Statements" && (
-          <div data-testid='div-statements' className="bg-white mt-2" >
-            <Statements />
-          </div>
-        )}
-        {activeMenu === "Reports" && (
-          <div data-testid='div-reports' className="bg-white mt-2" >
-            <ReportsTab />
-          </div>
-        )}
-        {activeMenu === "Settings" && (
-          <div data-testid='div-settings' className="bg-white mt-2 p-6" >
-            <Settings />
-          </div>
-        )}
-        {activeMenu === "Profile" && (
-          <div data-testid='div-profile' className="bg-white mt-2 p-6" >
-            <ProfileDetails />
-          </div>
-        )}
+
+      <div className="flex-1 overflow-y-auto px-2 bg-white mt-2">
+        <Routes>
+          <Route path="/dashboard" element={<h1 data-testid='div-dashboard' className="text-center text-xl font-Gilroy font-semibold">Dashboard</h1>} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/loan" element={<AddLoanForm />} />
+          <Route path="/expenses" element={<ExpensesList />} />
+          <Route path="/statements" element={<Statements />} />
+          <Route path="/reports" element={<ReportsTab />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<ProfileDetails />} />
+          <Route path="/member-details/:id" element={<MemberDetails />} />
+        </Routes>
       </div>
+
     </div>
   );
 };
@@ -171,3 +158,5 @@ Sidebar.propTypes = {
 };
 
 export default connect(mapsToProps)(Sidebar);
+
+

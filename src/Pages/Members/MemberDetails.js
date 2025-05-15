@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import img1 from "../../Asset/Images/Memberone.svg";
 import Overview from "./Overview";
 import PropTypes from 'prop-types';
 import CommentSection from "./Comments";
-
-
+import { useLocation } from "react-router-dom";
 import LoanStatements from "./MemberStatement"
 
-function MemberDetails({ member, onBack }) {
+function MemberDetails() {
 
 
   const [activeTab, setActiveTab] = useState("Overview");
+  const location = useLocation();
+  const [member, setMember] = useState(location.state?.member || null);
 
+  useEffect(() => {
+    if (member && location.pathname !== `/member-details/${member?.Id}`) {
+      setMember(null);
+    }
+  }, [location.pathname, member]);
+
+  console.log("user", member);
 
 
   return (
     <>
       <div className="px-2 sm:px-2 md:px-4 lg:px-3">
-        <button onClick={onBack} className="mb-4 text-blue-500 font-Gilroy text-xl">
-          ← Back
-        </button>
+      
 
         <div className=" member-card bg-blue-50 p-6 rounded-xl">
 

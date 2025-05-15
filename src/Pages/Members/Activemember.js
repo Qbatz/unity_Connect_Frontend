@@ -19,11 +19,12 @@ import { MdError } from "react-icons/md";
 import { ClipLoader } from "react-spinners";
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
 import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
 
-function ActiveMember({ state, onSelectMember, loading, setLoading }) {
+function ActiveMember({ state, loading, setLoading }) {
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
 
   const [openMenu, setOpenMenu] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -220,6 +221,15 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
   }, [paginatedData, activeMemberData]);
 
 
+  const handleCardClick = (member) => {
+    console.log("Member clicked:", member);
+
+    if (member?.Id) {
+      navigate(`/member-details/${member.Id}`, { state: { member } });
+    } else {
+      console.error("Member Id is missing!");
+    }
+  };
 
 
 
@@ -302,7 +312,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
                 )}
 
 
-                <div onClick={() => onSelectMember(member)} className="flex items-center gap-4">
+                <div onClick={() => handleCardClick(member)} className="flex items-center gap-4">
                   <img src={img1} alt='Member' className="rounded-full" />
                   <div>
                     <h3 className="font-semibold text-base font-Gilroy">{member.User_Name}</h3>
@@ -321,7 +331,7 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
                 </div>
 
 
-                <div onClick={() => onSelectMember(member)} className="mt-3 text-sm text-gray-700">
+                <div onClick={() => handleCardClick(member)} className="mt-3 text-sm text-gray-700">
                   <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                     <p className="flex items-center gap-2 font-Gilroy">
                       <img src={sms} className="text-gray-500" alt="sms" />
@@ -341,12 +351,9 @@ function ActiveMember({ state, onSelectMember, loading, setLoading }) {
                 </div>
                 <div className="border-b mt-4"></div>
 
-                <div className="flex justify-between items-center mt-3">
+                <div onClick={() => handleCardClick(member)} className="flex justify-between items-center mt-3">
 
-                  <p
-                    className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer"
-                    onClick={() => onSelectMember(member)}
-                  >
+                  <p className="text-purple-600 font-medium text-sm font-Gilroy cursor-pointer">
                     View attached documents
                   </p>
 

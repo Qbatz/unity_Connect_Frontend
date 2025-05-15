@@ -68,7 +68,7 @@ function CommentSection({ state, member }) {
 
   return (
     <div className="pl-4 mt-2">
-      <div ref={commentSectionRef} className="space-y-6 max-h-[230px] max-[429px]:max-h-[160px] overflow-y-auto">
+      <div ref={commentSectionRef} className="space-y-6 max-h-[230px] overflow-y-auto">
         {localComments.length > 0 &&
           localComments.map((item, index) => (
             <div key={index} className="mt-4 flex items-start gap-4">
