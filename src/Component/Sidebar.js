@@ -28,6 +28,9 @@ import { useDispatch, connect } from 'react-redux';
 import ReportsTab from "../Pages/Reports/Reports";
 import { NavLink, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import MemberDetails from '../Pages/Members/MemberDetails'
+import TransactionTable from '../Pages/Members/TransactionTable'
+import MemberStatements from '../Pages/Members/MemberStatement'
+
 const Sidebar = ({ state }) => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -140,6 +143,8 @@ const Sidebar = ({ state }) => {
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<ProfileDetails />} />
           <Route path="/member-details/:id" element={<MemberDetails />} />
+          <Route path="/transaction/:loanId" element={<TransactionTable />} />
+           <Route path="/memberStatements" element={<MemberStatements />} />
         </Routes>
       </div>
 

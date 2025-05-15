@@ -222,7 +222,7 @@ function ActiveMember({ state, loading, setLoading }) {
 
 
   const handleCardClick = (member) => {
-    console.log("Member clicked:", member);
+   
 
     if (member?.Id) {
       navigate(`/member-details/${member.Id}`, { state: { member } });
@@ -264,7 +264,7 @@ function ActiveMember({ state, loading, setLoading }) {
         </div>
         <div className="flex flex-col h-full">
 
-          <div className="max-h-[430px] overflow-y-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 pt-4 mb-8">
+          <div className="max-h-[430px] overflow-y-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 pt-4 mb-12">
 
             {paginatedData?.map((member, index) => (
               <div key={index} className="member-card bg-#F4F7FF p-4 rounded-3xl shadow-sm relative">

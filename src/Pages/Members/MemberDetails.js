@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+
+
 import img1 from "../../Asset/Images/Memberone.svg";
 import Overview from "./Overview";
 import PropTypes from 'prop-types';
@@ -7,7 +9,6 @@ import { useLocation } from "react-router-dom";
 import LoanStatements from "./MemberStatement"
 
 function MemberDetails() {
-
 
   const [activeTab, setActiveTab] = useState("Overview");
   const location = useLocation();
@@ -19,8 +20,20 @@ function MemberDetails() {
     }
   }, [location.pathname, member]);
 
-  console.log("user", member);
-
+ 
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      console.log("Back button was clicked");
+      // You can also prevent navigation if needed
+      // event.preventDefault();
+    };
+ 
+    window.addEventListener("popstate", handleBackButton);
+ 
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, []);
 
   return (
     <>
