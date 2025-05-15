@@ -26,7 +26,7 @@ function MemberStatements({ state, member }) {
 
   const Statement = state.Member.getStatement;
   const loanDetails = state?.Member?.GetTransactionsList?.loan_details || []
-  
+
   const result = state.Member.GetTransactionsList.result
 
   const [showOptions, setShowOptions] = useState(false);
@@ -184,11 +184,12 @@ function MemberStatements({ state, member }) {
   const handleLoanIdClick = (item) => {
 
 
+
     setSelectedLoan(item);
     setShowTransactionDetails(true);
     dispatch({
       type: "GETTRANSACTIONSLIST",
-      payload: { member_id: item.Member_Id, loan_id: item.Loan_Id },
+      payload: { member_id: item.Member_Id, loan_id: item.Loan_Id, id: item.Id },
     });
   };
 
@@ -310,22 +311,13 @@ function MemberStatements({ state, member }) {
 
 
                     <td className="p-0 text-sm font-Gilroy">
-                      {/* <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleLoanIdClick(item);
-                        }}
-                        className="text-blue-600 hover:underline"
+
+                      <button
+                        onClick={() => handleLoanIdClick(item)}
+                        className="text-blue-600 hover:underline focus:outline-none bg-transparent p-0 m-0"
                       >
                         {item.Loan_ID}
-                      </a> */}
-                      <button
-  onClick={() => handleLoanIdClick(item)}
-  className="text-blue-600 hover:underline focus:outline-none bg-transparent p-0 m-0"
->
-  {item.Loan_ID}
-</button>
+                      </button>
 
                     </td>
 
@@ -341,7 +333,7 @@ function MemberStatements({ state, member }) {
 
                     <td className="px-4 py-2 font-Gilroy">{item.Intrest_Amount}</td>
                     <td className="px-4 py-2 font-Gilroy">{item.Outstanding_Amount === null ? 0 : item.Outstanding_Amount}</td>
-                    <td className="px-4 py-2 font-Gilroy">{item.Last_Paid_Amount === null ? 0 : item.Last_Paid_Amount}</td>
+                    <td className="px-4 py-2 font-Gilroy">{item.paid_amount === null ? 0 : item.paid_amount}</td>
                     <td className="px-4 py-2 font-Gilroy">
                       <span
                         className={`px-3 py-1 text-sm rounded-full font-Gilroy ${item.Status === "Paid"
