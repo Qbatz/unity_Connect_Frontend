@@ -186,7 +186,7 @@ function NonActiveMember({ state, loading, setLoading }) {
   }
 
 
-  
+
 
   return (
     <>
@@ -375,7 +375,7 @@ function NonActiveMember({ state, loading, setLoading }) {
                               classNamePrefix="react-select"
                               isSearchable={false}
                               styles={{
-                                control: (base,) => ({
+                                control: (base) => ({
                                   ...base,
                                   height: '50px',
                                   minHeight: '50px',
@@ -393,6 +393,32 @@ function NonActiveMember({ state, loading, setLoading }) {
                                   maxHeight: statusOptions.length > 2 ? "110px" : "auto",
                                   overflowY: statusOptions.length > 2 ? "auto" : "hidden",
                                   borderRadius: '12px',
+                                  backgroundColor: '#FFFFFF',
+                                  zIndex: 100,
+                                  padding: 0,
+                                  margintop: '10px',
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  padding: 0,
+                                  margintop: '10px',
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  backgroundColor: state.isSelected
+                                    ? '#2563EB'
+                                    : state.isFocused
+                                      ? '#E0ECFF'
+                                      : '#FFFFFF',
+                                  color: state.isSelected ? '#FFFFFF' : '#000000',
+                                  paddingTop: '12px',
+                                  paddingBottom: '12px',
+                                  paddingLeft: '16px',
+                                  paddingRight: '16px',
+                                  margin: 0,
+                                  borderRadius: 0,
+                                  width: '100%',
+                                  boxSizing: 'border-box',
                                 }),
                                 placeholder: (base) => ({
                                   ...base,

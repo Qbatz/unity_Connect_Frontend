@@ -144,7 +144,7 @@ const SignIn = ({ state }) => {
           />
           <div data-testid='error-email'>
             {errors.email && (
-              <p data-testid='label-error-email' className="text-red-500 text-xs font-medium mb-4 flex items-center">
+              <p data-testid='label-error-email' className="text-red-500 text-xs font-Gilroy font-medium mb-4 flex items-center">
                 <MdError className="mr-1 text-xs" /> {errors.email}
               </p>
             )}
@@ -182,7 +182,7 @@ const SignIn = ({ state }) => {
           </div>
           <div className="">
             {errors.password && (
-              <p data-testid='input-error-password' className="text-red-500 text-xs font-medium mb-4 flex items-center">
+              <p data-testid='input-error-password' className="text-red-500 font-Gilroy text-xs font-medium mb-4 flex items-center">
                 <MdError className="mr-1 text-xs" /> {errors.password}
               </p>
             )}
