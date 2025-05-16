@@ -345,6 +345,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 className="w-full"
                                 menuShouldScrollIntoView={false}
                                 menuPlacement="auto"
+
                                 styles={{
                                     control: (base) => ({
                                         ...base,
@@ -359,12 +360,14 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                         ...base,
                                         maxHeight: categoryOptions.length > 3 ? "150px" : "auto",
                                         overflowY: categoryOptions.length > 3 ? "auto" : "hidden",
+                                        borderRadius: "8px",
+                                        zIndex: 100,
                                     }),
-                                    indicatorSeparator: () => ({ display: "none" }),
                                     menuList: (base) => ({
                                         ...base,
                                         maxHeight: "150px",
                                         overflowY: "auto",
+                                        padding: 0,
                                         scrollbarWidth: "thin",
                                         "&::-webkit-scrollbar": {
                                             width: "6px",
@@ -377,7 +380,21 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                             backgroundColor: "#555",
                                         },
                                     }),
+                                    option: (base, state) => ({
+                                        ...base,
+                                        backgroundColor: state.isSelected
+                                            ? '#2563EB'
+                                            : state.isFocused
+                                                ? '#E0ECFF'
+                                                : '#FFFFFF',
+                                        color: state.isSelected ? '#FFFFFF' : '#000000',
+                                        padding: '12px 16px',
+                                        margin: 0,
+                                        borderRadius: 0,
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
                                 }}
+
                             />
 
                             {errors.category && (
@@ -410,6 +427,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 className="w-full"
                                 menuShouldScrollIntoView={false}
                                 menuPlacement="auto"
+
                                 styles={{
                                     control: (base) => ({
                                         ...base,
@@ -419,19 +437,23 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                         boxShadow: "none",
                                         cursor: "pointer",
                                         "&:hover": { borderColor: "#666" },
-                                        minHeight: "40px"
                                     }),
                                     menu: (base) => ({
                                         ...base,
                                         maxHeight: "150px",
                                         overflowY: "auto",
+                                        borderRadius: "8px",
+                                        zIndex: 100,
                                     }),
                                     menuList: (base) => ({
                                         ...base,
                                         maxHeight: "150px",
                                         overflowY: "auto",
+                                        padding: 0,
                                         scrollbarWidth: "thin",
-                                        "&::-webkit-scrollbar": { width: "6px" },
+                                        "&::-webkit-scrollbar": {
+                                            width: "6px",
+                                        },
                                         "&::-webkit-scrollbar-thumb": {
                                             backgroundColor: "#888",
                                             borderRadius: "4px",
@@ -440,8 +462,21 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                             backgroundColor: "#555",
                                         },
                                     }),
-                                    indicatorSeparator: () => ({ display: "none" })
+                                    option: (base, state) => ({
+                                        ...base,
+                                        backgroundColor: state.isSelected
+                                            ? '#2563EB'
+                                            : state.isFocused
+                                                ? '#E0ECFF'
+                                                : '#FFFFFF',
+                                        color: state.isSelected ? '#FFFFFF' : '#000000',
+                                        padding: '12px 16px',
+                                        margin: 0,
+                                        borderRadius: 0,
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
                                 }}
+
                             />
 
                             {errors.subCategory && (
@@ -471,6 +506,7 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                 placeholder="Select a payment mode"
                                 isSearchable
                                 className="w-full cursor-pointer"
+
                                 styles={{
                                     control: (base) => ({
                                         ...base,
@@ -480,19 +516,23 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                         boxShadow: "none",
                                         cursor: "pointer",
                                         "&:hover": { borderColor: "#666" },
-                                        minHeight: "40px"
                                     }),
                                     menu: (base) => ({
                                         ...base,
                                         maxHeight: "150px",
                                         overflowY: "auto",
+                                        borderRadius: "8px",
+                                        zIndex: 100,
                                     }),
                                     menuList: (base) => ({
                                         ...base,
                                         maxHeight: "150px",
                                         overflowY: "auto",
+                                        padding: 0,
                                         scrollbarWidth: "thin",
-                                        "&::-webkit-scrollbar": { width: "6px" },
+                                        "&::-webkit-scrollbar": {
+                                            width: "6px",
+                                        },
                                         "&::-webkit-scrollbar-thumb": {
                                             backgroundColor: "#888",
                                             borderRadius: "4px",
@@ -501,7 +541,19 @@ function ExpenseForm({ onClose, state, expensesdata }) {
                                             backgroundColor: "#555",
                                         },
                                     }),
-                                    indicatorSeparator: () => ({ display: "none" })
+                                    option: (base, state) => ({
+                                        ...base,
+                                        backgroundColor: state.isSelected
+                                            ? '#2563EB'
+                                            : state.isFocused
+                                                ? '#E0ECFF'
+                                                : '#FFFFFF',
+                                        color: state.isSelected ? '#FFFFFF' : '#000000',
+                                        padding: '12px 16px',
+                                        margin: 0,
+                                        borderRadius: 0,
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
                                 }}
                             />
                             {errors.paymentMode && (

@@ -245,7 +245,7 @@ function MemberStatements({ state, member }) {
 
                     <button
                       onClick={() => handleLoanIdClick(item)}
-                      className="text-blue-600 hover:underline focus:outline-none bg-transparent p-0 m-0"
+                      className="text-blue-600 hover:underline focus:outline-none bg-transparent px-4 py-2  p-0 m-0 cursor-pointer"
                     >
                       {item.Loan_ID}
                     </button>

@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect,} from "react";
 import { useDispatch, connect } from "react-redux";
 import { FiMoreVertical } from "react-icons/fi";
 import PropTypes from 'prop-types';
 import ProfileIcon from '../../Asset/Icons/ProfileIcon.svg';
 import moment from "moment";
 import { ClipLoader } from "react-spinners";
-import { MdSort } from "react-icons/md";
+
 
 import EmptyState from '../../Asset/Images/Empty-State.jpg'
 
 function Statement({ state }) {
 
   const dispatch = useDispatch();
-  const popupRef = useRef(null);
+
 
   const statementList = state.Statement.StatementList;
 
@@ -26,15 +26,7 @@ function Statement({ state }) {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const [filterStatus, setFilterStatus] = useState("All");
-  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -52,20 +44,12 @@ function Statement({ state }) {
   }, [state.Statement.statusCodeForStatement])
 
 
-  const filteredList = filterStatus === "All"
-    ? statementList
-    : statementList.filter(item =>
-      filterStatus === "Paid" ? item.Status === "Paid" : item.Status !== "Paid"
-    );
-
-  const currentStatement = filteredList.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setShowFilterDropdown(null);
-    }
-  };
+  const currentStatement = statementList.slice(indexOfFirstItem, indexOfLastItem);
+
+
+
 
 
 
@@ -85,42 +69,12 @@ function Statement({ state }) {
   return (
     <div className="p-4">
       <div className="w-full px-2 sm:px-6 lg:px-2">
-        <p className="font-Gilroy font-medium text-xl md:text-2xl mb-4 mt-1  lg:ml-1 text-gray-700">Statements</p>
+        <p className="font-Gilroy font-medium text-xl md:text-2xl mb-4 mt-1  text-gray-700">Statements</p>
 
- 
+
         <div className="flex items-center justify-between mb-4 sm:px-0">
           <div className="font-Gilroy text-base px-2 md:px-4  text-gray-900 mb-3 ">Loan statement</div>
-          {statementList.length > 0 && (
-            <div className="relative " ref={popupRef}>
-              <button
-                onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-                className=" p-1 font-Gilroy rounded-full border border-gray-300 bg-[#F2F4F8]"
-              >
 
-                <MdSort size={30} />
-
-
-              </button>
-
-              {showFilterDropdown && (
-                <div className="absolute right-0 mt-2 w-28 bg-white rounded-md shadow-md z-50">
-                  {["All", "Paid", "Unpaid"].map(option => (
-                    <button
-                      key={option}
-                      onClick={() => {
-                        setFilterStatus(option);
-                        setShowFilterDropdown(false);
-                      }}
-                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-Gilroy ${filterStatus === option ? "bg-blue-100 font-semibold" : ""
-                        }`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </div>
       <div>
@@ -207,7 +161,7 @@ function Statement({ state }) {
 
 
 
-      {filteredList.length > itemsPerPage && (
+      {statementList.length > itemsPerPage && (
         <div className="fixed bottom-0 right-0 w-full p-2 bg-white  flex justify-end z[1000]">
 
           <button

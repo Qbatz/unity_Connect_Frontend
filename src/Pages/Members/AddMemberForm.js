@@ -372,7 +372,7 @@ function MemberModal({ state, memberData, onClose }) {
                             <input
                                 type="file"
                                 accept=".jpg,.jpeg,.png,.pdf"
-                                className="absolute inset-0 opacity-0 w-full h-full"
+                                className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                                 onChange={handleFileChange}
                             />
 
