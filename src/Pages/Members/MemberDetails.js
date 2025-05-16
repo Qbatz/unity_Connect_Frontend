@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import CommentSection from "./Comments";
 import { useLocation } from "react-router-dom";
 import LoanStatements from "./MemberStatement"
+import { useNavigate, useNavigationType } from "react-router-dom";
 
 function MemberDetails() {
-
 
   const [activeTab, setActiveTab] = useState("Overview");
   const location = useLocation();
@@ -19,12 +19,19 @@ function MemberDetails() {
     }
   }, [location.pathname, member]);
 
-  console.log("user", member);
+ 
+ const navigationType = useNavigationType();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (navigationType === "POP") {
+      setActiveTab("Statements")
+     }
+  }, [navigationType, navigate]);
 
   return (
     <>
-      <div className="px-2 sm:px-2 md:px-4 lg:px-3">
+      <div className="px-2 sm:px-2 md:px-4 lg:px-3 pt-6">
       
 
         <div className=" member-card bg-blue-50 p-6 rounded-xl">

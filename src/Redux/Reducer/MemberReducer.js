@@ -30,12 +30,13 @@ export const initialState = {
     statusCodeForGetTransactions: 0,
     GetTransactionsErrorMsg: '',
     statusCodeMemberError: 0,
-
+ 
 }
 
 const MemberListReducer = (state = initialState, action) => {
 
 
+ 
 
     switch (action.type) {
 
@@ -115,6 +116,8 @@ const MemberListReducer = (state = initialState, action) => {
             return { ...state, GetTransactionsErrorMsg: action.payload.message }
         case 'CLEAR_STATUS_CODE_GET_TRANSACTIONS':
             return { ...state, statusCodeForGetTransactions: 0 }
+
+         
 
         default:
             return state;
