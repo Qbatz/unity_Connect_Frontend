@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-
-
 import img1 from "../../Asset/Images/Memberone.svg";
 import Overview from "./Overview";
 import PropTypes from 'prop-types';
 import CommentSection from "./Comments";
 import { useLocation } from "react-router-dom";
 import LoanStatements from "./MemberStatement"
+import { useNavigate, useNavigationType } from "react-router-dom";
 
 function MemberDetails() {
 
@@ -21,23 +20,18 @@ function MemberDetails() {
   }, [location.pathname, member]);
 
  
+ const navigationType = useNavigationType();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const handleBackButton = (event) => {
-      console.log("Back button was clicked");
-      // You can also prevent navigation if needed
-      // event.preventDefault();
-    };
- 
-    window.addEventListener("popstate", handleBackButton);
- 
-    return () => {
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, []);
+    if (navigationType === "POP") {
+      setActiveTab("Statements")
+     }
+  }, [navigationType, navigate]);
 
   return (
     <>
-      <div className="px-2 sm:px-2 md:px-4 lg:px-3">
+      <div className="px-2 sm:px-2 md:px-4 lg:px-3 pt-6">
       
 
         <div className=" member-card bg-blue-50 p-6 rounded-xl">

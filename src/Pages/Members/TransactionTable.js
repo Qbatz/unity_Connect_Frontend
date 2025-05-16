@@ -13,14 +13,14 @@ function TransactionTable({ state }) {
     const location = useLocation();
     const { loanId } = useParams();
     const selectedLoan = location.state?.loan;
-    console.log("selected", selectedLoan);
+
 
     const dispatch = useDispatch();
     const loanDetails = state?.Member?.GetTransactionsList?.loan_details || {};
     const result = state?.Member?.GetTransactionsList?.result || [];
 
 
-    console.log("details", loanDetails);
+    
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -30,7 +30,7 @@ function TransactionTable({ state }) {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const paginatedData = result.slice(indexOfFirstItem, indexOfLastItem);
 
-    console.log("result", result);
+ 
     useEffect(() => {
         if (selectedLoan) {
             dispatch({
@@ -40,19 +40,7 @@ function TransactionTable({ state }) {
         }
     }, [selectedLoan]);
 
-  useEffect(() => {
-    const handleBackButton = (event) => {
-      console.log("Back button was clicked");
-      // You can also prevent navigation if needed
-      // event.preventDefault();
-    };
- 
-    window.addEventListener("popstate", handleBackButton);
- 
-    return () => {
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, []);
+
 
     return (
         <div className="p-4">

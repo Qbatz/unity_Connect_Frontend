@@ -21,9 +21,7 @@ function MemberStatements({ state, member }) {
 
 
   const Statement = state.Member.getStatement;
-  const loanDetails = state?.Member?.GetTransactionsList?.loan_details || []
 
-  const result = state.Member.GetTransactionsList.result
 
   const [showOptions, setShowOptions] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +31,7 @@ function MemberStatements({ state, member }) {
   const [status, setStatus] = useState('');
   const [errors, setErrors] = useState({});
   const [selectedStatement, setSelectedStatement] = useState();
-  const [SelectedLoan, setSelectedLoan] = useState();
+
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -179,31 +177,12 @@ function MemberStatements({ state, member }) {
 
   const handleLoanIdClick = (loan) => {
     navigate(`/transaction/${loan.Loan_ID}`, { state: { loan } });
-    dispatch({type:'FORMTABTRUE'})
+    dispatch({ type: 'FORMTABTRUE' })
     dispatch({
       type: "GETTRANSACTIONSLIST",
       payload: { member_id: loan.Member_Id, loan_id: loan.Loan_Id, id: loan.Id },
-    }); 
+    });
   };
-
-  
-
-//  const handleLoanIdClick = (loan) => {
-//   navigate(`/transaction/${loan.Loan_Id}`, {
-//     state: {
-//       loan,
-//     fromTab: "Statements",
-//     },
-//   });
-
-//   dispatch({
-//     type: "GETTRANSACTIONSLIST",
-//     payload: { member_id: loan.Member_Id, loan_id: loan.Loan_Id, id: loan.Id },
-//   });
-// };
-
-
-
 
   const CustomDateInput = React.forwardRef(({ value, onClick }, ref) => (
     <div
@@ -218,7 +197,7 @@ function MemberStatements({ state, member }) {
 
   CustomDateInput.displayName = "CustomDateInput";
 
-  
+
 
   return (
     <div className=" ">
@@ -226,10 +205,10 @@ function MemberStatements({ state, member }) {
 
         <h2 className="text-base sm:text-lg md:text-2xl font-semibold font-Gilroy mb-4 mt-3">
           Loan Statements
-        
+
         </h2>
-     
-    
+
+
       </div>
 
       <div className="bg-#F4F7FF shadow-md rounded-xl overflow-hidden mt-2">
