@@ -39,6 +39,12 @@ const Sidebar = ({ state }) => {
   }, []);
 
   useEffect(() => {
+    if (state.isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, [state.isLoggedIn]);
+
+  useEffect(() => {
     if (state.profileDetailsUpdateStatusCode === 200) {
       dispatch({ type: 'PROFILEDETAILS' });
       dispatch({ type: 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR' });
@@ -87,8 +93,8 @@ const Sidebar = ({ state }) => {
 
         <ul className="flex-1 overflow-y-auto">
           {menuItems.map((menu, i) => (
-            <li  data-testid={`menu-item-${i}`}
-            key={i}>
+            <li data-testid={`menu-item-${i}`}
+              key={i}>
               <NavLink
                 to={menu.path}
                 className={({ isActive }) =>

@@ -41,7 +41,7 @@ const Members = () => {
 
 
   return (
-    <div className="container mx-auto mt-4">
+    <div className="container mx-auto mt-4 p-4">
 
       {!selectedMemberdetails && (
         <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-0 mb-4 ">
@@ -52,7 +52,7 @@ const Members = () => {
             <button
               data-testid="button-add-member"
 
-              className="bg-black text-white py-3 px-6 rounded-full text-base font-Gilroy font-medium"
+              className="bg-black text-white py-2 px-4 sm:py-3 sm:px-6 rounded-full text-sm sm:text-base font-Gilroy font-medium"
               onClick={handleClickAddMember}
             >
               + Add Member

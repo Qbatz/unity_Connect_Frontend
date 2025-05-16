@@ -10,7 +10,7 @@ const Settings = () => {
   const [activeTab, setActiveTab] = useState("Member ID");
 
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto p-4 ">
       <h2
         className="text-[24px] font-semibold font-Gilroy leading-[28.63px] text-black mb-2"
         style={{ fontFamily: "Gilroy", letterSpacing: "0%" }}
@@ -19,7 +19,7 @@ const Settings = () => {
       </h2>
       <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 w-full justify-items-center">
 
-       
+
         {["Member ID", "Loan ID", "Transaction ID", "Loan", "Expenses", "Payment"].map((tab) => (
           <button
             key={tab}

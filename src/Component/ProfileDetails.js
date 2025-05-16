@@ -13,9 +13,9 @@ import { FaUser } from "react-icons/fa";
 const ProfileDetails = ({ state }) => {
 
 
-    const profileDetailsUpdateErrorMessage = useSelector(
-        (state) => state.SignIn.profileDetailsUpdateErrorMessage
-    );
+    const profileDetailsUpdateErrorMessage = useSelector((state) => state.SignIn.profileDetailsUpdateErrorMessage);
+
+
 
     const updatePasswordError = useSelector(
         (state) => state.SignIn.updatePasswordError
@@ -58,7 +58,8 @@ const ProfileDetails = ({ state }) => {
         newPassword: '',
         bothPassword: '',
     });
-    const [mailError, setMailError] = useState("");
+
+    const [errorMessage, setErrorMessage] = useState("");
     const [localUpdatePasswordError, setLocalUpdatePasswordError] = useState(null);
 
 
@@ -68,19 +69,26 @@ const ProfileDetails = ({ state }) => {
     }, []);
 
     useEffect(() => {
+        return () => {
+            dispatch({ type: 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR' });
+        };
+    }, []);
+
+
+    useEffect(() => {
         setNoChangesMessage("");
         setPasswordErrors("")
         setLocalUpdatePasswordError('')
+        setErrorMessage('')
+        dispatch({ type: 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR' })
     }, [activeTab]);
+
 
     useEffect(() => {
         if (profileDetailsUpdateErrorMessage) {
-
-            setMailError(profileDetailsUpdateErrorMessage);
-
-
+            setErrorMessage(profileDetailsUpdateErrorMessage);
         }
-    }, [profileDetailsUpdateErrorMessage, dispatch]);
+    }, [profileDetailsUpdateErrorMessage]);
 
     useEffect(() => {
         setLocalUpdatePasswordError(updatePasswordError);
@@ -190,7 +198,8 @@ const ProfileDetails = ({ state }) => {
             });
         }
         setNoChangesMessage('')
-        setMailError('')
+        setErrorMessage('')
+        dispatch({ type: 'CLEAR_PROFILE_DETAILS_UPDATE_ERROR' })
 
 
     };
@@ -502,10 +511,10 @@ const ProfileDetails = ({ state }) => {
                             {noChangesMessage}
                         </div>
                     )}
-                    {mailError && (
+                    {errorMessage && (
                         <div className="flex items-center text-red-500 text-xs mb-4 font-Gilroy">
                             <MdError className="mr-1" />
-                            {mailError}
+                            {errorMessage}
                         </div>
                     )}
                     <button className="bg-black text-white font-Gilroy font-medium text-base py-2 px-4 rounded-3xl mb-6"

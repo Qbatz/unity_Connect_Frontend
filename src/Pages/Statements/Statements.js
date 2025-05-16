@@ -83,13 +83,13 @@ function Statement({ state }) {
 
 
   return (
-    <div className="p-8">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
-        <p className="font-Gilroy font-medium text-sm md:text-2xl mb-4 mt-1 ml-12 lg:ml-1 text-gray-700">Statements</p>
+    <div className="p-4">
+      <div className="w-full px-2 sm:px-6 lg:px-2">
+        <p className="font-Gilroy font-medium text-xl md:text-2xl mb-4 mt-1  lg:ml-1 text-gray-700">Statements</p>
 
-
-        <div className="flex items-center justify-between mb-4 px-4 sm:px-0">
-          <div className="font-Gilroy text-base px-2 md:px-4  text-gray-900 mb-3 lg:-ml-2.5">Loan statement</div>
+ 
+        <div className="flex items-center justify-between mb-4 sm:px-0">
+          <div className="font-Gilroy text-base px-2 md:px-4  text-gray-900 mb-3 ">Loan statement</div>
           {statementList.length > 0 && (
             <div className="relative " ref={popupRef}>
               <button

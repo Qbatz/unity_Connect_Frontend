@@ -30,70 +30,70 @@ function ExpensesSetting({ state }) {
   const [loading, setLoading] = useState(true);
 
 
-  
-const handleSubmit = (e) => {
-  e.preventDefault(); 
 
-  const trimmedCategoryName = categoryName.trim();
-  const trimmedSubCategoryName = subCategoryName.trim();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-
-  let updatedSubCategories = [...subCategories];
+    const trimmedCategoryName = categoryName.trim();
+    const trimmedSubCategoryName = subCategoryName.trim();
 
 
-  if (isSubCategory && trimmedSubCategoryName) {
-    updatedSubCategories.push(trimmedSubCategoryName);
-  }
-
- 
-  if (!trimmedCategoryName) {
-    setCategoryError("Please add a category name");
-  } else {
-    setCategoryError(""); 
-  }
+    let updatedSubCategories = [...subCategories];
 
 
-  if (isSubCategory && updatedSubCategories.length === 0) {
-    setSubCategoryError("Please add at least one sub-category");
-  } else {
-    setSubCategoryError("");
-  }
+    if (isSubCategory && trimmedSubCategoryName) {
+      updatedSubCategories.push(trimmedSubCategoryName);
+    }
 
 
-  if (!trimmedCategoryName || (isSubCategory && updatedSubCategories.length === 0)) {
-    return;
-  }
+    if (!trimmedCategoryName) {
+      setCategoryError("Please add a category name");
+    } else {
+      setCategoryError("");
+    }
 
 
-  const categoryExists = expensesetting.some(
-    (category) =>
-      category.category_Name.toLowerCase() === trimmedCategoryName.toLowerCase()
-  );
+    if (isSubCategory && updatedSubCategories.length === 0) {
+      setSubCategoryError("Please add at least one sub-category");
+    } else {
+      setSubCategoryError("");
+    }
 
-  if (categoryExists) {
-    setErrorMessage("Category name already exists");
-    return;
-  } else {
-    setErrorMessage("");
-  }
 
- 
-  const payload = {
-    category_Name: trimmedCategoryName,
-    sub_Category: updatedSubCategories,
+    if (!trimmedCategoryName || (isSubCategory && updatedSubCategories.length === 0)) {
+      return;
+    }
+
+
+    const categoryExists = expensesetting.some(
+      (category) =>
+        category.category_Name.toLowerCase() === trimmedCategoryName.toLowerCase()
+    );
+
+    if (categoryExists) {
+      setErrorMessage("Category name already exists");
+      return;
+    } else {
+      setErrorMessage("");
+    }
+
+
+    const payload = {
+      category_Name: trimmedCategoryName,
+      sub_Category: updatedSubCategories,
+    };
+
+
+    dispatch({
+      type: "SETTING_ADD_EXPENSES",
+      payload: payload,
+    });
+
+    setCategoryName("");
+    setSubCategoryName("");
+    setSubCategories([]);
+    setIsSubCategory(false);
   };
-
-
-  dispatch({
-    type: "SETTING_ADD_EXPENSES",
-    payload: payload,
-  });
-
-  setCategoryName("");
-  setSubCategoryName("");
-  setSubCategories([]);
-  setIsSubCategory(false);
-};
 
   useEffect(() => {
     if (statusCode === 200) {
@@ -186,7 +186,7 @@ const handleSubmit = (e) => {
 
   return (
     <div className="container mx-auto mt-5">
-      <div className="flex flex-col sm:flex-row items-center sm:items-center sm:justify-between w-full">
+      <div className="flex flex-row items-center justify-between w-full flex-wrap">
         <div className="px-4 sm:px-6 lg:px-0">
           <p className="font-Gilroy font-semibold text-lg sm:text-xl text-black">Expenses</p>
           <p className="mt-3 sm:mt-5 text-gray-500 text-xs sm:text-base font-Gilroy font-medium">
@@ -194,9 +194,9 @@ const handleSubmit = (e) => {
           </p>
         </div>
 
-        <div className="px-4 sm:px-0 mt-4 sm:mt-0 w-full sm:w-auto flex justify-center sm:justify-start">
+        <div className=" mt-2 ">
           <button
-            className="w-full max-w-[300px] sm:w-[155px] bg-black font-Gilroy text-white text-sm sm:text-base font-medium py-[14px] sm:py-[16px] px-[20px] rounded-[60px]"
+            className="bg-black font-Gilroy text-white w-[155px] rounded-[60px] text-xs sm:text-sm md:text-base lg:text-base font-medium  pt-[10px] pb-[10px] px-[16px] sm:pt-[14px] sm:pb-[14px] sm:px-[18px] md:pt-[16px] md:pb-[16px] md:px-[20px]"
             onClick={() => {
               setIsModalOpen(true);
               setCategoryName("");
