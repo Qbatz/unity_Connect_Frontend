@@ -7,7 +7,7 @@ const HowItWorks = () => {
 
     <div className="relative container mx-auto px-4 mt-28 flex flex-col lg:flex-row items-center gap-10">
       <div className="lg:w-1/2">
-        <h2 className="text-[56px] font-bold text-black mb-6 font-Gilroy pt-10">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl  font-bold text-black mb-6 font-Gilroy pt-10">
           How It Works
         </h2>
         <div className="">

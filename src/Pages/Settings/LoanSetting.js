@@ -62,7 +62,11 @@ function LoanSetting({ state }) {
   const [dueCountError, setDueCountError] = useState("");
   const [interestError, setInterestError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [monthlyTypeError, setMonthlyTypeError] = useState("");
+  const [weekTypeError, setWeekTypeError] = useState("")
+  const [ordinalError, setOrdinalError] = useState("");
+  const [dayError, setDayError] = useState("");
+  const [dateError, setDateError] = useState("");
 
 
   const isValidDate = (d) => d instanceof Date && !isNaN(d);
@@ -105,6 +109,52 @@ function LoanSetting({ state }) {
     } else {
       setDueTypeError("");
     }
+
+
+    if (selectedOption === "Weekly") {
+      if (!selectedWeekDay || selectedWeekDay === placeholderOptionWeekly) {
+        setWeekTypeError("Please select a weekly due day");
+        isValid = false;
+      } else {
+        setWeekTypeError("");
+      }
+    }
+
+
+    if (selectedOption === "Monthly") {
+      if (!selectedMonthlyType || selectedMonthlyType === placeholderOptionMonth) {
+        setMonthlyTypeError("Please select a monthly due type");
+        isValid = false;
+      } else {
+        setMonthlyTypeError("");
+      }
+    }
+
+    if (selectedOption === "Monthly" && selectedMonthlyType === "Day") {
+      if (!selectedOrdinal || selectedOrdinal === "week") {
+        setOrdinalError("Please select a week");
+        isValid = false;
+      } else {
+        setOrdinalError("");
+      }
+
+      if (!selectedDay || selectedDay === placeholderSelect) {
+        setDayError("Please select a day");
+        isValid = false;
+      } else {
+        setDayError("");
+      }
+    }
+    if (selectedOption === "Monthly" && selectedMonthlyType === "Date") {
+      if (!selectedDueDate || !isValidDate(selectedDueDate)) {
+        setDateError("Please select a valid date");
+        isValid = false;
+      } else {
+        setDateError("");
+      }
+    }
+
+
 
     if (!selectedDueCount.trim()) {
       setDueCountError("Due Count is Required");
@@ -220,7 +270,7 @@ function LoanSetting({ state }) {
   const handleDate = (date) => {
 
     setSelectedDueDate(date);
-
+    setDateError("")
 
 
   };
@@ -412,7 +462,7 @@ function LoanSetting({ state }) {
                       setIsWeekDropdownOpen(!isWeekDropdownOpen)
                       setSelectedMonthlyType("")
                       setSelectedOrdinal('')
-
+                      setWeekTypeError('')
                     }
                     }
 
@@ -437,6 +487,7 @@ function LoanSetting({ state }) {
                             setSelectedWeekDay(day);
                             setIsWeekDropdownOpen(false);
                             setSelectedDueDate(day);
+
                           }}
 
                         >
@@ -445,7 +496,22 @@ function LoanSetting({ state }) {
                       ))}
                     </div>
                   )}
+                  {selectedOption === "Weekly" && (
+                    <>
+
+                      {weekTypeError &&
+                        <div className="flex items-center text-red-500 text-xs font-Gilroy mt-1">
+                          <MdError className="mr-1 text-base" />
+                          <p >{weekTypeError}</p>
+                        </div>
+                      }
+                    </>
+                  )}
+
+
+
                 </div>
+
               )}
 
 
@@ -455,7 +521,11 @@ function LoanSetting({ state }) {
 
                   <div
                     className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 mt-3 flex items-center justify-between cursor-pointer"
-                    onClick={() => setIsMonthlyDropdownOpen(!isMonthlyDropdownOpen)}
+                    onClick={() => {
+                      setIsMonthlyDropdownOpen(!isMonthlyDropdownOpen)
+                      setMonthlyTypeError("")
+                    }
+                    }
                   >
                     <span className={`text-base font-Gilroy font-medium ${!selectedMonthlyType || selectedMonthlyType === placeholderOptionMonth ? "text-gray-400" : "text-black"}`}>
                       {selectedMonthlyType || placeholderOptionMonth}
@@ -484,6 +554,18 @@ function LoanSetting({ state }) {
                       ))}
                     </div>
                   )}
+                  {selectedOption === "Monthly" && (
+                    <>
+
+                      {monthlyTypeError &&
+                        <div className="flex items-center text-red-500 text-xs font-Gilroy mt-1">
+                          <MdError className="mr-1 text-base" />
+                          <p >{monthlyTypeError}</p>
+                        </div>
+                      }
+                    </>
+                  )}
+
                 </div>
               )}
 
@@ -496,7 +578,11 @@ function LoanSetting({ state }) {
                     <div className="relative col-span-12 sm:col-span-4">
                       <div
                         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
-                        onClick={() => setIsOrdinalDropdownOpen(!isOrdinalDropdownOpen)}
+                        onClick={() => {
+                          setIsOrdinalDropdownOpen(!isOrdinalDropdownOpen)
+                          setOrdinalError("")
+                        }
+                        }
                       >
 
 
@@ -526,12 +612,23 @@ function LoanSetting({ state }) {
                           ))}
                         </div>
                       )}
+                      {ordinalError && (
+                        <div className="flex items-center text-red-500 text-xs font-Gilroy mt-1">
+                          <MdError className="mr-1 text-base" />
+                          <p >{ordinalError}</p>
+                        </div>
+                      )}
+
                     </div>
 
                     <div className="relative col-span-12 sm:col-span-8">
                       <div
                         className="w-full h-[60px] border border-[#D9D9D9] rounded-2xl p-4 flex items-center justify-between cursor-pointer"
-                        onClick={() => setIsDayDropdownOpen(!isDayDropdownOpen)}
+                        onClick={() => {
+                          setIsDayDropdownOpen(!isDayDropdownOpen)
+                          setDayError("")
+                        }
+                        }
                       >
                         <span className={`text-base font-Gilroy font-medium ${selectedDay === placeholderSelect ? "text-gray-400" : "text-black "}`}>
                           {selectedDay || "Select a day"}
@@ -556,6 +653,13 @@ function LoanSetting({ state }) {
                           ))}
                         </div>
                       )}
+                      {dayError && (
+                        <div className="flex items-center text-red-500 text-xs font-Gilroy mt-1">
+                          <MdError className="mr-1 text-base" />
+                          <p >{dayError}</p>
+                        </div>
+                      )}
+
                     </div>
                   </div>
 
@@ -585,6 +689,12 @@ function LoanSetting({ state }) {
                   >
                     <CalendarDays size={20} />
                   </div>
+                  {dateError && (
+                    <div className="flex items-center text-red-500 text-xs font-Gilroy mt-1">
+                      <MdError className="mr-1 text-base" />
+                      <p >{dateError}</p>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -650,8 +760,8 @@ function LoanSetting({ state }) {
 
       )}
 
-      
-        <div className="max-h-[500px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 ">
+
+      <div className="max-h-[500px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 ">
         {currentLoans && currentLoans.length > 0 ? (
           currentLoans.map((loan, index) => (
             <div key={index} className="w-full h-[220px] bg-[#F4F7FF] flex flex-col rounded-3xl p-4">

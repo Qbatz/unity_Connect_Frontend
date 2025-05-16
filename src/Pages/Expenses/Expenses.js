@@ -90,17 +90,17 @@ function ExpensesList({ state }) {
         }
     }, [state.Expenses.statusCodeAddExpenses]);
 
-    const handleClickOutside = (event) => {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setOpenMenu(null);
-
-        }
-    };
-
     useEffect(() => {
-        document.addEventListener("click", handleClickOutside);
+        const handleClickOutside = (event) => {
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                setOpenMenu(null);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
         return () => {
-            document.removeEventListener("click", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
 
@@ -192,11 +192,11 @@ function ExpensesList({ state }) {
 
     return (
         <>
-            <div className="p-4">
+            <div className="p-2">
 
-                <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-0 mb-4 mt-6">
+                <div className="flex flex-col sm:flex-row justify-between items-center pr-4 sm:items-center gap-4 sm:gap-0 mb-4 mt-6">
 
-                    <h2 className="text-2xl font-semibold font-Gilroy px-6 sm:px-0">Expenses</h2>
+                    <h2 className="text-2xl font-semibold font-Gilroy px-6 lg:px-4 md:px-4 sm:px-0">Expenses</h2>
 
                     <div className="bg-white px-4 py-2 mr-2 font-Gilroy rounded-md  border border-gray-200 text-sm font-semibold text-gray-800">
                         Total Expense : ₹{totalExpense}
@@ -341,6 +341,7 @@ function ExpensesList({ state }) {
 
                                                         {openMenu === index && (
                                                             <div
+                                                                ref={popupRef}
                                                                 style={{
                                                                     position: 'fixed',
                                                                     top: `${popupPosition.top}px`,

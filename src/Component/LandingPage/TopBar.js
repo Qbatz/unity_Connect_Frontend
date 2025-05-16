@@ -15,10 +15,17 @@ const TopBar = () => {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+
+      const isMobile = window.innerWidth <= 768;
+
+      const yOffset = isMobile ? -280 : 0;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+      window.scrollTo({ top: y, behavior: 'smooth' });
       setIsOpen(false);
     }
   };
+
 
 
   return (
