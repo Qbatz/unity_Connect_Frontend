@@ -480,7 +480,7 @@ function ReportsTab({ state }) {
 
   if (loading) {
     return (
-      <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full mt-44">
+      <div className="w-full p-4 bg-white rounded-3xl flex justify-center items-center h-full">
         <ClipLoader color="#7f00ff" loading={loading} size={30} />
       </div>
     );
