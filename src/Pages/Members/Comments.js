@@ -94,8 +94,8 @@ function CommentSection({ state, member }) {
 
 
 
-      <div className="fixed bottom-2 left-0 xs:left-[40px] sm:left-[50px] md:left-[300px] lg:left-[260px] right-4 z-50 px-4 sm:px-6 py-4"> 
-        <div className="flex items-center bg-white rounded-lg px-4 py-2 border border-gray-200 h-[50px]">
+      <div className="fixed bottom-2 left-0 xs:left-[40px] sm:left-[50px] md:left-[300px] lg:left-[260px] right-4 z-50 px-4 sm:px-6 py-4">
+        <div className="flex items-center bg-white rounded-lg px-4 py-2 border border-gray-200 h-[70px]">
           <input
             type="text"
             placeholder="Add comment..."
