@@ -57,15 +57,15 @@ function TransactionTable({ state }) {
                                 <div className="grid grid-cols-4  md:grid-cols-3 lg:grid-cols-4 gap-4 text-sm text-gray-800">
                                     <div>
                                         <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Total Loan Amount</p>
-                                        <p className="font-semibold text-base font-Gilroy">{loanDetails.Total_Amount}</p>
+                                        <p className="font-semibold text-base font-Gilroy">₹{loanDetails.Total_Amount}</p>
                                     </div>
                                     <div>
                                         <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Interest %</p>
-                                        <p className="font-semibold text-base font-Gilroy">{loanDetails.Interest}</p>
+                                        <p className="font-semibold text-base font-Gilroy">{loanDetails.Interest}%/yr</p>
                                     </div>
                                     <div>
                                         <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Total Paid amount</p>
-                                        <p className="font-semibold text-base font-Gilroy">{loanDetails.total_Paid_Amount}</p>
+                                        <p className="font-semibold text-base font-Gilroy">₹{loanDetails.total_Paid_Amount}</p>
                                     </div>
                                     <div>
                                         <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Loan Status</p>
@@ -85,7 +85,7 @@ function TransactionTable({ state }) {
                                     </div>
                                     <div>
                                         <p className="text-gray-500 text-xs font-Gilroy font-medium mb-1">Monthly EMI</p>
-                                        <p className="font-semibold text-base font-Gilroy">{loanDetails.Due_Amount}</p>
+                                        <p className="font-semibold text-base font-Gilroy">₹{loanDetails.Due_Amount}</p>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@ function TransactionTable({ state }) {
 
                                 <p className="text-black font-Gilroy font-semibold 
     text-base sm:text-xl md:text-2xl mt-1">
-                                    {loanDetails.Remaining_Amount}
+                                    ₹{loanDetails.Remaining_Amount}
                                 </p>
                             </div>
 
@@ -137,7 +137,7 @@ function TransactionTable({ state }) {
                                     <td className="px-4 py-2 font-Gilroy">{transaction.Amount}</td>
                                     <td className="px-4 py-2">
                                         <span
-                                            className={`px-3 py-1.5 rounded-full text-black font-Gilroy ${transaction.Status === "Paid" ? "bg-emerald-100" : "bg-red-100"
+                                            className={`px-3 py-1.5 rounded-full text-black font-Gilroy ${transaction.Status === "Active" ? "bg-emerald-100" : "bg-red-100"
                                                 }`}
                                         >
                                             {transaction.Status}

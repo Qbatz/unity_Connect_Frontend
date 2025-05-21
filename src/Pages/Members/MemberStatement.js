@@ -95,6 +95,8 @@ function MemberStatements({ state, member }) {
   }, [selectedStatement]);
 
 
+
+
   const handleInputChange = (field, value) => {
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
@@ -109,24 +111,34 @@ function MemberStatements({ state, member }) {
       setPaidAmount(value);
 
       const loan = parseFloat(
-        selectedStatement?.Outstanding_Amount
-          !== null
+        selectedStatement?.Outstanding_Amount !== null
           ? selectedStatement?.Outstanding_Amount
           : selectedStatement?.Total_Amount
       ) || 0;
 
       const paid = parseFloat(value) || 0;
-      setPendingAmount((loan - paid).toString());
+      const pending = loan - paid;
+      setPendingAmount(pending.toString());
+
+      if (pending >= 0 && errors.pendingAmount) {
+        setErrors((prev) => ({ ...prev, pendingAmount: "" }));
+      }
     }
     else if (field === "pendingAmount") {
+      const paid = parseFloat(paidAmount) || 0;
+      const pending = parseFloat(value);
+
       setPendingAmount(value);
+
+
+      if (pending >= 0 && pending <= paid && errors.pendingAmount) {
+        setErrors((prev) => ({ ...prev, pendingAmount: "" }));
+      }
     }
     else if (field === "status") {
       setStatus(value);
     }
   };
-
-
 
 
   const handleSubmit = (e) => {
@@ -135,7 +147,9 @@ function MemberStatements({ state, member }) {
     const newErrors = {};
     if (!paidAmount) newErrors.paidAmount = "Paid amount is required";
 
-
+    if (parseFloat(pendingAmount) < 0) {
+      newErrors.pendingAmount = "Pending amount cannot be more than Paid amount";
+    }
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {

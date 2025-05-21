@@ -847,7 +847,7 @@ function ReportsTab({ state }) {
                           <p className="text-black font-semibold text-[16px] font-Gilroy">{report.Member_Name}</p>
                           <div className="flex space-x-2 mt-1">
                             <span className="bg-[#D9E9FF] text-black px-3 py-1 rounded-full text-[14px] font-Gilroy font-medium">
-                              {report.Member_Id}
+                              {report.Member_ID}
                             </span>
                             <span className="bg-orange-100 text-black px-3 py-1 rounded-full text-sm font-Gilroy">
                               {report.Status}

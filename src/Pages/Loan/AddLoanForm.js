@@ -332,7 +332,7 @@ function AddLoanForm({ state }) {
 
   const handleAddWitness = () => {
     if (selectedWitnesses.length === 0) {
-      setWitnessError("No changes detected. Please select at least one witness");
+      setWitnessError("Please select at least one witness");
       return;
     }
 
@@ -409,6 +409,9 @@ function AddLoanForm({ state }) {
 
     if (!eligibleLoanAmount) {
       setLoanAmountError("Please Enter loan amount");
+      isValid = false;
+    } else if (Number(eligibleLoanAmount) > selectedLoan.Loan_Amount) {
+      setLoanAmountError(`Loan amount cannot exceed ₹ ${selectedLoan.Loan_Amount}`);
       isValid = false;
     } else {
       setLoanAmountError("");
@@ -524,10 +527,16 @@ function AddLoanForm({ state }) {
       fontSize: "16px",
       color: "#9CA3AF",
     }),
+
     menu: (base) => ({
       ...base,
       maxHeight: loanOptions.length > 3 ? "150px" : "auto",
       overflowY: loanOptions.length > 3 ? "auto" : "hidden",
+      borderRadius: '12px',
+      backgroundColor: '#FFFFFF',
+      zIndex: 100,
+      padding: 0,
+      margintop: '10px',
     }),
     indicatorSeparator: () => ({ display: "none" }),
     dropdownIndicator: (base) => ({
@@ -537,6 +546,7 @@ function AddLoanForm({ state }) {
     menuList: (base) => ({
       ...base,
       maxHeight: "150px",
+      padding: 0,
       overflowY: "auto",
       scrollbarWidth: "thin",
       "&::-webkit-scrollbar": {
@@ -549,6 +559,23 @@ function AddLoanForm({ state }) {
       "&::-webkit-scrollbar-thumb:hover": {
         backgroundColor: "#555",
       },
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? '#2563EB'
+        : state.isFocused
+          ? '#E0ECFF'
+          : '#FFFFFF',
+      color: state.isSelected ? '#FFFFFF' : '#000000',
+      paddingTop: '12px',
+      paddingBottom: '12px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      margin: 0,
+      borderRadius: 0,
+      width: '100%',
+      boxSizing: 'border-box',
     }),
   };
 
@@ -574,6 +601,11 @@ function AddLoanForm({ state }) {
       ...base,
       maxHeight: options.length > 3 ? "150px" : "auto",
       overflowY: options.length > 3 ? "auto" : "hidden",
+      borderRadius: '12px',
+      backgroundColor: '#FFFFFF',
+      zIndex: 100,
+      padding: 0,
+      margintop: '10px',
     }),
     indicatorSeparator: () => ({ display: "none" }),
     dropdownIndicator: (base) => ({
@@ -584,6 +616,7 @@ function AddLoanForm({ state }) {
       ...base,
       maxHeight: "150px",
       overflowY: "auto",
+      padding: 0,
       scrollbarWidth: "thin",
       "&::-webkit-scrollbar": {
         width: "6px",
@@ -595,6 +628,23 @@ function AddLoanForm({ state }) {
       "&::-webkit-scrollbar-thumb:hover": {
         backgroundColor: "#555",
       },
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? '#2563EB'
+        : state.isFocused
+          ? '#E0ECFF'
+          : '#FFFFFF',
+      color: state.isSelected ? '#FFFFFF' : '#000000',
+      paddingTop: '12px',
+      paddingBottom: '12px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      margin: 0,
+      borderRadius: 0,
+      width: '100%',
+      boxSizing: 'border-box',
     }),
   };
 
@@ -623,12 +673,18 @@ function AddLoanForm({ state }) {
       ...base,
       maxHeight: witnessOptions.length > 3 ? "150px" : "auto",
       overflowY: witnessOptions.length > 3 ? "auto" : "hidden",
+      borderRadius: '12px',
+      backgroundColor: '#FFFFFF',
+      zIndex: 100,
+      padding: 0,
+      margintop: '10px',
     }),
     indicatorSeparator: () => ({ display: "none" }),
     menuList: (base) => ({
       ...base,
       maxHeight: "150px",
       overflowY: "auto",
+      padding: 0,
       scrollbarWidth: "thin",
       "&::-webkit-scrollbar": {
         width: "6px",
@@ -665,6 +721,23 @@ function AddLoanForm({ state }) {
       ...base,
       fontSize: "14px",
       color: "#333",
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? '#2563EB'
+        : state.isFocused
+          ? '#E0ECFF'
+          : '#FFFFFF',
+      color: state.isSelected ? '#FFFFFF' : '#000000',
+      paddingTop: '12px',
+      paddingBottom: '12px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      margin: 0,
+      borderRadius: 0,
+      width: '100%',
+      boxSizing: 'border-box',
     }),
 
   };
@@ -688,11 +761,17 @@ function AddLoanForm({ state }) {
       ...base,
       maxHeight: NewwitnessOptions.length > 3 ? "150px" : "auto",
       overflowY: "auto",
+      borderRadius: '12px',
+      backgroundColor: '#FFFFFF',
+      zIndex: 100,
+      padding: 0,
+      margintop: '10px',
     }),
     indicatorSeparator: () => ({ display: "none" }),
     menuList: (base) => ({
       ...base,
       maxHeight: "150px",
+      padding: 0,
       overflowY: "auto",
       scrollbarWidth: "thin",
       "&::-webkit-scrollbar": {
@@ -729,6 +808,23 @@ function AddLoanForm({ state }) {
       ...base,
       fontSize: "14px",
       color: "#333",
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? '#2563EB'
+        : state.isFocused
+          ? '#E0ECFF'
+          : '#FFFFFF',
+      color: state.isSelected ? '#FFFFFF' : '#000000',
+      paddingTop: '12px',
+      paddingBottom: '12px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      margin: 0,
+      borderRadius: 0,
+      width: '100%',
+      boxSizing: 'border-box',
     }),
 
   };
