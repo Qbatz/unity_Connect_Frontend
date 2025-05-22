@@ -105,7 +105,10 @@ const MemberListReducer = (state = initialState, action) => {
             return { ...state, addRecordPayment: action.payload.response, statusCodeForRecordPayment: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES_RECORD_PAYMENT':
             return { ...state, statusCodeForRecordPayment: 0 }
-        case 'RECORD_PAYMENT_ERROR_MSG':
+       case 'RECORD_PAYMENT_ERROR_MSG':
+            return { ...state, recordPaymentErrorMessage: action.payload }
+ 
+             case 'CLEAR_RECORD_PAYMENT_ERROR_MSG':
             return { ...state, recordPaymentErrorMessage: '' }
 
         case 'GET_TRANSACTIONS_LIST':

@@ -328,8 +328,8 @@ function* handleRecordPayment(payload) {
 
 
 
-    } else if (response.statusCode === 201) {
-        yield put({ type: 'RECORD_PAYMENT_ERROR_MSG', payload: response.message });
+    } else if (response.status === 201 ||response.statusCode === 201) {
+        yield put({ type: 'RECORD_PAYMENT_ERROR_MSG', payload: response.data.message });
     }
     if (response) {
         refreshToken(response);
