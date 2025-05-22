@@ -110,7 +110,7 @@ function MemberModal({ state, memberData, onClose }) {
         if (field === "joiningDate") setJoiningDate(value);
 
         if (field === "address") setAddress(value);
-        if (field === "file") setFile(value);
+      
         setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     };
 
@@ -198,7 +198,7 @@ function MemberModal({ state, memberData, onClose }) {
             payload: memberData ? Editpayload : payload,
         });
 
-        setFile(null);
+       
         setNoChanges("");
 
 

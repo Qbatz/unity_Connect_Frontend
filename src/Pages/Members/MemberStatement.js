@@ -16,6 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function MemberStatements({ state, member }) {
 
+
   const dispatch = useDispatch();
   const popupRef = useRef(null);
 
@@ -102,6 +103,7 @@ function MemberStatements({ state, member }) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
 
+    dispatch({ type: 'CLEAR_RECORD_PAYMENT_ERROR_MSG' })
     if (field === "loanAmount") {
       const loan = parseFloat(value) || 0;
       const paid = parseFloat(paidAmount) || 0;
@@ -111,29 +113,17 @@ function MemberStatements({ state, member }) {
       setPaidAmount(value);
 
       const loan = parseFloat(
-        selectedStatement?.Outstanding_Amount !== null
+        selectedStatement?.Outstanding_Amount
+          !== null
           ? selectedStatement?.Outstanding_Amount
           : selectedStatement?.Total_Amount
       ) || 0;
 
       const paid = parseFloat(value) || 0;
-      const pending = loan - paid;
-      setPendingAmount(pending.toString());
-
-      if (pending >= 0 && errors.pendingAmount) {
-        setErrors((prev) => ({ ...prev, pendingAmount: "" }));
-      }
+      setPendingAmount((loan - paid).toString());
     }
     else if (field === "pendingAmount") {
-      const paid = parseFloat(paidAmount) || 0;
-      const pending = parseFloat(value);
-
       setPendingAmount(value);
-
-
-      if (pending >= 0 && pending <= paid && errors.pendingAmount) {
-        setErrors((prev) => ({ ...prev, pendingAmount: "" }));
-      }
     }
     else if (field === "status") {
       setStatus(value);
@@ -147,9 +137,7 @@ function MemberStatements({ state, member }) {
     const newErrors = {};
     if (!paidAmount) newErrors.paidAmount = "Paid amount is required";
 
-    if (parseFloat(pendingAmount) < 0) {
-      newErrors.pendingAmount = "Pending amount cannot be more than Paid amount";
-    }
+
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
@@ -169,20 +157,21 @@ function MemberStatements({ state, member }) {
         type: 'ADDRECORDPAYMENT',
         payload: payload,
       });
-      setPaidAmount('');
+
 
 
       setStatus("");
-      setIsModalOpen(false);
+
     }
   };
 
 
   const handleClose = () => {
     setIsModalOpen(false);
-
-    setPaidAmount('')
+    setPaidAmount('');
+    setPendingAmount('')
     setErrors({});
+    dispatch({ type: 'CLEAR_RECORD_PAYMENT_ERROR_MSG' })
   };
 
 
@@ -397,6 +386,12 @@ function MemberStatements({ state, member }) {
                     <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">
                       <MdError className="mr-1 text-xs" />
                       {errors.pendingAmount}
+                    </div>
+                  )}
+                  {state.Member.recordPaymentErrorMessage && (
+                    <div className="flex items-center text-red-500 text-xs mt-1 font-Gilroy">
+                      <MdError className="mr-1 text-xs" />
+                      {state.Member.recordPaymentErrorMessage}
                     </div>
                   )}
                 </div>
