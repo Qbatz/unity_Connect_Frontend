@@ -261,7 +261,7 @@ function ExpensesList({ state }) {
                         </div>
 
                     ) : (
-                        <div className="shadow-md rounded-xl overflow-hidden mt-4 mx-6 z-50 mb-12">
+                        <div className="shadow-md rounded-xl overflow-hidden mt-4 mx-6 z-50 mb-14">
                             <div className="overflow-x-auto">
                                 <div className="overflow-y-auto max-h-[550px] ">
                                     <table className="w-full text-left border-collapse bg-#F4F7FF ">

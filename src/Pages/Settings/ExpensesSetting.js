@@ -345,7 +345,7 @@ function ExpensesSetting({ state }) {
       )}
 
 
-      <div className="max-h-[500px] overflow-y-auto mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="max-h-[500px] overflow-y-auto pt-5 mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentExpenses && currentExpenses.length > 0 ? (
           currentExpenses.map((category, index) => (
             <div
