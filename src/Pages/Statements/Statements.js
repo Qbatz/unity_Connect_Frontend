@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect,} from "react";
+import React, { useState, useEffect, } from "react";
 import { useDispatch, connect } from "react-redux";
 import { FiMoreVertical } from "react-icons/fi";
 import PropTypes from 'prop-types';
@@ -95,9 +95,9 @@ function Statement({ state }) {
                   <tr className="bg-blue-50 border-b text-center font-Gilroy">
                     <th className="pl-8 text-left" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }} >Member Name</th>
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan ID</th>
-                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Loan Date</th>
+                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Paid Date</th>
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Paid Amount</th>
-                    <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Due Date</th>
+
 
                     <th className="p-3" style={{ fontWeight: "inherit", color: "#939393", fontSize: 15 }}>Status</th>
                   </tr>
@@ -118,16 +118,12 @@ function Statement({ state }) {
                       </td>
                       <td className="p-2">
                         <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
-                          {moment(item.loan_date).format("DD MMM YYYY")}
+                          {moment(item.Transaction_Date).format("DD MMM YYYY")}
                         </span>
                       </td>
                       <td className="p-2 font-Gilroy">₹{item.Amount.toLocaleString('en-IN')}</td>
 
-                      <td className="p-2">
-                        <span className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm font-Gilroy">
-                          {moment(item.Due_Date).format("DD MMM YYYY")}
-                        </span>
-                      </td>
+
 
                       <td className="p-2">
                         <span className={`px-3 py-1.5 rounded-full text-black font-Gilroy ${item.Status === "Paid" ? "bg-emerald-100 px-6" : "bg-red-100"}`}>

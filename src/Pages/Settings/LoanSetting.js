@@ -761,7 +761,7 @@ function LoanSetting({ state }) {
       )}
 
 
-      <div className="max-h-[500px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 ">
+      <div className="max-h-[500px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-5 mb-12 ">
         {currentLoans && currentLoans.length > 0 ? (
           currentLoans.map((loan, index) => (
             <div key={index} className="w-full h-[220px] bg-[#F4F7FF] flex flex-col rounded-3xl p-4">

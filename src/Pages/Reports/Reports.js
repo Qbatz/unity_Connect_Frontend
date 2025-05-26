@@ -184,7 +184,7 @@ function ReportsTab({ state }) {
 
 
 
-    if (state.Report.UnSuccessPDF?.pdfURL !== "" && state.Report.StatusCodeForUnSuccessPDF === 200) {
+    if (state.Report.UnSuccessPDF?.pdfURL !== "" && state.Report.StatusCodeForUnSuccessPDF === 200 && state.Report.UnSuccessPDF.data?.length > 0) {
 
 
       window.open(state.Report.UnSuccessPDF.pdfURL, "_blank");
@@ -216,7 +216,7 @@ function ReportsTab({ state }) {
 
 
   useEffect(() => {
-    if (state.Report.UnSuccessExcel?.excelURL !== "" && state.Report.StatusCodeForUnSuccessExcel === 200) {
+    if (state.Report.UnSuccessExcel?.excelURL !== "" && state.Report.StatusCodeForUnSuccessExcel === 200 && state.Report.UnSuccessExcel.data?.length > 0) {
 
       const link = document.createElement('a');
       link.href = state.Report.UnSuccessExcel.excelURL;
@@ -507,7 +507,7 @@ function ReportsTab({ state }) {
             </p>
           </div>
 
-          <div className="flex flex-col xl:flex-row gap-6 mt-8">
+          <div className="flex flex-col xl:flex-row gap-6 pt-8 mb-4">
 
             <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full xl:w-1/2">
               <div className="flex flex-col md:flex-row md:justify-between items-center md:items-center gap-3 mb-4">
@@ -695,7 +695,7 @@ function ReportsTab({ state }) {
               </div>
             </div>
 
-            <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full xl:w-1/2">
+            <div className="bg-[#F4F7FF] p-4 rounded-[24px] w-full xl:w-1/2 ">
               <div className="flex flex-col md:flex-row md:justify-between items-center md:items-center gap-3 mb-4">
                 <h2 className="text-lg font-semibold leading-[100%] tracking-[0%] font-Gilroy flex items-center gap-2">
                   <img src={unsuccessfullpayment} alt='unsuccesfullpayment' className="h-[24px] w-[24px]" />

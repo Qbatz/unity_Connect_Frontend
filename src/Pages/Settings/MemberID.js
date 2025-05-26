@@ -160,7 +160,7 @@ function MemberID({ state }) {
           <div className="w-full">
             <label className="block text-sm font-Gilroy text-sm font-Gilroy font-medium">Preview</label>
             <input
-              className="border p-2 rounded-xl mt-4 w-full bg-[#F4F7FF] h-14"
+              className="border p-2 rounded-xl mt-4 w-full bg-[#F4F7FF] h-14 font-Gilroy"
               placeholder="Preview"
               value={`${prefix}${suffix}`}
               disabled

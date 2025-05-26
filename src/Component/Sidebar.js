@@ -26,7 +26,7 @@ import ProfileDetails from "../Component/ProfileDetails";
 import PropTypes from 'prop-types';
 import { useDispatch, connect } from 'react-redux';
 import ReportsTab from "../Pages/Reports/Reports";
-import { NavLink, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Routes, Route, useLocation, useNavigate, Navigate } from "react-router-dom";
 import MemberDetails from '../Pages/Members/MemberDetails'
 import TransactionTable from '../Pages/Members/TransactionTable'
 
@@ -149,6 +149,7 @@ const Sidebar = ({ state }) => {
           <Route path="/profile" element={<ProfileDetails />} />
           <Route path="/member-details/:id" element={<MemberDetails />} />
           <Route path="/transaction/:loanId" element={<TransactionTable />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </div>
 
